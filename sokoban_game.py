@@ -1,40 +1,33 @@
-"""
-sokoban_game.py - Jeu Sokoban complet en Python avec Tkinter.
-Contrôles : Touches fléchées (Haut, Bas, Gauche, Droite), 'R' pour réinitialiser, 'U' pour annuler.
-"""
-
 import tkinter as tk
 from tkinter import messagebox
 
 # Cartes des niveaux (Légende : # Mur, . Cible, @ Joueur, $ Caisse, * Caisse sur cible, + Joueur sur cible, ' ' Vide)
 LEVELS = [
+    # [
+    #     "######",
+    #     "#  . #",
+    #     "# #$ #",
+    #     "# @  #",
+    #     "######"
+    # ],
+    # [
+    #     "#####",
+    #     "#   #",
+    #     "# $ #",
+    #     "# $ #",
+    #     "#.@.#",
+    #     "#####"
+    # ],
     [
-        "  #####",
-        "  #   #",
-        "  #$  #",
-        "###  $##",
-        "#  $ $ #",
-        "### #. #",
-        "  # #. #",
-        "  # .@.#",
-        "  ######"
-    ],
-    [
-        "####",
-        "# .#",
-        "#  ###",
-        "#*@  #",
-        "#  $ #",
-        "#  ###",
-        "####"
-    ],
-    [
-        "######",
-        "#  . #",
-        "# # $#",
-        "# .@$#",
-        "#  $ #",
-        "######"
+"   #####   ",
+"####   #   ",
+"#  #$  ####",
+"# $$      #",
+"#@  #$ $# #",
+"### #   # #",
+" #  ##### #",
+" #  ..... #",
+" ##########"
     ]
 ]
 
@@ -48,14 +41,13 @@ class SokobanGame:
         self.moves_count = 0
         self.pushes_count = 0
         
-        # Interface graphique
         self.info_label = tk.Label(
             root, 
             text="", 
             font=("Helvetica", 12, "bold"), 
             bg="#2c3e50", 
             fg="#ecf0f1", 
-            padding=10
+            pady=10
         )
         self.info_label.pack(fill=tk.X)
         
@@ -68,11 +60,10 @@ class SokobanGame:
             font=("Helvetica", 10), 
             bg="#2c3e50", 
             fg="#bdc3c7", 
-            padding=5
+            pady=5
         )
         self.controls_label.pack(fill=tk.X)
         
-        # Raccourcis clavier
         self.root.bind("<Up>", lambda e: self.move(0, -1))
         self.root.bind("<Down>", lambda e: self.move(0, 1))
         self.root.bind("<Left>", lambda e: self.move(-1, 0))
@@ -93,7 +84,6 @@ class SokobanGame:
         self.height = len(raw_grid)
         self.width = max(len(row) for row in raw_grid)
         
-        # Grid interne sous forme de liste 2D mutable
         self.grid = []
         for row in raw_grid:
             padded_row = list(row.ljust(self.width, ' '))
@@ -118,13 +108,13 @@ class SokobanGame:
         self.canvas.config(width=self.width * cell_size, height=self.height * cell_size)
         
         colors = {
-            '#': '#7f8c8d',  # Mur (Gris)
-            ' ': '#34495e',  # Sol (Bleu nuit)
-            '.': '#e74c3c',  # Cible (Rouge)
-            '$': '#f39c12',  # Caisse (Orange)
-            '*': '#2ecc71',  # Caisse sur cible (Vert)
-            '@': '#3498db',  # Joueur (Bleu)
-            '+': '#9b59b6'   # Joueur sur cible (Violet)
+            '#': '#7f8c8d',
+            ' ': '#34495e',
+            '.': '#e74c3c',
+            '$': '#f39c12',  
+            '*': '#2ecc71',  
+            '@': '#3498db',  
+            '+': '#9b59b6'   
         }
         
         for r in range(self.height):
@@ -133,15 +123,12 @@ class SokobanGame:
                 x1, y1 = c * cell_size, r * cell_size
                 x2, y2 = x1 + cell_size, y1 + cell_size
                 
-                # Arrière-plan
                 bg_color = colors['#'] if char == '#' else colors[' ']
                 self.canvas.create_rectangle(x1, y1, x2, y2, fill=bg_color, outline="#2c3e50")
                 
-                # Cible
                 if char in ('.', '*', '+'):
                     self.canvas.create_oval(x1 + 18, y1 + 18, x2 - 18, y2 - 18, fill="#e74c3c", outline="")
                 
-                # Caisse
                 if char == '$':
                     self.canvas.create_rectangle(x1 + 6, y1 + 6, x2 - 6, y2 - 6, fill="#f39c12", outline="#d35400", width=2)
                     self.canvas.create_line(x1 + 6, y1 + 6, x2 - 6, y2 - 6, fill="#d35400")
@@ -151,7 +138,6 @@ class SokobanGame:
                     self.canvas.create_line(x1 + 6, y1 + 6, x2 - 6, y2 - 6, fill="#27ae60")
                     self.canvas.create_line(x1 + 6, y2 - 6, x2 - 6, y1 + 6, fill="#27ae60")
                     
-                # Joueur
                 if char in ('@', '+'):
                     self.canvas.create_oval(x1 + 8, y1 + 8, x2 - 8, y2 - 8, fill="#3498db", outline="#2980b9", width=2)
 
@@ -178,27 +164,22 @@ class SokobanGame:
             
         pushed_box = False
         
-        # Si la case destination contient une caisse
         if target_cell in ('$', '*'):
             if not (0 <= nnr < self.height and 0 <= nnc < self.width):
                 return
             beyond_cell = self.grid[nnr][nnc]
             if beyond_cell in ('#', '$', '*'):
-                return  # Caisse bloquée
+                return 
                 
-            # Déplacer la caisse
             pushed_box = True
             self.save_state()
             
-            # Nouvelle position de la caisse
             self.grid[nnr][nnc] = '*' if beyond_cell == '.' else '$'
-            # Ancienne position de la caisse devient le joueur
             self.grid[nr][nc] = '+' if target_cell == '*' else '@'
         else:
             self.save_state()
             self.grid[nr][nc] = '+' if target_cell == '.' else '@'
             
-        # Libérer la case initiale du joueur
         current_player_cell = self.grid[pr][pc]
         self.grid[pr][pc] = '.' if current_player_cell == '+' else ' '
         
@@ -229,12 +210,18 @@ class SokobanGame:
         self.load_level(self.current_level_idx + 1)
 
     def check_win(self):
-        # La victoire est atteinte s'il ne reste aucune caisse hors cible ('$')
         for row in self.grid:
             if '$' in row:
                 return
-        messagebox.showinfo("Victoire !", f"Bravo ! Niveau {self.current_level_idx + 1} réussi en {self.moves_count} coups !")
+        messagebox.showinfo("Victory !", f"Bravo ! Niveau {self.current_level_idx + 1} done in {self.moves_count} moves and {self.pushes_count} pushes !")
         self.next_level()
+
+    # def animate_solution(self, path):
+    #     if not path:
+    #         return
+    #     dx, dy = path.pop(0)
+    #     self.move(dx, dy)
+    #     self.root.after(150, lambda: self.animate_solution(path))
 
 if __name__ == "__main__":
     root = tk.Tk()
