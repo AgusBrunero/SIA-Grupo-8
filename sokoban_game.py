@@ -1,23 +1,25 @@
 import tkinter as tk
 from tkinter import messagebox
 
-# Cartes des niveaux (Légende : # Mur, . Cible, @ Joueur, $ Caisse, * Caisse sur cible, + Joueur sur cible, ' ' Vide)
+import sokoban_solver
+
+# (# = Wall, . = target, @ = Player, $ = Box, * = Box on target, + = Player on target, ' ' = empty)
 LEVELS = [
-    # [
-    #     "######",
-    #     "#  . #",
-    #     "# #$ #",
-    #     "# @  #",
-    #     "######"
-    # ],
-    # [
-    #     "#####",
-    #     "#   #",
-    #     "# $ #",
-    #     "# $ #",
-    #     "#.@.#",
-    #     "#####"
-    # ],
+    [
+        "######",
+        "#  . #",
+        "# #$ #",
+        "# @  #",
+        "######"
+    ],
+    [
+        "#####",
+        "#   #",
+        "# $ #",
+        "# $ #",
+        "#.@.#",
+        "#####"
+    ],
     [
 "   #####   ",
 "####   #   ",
@@ -34,7 +36,7 @@ LEVELS = [
 class SokobanGame:
     def __init__(self, root):
         self.root = root
-        self.root.title("Sokoban - Jeu en Python")
+        self.root.title("Sokoban - Python Game")
         
         self.current_level_idx = 0
         self.history = []
@@ -56,7 +58,7 @@ class SokobanGame:
         
         self.controls_label = tk.Label(
             root, 
-            text="Flèches: Déplacer | R: Recommencer | U: Annuler | N: Niveau Suivant", 
+            text="Arrows: Move | R: Reset | U: Undo | N: Next level | A: Solve A* | B: Solve BFS", 
             font=("Helvetica", 10), 
             bg="#2c3e50", 
             fg="#bdc3c7", 
@@ -74,6 +76,9 @@ class SokobanGame:
         self.root.bind("U", lambda e: self.undo())
         self.root.bind("n", lambda e: self.next_level())
         self.root.bind("N", lambda e: self.next_level())
+
+        self.root.bind("a", lambda e: self.auto_solve(method="astar"))
+        self.root.bind("b", lambda e: self.auto_solve(method="bfs"))
         
         self.load_level(self.current_level_idx)
 
@@ -142,7 +147,7 @@ class SokobanGame:
                     self.canvas.create_oval(x1 + 8, y1 + 8, x2 - 8, y2 - 8, fill="#3498db", outline="#2980b9", width=2)
 
         self.info_label.config(
-            text=f"Niveau {self.current_level_idx + 1}/{len(LEVELS)} | Déplacements: {self.moves_count} | Poussées: {self.pushes_count}"
+            text=f"Level {self.current_level_idx + 1}/{len(LEVELS)} | Moves: {self.moves_count} | Push: {self.pushes_count}"
         )
 
     def move(self, dx, dy):
@@ -160,7 +165,7 @@ class SokobanGame:
         target_cell = self.grid[nr][nc]
         
         if target_cell == '#':
-            return  # Obstacle mur
+            return  
             
         pushed_box = False
         
@@ -213,15 +218,34 @@ class SokobanGame:
         for row in self.grid:
             if '$' in row:
                 return
-        messagebox.showinfo("Victory !", f"Bravo ! Niveau {self.current_level_idx + 1} done in {self.moves_count} moves and {self.pushes_count} pushes !")
+        messagebox.showinfo("Victory !", f"Bravo ! Level {self.current_level_idx + 1} done in {self.moves_count} moves and {self.pushes_count} pushes !")
         self.next_level()
 
-    # def animate_solution(self, path):
-    #     if not path:
-    #         return
-    #     dx, dy = path.pop(0)
-    #     self.move(dx, dy)
-    #     self.root.after(150, lambda: self.animate_solution(path))
+    def auto_solve(self, method="astar"):
+        if getattr(self, "is_animating", False):
+            return
+
+        path = sokoban_solver.solve_sokoban(self.grid, method=method)
+
+        if path is None:
+            messagebox.showwarning(
+                "Solve", "No solution found for this level !"
+            )
+            return
+
+        self.is_animating = True
+        self.animate_solution(path)
+
+    def animate_solution(self, path, delay=150):
+        if not path:
+            self.is_animating = False
+            return
+
+        dx, dy = path.pop(0)
+
+        self.move(dx, dy)
+
+        self.root.after(delay, lambda: self.animate_solution(path, delay))
 
 if __name__ == "__main__":
     root = tk.Tk()
