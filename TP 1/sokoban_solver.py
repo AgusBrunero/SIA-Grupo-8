@@ -28,8 +28,8 @@ def parse_board(grid):
 
 def heuristic(boxes, targets):
     """
-    Heuristique pour A* : Somme des distances de Manhattan
-    de chaque caisse vers sa cible la plus proche.
+    Heuristic for A*: Sum of Manhattan distances
+    from each box to its closest target.
     """
     return sum(
         min(abs(br - tr) + abs(bc - tc) for tr, tc in targets)
