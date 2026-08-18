@@ -37,12 +37,17 @@ def heuristic(boxes, targets):
     )
 
 
-def solve_sokoban(grid, method="astar"):# astar or bfs
+def solve_sokoban(grid, method="astar", verbose=True):# astar or bfs
 
+    start_time = time.perf_counter()
     walls, targets, boxes, player = parse_board(grid)
     start_state = (player, boxes)
     
     visited = {start_state}
+    explored = 0
+
+    if verbose:
+        print(f"[{method.upper()}] Inicio: jugador={player}, cajas={sorted(boxes)}")
     
 
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
@@ -56,12 +61,29 @@ def solve_sokoban(grid, method="astar"):# astar or bfs
 
     while frontier:
         if method == "astar":
-            _, g, _, (p_pos, b_pos), path = heapq.heappop(frontier)
+            f, g, _, (p_pos, b_pos), path = heapq.heappop(frontier)
         else:
             (p_pos, b_pos), path = frontier.popleft()
             g = len(path)
+            f = g
+
+        explored += 1
+
+        if verbose:
+            print(
+                f"[{method.upper()}] Estado {explored}: "
+                f"jugador={p_pos}, cajas={sorted(b_pos)}, "
+                f"movimientos={g}, prioridad={f}, frontera={len(frontier)}"
+            )
 
         if b_pos == targets:
+            if verbose:
+                elapsed = time.perf_counter() - start_time
+                print(
+                    f"[{method.upper()}] Solución encontrada: "
+                    f"{len(path)} movimientos, {explored} estados explorados, "
+                    f"tiempo: {elapsed:.6f} segundos"
+                )
             return path
 
         pr, pc = p_pos
@@ -89,6 +111,10 @@ def solve_sokoban(grid, method="astar"):# astar or bfs
                 dx, dy = dc, dr
                 new_path = path + [(dx, dy)]
 
+                if verbose:
+                    action = "empuja una caja" if new_b_pos != b_pos else "se mueve"
+                    print(f"[{method.upper()}]  -> {action} hacia {(nr, nc)}")
+
                 if method == "astar":
                     counter += 1
                     f = (g + 1) + heuristic(new_b_pos, targets)
@@ -96,32 +122,11 @@ def solve_sokoban(grid, method="astar"):# astar or bfs
                 else:
                     frontier.append((next_state, new_path))
 
-    return None  
+    if verbose:
+        elapsed = time.perf_counter() - start_time
+        print(
+            f"[{method.upper()}] Sin solución: {explored} estados explorados, "
+            f"tiempo: {elapsed:.6f} segundos"
+        )
 
-if __name__ == "__main__":
-    level = [
-        "   #####   ",
-        "####   #   ",
-        "#  #$  ####",
-        "# $$      #",
-        "#@  #$ $# #",
-        "### #   # #",
-        " #  ##### #",
-        " #  ..... #",
-        " ##########"
-    ]
-    # level = [
-    #         "#####",
-    #         "#   #",
-    #         "# $ #",
-    #         "# $ #",
-    #         "#.@.#",
-    #         "#####"
-    #     ]
-    t0 = time.time()
-    solution = solve_sokoban(level, method="bfs")
-    t1 = time.time()
-    if solution is not None:
-        print(f"Solution found in {t1 - t0:.3f} seconds :", solution)
-    else:
-        print("No solution found.")
+    return None  
