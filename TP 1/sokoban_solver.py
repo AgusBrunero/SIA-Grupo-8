@@ -1,5 +1,4 @@
 import heapq
-from collections import deque
 import time
 from scipy.optimize import linear_sum_assignment
 
@@ -54,7 +53,16 @@ def is_blocked(box, walls, targets):
     row, column = box
     return ((row-1,column) in walls or (row+1,column) in walls) and ((row,column-1) in walls or (row,column+1) in walls)
 
-def solve_sokoban(grid, method="astar", verbose=False):# astar or bfs
+def solve_sokoban(grid, method="astar", verbose=False):
+
+    weights = {
+        "astar": 0.5,
+        "greedy": 1,
+        "bfs": 0,
+    }
+    if method not in weights:
+        raise ValueError("method must be 'astar', 'greedy' or 'bfs'")
+    heuristic_weight = weights[method]
 
     start_time = time.perf_counter()
     walls, targets, boxes, player = parse_board(grid)
@@ -68,21 +76,13 @@ def solve_sokoban(grid, method="astar", verbose=False):# astar or bfs
     
 
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-
-    if method == "astar":
-        counter = 0
-        h = heuristic(boxes, targets)
-        frontier = [(h, 0, counter, start_state, [])]
-    else:  # BFS
-        frontier = deque([(start_state, [])])
+    counter = 0
+    g = 0
+    f = heuristic_weight * heuristic(boxes, targets)
+    frontier = [(f, g, counter, start_state, [])]
 
     while frontier:
-        if method == "astar":
-            f, g, _, (player_position, boxes_positions), path = heapq.heappop(frontier)
-        else:
-            (player_position, boxes_positions), path = frontier.popleft()
-            g = len(path)
-            f = g
+        f, g, _, (player_position, boxes_positions), path = heapq.heappop(frontier)
 
         explored += 1
 
@@ -132,12 +132,16 @@ def solve_sokoban(grid, method="astar", verbose=False):# astar or bfs
                     action = "empuja una caja" if new_boxes_positions != boxes_positions else "se mueve"
                     print(f"[{method.upper()}]  -> {action} hacia {(new_player_row, new_player_column)}")
 
-                if method == "astar":
-                    counter += 1
-                    f = (g + 1) + heuristic(new_boxes_positions, targets)
-                    heapq.heappush(frontier, (f, g + 1, counter, next_state, new_path))
-                else:
-                    frontier.append((next_state, new_path))
+                new_g = g + 1
+                counter += 1
+                f = (
+                    heuristic_weight * heuristic(new_boxes_positions, targets)
+                    + (1 - heuristic_weight) * new_g
+                )
+                heapq.heappush(
+                    frontier,
+                    (f, new_g, counter, next_state, new_path),
+                )
 
     if verbose:
         elapsed = time.perf_counter() - start_time

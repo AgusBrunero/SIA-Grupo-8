@@ -58,7 +58,7 @@ class SokobanGame:
         
         self.controls_label = tk.Label(
             root, 
-            text="Arrows: Move | R: Reset | U: Undo | N: Next level | A: Solve A* | B: Solve BFS", 
+            text="Arrows: Move | R: Reset | U: Undo | N: Next level | A: Solve A* | B: Solve BFS | G: Solve GGS", 
             font=("Helvetica", 10), 
             bg="#2c3e50", 
             fg="#bdc3c7", 
@@ -79,6 +79,7 @@ class SokobanGame:
 
         self.root.bind("a", lambda e: self.auto_solve(method="astar"))
         self.root.bind("b", lambda e: self.auto_solve(method="bfs"))
+        self.root.bind("g", lambda e: self.auto_solve(method="greedy"))
         
         self.load_level(self.current_level_idx)
 
