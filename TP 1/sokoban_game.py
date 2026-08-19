@@ -58,7 +58,7 @@ class SokobanGame:
         
         self.controls_label = tk.Label(
             root, 
-            text="Arrows: Move | R: Reset | U: Undo | N: Next level | A: Solve A* | B: Solve BFS | G: Solve GGS | D: Solve DFS", 
+            text="Arrows: Move | R: Reset | U: Undo | N: Next level | A: Solve A* | B: Solve BFS | G: Solve GGS | D: Solve DFS\npress Shift+<Solving method> to switch heuristics", 
             font=("Helvetica", 10), 
             bg="#2c3e50", 
             fg="#bdc3c7", 
@@ -81,6 +81,10 @@ class SokobanGame:
         self.root.bind("b", lambda e: self.auto_solve(method="bfs"))
         self.root.bind("g", lambda e: self.auto_solve(method="greedy"))
         self.root.bind("d", lambda e: self.auto_solve(method="dfs"))
+        self.root.bind("A", lambda e: self.auto_solve(method="astar", heuristic="simple"))
+        self.root.bind("B", lambda e: self.auto_solve(method="bfs", heuristic="simple"))
+        self.root.bind("G", lambda e: self.auto_solve(method="greedy", heuristic="simple"))
+        self.root.bind("D", lambda e: self.auto_solve(method="dfs", heuristic="simple"))
         
         self.load_level(self.current_level_idx)
 
@@ -223,11 +227,11 @@ class SokobanGame:
         messagebox.showinfo("Victory !", f"Bravo ! Level {self.current_level_idx + 1} done in {self.moves_count} moves and {self.pushes_count} pushes !")
         self.next_level()
 
-    def auto_solve(self, method="astar"):
+    def auto_solve(self, method="astar", heuristic="hungarian"):
         if getattr(self, "is_animating", False):
             return
 
-        path = sokoban_solver.solve_sokoban(self.grid, method=method)
+        path = sokoban_solver.solve_sokoban(self.grid, method=method, heuristic=heuristic)
 
         if path is None:
             messagebox.showwarning(

@@ -3,7 +3,6 @@ import time
 from scipy.optimize import linear_sum_assignment
 from collections import deque
 
-
 def parse_board(grid):
     walls, targets, boxes = set(), set(), set()
     player = None
@@ -27,8 +26,17 @@ def parse_board(grid):
                 
     return walls, targets, frozenset(boxes), player
 
+def manhattan_simple(boxes, targets):
+    """
+    Heuristic for A*: Manhattan distance
+    From one box to its closest objective
+    """
+    return sum(
+        min(abs(box_row - target_row) + abs(box_column - target_column) for target_row, target_column in targets)
+        for box_row, box_column in boxes
+    )
 
-def heuristic(boxes, targets):
+def manhattan_hungarian(boxes, targets):
     """
     Heuristic for A*: Hungarian with Manhattan distance
     Considers the shortest distance for every box to its own objective
@@ -49,13 +57,21 @@ def heuristic(boxes, targets):
         cost_matrix[row][column] for row, column in zip(rows, columns)
     )
 
+heuristics = {
+    "hungarian": manhattan_hungarian,
+    "simple": manhattan_simple
+}
+
 def is_blocked(box, walls, targets):
     if box in targets:
         return False
     row, column = box
     return ((row-1,column) in walls or (row+1,column) in walls) and ((row,column-1) in walls or (row,column+1) in walls)
 
-def solve_sokoban(grid, method="astar", verbose=False):
+def solve_sokoban(grid, method="astar", heuristic="hungarian", verbose=False):
+    heuristic_fn = heuristics.get(heuristic)
+    if heuristic_fn is None:
+        raise ValueError("heuristic must be 'hungarian' or 'simple'")
     start_time = time.perf_counter()
     walls, targets, boxes, player = parse_board(grid)
     start_state = (player, boxes)
@@ -81,7 +97,7 @@ def solve_sokoban(grid, method="astar", verbose=False):
         if method not in weights:
             raise ValueError("method must be 'astar', 'greedy', 'bfs' or 'dfs'")
         heuristic_weight = weights[method]
-        f = heuristic_weight * heuristic(boxes, targets)
+        f = heuristic_weight * heuristic_fn(boxes, targets)
         frontier = [(f, g, counter, start_state, [])]
 
     while frontier:
@@ -144,7 +160,7 @@ def solve_sokoban(grid, method="astar", verbose=False):
                 if method=="dfs":
                     frontier.append((next_state,new_path))
                 else:
-                    f = heuristic_weight * heuristic(new_boxes_positions, targets)+ (1 - heuristic_weight) * new_g
+                    f = heuristic_weight * heuristic_fn(new_boxes_positions, targets)+ (1 - heuristic_weight) * new_g
                     heapq.heappush(frontier, (f, new_g, counter, next_state, new_path))
 
     if verbose:
