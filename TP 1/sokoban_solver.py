@@ -1,6 +1,8 @@
 import heapq
 import time
 from scipy.optimize import linear_sum_assignment
+from collections import deque
+
 
 def parse_board(grid):
     walls, targets, boxes = set(), set(), set()
@@ -54,16 +56,6 @@ def is_blocked(box, walls, targets):
     return ((row-1,column) in walls or (row+1,column) in walls) and ((row,column-1) in walls or (row,column+1) in walls)
 
 def solve_sokoban(grid, method="astar", verbose=False):
-
-    weights = {
-        "astar": 0.5,
-        "greedy": 1,
-        "bfs": 0,
-    }
-    if method not in weights:
-        raise ValueError("method must be 'astar', 'greedy' or 'bfs'")
-    heuristic_weight = weights[method]
-
     start_time = time.perf_counter()
     walls, targets, boxes, player = parse_board(grid)
     start_state = (player, boxes)
@@ -71,18 +63,33 @@ def solve_sokoban(grid, method="astar", verbose=False):
     visited = {start_state}
     explored = 0
 
-    if verbose:
-        print(f"[{method.upper()}] Inicio: jugador={player}, cajas={sorted(boxes)}")
-    
-
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
     counter = 0
     g = 0
-    f = heuristic_weight * heuristic(boxes, targets)
-    frontier = [(f, g, counter, start_state, [])]
+
+    if verbose:
+        print(f"[{method.upper()}] Inicio: jugador={player}, cajas={sorted(boxes)}")
+
+    if method=="dfs":
+        frontier = deque([(start_state,[])])
+    else:
+        weights = {
+            "astar": 0.5,
+            "greedy": 1,
+            "bfs": 0,
+        }
+        if method not in weights:
+            raise ValueError("method must be 'astar', 'greedy', 'bfs' or 'dfs'")
+        heuristic_weight = weights[method]
+        f = heuristic_weight * heuristic(boxes, targets)
+        frontier = [(f, g, counter, start_state, [])]
 
     while frontier:
-        f, g, _, (player_position, boxes_positions), path = heapq.heappop(frontier)
+        if method=="dfs":
+            (player_position, boxes_positions), path = frontier.pop()
+            g=len(path)
+        else:
+            f, g, _, (player_position, boxes_positions), path = heapq.heappop(frontier)
 
         explored += 1
 
@@ -134,14 +141,11 @@ def solve_sokoban(grid, method="astar", verbose=False):
 
                 new_g = g + 1
                 counter += 1
-                f = (
-                    heuristic_weight * heuristic(new_boxes_positions, targets)
-                    + (1 - heuristic_weight) * new_g
-                )
-                heapq.heappush(
-                    frontier,
-                    (f, new_g, counter, next_state, new_path),
-                )
+                if method=="dfs":
+                    frontier.append((next_state,new_path))
+                else:
+                    f = heuristic_weight * heuristic(new_boxes_positions, targets)+ (1 - heuristic_weight) * new_g
+                    heapq.heappush(frontier, (f, new_g, counter, next_state, new_path))
 
     if verbose:
         elapsed = time.perf_counter() - start_time
