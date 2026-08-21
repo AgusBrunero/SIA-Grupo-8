@@ -104,6 +104,70 @@ solo puede llegar a `G2`. Este filtro evita orientar la búsqueda hacia objetivo
 imposibles. No se deben generar ocho metas mediante rotaciones y reflexiones: a
 diferencia de otras versiones del ejercicio, este enunciado define tres metas explícitas.
 
+### 2.1. Por qué el reflejo no es un movimiento válido
+
+Que `G2` sea la imagen espejada de `G1` significa que ambas configuraciones son
+equivalentes desde el punto de vista geométrico. No significa que representen el mismo
+estado dentro del grafo del 8-puzzle. Las posiciones del tablero son fijas y una acción
+legal solo intercambia el espacio vacío con una ficha adyacente. Reflejar el tablero
+completo reubica varias fichas simultáneamente y, por lo tanto, es una transformación
+externa al juego, no una secuencia abreviada de movimientos permitidos.
+
+Al quitar el espacio vacío y leer por filas, las dos configuraciones quedan así:
+
+```text
+G1: 1, 2, 3, 4, 5, 6, 7, 8
+G2: 3, 2, 1, 6, 5, 4, 8, 7
+```
+
+`G1` tiene cero inversiones. En `G2` aparecen las siguientes siete:
+
+```text
+(3,2), (3,1), (2,1), (6,5), (6,4), (5,4), (8,7)
+```
+
+La cantidad pasa de par a impar. Esta diferencia no puede corregirse mediante
+movimientos legales porque, en un tablero de ancho 3, cada movimiento conserva la
+paridad:
+
+- en un movimiento horizontal, al quitar el `0` de la representación lineal no cambia
+  el orden relativo de ninguna pareja de fichas;
+- en un movimiento vertical, una ficha avanza o retrocede tres posiciones contando el
+  vacío. Al ignorar el `0`, cruza exactamente dos fichas numeradas, por lo que la
+  cantidad de inversiones cambia en un número par.
+
+Como todo camino está compuesto por estos movimientos, un estado de paridad par jamás
+puede convertirse en uno de paridad impar. Esto demuestra que no existe un camino legal
+de `G1` a `G2`.
+
+### 2.2. Verificación exhaustiva del espacio de estados
+
+Además de la demostración anterior, se realizó una búsqueda BFS exhaustiva partiendo de
+`G1`. De las `9! = 362.880` permutaciones posibles de las ocho fichas y el vacío, la
+búsqueda visitó exactamente `181.440`, es decir, la mitad del espacio total. El resultado
+fue:
+
+| Comprobación | Resultado |
+| --- | --- |
+| Estados alcanzables desde `G1` | 181.440 |
+| ¿Aparece `G2`? | No |
+| ¿Aparece `G3`? | Sí |
+| Distancia mínima de `G1` a `G3` | 14 movimientos |
+
+La búsqueda recorrió por completo la componente conexa de `G1`, no solo hasta una
+profundidad arbitraria. Por eso la ausencia de `G2` constituye una verificación
+exhaustiva de que es inalcanzable desde `G1`.
+
+En conclusión, la interpretación depende del nivel de análisis:
+
+- **como patrón geométrico**, `G1`, `G2` y `G3` son versiones simétricas de una misma
+  disposición;
+- **como estados del 8-puzzle**, son tres configuraciones diferentes;
+- **como clases de alcanzabilidad**, `G1` y `G3` pertenecen a una clase, mientras que
+  `G2` pertenece a la otra;
+- **como metas del enunciado**, las tres son finales aceptados, pero un tablero inicial
+  concreto solo puede alcanzar las que tengan su misma paridad.
+
 ## 3. Heurísticas admisibles
 
 Como existen varias metas posibles, una heurística individual se calcula contra cada
