@@ -1,1 +1,10 @@
-__pycache__
+__pycache__/
+.venv/
+*.pyc
+.DS_Store
+
+TP 1/analysis/results/*.csv
+TP 1/analysis/figures/*.png
+
+paquete-slides-claude/
+paquete-slides-claude.zip

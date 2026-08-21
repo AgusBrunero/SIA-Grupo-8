@@ -1,0 +1,53 @@
+{
+  "repetitions": 5,
+  "timeout_seconds": 30,
+  "max_expanded": null,
+  "measure_memory": true,
+  "dead_square_pruning": true,
+  "save_path": false,
+  "methods": [
+    {"name": "bfs", "heuristics": [null]},
+    {"name": "dfs", "heuristics": [null]},
+    {"name": "greedy", "heuristics": ["simple", "hungarian", "weighted"]},
+    {"name": "astar", "heuristics": ["simple", "hungarian", "weighted"]}
+  ],
+  "levels": [
+    {
+      "id": "level1",
+      "grid": [
+        "######",
+        "#  . #",
+        "# #$ #",
+        "# @  #",
+        "######"
+      ]
+    },
+    {
+      "id": "level2",
+      "grid": [
+        "#####",
+        "#   #",
+        "# $ #",
+        "# $ #",
+        "#.@.#",
+        "#####"
+      ]
+    },
+    {
+      "id": "level3",
+      "repetitions": 3,
+      "timeout_seconds": 180,
+      "grid": [
+        "   #####   ",
+        "####   #   ",
+        "#  #$  ####",
+        "# $$      #",
+        "#@  #$ $# #",
+        "### #   # #",
+        " #  ##### #",
+        " #  ..... #",
+        " ##########"
+      ]
+    }
+  ]
+}

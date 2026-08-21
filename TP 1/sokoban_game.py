@@ -58,7 +58,7 @@ class SokobanGame:
         
         self.controls_label = tk.Label(
             root, 
-            text="Arrows: Move | R: Reset | U: Undo | N: Next level | A: Solve A* | B: Solve BFS | G: Solve GGS | D: Solve DFS\npress Shift+<Solving method> to switch heuristics", 
+            text="Arrows: Move | R: Reset | U: Undo | N: Next | A/B/G/D: A*/BFS/Greedy/DFS (hungarian)\nShift+tecla: manhattan simple | W: A* weighted (no admisible)", 
             font=("Helvetica", 10), 
             bg="#2c3e50", 
             fg="#bdc3c7", 
@@ -85,6 +85,8 @@ class SokobanGame:
         self.root.bind("B", lambda e: self.auto_solve(method="bfs", heuristic="simple"))
         self.root.bind("G", lambda e: self.auto_solve(method="greedy", heuristic="simple"))
         self.root.bind("D", lambda e: self.auto_solve(method="dfs", heuristic="simple"))
+        self.root.bind("w", lambda e: self.auto_solve(method="astar", heuristic="weighted"))
+        self.root.bind("W", lambda e: self.auto_solve(method="greedy", heuristic="weighted"))
         
         self.load_level(self.current_level_idx)
 
@@ -231,16 +233,38 @@ class SokobanGame:
         if getattr(self, "is_animating", False):
             return
 
-        path = sokoban_solver.solve_sokoban(self.grid, method=method, heuristic=heuristic)
+        result = sokoban_solver.solve_sokoban(self.grid, method=method, heuristic=heuristic)
 
-        if path is None:
+        if not result.success or result.path is None:
+            detail = " (timeout)" if result.timeout else ""
             messagebox.showwarning(
-                "Solve", "No solution found for this level !"
+                "Solve", f"No solution found for this level !{detail}"
             )
             return
 
+        heuristic_label = result.heuristic or "-"
+        memory = (
+            f"{result.peak_memory_kb:.1f} KB"
+            if result.peak_memory_kb is not None
+            else "-"
+        )
+        messagebox.showinfo(
+            "Solve",
+            "\n".join(
+                [
+                    f"Método: {result.algorithm} ({heuristic_label})",
+                    f"Costo: {result.cost}",
+                    f"Nodos expandidos: {result.expanded_nodes}",
+                    f"Frontera final: {result.frontier_nodes_final}",
+                    f"Frontera máxima: {result.frontier_nodes_max}",
+                    f"Tiempo: {result.elapsed_time:.4f} s",
+                    f"Memoria pico: {memory}",
+                ]
+            ),
+        )
+
         self.is_animating = True
-        self.animate_solution(path)
+        self.animate_solution(list(result.path))
 
     def animate_solution(self, path, delay=150):
         if not path:

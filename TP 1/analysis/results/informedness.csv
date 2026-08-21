@@ -1,0 +1,10 @@
+level_id,heuristic,h,h_star,informedness
+level1,simple,1,2.0,0.5
+level1,hungarian,1,2.0,0.5
+level1,weighted,3,2.0,1.5
+level2,simple,5,12.0,0.4166666666666667
+level2,hungarian,5,12.0,0.4166666666666667
+level2,weighted,15,12.0,1.25
+level3,simple,22,277.0,0.07942238267148015
+level3,hungarian,28,277.0,0.10108303249097472
+level3,weighted,84,277.0,0.30324909747292417
