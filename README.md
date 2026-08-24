@@ -35,6 +35,8 @@ python sokoban_game.py
 | `N` | Siguiente nivel |
 | `A` / `B` / `G` / `D` | Resolver con A* / BFS / Greedy / DFS (heurística Hungarian) |
 | `Shift` + la misma tecla | Misma búsqueda con heurística Manhattan simple |
+| `w` | A* con heurística weighted (no admisible) |
+| `W` | Greedy con heurística weighted (no admisible) |
 
 Al resolver, una ventana muestra costo, nodos expandidos, frontera y tiempo; después se anima el camino.
 

@@ -58,7 +58,7 @@ class SokobanGame:
         
         self.controls_label = tk.Label(
             root, 
-            text="Arrows: Move | R: Reset | U: Undo | N: Next | A/B/G/D: A*/BFS/Greedy/DFS (hungarian)\nShift+tecla: manhattan simple | W: A* weighted (no admisible)", 
+            text="Arrows: Move | R: Reset | U: Undo | N: Next | A/B/G/D: A*/BFS/Greedy/DFS (hungarian)\nShift+tecla: manhattan simple | w: A* weighted (no admisible) | W: Greedy (no admisible)", 
             font=("Helvetica", 10), 
             bg="#2c3e50", 
             fg="#bdc3c7", 
