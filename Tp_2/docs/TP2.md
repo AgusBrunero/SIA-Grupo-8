@@ -13,7 +13,7 @@ triángulos** de color uniforme (opcionalmente traslúcidos) sobre un canvas bla
 Es, en la práctica, un compresor de imágenes con pérdida: la salida es la lista de
 triángulos.
 
-### Ejercicio 1 (no lo hacemos)
+### Ejercicio 1 (sólo análisis, resuelto en [`ejercicio1.md`](ejercicio1.md))
 Es sólo teórico: pensar —sin implementar— cómo representar una imagen cuadrada en un
 mapa de NxN caracteres ASCII con AG. Alcanza con un par de slides en la presentación
 (individuo = matriz de caracteres, fitness = similitud entre el render del ASCII y la
@@ -129,10 +129,16 @@ figuras en `analysis/figures/`.
 
 ## 4. Plan por steps
 
-**Estado al 2026-09-04: Steps 0-11 hechos.** Motor completo (6 selecciones +
-combinada, 4 cruzas, 4 mutaciones, ambas supervivencias, 5 criterios de corte),
-CLI, salidas y pipeline de experimentos con figuras. Falta el **Step 12**
-(presentación). Ver `../README.md` para cómo correrlo.
+**Estado al 2026-09-04: los 12 steps hechos, más las mejoras del segundo ciclo.**
+Motor completo (6 selecciones + combinada, 4 cruzas + espacial, 4 mutaciones, ambas
+supervivencias, 5 criterios de corte, inicialización al azar o en grilla informada),
+CLI con snapshots, formato de salida autosuficiente, pipeline de experimentos sobre
+dos targets, Ejercicio 1 (`ejercicio1.md`) y presentación (local, fuera del repo).
+
+Advertencia para comparar números entre tandas: desde que el render redondea los
+vértices a 2 decimales (necesario para que el PNG y el `triangles.json` sean idénticos),
+21 de cada 50 individuos renderizan distinto que antes. Los rankings se mantienen, los
+valores absolutos de tandas anteriores no son comparables.
 
 Cada step tiene un entregable verificable. Los steps 5-8 son **paralelizables entre
 integrantes** una vez cerrado el step 4 (todos comparten las mismas interfaces).
@@ -243,7 +249,7 @@ promedio ± desvío. Ejes a barrer:
 - Diversidad de la población en el tiempo (evidencia de convergencia prematura).
 - **DoD**: `analysis/figures/` con las figuras que van a la presentación.
 
-### Step 12 — Entregables
+### Step 12 — Entregables  ✅
 - `README.md`: setup, cómo correr, formato de `config.json`, cómo reproducir las figuras.
 - Presentación: problema, representación y fitness (justificados), métodos
   implementados, resultados de los experimentos, conclusiones, + las slides del

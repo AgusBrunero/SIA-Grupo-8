@@ -3,12 +3,12 @@
 Motor de Algoritmos Genéticos implementado desde cero (sin librerías de AG) que
 aproxima una imagen usando N triángulos traslúcidos sobre un canvas blanco.
 
-Enunciado y plan de trabajo: [`docs/TP2.md`](docs/TP2.md)
+- Enunciado y plan de trabajo: [`docs/TP2.md`](docs/TP2.md)
+- Ejercicio 1 (ASCII art, sólo análisis): [`docs/ejercicio1.md`](docs/ejercicio1.md)
 
-> **Estado: Steps 0-11 del plan.** Están implementados los 6 métodos de selección
-> (más la selección combinada A%/B%), las 4 cruzas, las 4 mutaciones, ambas
-> estrategias de supervivencia, los 5 criterios de corte y el pipeline de
-> experimentos. Falta la presentación (Step 12).
+> **Estado: completo.** Los 6 métodos de selección (más la selección combinada
+> A%/B%), las 4 cruzas, las 4 mutaciones, ambas estrategias de supervivencia, los 5
+> criterios de corte, el pipeline de experimentos y la presentación.
 
 ## Setup
 
@@ -40,6 +40,7 @@ python main.py --image images/germany.png --tag prueba --gif
 | `--tag` | Sufijo para no pisar corridas anteriores |
 | `--render-size` | Resolución de la imagen final (default 512) |
 | `--gif` | Además guarda un gif de la evolución |
+| `--snapshots N` | Guarda el mejor individuo cada N generaciones y una tira comparativa |
 | `--rebuild` | Reconstruye la imagen desde un `triangles.json` y termina |
 
 ## Salida
@@ -140,10 +141,11 @@ python main.py --rebuild output/japan/triangles.json
 | Operador | Valores |
 |---|---|
 | `selection_parents` / `selection_survivors` | `elite`, `roulette`, `universal`, `boltzmann`, `ranking`, `tournament_det`, `tournament_prob`, o `{method_a, method_b, a_ratio}` |
-| `crossover` | `one_point`, `two_point`, `uniform`, `annular` |
+| `crossover` | `one_point`, `two_point`, `uniform`, `annular`, `spatial` (parte por posición en el canvas, no por índice) |
 | `mutation` | `gene`, `multigene`, `uniform`, `non_uniform` |
 | `replacement` | `additive`, `exclusive` |
 | `stop` | `max_generations`, `max_seconds`, `target_fitness`, `stall_generations` (contenido), `structure_generations` (estructura) |
+| `initialization` | `random`, `grid` (un triángulo por celda, con el color que tiene el target ahí) |
 
 ## Diseño
 
@@ -202,49 +204,67 @@ python -m unittest test_ga.py -v
 
 ## Resultados
 
-Con la configuración de `config.json` (torneo determinístico M=4, cruza uniforme,
-mutación no uniforme pm=0.1, supervivencia aditiva, N=K=50, 500 generaciones,
-canvas 64px):
+Con la configuración de `config.json` (inicialización en grilla, torneo determinístico
+M=4, cruza uniforme por triángulo, mutación multigen pm=0.1, supervivencia aditiva,
+N=K=50, 500 generaciones, canvas 64px):
 
-| Target | Triángulos | Fitness | RMSE | Tiempo |
-|---|---|---|---|---|
-| `images/japan.png` | 20 | 0.927 | 18.6 | 13 s |
-| `images/germany.png` | 10 | 0.927 | 18.6 | 11 s |
-| `images/cross.png` | 15 | 0.900 | 25.6 | 11 s |
+| Target | Triángulos | Fitness | RMSE |
+|---|---|---|---|
+| `images/germany.png` | 10 | 0.966 | 8.6 |
+| `images/japan.png` | 20 | 0.933 | 17.0 |
+| `images/cross.png` | 15 | 0.911 | 22.7 |
+
+Esa configuración se eligió midiendo **configuraciones completas** sobre las tres
+imágenes, no combinando el ganador de cada eje: al hacer eso último el promedio cae de
+0.939 a 0.890 (ver el hallazgo 3).
 
 ### Qué salió de los experimentos
 
-Cada eje se corrió con 3 semillas, 300 generaciones, canvas 48px y N=K=40
-(`analysis/results/summary.csv`). Variando **un eje a la vez** sobre esa base:
+Cada eje se corrió con 3 semillas, 300 generaciones, canvas 48px, N=K=40, y **sobre dos
+tipos de imagen**: una plana (bandera de Japón) y una con detalle fino (Pikachu). Los
+números están en `analysis/results/summary.csv`.
 
-- **Selección**: torneo determinístico (0.904) > ranking (0.897) > Boltzmann (0.887)
-  > torneo probabilístico (0.882) > ruleta (0.880) > universal (0.876) > elite (0.869).
-  Elite es el peor: con `k = N` devuelve a toda la población y no agrega ninguna
-  presión de selección, así que la mejora queda sólo a cargo de la mutación.
-- **Supervivencia**: el resultado depende de K, no de la estrategia.
-  `exclusiva K=2N` (0.904) ≈ `aditiva K=2N` (0.901) > `aditiva K=N` (0.869) >>
-  `exclusiva K=N` (0.772). El último caso es degenerado: con K=N la exclusiva
-  reemplaza toda la población por los hijos, y si además los padres se eligen con
-  elite el algoritmo pierde toda presión de selección y se vuelve una caminata
-  aleatoria (se ve clarísimo en `analysis/figures/replacement.png`: el fitness
-  oscila y la diversidad se queda clavada en su valor inicial).
-- **Cruza**: uniforme (0.896) > anular (0.889) > dos puntos (0.881) > un punto (0.869).
-- **Granularidad de la cruza**: cortar por gen (0.896) y por triángulo (0.893) empatan
-  dentro del desvío. La hipótesis de que cortar a nivel gen sería destructivo por el
-  z-order **no se verifica** a esta escala.
-- **Mutación**, igualando la intensidad esperada en ~4 genes por hijo para comparar el
-  mecanismo y no la tasa: multigen (0.903) ≈ gen (0.901) ≈ uniforme (0.901) >
-  no uniforme (0.884). La no uniforme pierde cuando la tasa base ya es baja, porque el
-  decaimiento la deja sin mutación; con una tasa base alta (pm=0.1) es la que mejor
-  anda, que es para lo que sirve.
-- **Tasa de mutación** (uniforme): pm=0.02 (0.901) ≈ pm=0.05 (0.900) ≈ pm=0.005 (0.898)
-  >> pm=0.2 (0.866). Importa más la tasa que el método.
-- **Cantidad de triángulos**: a presupuesto fijo de generaciones, más triángulos da
-  peor fitness (10 → 0.891, 100 → 0.775) y más tiempo por generación. El espacio de
-  búsqueda crece con `10 * N_triángulos` dimensiones.
+| Eje | Imagen plana | Imagen detallada |
+|---|---|---|
+| **Inicialización** | grilla **0.931** vs azar 0.899 | grilla **0.859** vs azar 0.842 |
+| **Selección** | torneo det **0.899** > ranking 0.892 > ruleta 0.885 > Boltzmann 0.884 > universal 0.883 > elite 0.881 > torneo prob 0.880 | ranking **0.842** ≈ torneo det 0.842 > ruleta 0.838 > Boltzmann 0.836 > torneo prob 0.835 > elite 0.833 > universal 0.831 |
+| **Supervivencia** | exclusiva K=2N **0.919** ≈ aditiva K=2N 0.914 > exclusiva K=N 0.901 ≈ aditiva K=N 0.899 | aditiva K=2N **0.859** ≈ exclusiva K=2N 0.857 > aditiva K=N 0.842 > exclusiva K=N 0.840 |
+| **Cruza** | uniforme **0.907** > dos puntos 0.899 ≈ un punto 0.899 > anular 0.896 ≈ espacial 0.896 | uniforme **0.848** > anular 0.847 > dos puntos 0.846 > un punto 0.842 > espacial 0.841 |
+| **Granularidad** | por triángulo **0.913** > por gen 0.907 | por triángulo **0.854** > por gen 0.848 |
+| **Mutación** | multigen **0.914** > uniforme 0.913 > gen 0.905 > no uniforme 0.902 | multigen **0.853** > uniforme 0.851 > gen 0.851 > no uniforme 0.850 |
+| **Tasa de mutación** | pm=0.02 **0.913** > 0.05 (0.911) > 0.005 (0.907) ≫ 0.2 (0.865) | pm=0.005 **0.853** > 0.02 (0.851) > 0.05 (0.848) ≫ 0.2 (0.836) |
+| **Triángulos** | 10 → 0.904, 25 → 0.895, 50 → 0.859, 100 → 0.800 | 10 → 0.846, 25 → 0.844, 50 → 0.821, 100 → 0.780 |
 
-**Los ganadores por eje no componen.** Combinar el mejor de cada experimento
-(torneo + uniforme + multigen + exclusiva K=2N) da 0.885, peor que la configuración
-final (0.919 con el mismo presupuesto de evaluaciones). Hay interacción fuerte entre
-la tasa de mutación y el resto: conviene elegir la configuración completa midiendo, no
-armándola por partes.
+### Hallazgos
+
+**1 · La inicialización informada es la mejora más grande de todas.** Arrancar de una
+grilla con los colores que el target tiene en cada celda gana en las dos imágenes, y no
+es una ventaja inicial que se diluya: se sostiene hasta el final y además baja el desvío
+entre semillas. Ninguna elección de operador mueve tanto la aguja.
+
+**2 · La supervivencia exclusiva no es mala; lo malo es una combinación.** Con selección
+de padres por elite y `k = N` —donde elite devuelve a toda la población— más supervivencia
+exclusiva con K=N, el algoritmo se queda sin ninguna presión de selección y se vuelve una
+caminata aleatoria. Ninguna de las dos piezas sola rompe nada: medido con torneo en los
+padres, la exclusiva K=N rinde igual que la aditiva K=N. Lo que decide es **K**, no la
+estrategia: con K=2N las dos son las mejores.
+
+**3 · Los ganadores por eje no componen, y lo comprobamos dos veces.** Armar la
+configuración con el mejor de cada experimento da 0.890 de promedio; la mejor
+configuración completa da 0.939. La diferencia entre ambas es **sólo la tasa de
+mutación** (0.02 contra 0.1): la tasa óptima depende de la escala a la que se corre, y
+optimizarla en un experimento de 300 generaciones no la transfiere a uno de 500.
+
+**4 · La granularidad de la cruza sí importa.** Cortar por triángulo gana en las dos
+imágenes. En una tanda anterior nos había dado empate, pero esa tanda usaba una base sin
+presión de selección en los padres; con una base sana la diferencia aparece.
+
+**5 · El óptimo depende del tipo de imagen.** La tasa de mutación ideal es 0.02 en la
+imagen plana y 0.005 en la detallada. Correr todo sobre un solo target habría escondido
+esto.
+
+**6 · La cruza espacial no funciona.** Partir por posición en el canvas en vez de por
+índice sale última en las dos imágenes. La idea es buena en teoría —el índice es
+arbitrario, la posición no— pero el cromosoma de largo fijo no la deja expresarse: el
+hijo no puede cambiar cuántos triángulos hay por región. Lo reportamos como resultado
+negativo.
