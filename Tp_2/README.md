@@ -263,8 +263,29 @@ presión de selección en los padres; con una base sana la diferencia aparece.
 imagen plana y 0.005 en la detallada. Correr todo sobre un solo target habría escondido
 esto.
 
-**6 · La cruza espacial no funciona.** Partir por posición en el canvas en vez de por
-índice sale última en las dos imágenes. La idea es buena en teoría —el índice es
-arbitrario, la posición no— pero el cromosoma de largo fijo no la deja expresarse: el
-hijo no puede cambiar cuántos triángulos hay por región. Lo reportamos como resultado
-negativo.
+**6 · La cruza espacial depende de la escala.** Partir por posición en el canvas en vez
+de por índice sale **última** en las dos imágenes a nuestra escala de experimentos (20
+triángulos), pero a 100 triángulos sube al **segundo puesto** en la imagen plana. Tiene
+sentido: con pocos triángulos una partición espacial casi no tiene qué repartir. No es
+un resultado negativo limpio, es un operador que necesita densidad para servir.
+
+## ¿Los hallazgos aguantan a otra escala?
+
+Toda la grilla de arriba corre chico a propósito (20 triángulos, población 40, 300
+generaciones) para poder barrer muchos ejes con varias semillas. `analysis/check_scale.py`
+re-corre los tres ejes más frágiles a la escala de una corrida real —100 triángulos,
+población 100, 1500 generaciones— sobre las dos imágenes:
+
+```bash
+python analysis/check_scale.py    # ~10-15 min
+```
+
+| | Aguanta | No aguanta |
+|---|---|---|
+| **Inicialización** | grilla gana en las dos imágenes y en las dos escalas | |
+| **Selección** | torneo determinístico gana en las dos imágenes y en las dos escalas; un punto es siempre la peor cruza | ranking cae de 2º a 3º/4º al subir de escala, y ruleta sube |
+| **Cruza** | | la espacial pasa de última a 2ª en la imagen plana (ver hallazgo 6) |
+
+Sólo dos semillas por celda, así que las diferencias chicas están dentro del ruido. Lo
+que se sostiene con claridad es lo primero: **la inicialización informada y el torneo
+determinístico ganan en todos los escenarios que probamos.**
