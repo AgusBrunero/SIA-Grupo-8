@@ -79,6 +79,14 @@ para la presentación.
 | ¿Qué imagen y cuántos triángulos para iterar rápido? | Imagen chica (64-128 px) y pocos triángulos: el costo por evaluación es `O(N_triángulos * área)`, y el costo total es `población * generaciones * eval`. Con imágenes grandes no se puede iterar. |
 | ¿Alcanza implementar parcialmente? | Sí para *evaluar el motor*: con un método de cada tipo ya se puede medir. Pero la entrega exige los 6 de selección, 2 de reemplazo, ≥2 cruzas y ≥2 mutaciones. |
 
+**Confirmado con el TP de otra edición** (`~/itba/SIA/SIA_TP2`): implementaron los
+mismos dos esquemas de supervivencia, pero con los nombres de clase invertidos
+respecto de la convención (su `FillAll` hace lo de fill-parent y viceversa), y usan
+`fitness = -mse` con shift por el mínimo dentro de cada ruleta. Ese shift le da al
+peor individuo probabilidad exactamente 0 y amplifica las diferencias relativas a
+medida que la población converge; con `1 - RMSE/255` no hace falta. Queda pendiente
+la respuesta de la cátedra sobre qué nombre corresponde a cada esquema.
+
 **Riesgo conocido a mencionar en la presentación**: *competing conventions* — dos
 individuos buenos pueden codificar la misma imagen con los triángulos en distinto
 orden, y la cruza entre ellos produce hijos malos. Es el argumento principal para
@@ -121,10 +129,10 @@ figuras en `analysis/figures/`.
 
 ## 4. Plan por steps
 
-**Estado al 2026-09-04: Steps 0-4 hechos** (setup, representación + render, fitness,
-motor genérico con operadores inyectables, y MVP corriendo end to end con
-elite / un punto / mutación de gen / supervivencia aditiva). Ver `../README.md`.
-Los Steps 5-8 son los que se pueden repartir ahora.
+**Estado al 2026-09-04: Steps 0-11 hechos.** Motor completo (6 selecciones +
+combinada, 4 cruzas, 4 mutaciones, ambas supervivencias, 5 criterios de corte),
+CLI, salidas y pipeline de experimentos con figuras. Falta el **Step 12**
+(presentación). Ver `../README.md` para cómo correrlo.
 
 Cada step tiene un entregable verificable. Los steps 5-8 son **paralelizables entre
 integrantes** una vez cerrado el step 4 (todos comparten las mismas interfaces).
@@ -170,7 +178,7 @@ integrantes** una vez cerrado el step 4 (todos comparten las mismas interfaces).
 - **DoD**: sobre la bandera de Japón, el fitness sube visiblemente y la imagen de salida
   se parece al target. **Recién acá se paraleliza el trabajo.**
 
-### Step 5 — Selección (los 6)
+### Step 5 — Selección (los 6)  ✅
 - Elite, Ruleta, Universal (puntero estocástico), Boltzmann
   (`T(t) = Tmin + (T0-Tmin)·e^(-k·t)`), Torneo determinístico (M individuos, gana el
   mejor), Torneo probabilístico (2 individuos, gana el mejor con prob. `Th≈0.75`),
@@ -179,14 +187,14 @@ integrantes** una vez cerrado el step 4 (todos comparten las mismas interfaces).
 - **DoD**: test que verifica que cada método devuelve exactamente `k` individuos y que
   ruleta/universal favorecen a los de mayor fitness (test estadístico simple).
 
-### Step 6 — Cruza (≥2, implementar las 4 si da)
+### Step 6 — Cruza (≥2, implementar las 4 si da)  ✅
 - Un punto, dos puntos, uniforme, anular, sobre el vector de genes.
 - Además: **variante "por triángulo"** (el punto de corte cae siempre en múltiplos de
   10) → es el experimento interesante para la presentación.
 - Probabilidad de cruza `pc` configurable.
 - **DoD**: los hijos son genotipos válidos (longitud correcta, valores en `[0,1]`).
 
-### Step 7 — Mutación (≥2, implementar las 4 si da)
+### Step 7 — Mutación (≥2, implementar las 4 si da)  ✅
 - **Gen**: muta un gen al azar con prob. `pm`.
 - **Multigen**: cada gen muta con prob. `pm`.
 - **Uniforme**: `pm` constante durante toda la corrida.
@@ -195,7 +203,7 @@ integrantes** una vez cerrado el step 4 (todos comparten las mismas interfaces).
 - **DoD**: con mutación sola (sin cruza) el fitness también mejora — es el sanity check
   de que la mutación es útil.
 
-### Step 8 — Supervivencia / reemplazo
+### Step 8 — Supervivencia / reemplazo  ✅
 - **Aditiva**: se generan K hijos, se arma el pool `N + K` y se seleccionan N con los
   métodos de selección.
 - **Exclusiva**: si `K ≥ N`, se seleccionan N de los K hijos; si `K < N`, pasan los K
@@ -203,7 +211,7 @@ integrantes** una vez cerrado el step 4 (todos comparten las mismas interfaces).
 - Igual que en selección, soportar combinación `B%` / `(1-B)%`.
 - **DoD**: con aditiva + elite el mejor fitness es monótono no decreciente (elitismo).
 
-### Step 9 — Criterios de corte
+### Step 9 — Criterios de corte  ✅
 Implementar y poder combinarlos con OR:
 - Máxima cantidad de generaciones (siempre activo, como cota).
 - Tiempo máximo.
@@ -212,16 +220,18 @@ Implementar y poder combinarlos con OR:
 - **Entorno a la solución**: fitness ≥ objetivo (es el opcional del "error mínimo").
 - **DoD**: el motor reporta *por qué* cortó.
 
-### Step 10 — I/O, CLI y métricas
+### Step 10 — I/O, CLI y métricas  ✅
 - `config.json` con imagen, cantidad de triángulos e hiperparámetros; `main.py` lo lee
   (con overrides por CLI).
 - Outputs: `output/best.png`, `output/triangles.json` (la "compresión": posición, color
-  y alpha de cada triángulo), `output/metrics.csv` con una fila por generación
+  y alpha de cada triángulo, en un formato **autosuficiente** que declara canvas, fondo,
+  composición y orden de pintado, con decodificador y test de ida y vuelta),
+  `output/metrics.csv` con una fila por generación
   (generación, mejor fitness, fitness promedio, desvío, diversidad, tiempo acumulado).
 - Nice to have barato: GIF de la evolución — vende muchísimo en la presentación.
 - **DoD**: una corrida deja todo lo que pide el enunciado en `output/`.
 
-### Step 11 — Experimentación y análisis
+### Step 11 — Experimentación y análisis  ✅
 Es lo que se defiende en la presentación. Un experimento = una config, varias semillas,
 promedio ± desvío. Ejes a barrer:
 - Cantidad de triángulos vs. fitness alcanzado vs. tiempo.
