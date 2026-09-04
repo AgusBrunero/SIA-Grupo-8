@@ -1,0 +1,28 @@
+{
+  "image": "images/japan.png",
+  "triangles": 20,
+  "canvas_size": 64,
+  "background": [255, 255, 255],
+
+  "population_size": 50,
+  "offspring_size": 50,
+
+  "selection_parents": "elite",
+  "selection_survivors": "elite",
+  "crossover": "one_point",
+  "crossover_rate": 0.85,
+  "crossover_granularity": "gene",
+  "mutation": "gene",
+  "mutation_rate": 0.5,
+  "mutation_sigma": 0.1,
+  "replacement": "additive",
+
+  "stop": {
+    "max_generations": 500,
+    "max_seconds": null,
+    "target_fitness": null,
+    "stall_generations": null
+  },
+
+  "seed": 42
+}
