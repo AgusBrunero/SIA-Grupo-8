@@ -15,7 +15,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from ga import engine
+from ga import artifact, engine
 from ga.render import load_target, render
 
 ROOT = Path(__file__).parent
@@ -36,7 +36,35 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--render-size", type=int, default=512, help="resolución de la imagen final")
     p.add_argument("--gif", action="store_true", help="además, guarda un gif de la evolución")
     p.add_argument("--quiet", action="store_true", help="no imprime el progreso")
+    p.add_argument(
+        "--rebuild",
+        metavar="TRIANGLES_JSON",
+        help="reconstruye la imagen desde un triangles.json y termina (no corre el AG)",
+    )
     return p.parse_args()
+
+
+def rebuild(path: Path) -> None:
+    """Camino inverso: archivo de triángulos -> imagen.
+
+    Si al lado está el PNG que produjo la corrida, compara y reporta la
+    diferencia: así se verifica que el archivo es autosuficiente.
+    """
+    document = artifact.load(path)
+    image = artifact.render(document)
+    out = path.parent / "rebuilt.png"
+    image.save(out)
+    print(f"reconstruido desde {path} -> {out}")
+    print(f"  {len(document['triangles'])} triángulos, canvas {document['canvas']['width']}x{document['canvas']['height']}")
+
+    original = path.parent / "best.png"
+    if original.exists():
+        import numpy as np
+
+        diff = np.abs(
+            np.asarray(image, dtype=np.int16) - np.asarray(Image.open(original).convert("RGB"), dtype=np.int16)
+        )
+        print(f"  diferencia máxima contra {original.name}: {int(diff.max())} (0 = idénticas)")
 
 
 def build_config(args) -> dict:
@@ -57,6 +85,10 @@ def build_config(args) -> dict:
 
 def main() -> None:
     args = parse_args()
+    if args.rebuild:
+        rebuild(Path(args.rebuild))
+        return
+
     config = build_config(args)
     canvas = config.get("canvas_size", engine.DEFAULTS["canvas_size"])
     background = config.get("background", engine.DEFAULTS["background"])
@@ -87,28 +119,28 @@ def main() -> None:
     if not args.quiet:
         print()
 
-    # 1) imagen generada (el genotipo es independiente de la resolución)
-    render(result.best, args.render_size, background).save(out_dir / "best.png")
+    # 1) la enumeración de triángulos: documento autosuficiente del que sale todo
+    #    lo demás (el genotipo es independiente de la resolución)
+    document = artifact.build(
+        result.best,
+        args.render_size,
+        args.render_size,
+        background,
+        source_image=config["image"],
+        fitness=result.best.fitness,
+    )
+    artifact.save(document, out_dir / "triangles.json")
 
-    # 2) comparación target vs. resultado
+    # 2) imagen generada, renderizada DESDE el documento: así el PNG entregado y
+    #    el archivo describen la misma imagen por construcción
+    best_image = artifact.render(document)
+    best_image.save(out_dir / "best.png")
+
+    # 3) comparación target vs. resultado
     side = Image.new("RGB", (args.render_size * 2, args.render_size), "white")
     side.paste(Image.open(ROOT / config["image"]).convert("RGB").resize((args.render_size,) * 2), (0, 0))
-    side.paste(render(result.best, args.render_size, background), (args.render_size, 0))
+    side.paste(best_image, (args.render_size, 0))
     side.save(out_dir / "comparison.png")
-
-    # 3) enumeración de triángulos: la "compresión" de la imagen
-    (out_dir / "triangles.json").write_text(
-        json.dumps(
-            {
-                "image": config["image"],
-                "canvas_size": args.render_size,
-                "background": background,
-                "fitness": result.best.fitness,
-                "triangles": result.best.triangles(args.render_size),
-            },
-            indent=2,
-        )
-    )
 
     # 4) métricas por generación
     rows = result.history_rows()

@@ -11,7 +11,7 @@ Coordenadas normalizadas al canvas; color y alpha normalizados a [0, 1].
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -29,23 +29,6 @@ class Individual:
 
     def copy(self) -> "Individual":
         return Individual(self.genes.copy(), self.fitness)
-
-    def triangles(self, size: int) -> list[dict]:
-        """Decodifica el genotipo a triángulos en píxeles, para el output."""
-        out = []
-        for i, block in enumerate(self.genes.reshape(-1, GENES_PER_TRIANGLE)):
-            out.append(
-                {
-                    "index": i,
-                    "vertices": [
-                        [round(float(block[0]) * size, 2), round(float(block[1]) * size, 2)],
-                        [round(float(block[2]) * size, 2), round(float(block[3]) * size, 2)],
-                        [round(float(block[4]) * size, 2), round(float(block[5]) * size, 2)],
-                    ],
-                    "rgba": [int(round(float(c) * 255)) for c in block[6:10]],
-                }
-            )
-        return out
 
 
 def random_individual(n_triangles: int, rng: np.random.Generator) -> Individual:
