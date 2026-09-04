@@ -1,0 +1,149 @@
+{
+  "base": {
+    "image": "images/japan.png",
+    "triangles": 20,
+    "canvas_size": 48,
+    "population_size": 40,
+    "offspring_size": 40,
+    "selection_parents": "elite",
+    "selection_survivors": "elite",
+    "crossover": "one_point",
+    "crossover_rate": 0.85,
+    "crossover_granularity": "gene",
+    "mutation": "gene",
+    "mutation_rate": 0.5,
+    "mutation_sigma": 0.1,
+    "replacement": "additive",
+    "stop": {
+      "max_generations": 300
+    }
+  },
+  "seeds": [
+    1,
+    2,
+    3
+  ],
+  "experiments": {
+    "selection": {
+      "elite": {
+        "selection_parents": "elite"
+      },
+      "roulette": {
+        "selection_parents": "roulette"
+      },
+      "universal": {
+        "selection_parents": "universal"
+      },
+      "boltzmann": {
+        "selection_parents": "boltzmann"
+      },
+      "ranking": {
+        "selection_parents": "ranking"
+      },
+      "torneo det": {
+        "selection_parents": "tournament_det"
+      },
+      "torneo prob": {
+        "selection_parents": "tournament_prob"
+      }
+    },
+    "replacement": {
+      "aditiva K=N": {
+        "replacement": "additive",
+        "offspring_size": 40
+      },
+      "exclusiva K=N": {
+        "replacement": "exclusive",
+        "offspring_size": 40
+      },
+      "aditiva K=2N": {
+        "replacement": "additive",
+        "offspring_size": 80
+      },
+      "exclusiva K=2N": {
+        "replacement": "exclusive",
+        "offspring_size": 80
+      },
+      "exclusiva K=2N + torneo": {
+        "replacement": "exclusive",
+        "offspring_size": 80,
+        "selection_survivors": "tournament_det"
+      }
+    },
+    "crossover": {
+      "un punto": {
+        "crossover": "one_point"
+      },
+      "dos puntos": {
+        "crossover": "two_point"
+      },
+      "uniforme": {
+        "crossover": "uniform"
+      },
+      "anular": {
+        "crossover": "annular"
+      }
+    },
+    "granularity": {
+      "corte por gen": {
+        "crossover": "uniform",
+        "crossover_granularity": "gene"
+      },
+      "corte por triangulo": {
+        "crossover": "uniform",
+        "crossover_granularity": "triangle"
+      }
+    },
+    "mutation": {
+      "gen": {
+        "mutation": "gene",
+        "mutation_rate": 1.0
+      },
+      "multigen (M=8)": {
+        "mutation": "multigene",
+        "mutation_genes": 8,
+        "mutation_rate": 0.5
+      },
+      "uniforme": {
+        "mutation": "uniform",
+        "mutation_rate": 0.02
+      },
+      "no uniforme": {
+        "mutation": "non_uniform",
+        "mutation_rate": 0.02
+      }
+    },
+    "triangles": {
+      "10": {
+        "triangles": 10
+      },
+      "25": {
+        "triangles": 25
+      },
+      "50": {
+        "triangles": 50
+      },
+      "100": {
+        "triangles": 100
+      }
+    },
+    "mutation_rate": {
+      "pm=0.005": {
+        "mutation": "uniform",
+        "mutation_rate": 0.005
+      },
+      "pm=0.02": {
+        "mutation": "uniform",
+        "mutation_rate": 0.02
+      },
+      "pm=0.05": {
+        "mutation": "uniform",
+        "mutation_rate": 0.05
+      },
+      "pm=0.2": {
+        "mutation": "uniform",
+        "mutation_rate": 0.2
+      }
+    }
+  }
+}
