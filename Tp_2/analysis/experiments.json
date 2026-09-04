@@ -1,11 +1,10 @@
 {
   "base": {
-    "image": "images/japan.png",
     "triangles": 20,
     "canvas_size": 48,
     "population_size": 40,
     "offspring_size": 40,
-    "selection_parents": "elite",
+    "selection_parents": "tournament_det",
     "selection_survivors": "elite",
     "crossover": "one_point",
     "crossover_rate": 0.85,
@@ -16,7 +15,12 @@
     "replacement": "additive",
     "stop": {
       "max_generations": 300
-    }
+    },
+    "initialization": "random"
+  },
+  "targets": {
+    "plana": "images/japan.png",
+    "detallada": "images/pika.png"
   },
   "seeds": [
     1,
@@ -82,6 +86,9 @@
       },
       "anular": {
         "crossover": "annular"
+      },
+      "espacial": {
+        "crossover": "spatial"
       }
     },
     "granularity": {
@@ -143,6 +150,14 @@
       "pm=0.2": {
         "mutation": "uniform",
         "mutation_rate": 0.2
+      }
+    },
+    "initialization": {
+      "al azar": {
+        "initialization": "random"
+      },
+      "grilla informada": {
+        "initialization": "grid"
       }
     }
   }

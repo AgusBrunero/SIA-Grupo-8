@@ -1,8 +1,9 @@
 """Barrido de configuraciones para el análisis (Step 11).
 
 Cada experimento varía UN eje a la vez sobre la misma configuración base y repite
-cada variante con varias semillas, para poder reportar promedio y desvío en vez de
-una corrida suelta.
+cada variante con varias semillas y sobre varios targets, para poder reportar
+promedio y desvío en vez de una corrida suelta, y para ver si las conclusiones
+sobreviven a un tipo de imagen distinto.
 
     python analysis/run_experiments.py                 # todos los experimentos
     python analysis/run_experiments.py selection       # sólo uno o varios
@@ -31,12 +32,12 @@ ROOT = Path(__file__).resolve().parent.parent
 RESULTS = Path(__file__).parent / "results"
 
 
-def _run_one(job: tuple[str, str, int, dict]) -> list[dict]:
-    experiment, variant, seed, config = job
+def _run_one(job: tuple[str, str, str, int, dict]) -> list[dict]:
+    experiment, target_name, variant, seed, config = job
     target = load_target(str(ROOT / config["image"]), config["canvas_size"], config["background"])
     result = engine.run(config, target)
     return [
-        {"experiment": experiment, "variant": variant, "seed": seed, **row}
+        {"experiment": experiment, "target": target_name, "variant": variant, "seed": seed, **row}
         for row in result.history_rows()
     ]
 
@@ -49,9 +50,11 @@ def build_jobs(spec: dict, names: list[str], quick: bool) -> list[tuple]:
 
     jobs = []
     for experiment in names:
-        for variant, overrides in spec["experiments"][experiment].items():
-            for seed in seeds:
-                jobs.append((experiment, variant, seed, {**base, **overrides, "seed": seed}))
+        for target_name, image in spec["targets"].items():
+            for variant, overrides in spec["experiments"][experiment].items():
+                for seed in seeds:
+                    config = {**base, "image": image, **overrides, "seed": seed}
+                    jobs.append((experiment, target_name, variant, seed, config))
     return jobs
 
 
@@ -72,22 +75,23 @@ def summarize(rows: list[dict]) -> list[dict]:
     """Última generación de cada corrida, agregada por variante."""
     import numpy as np
 
-    finals: dict[tuple[str, str], list[dict]] = {}
+    finals: dict[tuple, dict] = {}
     for row in rows:
-        finals.setdefault((row["experiment"], row["variant"], row["seed"]), row)
-        if row["generation"] > finals[(row["experiment"], row["variant"], row["seed"])]["generation"]:
-            finals[(row["experiment"], row["variant"], row["seed"])] = row
+        key = (row["experiment"], row["target"], row["variant"], row["seed"])
+        if key not in finals or row["generation"] > finals[key]["generation"]:
+            finals[key] = row
 
-    grouped: dict[tuple[str, str], list[dict]] = {}
-    for (experiment, variant, _seed), row in finals.items():
-        grouped.setdefault((experiment, variant), []).append(row)
+    grouped: dict[tuple, list[dict]] = {}
+    for (experiment, target, variant, _seed), row in finals.items():
+        grouped.setdefault((experiment, target, variant), []).append(row)
 
     summary = []
-    for (experiment, variant), runs in grouped.items():
+    for (experiment, target, variant), runs in grouped.items():
         fitness = np.array([float(r["best_fitness"]) for r in runs])
         summary.append(
             {
                 "experiment": experiment,
+                "target": target,
                 "variant": variant,
                 "runs": len(runs),
                 "best_fitness_mean": round(float(fitness.mean()), 5),
@@ -97,7 +101,7 @@ def summarize(rows: list[dict]) -> list[dict]:
                 "seconds_mean": round(float(np.mean([float(r["elapsed"]) for r in runs])), 2),
             }
         )
-    return sorted(summary, key=lambda r: (r["experiment"], -r["best_fitness_mean"]))
+    return sorted(summary, key=lambda r: (r["experiment"], r["target"], -r["best_fitness_mean"]))
 
 
 def write_csv(path: Path, rows: list[dict]) -> None:
@@ -140,12 +144,12 @@ def main() -> None:
 
     summary = summarize(read_all_results())
     write_csv(RESULTS / "summary.csv", summary)
-    print(f"\n{'experimento':14s} {'variante':22s} {'fitness':>16s} {'RMSE':>7s} {'seg':>6s}")
+    print(f"\n{'experimento':14s} {'target':10s} {'variante':22s} {'fitness':>16s} {'RMSE':>7s}")
     for row in summary:
         print(
-            f"{row['experiment']:14s} {row['variant']:22s} "
+            f"{row['experiment']:14s} {row['target']:10s} {row['variant']:22s} "
             f"{row['best_fitness_mean']:.4f} ± {row['best_fitness_std']:.4f} "
-            f"{row['rmse_mean']:7.2f} {row['seconds_mean']:6.1f}"
+            f"{row['rmse_mean']:7.2f}"
         )
 
 
