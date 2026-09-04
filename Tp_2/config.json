@@ -2,27 +2,41 @@
   "image": "images/japan.png",
   "triangles": 20,
   "canvas_size": 64,
-  "background": [255, 255, 255],
-
+  "background": [
+    255,
+    255,
+    255
+  ],
   "population_size": 50,
   "offspring_size": 50,
-
-  "selection_parents": "elite",
+  "selection_parents": "tournament_det",
   "selection_survivors": "elite",
-  "crossover": "one_point",
+  "tournament": {
+    "m": 4,
+    "threshold": 0.75
+  },
+  "boltzmann": {
+    "t0": 100.0,
+    "tmin": 1.0,
+    "k": 0.01
+  },
+  "crossover": "uniform",
   "crossover_rate": 0.85,
   "crossover_granularity": "gene",
-  "mutation": "gene",
-  "mutation_rate": 0.5,
+  "crossover_uniform_p": 0.5,
+  "mutation": "non_uniform",
+  "mutation_rate": 0.1,
   "mutation_sigma": 0.1,
+  "mutation_genes": null,
+  "mutation_decay_floor": 0.1,
   "replacement": "additive",
-
   "stop": {
     "max_generations": 500,
     "max_seconds": null,
     "target_fitness": null,
-    "stall_generations": null
+    "stall_generations": null,
+    "structure_generations": null,
+    "structure_epsilon": 0.01
   },
-
   "seed": 42
 }

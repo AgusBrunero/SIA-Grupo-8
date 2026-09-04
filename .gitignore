@@ -10,3 +10,9 @@ paquete-slides-claude/
 paquete-slides-claude.zip
 
 Tp_2/output/
+
+
+/howto
+
+Tp_2/analysis/results/*.csv
+Tp_2/analysis/figures/*.png
