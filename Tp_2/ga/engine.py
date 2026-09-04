@@ -1,8 +1,8 @@
 """Motor genérico: población inicial + loop generacional.
 
 El loop no conoce ningún método concreto; toma los operadores por nombre desde la
-configuración. Agregar un método de selección/cruza/mutación/reemplazo nuevo es
-registrarlo en el METHODS de su módulo, sin tocar este archivo.
+configuración. Agregar un método nuevo es registrarlo en el METHODS de su módulo,
+sin tocar este archivo.
 
     selección de padres -> cruza -> mutación -> evaluación -> reemplazo -> corte
 """
@@ -10,6 +10,7 @@ registrarlo en el METHODS de su módulo, sin tocar este archivo.
 from __future__ import annotations
 
 import time
+from collections import Counter
 from dataclasses import asdict, dataclass, field
 
 import numpy as np
@@ -18,6 +19,7 @@ from . import crossover as crossover_mod
 from . import mutation as mutation_mod
 from . import replacement as replacement_mod
 from . import selection as selection_mod
+from . import stopping
 from .context import Context
 from .fitness import FitnessEvaluator
 from .individual import Individual, random_individual
@@ -28,16 +30,22 @@ DEFAULTS = {
     "background": [255, 255, 255],
     "population_size": 50,
     "offspring_size": 50,
+    # str ("elite") o combinada {"method_a": ..., "method_b": ..., "a_ratio": ...}
     "selection_parents": "elite",
     "selection_survivors": "elite",
+    "tournament": {"m": 4, "threshold": 0.75},
+    "boltzmann": {"t0": 100.0, "tmin": 1.0, "k": 0.01},
     "crossover": "one_point",
     "crossover_rate": 0.85,
     "crossover_granularity": "gene",
+    "crossover_uniform_p": 0.5,
     "mutation": "gene",
     "mutation_rate": 0.5,
     "mutation_sigma": 0.1,
+    "mutation_genes": None,
+    "mutation_decay_floor": 0.1,
     "replacement": "additive",
-    "stop": {"max_generations": 500, "max_seconds": None, "target_fitness": None, "stall_generations": None},
+    "stop": stopping.DEFAULTS,
     "seed": None,
 }
 
@@ -49,6 +57,10 @@ class GenerationRecord:
     mean_fitness: float
     std_fitness: float
     diversity: float
+    #: generaciones seguidas sin mejorar el mejor fitness (criterio de contenido)
+    stalled: int
+    #: generaciones seguidas sin recambio genético (criterio de estructura)
+    structure_stable: int
     evaluations: int
     elapsed: float
 
@@ -71,26 +83,18 @@ def _diversity(population: list[Individual]) -> float:
     return float(np.stack([ind.genes for ind in population]).std(axis=0).mean())
 
 
-def _stop_reason(config, record, stalled) -> str | None:
-    stop = {**DEFAULTS["stop"], **config.get("stop", {})}
-    if record.generation >= stop["max_generations"]:
-        return "max_generations"
-    if stop["max_seconds"] is not None and record.elapsed >= stop["max_seconds"]:
-        return "max_seconds"
-    if stop["target_fitness"] is not None and record.best_fitness >= stop["target_fitness"]:
-        return "target_fitness"
-    if stop["stall_generations"] is not None and stalled >= stop["stall_generations"]:
-        return "content"
-    return None
+def _genomes(population: list[Individual]) -> Counter:
+    return Counter(ind.genes.tobytes() for ind in population)
 
 
 def run(config: dict, target: np.ndarray, on_generation=None) -> Result:
     cfg = {**DEFAULTS, **config}
+    stop_cfg = stopping.resolve(config.get("stop"))
     rng = np.random.default_rng(cfg["seed"])
-    ctx = Context(rng=rng, params=cfg, max_generations=cfg["stop"].get("max_generations", 0))
+    ctx = Context(rng=rng, params=cfg, max_generations=stop_cfg["max_generations"])
 
-    select_parents = selection_mod.get(cfg["selection_parents"])
-    ctx.survivor_selector = selection_mod.get(cfg["selection_survivors"])
+    select_parents = selection_mod.build(cfg["selection_parents"])
+    ctx.survivor_selector = selection_mod.build(cfg["selection_survivors"])
     cross = crossover_mod.get(cfg["crossover"])
     mutate = mutation_mod.get(cfg["mutation"])
     replace = replacement_mod.get(cfg["replacement"])
@@ -103,9 +107,9 @@ def run(config: dict, target: np.ndarray, on_generation=None) -> Result:
 
     started = time.perf_counter()
     result = Result(best=max(population, key=lambda i: i.fitness).copy())
-    stalled = 0
+    previous_genomes = _genomes(population)
+    stalled = structure_stable = generation = 0
 
-    generation = 0
     while True:
         generation += 1
         ctx.generation = generation
@@ -123,19 +127,26 @@ def run(config: dict, target: np.ndarray, on_generation=None) -> Result:
         evaluator.evaluate_all(children)
         population = replace(population, children, n, ctx)
 
-        fitnesses = np.array([ind.fitness for ind in population])
         best = max(population, key=lambda i: i.fitness)
         improved = best.fitness > result.best.fitness + 1e-12
         if improved:
             result.best = best.copy()
         stalled = 0 if improved else stalled + 1
 
+        genomes = _genomes(population)
+        shared = sum((previous_genomes & genomes).values()) / n
+        structure_stable = structure_stable + 1 if shared >= 1 - stop_cfg["structure_epsilon"] else 0
+        previous_genomes = genomes
+
+        fitnesses = np.array([ind.fitness for ind in population])
         record = GenerationRecord(
             generation=generation,
             best_fitness=float(fitnesses.max()),
             mean_fitness=float(fitnesses.mean()),
             std_fitness=float(fitnesses.std()),
             diversity=_diversity(population),
+            stalled=stalled,
+            structure_stable=structure_stable,
             evaluations=evaluator.evaluations,
             elapsed=time.perf_counter() - started,
         )
@@ -143,7 +154,7 @@ def run(config: dict, target: np.ndarray, on_generation=None) -> Result:
         if on_generation is not None:
             on_generation(record, result.best)
 
-        reason = _stop_reason(cfg, record, stalled)
+        reason = stopping.check(stop_cfg, record)
         if reason:
             result.stop_reason = reason
             break
