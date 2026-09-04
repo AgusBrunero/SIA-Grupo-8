@@ -17,7 +17,7 @@ from ga import stopping
 from ga.context import Context
 from ga.crossover import one_point
 from ga.fitness import FitnessEvaluator
-from ga.individual import GENES_PER_TRIANGLE, Individual, random_individual
+from ga.individual import GENES_PER_TRIANGLE, Individual, grid_individual, random_individual
 from ga.mutation import gene
 from ga.render import render, render_array
 from ga.replacement import additive, exclusive
@@ -45,6 +45,45 @@ class TestRender(unittest.TestCase):
         genes = np.array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
         rendered = render_array(Individual(genes), CANVAS)
         self.assertLess(rendered.mean(), 255.0)
+
+
+class TestInitialization(unittest.TestCase):
+    """Inicialización informada: arrancar de una grilla con los colores del target."""
+
+    def setUp(self):
+        self.target = np.zeros((CANVAS, CANVAS, 3))
+        self.target[:, : CANVAS // 2] = [200, 30, 30]   # izquierda roja
+        self.target[:, CANVAS // 2 :] = [30, 30, 200]   # derecha azul
+
+    def test_los_genes_quedan_en_el_dominio(self):
+        ind = grid_individual(9, np.random.default_rng(0), self.target)
+        self.assertEqual(len(ind.genes), 9 * GENES_PER_TRIANGLE)
+        self.assertTrue(np.all((ind.genes >= 0) & (ind.genes <= 1)))
+
+    def test_muestrea_el_color_del_target_en_cada_celda(self):
+        ind = grid_individual(4, np.random.default_rng(0), self.target)
+        blocks = ind.genes.reshape(-1, GENES_PER_TRIANGLE)
+        # grilla 2x2: los de la columna izquierda rojos, los de la derecha azules
+        izquierda, derecha = blocks[[0, 2]], blocks[[1, 3]]
+        self.assertTrue(np.all(izquierda[:, 6] > izquierda[:, 8]))
+        self.assertTrue(np.all(derecha[:, 8] > derecha[:, 6]))
+
+    def test_dos_individuos_no_salen_iguales(self):
+        """Sin diversidad inicial la población no puede evolucionar."""
+        rng = np.random.default_rng(0)
+        a, b = grid_individual(9, rng, self.target), grid_individual(9, rng, self.target)
+        self.assertFalse(np.array_equal(a.genes, b.genes))
+
+    def test_arranca_mejor_que_la_inicializacion_al_azar(self):
+        rng = np.random.default_rng(0)
+        evaluator = FitnessEvaluator(self.target)
+        grid = max(evaluator(grid_individual(9, rng, self.target)) for _ in range(10))
+        azar = max(evaluator(random_individual(9, rng)) for _ in range(10))
+        self.assertGreater(grid, azar)
+
+    def test_grid_necesita_el_target(self):
+        with self.assertRaises(ValueError):
+            grid_individual(4, np.random.default_rng(0), None)
 
 
 class TestArtifact(unittest.TestCase):

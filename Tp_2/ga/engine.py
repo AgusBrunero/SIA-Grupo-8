@@ -22,10 +22,12 @@ from . import selection as selection_mod
 from . import stopping
 from .context import Context
 from .fitness import FitnessEvaluator
-from .individual import Individual, random_individual
+from . import individual as individual_mod
+from .individual import Individual
 
 DEFAULTS = {
     "triangles": 20,
+    "initialization": "random",  # "random" | "grid" (muestrea colores del target)
     "canvas_size": 64,
     "background": [255, 255, 255],
     "population_size": 50,
@@ -102,7 +104,8 @@ def run(config: dict, target: np.ndarray, on_generation=None) -> Result:
     evaluator = FitnessEvaluator(target, cfg["background"])
     n, k = cfg["population_size"], cfg["offspring_size"]
 
-    population = [random_individual(cfg["triangles"], rng) for _ in range(n)]
+    initialize = individual_mod.get_initializer(cfg["initialization"])
+    population = [initialize(cfg["triangles"], rng, target) for _ in range(n)]
     evaluator.evaluate_all(population)
 
     started = time.perf_counter()
