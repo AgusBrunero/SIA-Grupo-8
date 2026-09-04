@@ -241,6 +241,34 @@ class TestCrossoverMethods(unittest.TestCase):
                 de_a = c1.genes == a.genes
                 np.testing.assert_array_equal(de_a, c2.genes == b.genes)
 
+    def test_la_cruza_espacial_parte_por_geometria_y_no_por_indice(self):
+        """Dos triángulos en la misma región van juntos, estén donde estén en la lista."""
+        rng = np.random.default_rng(9)
+        a, b = random_individual(8, rng), random_individual(8, rng)
+        # todos los triángulos de A al mismo lado -> el corte no puede separarlos
+        blocks = a.genes.reshape(-1, GENES_PER_TRIANGLE)
+        blocks[:, [0, 2, 4]] = 0.05
+        blocks[:, [1, 3, 5]] = 0.05
+        ctx = make_ctx()
+        for _ in range(20):
+            child, _ = crossover_mod.spatial(a, b, ctx)
+            child_blocks = child.genes.reshape(-1, GENES_PER_TRIANGLE)
+            from_a = np.all(child_blocks == blocks, axis=1)
+            # o vienen todos de A (el corte los dejó afuera) o ninguno
+            self.assertIn(int(from_a.sum()), (0, 8))
+
+    def test_la_cruza_espacial_ignora_la_granularidad_configurada(self):
+        """Partir un triángulo al medio no tiene sentido geométrico."""
+        rng = np.random.default_rng(10)
+        a, b = random_individual(5, rng), random_individual(5, rng)
+        ctx = make_ctx(crossover_granularity="gene")
+        for _ in range(20):
+            child, _ = crossover_mod.spatial(a, b, ctx)
+            for block in child.genes.reshape(-1, GENES_PER_TRIANGLE):
+                in_a = np.any(np.all(a.genes.reshape(-1, GENES_PER_TRIANGLE) == block, axis=1))
+                in_b = np.any(np.all(b.genes.reshape(-1, GENES_PER_TRIANGLE) == block, axis=1))
+                self.assertTrue(in_a or in_b)
+
     def test_la_cruza_no_muta_a_los_padres(self):
         rng = np.random.default_rng(3)
         a, b = random_individual(4, rng), random_individual(4, rng)

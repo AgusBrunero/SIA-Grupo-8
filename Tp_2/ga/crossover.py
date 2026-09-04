@@ -33,9 +33,8 @@ def _children(units_a: np.ndarray, units_b: np.ndarray) -> tuple[Individual, Ind
     return Individual(units_a.ravel().copy()), Individual(units_b.ravel().copy())
 
 
-def _swap(a: Individual, b: Individual, mask: np.ndarray, ctx: Context):
+def _swap(a: Individual, b: Individual, mask: np.ndarray, unit: int):
     """Intercambia las unidades marcadas en `mask` entre los dos padres."""
-    unit = _unit_size(ctx)
     ua, ub = _as_units(a, unit).copy(), _as_units(b, unit).copy()
     ua[mask], ub[mask] = ub[mask].copy(), ua[mask].copy()
     return _children(ua, ub)
@@ -48,7 +47,7 @@ def one_point(a: Individual, b: Individual, ctx: Context):
         return a.copy(), b.copy()
     p = int(ctx.rng.integers(1, n))
     mask = np.arange(n) >= p
-    return _swap(a, b, mask, ctx)
+    return _swap(a, b, mask, _unit_size(ctx))
 
 
 def two_point(a: Individual, b: Individual, ctx: Context):
@@ -58,7 +57,7 @@ def two_point(a: Individual, b: Individual, ctx: Context):
         return one_point(a, b, ctx)
     p1, p2 = sorted(ctx.rng.choice(np.arange(1, n), size=2, replace=False))
     mask = (np.arange(n) >= p1) & (np.arange(n) < p2)
-    return _swap(a, b, mask, ctx)
+    return _swap(a, b, mask, _unit_size(ctx))
 
 
 def uniform(a: Individual, b: Individual, ctx: Context):
@@ -66,7 +65,7 @@ def uniform(a: Individual, b: Individual, ctx: Context):
     independiente. Es el más disruptivo: no preserva bloques contiguos."""
     n = len(a.genes) // _unit_size(ctx)
     p = ctx.params.get("crossover_uniform_p", 0.5)
-    return _swap(a, b, ctx.rng.random(n) < p, ctx)
+    return _swap(a, b, ctx.rng.random(n) < p, _unit_size(ctx))
 
 
 def annular(a: Individual, b: Individual, ctx: Context):
@@ -80,7 +79,31 @@ def annular(a: Individual, b: Individual, ctx: Context):
     length = int(ctx.rng.integers(0, n // 2 + 1))
     mask = np.zeros(n, dtype=bool)
     mask[(start + np.arange(length)) % n] = True
-    return _swap(a, b, mask, ctx)
+    return _swap(a, b, mask, _unit_size(ctx))
+
+
+def spatial(a: Individual, b: Individual, ctx: Context):
+    """Cruza espacial: el intercambio lo decide DÓNDE está cada triángulo en el
+    canvas, no su índice en la lista.
+
+    Se traza una línea de corte al azar (vertical u horizontal) y se mira el
+    centroide de cada triángulo del padre A: los que caen de un lado se conservan,
+    en el resto de los loci entra el triángulo de B. El hijo hereda entonces una
+    región del canvas de un padre y el resto del otro, en vez de heredar "los
+    primeros k triángulos" —que con z-order significa el fondo— como hace la cruza
+    de un punto.
+
+    Trabaja siempre a nivel triángulo: partir un triángulo al medio no tiene
+    sentido geométrico. Y como el cromosoma es de largo fijo, el hijo no es
+    literalmente "izquierda de A + derecha de B": conserva los triángulos de A de
+    un lado y completa los loci restantes con los de B, que pueden caer de
+    cualquier lado.
+    """
+    ua = _as_units(a, GENES_PER_TRIANGLE)
+    axis = int(ctx.rng.integers(0, 2))          # 0 = corte vertical (x), 1 = horizontal (y)
+    cut = float(ctx.rng.random())
+    centroids = ua[:, axis:6:2].mean(axis=1)    # x1,x2,x3 o y1,y2,y3 según el eje
+    return _swap(a, b, centroids >= cut, GENES_PER_TRIANGLE)
 
 
 METHODS = {
@@ -88,6 +111,7 @@ METHODS = {
     "two_point": two_point,
     "uniform": uniform,
     "annular": annular,
+    "spatial": spatial,
 }
 
 
