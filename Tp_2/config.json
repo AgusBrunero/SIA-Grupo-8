@@ -22,12 +22,12 @@
   },
   "crossover": "uniform",
   "crossover_rate": 0.85,
-  "crossover_granularity": "gene",
+  "crossover_granularity": "triangle",
   "crossover_uniform_p": 0.5,
-  "mutation": "non_uniform",
+  "mutation": "multigene",
   "mutation_rate": 0.1,
   "mutation_sigma": 0.1,
-  "mutation_genes": null,
+  "mutation_genes": 8,
   "mutation_decay_floor": 0.1,
   "replacement": "additive",
   "stop": {
@@ -38,5 +38,6 @@
     "structure_generations": null,
     "structure_epsilon": 0.01
   },
-  "seed": 42
+  "seed": 42,
+  "initialization": "grid"
 }
