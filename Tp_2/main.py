@@ -13,12 +13,38 @@ import json
 import time
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 from ga import artifact, engine
 from ga.render import load_target, render
 
 ROOT = Path(__file__).parent
+
+#: resolución de las capturas intermedias: legibles en una tira, baratas de renderizar
+SNAPSHOT_SIZE = 256
+#: máximo de cuadros en la tira comparativa (las capturas sueltas se guardan todas)
+STRIP_MAX = 8
+
+
+def write_snapshots(snapshots: list, out_dir: Path) -> None:
+    """Guarda cada captura y arma una tira con la evolución, para la presentación."""
+    folder = out_dir / "snapshots"
+    folder.mkdir(exist_ok=True)
+    for generation, image in snapshots:
+        image.save(folder / f"gen_{generation:06d}.png")
+
+    step = max(1, round(len(snapshots) / STRIP_MAX))
+    frames = snapshots[::step]
+    if frames[-1] is not snapshots[-1]:
+        frames.append(snapshots[-1])
+
+    label_height = 22
+    strip = Image.new("RGB", (SNAPSHOT_SIZE * len(frames), SNAPSHOT_SIZE + label_height), "white")
+    draw = ImageDraw.Draw(strip)
+    for i, (generation, image) in enumerate(frames):
+        strip.paste(image, (i * SNAPSHOT_SIZE, label_height))
+        draw.text((i * SNAPSHOT_SIZE + 6, 6), f"gen {generation}", fill="black")
+    strip.save(out_dir / "snapshots.png")
 
 
 def parse_args() -> argparse.Namespace:
@@ -35,6 +61,12 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--tag", help="sufijo para distinguir corridas")
     p.add_argument("--render-size", type=int, default=512, help="resolución de la imagen final")
     p.add_argument("--gif", action="store_true", help="además, guarda un gif de la evolución")
+    p.add_argument(
+        "--snapshots",
+        type=int,
+        metavar="N",
+        help="guarda el mejor individuo cada N generaciones, más una tira comparativa",
+    )
     p.add_argument("--quiet", action="store_true", help="no imprime el progreso")
     p.add_argument(
         "--rebuild",
@@ -99,11 +131,14 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     frames: list[Image.Image] = []
+    snapshots: list[tuple[int, Image.Image]] = []
     last_print = [0.0]
 
     def on_generation(record, best):
         if args.gif and record.generation % 25 == 0:
             frames.append(render(best, 128, background))
+        if args.snapshots and (record.generation == 1 or record.generation % args.snapshots == 0):
+            snapshots.append((record.generation, render(best, SNAPSHOT_SIZE, background)))
         if not args.quiet and (time.perf_counter() - last_print[0] > 0.5):
             last_print[0] = time.perf_counter()
             print(
@@ -167,6 +202,12 @@ def main() -> None:
 
     if frames:
         frames[0].save(out_dir / "evolution.gif", save_all=True, append_images=frames[1:], duration=80, loop=0)
+
+    if snapshots:
+        if snapshots[-1][0] != result.generations:
+            snapshots.append((result.generations, render(result.best, SNAPSHOT_SIZE, background)))
+        write_snapshots(snapshots, out_dir)
+        print(f"{len(snapshots)} capturas en {out_dir / 'snapshots'} + snapshots.png")
 
     print(
         f"fitness {result.best.fitness:.4f} (RMSE {(1 - result.best.fitness) * 255:.2f}) "
