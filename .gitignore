@@ -16,3 +16,7 @@ Tp_2/output/
 
 Tp_2/analysis/results/*.csv
 Tp_2/analysis/figures/*.png
+
+# presentación: se queda local, no se versiona
+Tp_2/docs/presentacion*.html
+Tp_2/docs/build_presentacion.py
