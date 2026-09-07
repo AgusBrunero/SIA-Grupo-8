@@ -1,0 +1,7 @@
+experiment,target,variant,runs,best_fitness_mean,best_fitness_std,best_fitness_median,best_fitness_q1,best_fitness_q3,rmse_mean,diversity_mean,evaluations_mean,seconds_mean,run_batch
+granularidad,compleja,corte por triangulo,5,0.91511,0.00196,0.91431,0.91362,0.91679,21.646,0.00387,47925.4,23.51,20260906T213411Z
+granularidad,compleja,corte por componente,5,0.91435,0.00144,0.91504,0.91412,0.91545,21.841,0.00403,47931.2,23.98,20260906T213411Z
+granularidad,detallada,corte por triangulo,5,0.88017,0.0021,0.87998,0.87949,0.88014,30.556,0.00494,47925.4,23.65,20260906T213411Z
+granularidad,detallada,corte por componente,5,0.87735,0.00392,0.87609,0.87598,0.8814,31.275,0.0052,47931.2,23.81,20260906T213411Z
+granularidad,plana,corte por componente,5,0.95391,0.00606,0.95322,0.95143,0.95654,11.753,0.00547,47931.2,23.61,20260906T213411Z
+granularidad,plana,corte por triangulo,5,0.95073,0.00661,0.95132,0.94737,0.95726,12.564,0.00491,47925.4,23.18,20260906T213411Z

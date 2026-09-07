@@ -1,0 +1,7 @@
+experiment,target,variant,runs,best_fitness_mean,best_fitness_std,best_fitness_median,best_fitness_q1,best_fitness_q3,rmse_mean,diversity_mean,evaluations_mean,seconds_mean,run_batch
+inicializacion,compleja,grilla informada,5,0.91796,0.0009,0.91797,0.91733,0.91801,20.92,0.00227,47937.6,19.42,20260906T213411Z
+inicializacion,compleja,al azar,5,0.9133,0.0023,0.91237,0.91194,0.91435,22.11,0.00378,47934.4,26.02,20260906T213411Z
+inicializacion,detallada,grilla informada,5,0.88423,0.00371,0.88428,0.88226,0.88513,29.521,0.00321,47937.6,30.35,20260906T213411Z
+inicializacion,detallada,al azar,5,0.87814,0.00503,0.87797,0.87314,0.88263,31.074,0.00442,47934.4,29.11,20260906T213411Z
+inicializacion,plana,grilla informada,5,0.96585,0.00299,0.96473,0.96364,0.96626,8.708,0.00323,47937.6,20.37,20260906T213411Z
+inicializacion,plana,al azar,5,0.93961,0.0049,0.94167,0.93933,0.94329,15.399,0.00499,47934.4,22.5,20260906T213411Z

@@ -53,17 +53,47 @@ def to_pixels(individual: Individual, width: int, height: int, precision: int = 
         yield vertices, [int(round(float(c) * 255)) for c in block[6:10]]
 
 
-def render(individual: Individual, size: int, background=WHITE) -> Image.Image:
-    return draw(to_pixels(individual, size, size), size, size, background)
+def render(individual: Individual, width: int, height: int | None = None,
+           *, background=WHITE) -> Image.Image:
+    """`height` omitido significa canvas cuadrado, que es el caso por defecto.
+
+    `background` es keyword-only a propósito: cuando el alto era implícito, el fondo
+    iba tercero, y al agregarlo se cuela silenciosamente como alto.
+    """
+    height = width if height is None else height
+    if not isinstance(height, int):
+        raise TypeError(f"height debe ser un entero, no {type(height).__name__} "
+                        f"({height!r}). ¿Estás pasando el fondo como tercer posicional?")
+    return draw(to_pixels(individual, width, height), width, height, background)
 
 
-def render_array(individual: Individual, size: int, background=WHITE) -> np.ndarray:
-    return np.asarray(render(individual, size, background), dtype=np.float64)
+def render_array(individual: Individual, width: int, height: int | None = None,
+                 *, background=WHITE) -> np.ndarray:
+    return np.asarray(render(individual, width, height, background=background),
+                      dtype=np.float64)
 
 
-def load_target(path: str, size: int, background=WHITE) -> np.ndarray:
-    """Carga el target, lo lleva a cuadrado `size` x `size` y aplana el alpha."""
-    img = Image.open(path).convert("RGBA").resize((size, size), Image.LANCZOS)
-    flat = Image.new("RGB", (size, size), tuple(background))
+def canvas_size(path: str, size: int, preserve_aspect: bool) -> tuple[int, int]:
+    """Tamaño de trabajo (ancho, alto). Con `preserve_aspect`, `size` es el lado LARGO."""
+    if not preserve_aspect:
+        return size, size
+    with Image.open(path) as img:
+        width, height = img.size
+    if width >= height:
+        return size, max(1, round(size * height / width))
+    return max(1, round(size * width / height)), size
+
+
+def load_target(path: str, size: int, background=WHITE, preserve_aspect: bool = False) -> np.ndarray:
+    """Carga el target, lo lleva al tamaño de trabajo y aplana el alpha.
+
+    Por defecto fuerza el cuadrado `size` x `size`. Con `preserve_aspect=True` respeta
+    la proporción original y `size` pasa a ser el lado largo: una imagen apaisada
+    aplastada a cuadrado se compara contra un target deformado, y el resultado no se
+    puede poner al lado del original.
+    """
+    width, height = canvas_size(path, size, preserve_aspect)
+    img = Image.open(path).convert("RGBA").resize((width, height), Image.LANCZOS)
+    flat = Image.new("RGB", (width, height), tuple(background))
     flat.paste(img, (0, 0), img)
     return np.asarray(flat, dtype=np.float64)

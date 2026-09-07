@@ -16,7 +16,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 from ga import artifact, engine
-from ga.render import load_target, render
+from ga.render import canvas_size, load_target, render
 
 ROOT = Path(__file__).parent
 
@@ -39,11 +39,12 @@ def write_snapshots(snapshots: list, out_dir: Path) -> None:
         frames.append(snapshots[-1])
 
     label_height = 22
-    strip = Image.new("RGB", (SNAPSHOT_SIZE * len(frames), SNAPSHOT_SIZE + label_height), "white")
+    width, height = frames[0][1].size
+    strip = Image.new("RGB", (width * len(frames), height + label_height), "white")
     draw = ImageDraw.Draw(strip)
     for i, (generation, image) in enumerate(frames):
-        strip.paste(image, (i * SNAPSHOT_SIZE, label_height))
-        draw.text((i * SNAPSHOT_SIZE + 6, 6), f"gen {generation}", fill="black")
+        strip.paste(image, (i * width, label_height))
+        draw.text((i * width + 6, 6), f"gen {generation}", fill="black")
     strip.save(out_dir / "snapshots.png")
 
 
@@ -124,7 +125,12 @@ def main() -> None:
     config = build_config(args)
     canvas = config.get("canvas_size", engine.DEFAULTS["canvas_size"])
     background = config.get("background", engine.DEFAULTS["background"])
-    target = load_target(str(ROOT / config["image"]), canvas, background)
+    aspect = config.get("preserve_aspect", engine.DEFAULTS["preserve_aspect"])
+    target = load_target(str(ROOT / config["image"]), canvas, background, aspect)
+    work_w, work_h = canvas_size(str(ROOT / config["image"]), canvas, aspect)
+    #: la salida conserva la misma proporción que el canvas de trabajo
+    out_w = args.render_size
+    out_h = max(1, round(args.render_size * work_h / work_w))
 
     name = Path(config["image"]).stem + (f"-{args.tag}" if args.tag else "")
     out_dir = ROOT / args.out / name
@@ -136,9 +142,12 @@ def main() -> None:
 
     def on_generation(record, best):
         if args.gif and record.generation % 25 == 0:
-            frames.append(render(best, 128, background))
+            frames.append(render(best, 128, max(1, round(128 * work_h / work_w)), background=background))
         if args.snapshots and (record.generation == 1 or record.generation % args.snapshots == 0):
-            snapshots.append((record.generation, render(best, SNAPSHOT_SIZE, background)))
+            snapshots.append((record.generation,
+                              render(best, SNAPSHOT_SIZE,
+                                     max(1, round(SNAPSHOT_SIZE * work_h / work_w)),
+                                     background=background)))
         if not args.quiet and (time.perf_counter() - last_print[0] > 0.5):
             last_print[0] = time.perf_counter()
             print(
@@ -158,8 +167,8 @@ def main() -> None:
     #    lo demás (el genotipo es independiente de la resolución)
     document = artifact.build(
         result.best,
-        args.render_size,
-        args.render_size,
+        out_w,
+        out_h,
         background,
         source_image=config["image"],
         fitness=result.best.fitness,
@@ -172,9 +181,9 @@ def main() -> None:
     best_image.save(out_dir / "best.png")
 
     # 3) comparación target vs. resultado
-    side = Image.new("RGB", (args.render_size * 2, args.render_size), "white")
-    side.paste(Image.open(ROOT / config["image"]).convert("RGB").resize((args.render_size,) * 2), (0, 0))
-    side.paste(best_image, (args.render_size, 0))
+    side = Image.new("RGB", (out_w * 2, out_h), "white")
+    side.paste(Image.open(ROOT / config["image"]).convert("RGB").resize((out_w, out_h)), (0, 0))
+    side.paste(best_image, (out_w, 0))
     side.save(out_dir / "comparison.png")
 
     # 4) métricas por generación
@@ -205,7 +214,10 @@ def main() -> None:
 
     if snapshots:
         if snapshots[-1][0] != result.generations:
-            snapshots.append((result.generations, render(result.best, SNAPSHOT_SIZE, background)))
+            snapshots.append((result.generations,
+                              render(result.best, SNAPSHOT_SIZE,
+                                     max(1, round(SNAPSHOT_SIZE * work_h / work_w)),
+                                     background=background)))
         write_snapshots(snapshots, out_dir)
         print(f"{len(snapshots)} capturas en {out_dir / 'snapshots'} + snapshots.png")
 

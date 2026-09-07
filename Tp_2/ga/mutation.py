@@ -10,6 +10,14 @@ probabilidad muta cada uno:
     multigen    M genes elegidos al azar, cada uno con probabilidad pm
     uniforme    los N genes, cada uno con probabilidad pm  (pm constante)
     no uniforme igual que uniforme, pero pm y sigma decrecen con las generaciones
+
+El quinto método, `zorder`, no perturba valores: intercambia dos triángulos de
+lugar. Es el único que se mueve en la dimensión del orden de pintado. No entra al
+barrido —es un extra documentado, no un eje—, pero está registrado en METHODS como
+cualquier otro. Ver `zorder`.
+
+Además hay una perilla ORTOGONAL, `mutation_zorder_rate`, que aplica ese mismo swap
+encima de cualquiera de los otros métodos y está apagada por defecto. Ver `_swap_zorder`.
 """
 
 from __future__ import annotations
@@ -17,7 +25,7 @@ from __future__ import annotations
 import numpy as np
 
 from .context import Context
-from .individual import Individual
+from .individual import GENES_PER_TRIANGLE, Individual
 
 
 def _perturb(individual: Individual, idx: np.ndarray, sigma: float, ctx: Context) -> None:
@@ -67,15 +75,78 @@ def non_uniform(individual: Individual, ctx: Context) -> Individual:
     return individual
 
 
+def _swap_two(individual: Individual, ctx: Context) -> bool:
+    """Intercambia dos triángulos enteros de lugar. Devuelve si hubo swap.
+
+    Trabaja sobre bloques de `GENES_PER_TRIANGLE` genes, así que nunca parte un
+    triángulo por la mitad: mueve el triángulo entero, con sus vértices y su color.
+    """
+    n = len(individual.genes) // GENES_PER_TRIANGLE
+    if n < 2:
+        return False
+    bloques = individual.genes.reshape(n, GENES_PER_TRIANGLE)
+    i, j = ctx.rng.choice(n, size=2, replace=False)
+    bloques[[i, j]] = bloques[[j, i]]
+    individual.fitness = None  # cambió el orden de pintado: hay que reevaluar
+    return True
+
+
+def zorder(individual: Individual, ctx: Context) -> Individual:
+    """Mutación de z-order: intercambia dos triángulos de lugar en la lista.
+
+    El locus de nuestro cromosoma **es** el z-order: qué triángulo tapa a cuál
+    depende sólo de la posición en la lista. Los otros cuatro métodos perturban
+    valores dentro de un locus fijo, así que ninguno puede reordenar. Y es
+    justamente el eje del problema de *competing conventions*: dos individuos buenos
+    pueden codificar imágenes parecidas con los triángulos en distinto orden, y ahí
+    la cruza los destruye. Este operador es el único que se mueve en esa dimensión.
+
+    A diferencia de los otros cuatro no perturba ningún valor, así que usado solo
+    no puede refinar una imagen. Para combinarlo con un método de perturbación está
+    la perilla `mutation_zorder_rate`, que aplica este mismo swap encima de cualquiera
+    de ellos.
+    """
+    _swap_two(individual, ctx)
+    return individual
+
+
+def _swap_zorder(individual: Individual, ctx: Context) -> Individual:
+    """Aplica el swap de z-order con probabilidad `mutation_zorder_rate`.
+
+    Es una perilla ORTOGONAL: se aplica encima del método de mutación que se haya
+    elegido. Por defecto vale 0.0, así que **no cambia el comportamiento de ninguna
+    corrida que no la pida** — el barrido del análisis corre con ella apagada.
+    """
+    rate = ctx.params.get("mutation_zorder_rate", 0.0)
+    if rate <= 0.0 or ctx.rng.random() >= rate:
+        return individual
+    _swap_two(individual, ctx)
+    return individual
+
+
 METHODS = {
     "gene": gene,
     "multigene": multigene,
     "uniform": uniform,
     "non_uniform": non_uniform,
+    "zorder": zorder,
 }
 
 
 def get(name: str):
+    """Devuelve el método pedido, envuelto con la perilla de z-order.
+
+    El envoltorio es un no-op mientras `mutation_zorder_rate` sea 0 (el default),
+    así que agregarlo no altera ningún resultado ya medido. Sobre `zorder` no se
+    envuelve nada: la perilla haría el mismo swap dos veces, que puede deshacerlo.
+    """
     if name not in METHODS:
         raise ValueError(f"mutación '{name}' no implementada. Disponibles: {sorted(METHODS)}")
-    return METHODS[name]
+    metodo = METHODS[name]
+    if metodo is zorder:
+        return metodo
+
+    def con_zorder(individual: Individual, ctx: Context) -> Individual:
+        return _swap_zorder(metodo(individual, ctx), ctx)
+
+    return con_zorder

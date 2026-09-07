@@ -99,6 +99,10 @@ def tournament_prob(population: list[Individual], k: int, ctx: Context) -> list[
     """Torneo probabilístico: 2 al azar; con probabilidad Th gana el mejor y con
     1-Th el peor. Th < 1 deja pasar individuos malos y preserva diversidad."""
     threshold = ctx.params.get("tournament", {}).get("threshold", 0.75)
+    # la cátedra acota Th a [0.5, 1]: por debajo de 0.5 el método se invierte
+    # (ganaría el menos apto) y deja de ser un torneo
+    if not 0.5 <= threshold <= 1.0:
+        raise ValueError(f"tournament.threshold debe estar en [0.5, 1], no {threshold}")
     chosen = []
     for _ in range(k):
         i, j = ctx.rng.choice(len(population), size=2, replace=False)

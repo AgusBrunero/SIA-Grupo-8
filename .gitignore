@@ -14,9 +14,12 @@ Tp_2/output/
 
 /howto
 
-Tp_2/analysis/results/*.csv
-Tp_2/analysis/figures/*.png
+# los resultados y figuras del TP2 SI se versionan (igual que el TP1):
+# son el respaldo de los numeros del README y de la presentacion.
+Tp_2/analysis/results_quick/
 
-# presentación: se queda local, no se versiona
+# presentación: se arma por fuera, no se versiona
+Tp_2/docs/presentacion/
 Tp_2/docs/presentacion*.html
 Tp_2/docs/build_presentacion.py
+Tp_2/watch_noche.py

@@ -22,12 +22,12 @@ MAX_CHANNEL = 255.0
 class FitnessEvaluator:
     def __init__(self, target: np.ndarray, background=(255, 255, 255)):
         self.target = target
-        self.size = target.shape[0]
+        self.height, self.width = target.shape[:2]
         self.background = background
         self.evaluations = 0
 
     def rmse(self, individual: Individual) -> float:
-        rendered = render_array(individual, self.size, self.background)
+        rendered = render_array(individual, self.width, self.height, background=self.background)
         return float(np.sqrt(np.mean((rendered - self.target) ** 2)))
 
     def __call__(self, individual: Individual) -> float:

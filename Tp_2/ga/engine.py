@@ -29,6 +29,7 @@ DEFAULTS = {
     "triangles": 20,
     "initialization": "random",  # "random" | "grid" (muestrea colores del target)
     "canvas_size": 64,
+    "preserve_aspect": False,
     "background": [255, 255, 255],
     "population_size": 50,
     "offspring_size": 50,
@@ -46,6 +47,9 @@ DEFAULTS = {
     "mutation_sigma": 0.1,
     "mutation_genes": None,
     "mutation_decay_floor": 0.1,
+    # perilla ortogonal: intercambia dos triángulos de lugar (z-order).
+    # Apagada por defecto; ver ga/mutation.py::_swap_zorder
+    "mutation_zorder_rate": 0.0,
     "replacement": "additive",
     "stop": stopping.DEFAULTS,
     "seed": None,
@@ -55,7 +59,10 @@ DEFAULTS = {
 @dataclass
 class GenerationRecord:
     generation: int
+    #: mejor fitness de la población ACTUAL (con supervivencia exclusiva puede bajar)
     best_fitness: float
+    #: mejor fitness encontrado hasta ahora, acumulado: es monótono por construcción
+    best_global_fitness: float
     mean_fitness: float
     std_fitness: float
     diversity: float
@@ -63,6 +70,11 @@ class GenerationRecord:
     stalled: int
     #: generaciones seguidas sin recambio genético (criterio de estructura)
     structure_stable: int
+    #: fracción de la población cuyo genoma no cambió respecto de la generación anterior.
+    #: Es la magnitud que mide el criterio de estructura; `structure_stable` sólo cuenta
+    #: cuántas generaciones seguidas estuvo por encima del umbral. Registrarla permite
+    #: analizar el criterio sin volver a correr.
+    share_unchanged: float
     evaluations: int
     elapsed: float
 
@@ -145,11 +157,13 @@ def run(config: dict, target: np.ndarray, on_generation=None) -> Result:
         record = GenerationRecord(
             generation=generation,
             best_fitness=float(fitnesses.max()),
+            best_global_fitness=float(result.best.fitness),
             mean_fitness=float(fitnesses.mean()),
             std_fitness=float(fitnesses.std()),
             diversity=_diversity(population),
             stalled=stalled,
             structure_stable=structure_stable,
+            share_unchanged=float(shared),
             evaluations=evaluator.evaluations,
             elapsed=time.perf_counter() - started,
         )

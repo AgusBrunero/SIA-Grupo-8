@@ -100,6 +100,7 @@ python main.py --rebuild output/japan/triangles.json
   "image": "images/japan.png",
   "triangles": 20,              // parámetro del problema
   "canvas_size": 64,            // resolución a la que se evalúa el fitness
+  "preserve_aspect": false,     // true = canvas_size es el lado LARGO y se respeta la proporción
   "background": [255, 255, 255],
 
   "population_size": 50,        // N
@@ -121,6 +122,7 @@ python main.py --rebuild output/japan/triangles.json
   "mutation_sigma": 0.15,
   "mutation_genes": null,                // M para multigen (null = al azar)
   "mutation_decay_floor": 0.1,           // piso del decaimiento en no uniforme
+  "mutation_zorder_rate": 0.0,           // swap de z-order; 0 = apagado (default)
 
   "replacement": "additive",
 
@@ -142,10 +144,19 @@ python main.py --rebuild output/japan/triangles.json
 |---|---|
 | `selection_parents` / `selection_survivors` | `elite`, `roulette`, `universal`, `boltzmann`, `ranking`, `tournament_det`, `tournament_prob`, o `{method_a, method_b, a_ratio}` |
 | `crossover` | `one_point`, `two_point`, `uniform`, `annular`, `spatial` (parte por posición en el canvas, no por índice) |
-| `mutation` | `gene`, `multigene`, `uniform`, `non_uniform` |
+| `mutation` | `gene`, `multigene`, `uniform`, `non_uniform`, `zorder` |
+| `mutation_zorder_rate` | Perilla **ortogonal**, apagada por defecto (`0.0`): con probabilidad p aplica el swap de `zorder` **encima** del método elegido. Se aplica sobre cualquiera de los cuatro que perturban valores |
 | `replacement` | `additive`, `exclusive` |
 | `stop` | `max_generations`, `max_seconds`, `target_fitness`, `stall_generations` (contenido), `structure_generations` (estructura) |
 | `initialization` | `random`, `grid` (un triángulo por celda, con el color que tiene el target ahí) |
+
+> **`zorder` es un extra, no un eje del barrido.** Los cuatro primeros métodos perturban
+> valores dentro de un locus fijo; `zorder` no toca ningún valor, sólo intercambia dos
+> triángulos de lugar. Es el único operador que se mueve en la dimensión del orden de
+> pintado, que es donde vive el problema de *competing conventions* que la cruza sufre.
+> Usado solo no puede refinar una imagen, así que para combinarlo con perturbación está
+> la perilla. **Ninguno de los dos entra al barrido**: las 945 corridas se midieron con
+> `mutation_zorder_rate = 0.0` y sin `mutation: zorder`.
 
 ## Diseño
 
@@ -173,28 +184,62 @@ ga/
 └── engine.py        # loop generacional + métricas
 ```
 
-> (!) El enunciado no define cuál de las dos supervivencias es la "aditiva" y cuál
-> la "exclusiva". Asumimos: **aditiva** = compiten los N padres con los K hijos y
-> sobreviven N del pool N+K; **exclusiva** = los K hijos desplazan a los padres
-> (si K < N se completa con padres). Consultado a la cátedra; si fuera al revés,
-> se intercambian las claves de `METHODS` en `ga/replacement.py`.
+> **Supervivencia**, según las láminas 45 y 46 del deck de AG: **aditiva** = compiten
+> los N padres con los K hijos y sobreviven N del pool N+K; **exclusiva** = con K > N se
+> seleccionan N de los K hijos exclusivamente, y con K ≤ N pasan los K hijos más N−K
+> individuos de la generación actual. Las definiciones textuales están citadas en el
+> docstring de `ga/replacement.py`.
 
 ## Experimentos
 
 ```bash
-python analysis/run_experiments.py            # barrido completo
-python analysis/run_experiments.py selection  # un solo eje
-python analysis/run_experiments.py --quick    # grilla reducida, para verificar
-python analysis/plot_results.py               # figuras a partir de los CSV
+python analysis/run_experiments.py --clean     # barrido completo, tanda limpia (~2 min)
+python analysis/run_experiments.py selection   # un solo eje
+python analysis/run_experiments.py --quick     # grilla reducida, escribe en results_quick/
+python analysis/plot_results.py                # figuras a partir de los CSV
 ```
 
 - Grilla: `analysis/experiments.json` (config base + un eje por experimento + semillas)
 - Resultados: `analysis/results/<eje>.csv` (una fila por generación, variante y semilla)
   y `analysis/results/summary.csv` (una fila por variante)
-- Figuras: `analysis/figures/<eje>.png` (convergencia y diversidad, promedio ± desvío)
+- **Procedencia**: `analysis/results/manifest.json` — el commit con el que se corrió, la
+  config base ya resuelta contra los defaults del motor, y para cada variante sus
+  overrides y su configuración completa
+- Figuras: `analysis/figures/<eje>_<target>.png`
 
-Cada experimento varía **un solo eje** sobre la misma base y repite con varias
-semillas, para reportar promedio y desvío en vez de una corrida suelta.
+Cada experimento varía **un solo eje** sobre la misma base y repite con varias semillas,
+para reportar promedio, desvío y rango intercuartil en vez de una corrida suelta.
+
+**Los resultados y las figuras se versionan** (igual que en el TP1): son el respaldo de
+los números de este README y de la presentación. `--quick` escribe en `results_quick/`
+para no pisarlos, y `--clean` borra la tanda anterior antes de correr — sin eso,
+`summary.csv` puede mezclar corridas de escalas distintas.
+
+### Caso final
+
+```bash
+python analysis/caso_final.py    # La noche estrellada (~20 min)
+```
+
+Cierre del análisis sobre la imagen que la cátedra mostró como ejemplo. La
+configuración **no se barre**: se elige con lo que midieron los ocho ejes, y el informe
+dice de qué eje sale cada decisión. Lo único que se barre es la cantidad de triángulos,
+que es un parámetro del problema y depende de la imagen.
+
+### Las figuras traen su propio contexto
+
+Cada PNG es autocontenido: a la izquierda lleva la miniatura del target y el bloque de
+hiperparámetros que **no** variaron en ese experimento, más el batch y el commit. El
+rótulo se genera desde `manifest.json`, no está escrito a mano: si cambia la
+configuración, la figura cambia sola.
+
+Tres paneles por figura:
+
+| Panel | Qué muestra |
+|---|---|
+| Convergencia | Mejor fitness por generación, media entre semillas con banda ±σ. **Línea sólida**: mejor global acumulado (monótono). **Punteada**: mejor de la población actual — con supervivencia exclusiva puede bajar, porque los hijos desplazan a los padres |
+| Diversidad | Diversidad genética por generación, en escala log. Es el panel que explica *por qué* una configuración se estanca |
+| Fitness final | Boxplot por variante, con los puntos crudos de cada semilla encima. Con 3 semillas, si las cajas se solapan no hay ganador |
 
 ## Tests
 
@@ -204,88 +249,161 @@ python -m unittest test_ga.py -v
 
 ## Resultados
 
-Con la configuración de `config.json` (inicialización en grilla, torneo determinístico
-M=4, cruza uniforme por triángulo, mutación multigen pm=0.1, supervivencia aditiva,
-N=K=50, 500 generaciones, canvas 64px):
+**Todos los números de esta sección salen del batch `20260906T213411Z`**
+(945 corridas · 12 ejes · 3 imágenes · 5 semillas · 800 generaciones).
+Los datos crudos están en `analysis/results/<eje>.csv`, el agregado en
+`analysis/results/summary.csv`, y `analysis/results/manifest.json` guarda la configuración
+exacta con la que se corrió cada variante. El análisis completo, con figuras y lectura, está
+en [`analysis/informe/`](analysis/informe/README.md).
 
-| Target | Triángulos | Fitness | RMSE |
+### Cómo leer estos números
+
+Con 5 semillas, una diferencia de milésimas no es un resultado. El criterio en todo el
+análisis es el **rango intercuartil**: si el del primero se solapa con el del segundo, la
+conclusión es que **empatan**, y así queda escrito. La última columna dice en qué imágenes el
+ganador está realmente separado.
+
+### Ganador por eje
+
+| Eje | Gana en `plana` | Gana en `detallada` | Gana en `compleja` | ¿Separado del 2º? |
+|---|---|---|---|---|
+| Selección de padres | ranking | torneo det | torneo det | **en ninguna** |
+| Presión de selección | torneo M=30 | torneo M=10 | torneo M=30 | plana |
+| Supervivencia × K | exclusiva K=2N | exclusiva K=2N | aditiva K=2N | plana |
+| Método de cruza | uniforme | un punto | uniforme | plana |
+| Granularidad de cruza | corte por componente | corte por triangulo | corte por triangulo | **en ninguna** |
+| Probabilidad de cruza | pc=1.00 | pc=0.85 | pc=0.50 | plana |
+| Método de mutación | gen (carga 1) | uniforme (carga 4) | gen (carga 1) | plana |
+| Carga de mutación | carga 2 | carga 4 | carga 2 | plana |
+| Magnitud σ | sigma=0.20 | sigma=0.10 | sigma=0.10 | plana |
+| Tamaño de población | N=K=120 | N=K=120 | N=K=120 | plana, compleja |
+| Cantidad de triángulos | 25 tri - pm fijo | 50 tri - pm fijo | 100 tri - carga fija | **en ninguna** |
+| Inicialización | grilla informada | grilla informada | grilla informada | plana, compleja |
+
+**De 12 ejes, el ganador cambia entre imágenes en 10** — pero sólo en **6** ese cambio tiene
+evidencia estadística, en el sentido de que el ganador de una imagen queda separado *por
+debajo* en otra: cruza, presión, σ, supervivencia, tasa de cruza y triángulos.
+
+### Cuánto importa cada eje
+
+Tamaño del efecto = fitness del mejor menos el del peor, por imagen. El normalizado divide
+por el error remanente `(1 − mejor_fitness)`, para que sea comparable entre imágenes que
+alcanzan distinta calidad.
+
+| Eje | plana | detallada | compleja | Normalizado (plana) |
+|---|---|---|---|---|
+| Magnitud σ | 0.0508 | 0.0259 | 0.0163 | 1.022 |
+| Carga de mutación | 0.0511 | 0.0337 | 0.0222 | 0.950 |
+| Inicialización | 0.0262 | 0.0061 | 0.0047 | 0.768 |
+| Supervivencia × K | 0.0281 | 0.0185 | 0.0087 | 0.648 |
+| Presión de selección | 0.0234 | 0.0120 | 0.0057 | 0.530 |
+| Cantidad de triángulos | 0.0277 | 0.0313 | 0.0218 | 0.468 |
+| Probabilidad de cruza | 0.0187 | 0.0137 | 0.0050 | 0.378 |
+| Tamaño de población | 0.0166 | 0.0191 | 0.0073 | 0.326 |
+| Método de mutación | 0.0179 | 0.0112 | 0.0058 | 0.318 |
+| Método de cruza | 0.0143 | 0.0044 | 0.0029 | 0.310 |
+| Selección de padres | 0.0086 | 0.0098 | 0.0059 | 0.145 |
+| Granularidad de cruza | 0.0032 | 0.0028 | 0.0008 | 0.069 |
+
+**La carga de mutación y σ son los dos ejes que más mueven la aguja** (0.051 en la imagen
+plana, los mayores del barrido). La granularidad de la cruza es el que menos (0.003), y el
+método de selección —los seis que el enunciado obliga a implementar— queda entre los últimos.
+
+### Los hallazgos
+
+**1 · Cuanta más superficie plana tiene la imagen, más importa qué operador elijas.**
+El efecto medio de los 12 ejes cae de **0.0239** (plana) a **0.0157** (detallada) y **0.0089**
+(compleja); normalizado por error remanente, de **0.494** a **0.131** y **0.104**. En una
+imagen con regiones grandes y uniformes hay margen para que la búsqueda haga diferencia; en
+una que es textura en todos lados, todas las configuraciones convergen a un resultado
+parecido y la elección deja de pesar.
+
+> No es un efecto de "estar más lejos de la asíntota": medido sobre las 945 corridas, la
+> imagen plana es la que **más** sigue mejorando en las últimas 100 generaciones (0.383%
+> contra 0.255% y 0.168%). La que menos margen tiene es justamente la que menos separa.
+
+**2 · La ventaja de las poblaciones grandes es presupuesto, no método.** Por generación,
+N=120 gana en las tres imágenes de forma monótona. A igual presupuesto de evaluaciones el
+orden **se invierte por completo**, también monótono y también en las tres. N=120 necesita
+entre 3 y 4 veces más evaluaciones sólo para *empatar* lo que N=15 logra con su presupuesto,
+y lo supera recién con 8×.
+
+**3 · Los ganadores por eje no componen.** Reemplazando un operador por vez desde la
+configuración base, las diez mejoras individuales suman **+0.0414**; aplicadas todas juntas
+rinden **+0.0164**. Se evapora el 60%. Un barrido de un factor por vez sirve para *entender*
+qué hace cada operador, no para *elegir* una configuración.
+
+**4 · El operador que más aporta no es un operador del algoritmo genético.** En ese mismo
+experimento, la **inicialización informada** aporta +0.0123, el 75% del efecto conjunto; los
+otros nueve operadores ganadores, sumados, aportan menos que ella. Y la selección de padres
+aporta exactamente **+0.0000**. La grilla informada es conocimiento del target inyectado
+*antes* de que el algoritmo arranque — por eso no está en la configuración base de ningún eje.
+
+**5 · Un hiperparámetro medido a una escala no se copia a otra: se traduce.** `pm` es una
+probabilidad por gen, así que al alargar el cromosoma el mismo `pm` multiplica la carga de
+mutación. En el caso final, mantener constante la **carga** en vez del `pm` gana en las cuatro
+cantidades de triángulos probadas, y la ventaja crece con el largo del cromosoma.
+
+**6 · El ganador de un eje puede no ser transferible.** El método `gen` gana en dos de las
+tres imágenes con 50 triángulos, pero muta **un solo gen** por individuo: su carga está
+acotada a 1 sea cual sea el largo del cromosoma. Con 800 triángulos es estructuralmente
+incapaz de competir.
+
+### Criterios de corte
+
+Están los cinco implementados, y la elección está medida en vez de argumentada: sobre las
+945 corridas se reconstruye, para cada criterio, en qué generación habría disparado
+y cuánto fitness habría costado (ver [`13-criterios-corte`](analysis/informe/13-criterios-corte/informe.md)).
+
+| Criterio | ¿Dispara? | Generación (mediana) | Fitness perdido |
 |---|---|---|---|
-| `images/germany.png` | 10 | 0.966 | 8.6 |
-| `images/japan.png` | 20 | 0.933 | 17.0 |
-| `images/cross.png` | 15 | 0.911 | 22.7 |
+| contenido G=20 | 5% de las corridas | 441 | 0.0083 |
+| contenido G=50 | 2% | 574 | 0.0045 |
+| estructura G=20 | 0.2% | 602 | 0.0002 |
+| **estructura G=50** | **nunca** | — | — |
+| entorno fitness ≥ 0.90 | 64% | 322 | 0.0251 |
 
-Esa configuración se eligió midiendo **configuraciones completas** sobre las tres
-imágenes, no combinando el ganador de cada eje: al hacer eso último el promedio cae de
-0.939 a 0.890 (ver el hallazgo 3).
+**Los criterios de contenido y estructura casi no disparan, y hay una razón de
+representación:** los genes son reales y el criterio de estructura compara genomas por
+igualdad exacta de bytes. Con mutación gaussiana la población nunca se congela — en un AG
+binario dos individuos convergen a cadenas idénticas, acá convergen a cadenas *parecidas*.
+El único operativo es el entorno a la solución, y su valor no es ahorrar cómputo sino permitir
+comparar métodos a calidad igualada.
 
-### Qué salió de los experimentos
+### Caso final: La noche estrellada
 
-Cada eje se corrió con 3 semillas, 300 generaciones, canvas 48px, N=K=40, y **sobre dos
-tipos de imagen**: una plana (bandera de Japón) y una con detalle fino (Pikachu). Los
-números están en `analysis/results/summary.csv`.
+La imagen que la cátedra mostró como ejemplo. Los operadores **se heredan** del barrido (el
+ganador de cada eje, promediado entre las tres imágenes); se barre sólo lo que depende del
+tamaño del problema. Ver [`15-caso-final`](analysis/informe/15-caso-final/informe.md).
 
-| Eje | Imagen plana | Imagen detallada |
-|---|---|---|
-| **Inicialización** | grilla **0.931** vs azar 0.899 | grilla **0.859** vs azar 0.842 |
-| **Selección** | torneo det **0.899** > ranking 0.892 > ruleta 0.885 > Boltzmann 0.884 > universal 0.883 > elite 0.881 > torneo prob 0.880 | ranking **0.842** ≈ torneo det 0.842 > ruleta 0.838 > Boltzmann 0.836 > torneo prob 0.835 > elite 0.833 > universal 0.831 |
-| **Supervivencia** | exclusiva K=2N **0.919** ≈ aditiva K=2N 0.914 > exclusiva K=N 0.901 ≈ aditiva K=N 0.899 | aditiva K=2N **0.859** ≈ exclusiva K=2N 0.857 > aditiva K=N 0.842 > exclusiva K=N 0.840 |
-| **Cruza** | uniforme **0.907** > dos puntos 0.899 ≈ un punto 0.899 > anular 0.896 ≈ espacial 0.896 | uniforme **0.848** > anular 0.847 > dos puntos 0.846 > un punto 0.842 > espacial 0.841 |
-| **Granularidad** | por triángulo **0.913** > por gen 0.907 | por triángulo **0.854** > por gen 0.848 |
-| **Mutación** | multigen **0.914** > uniforme 0.913 > gen 0.905 > no uniforme 0.902 | multigen **0.853** > uniforme 0.851 > gen 0.851 > no uniforme 0.850 |
-| **Tasa de mutación** | pm=0.02 **0.913** > 0.05 (0.911) > 0.005 (0.907) ≫ 0.2 (0.865) | pm=0.005 **0.853** > 0.02 (0.851) > 0.05 (0.848) ≫ 0.2 (0.836) |
-| **Triángulos** | 10 → 0.904, 25 → 0.895, 50 → 0.859, 100 → 0.800 | 10 → 0.846, 25 → 0.844, 50 → 0.821, 100 → 0.780 |
+| | |
+|---|---|
+| Configuración | 800 triángulos, régimen `carga fija` (pm = 0.00025) |
+| Resultado | **fitness 0.9442** (RMSE 14.23), 3000 generaciones, 240,080 evaluaciones, 804 s |
+| Compresión | 604 KB (JPEG original) → 80 KB (`triangles.json`) = **7.6×** |
 
-### Hallazgos
+### Una corrida de ejemplo
 
-**1 · La inicialización informada es la mejora más grande de todas.** Arrancar de una
-grilla con los colores que el target tiene en cada celda gana en las dos imágenes, y no
-es una ventaja inicial que se diluya: se sostiene hasta el final y además baja el desvío
-entre semillas. Ninguna elección de operador mueve tanto la aguja.
+`config.json` trae una configuración de demostración —no es la ganadora de ningún eje, para
+eso está el informe— pensada para que una corrida termine en segundos:
 
-**2 · La supervivencia exclusiva no es mala; lo malo es una combinación.** Con selección
-de padres por elite y `k = N` —donde elite devuelve a toda la población— más supervivencia
-exclusiva con K=N, el algoritmo se queda sin ninguna presión de selección y se vuelve una
-caminata aleatoria. Ninguna de las dos piezas sola rompe nada: medido con torneo en los
-padres, la exclusiva K=N rinde igual que la aditiva K=N. Lo que decide es **K**, no la
-estrategia: con K=2N las dos son las mejores.
-
-**3 · Los ganadores por eje no componen, y lo comprobamos dos veces.** Armar la
-configuración con el mejor de cada experimento da 0.890 de promedio; la mejor
-configuración completa da 0.939. La diferencia entre ambas es **sólo la tasa de
-mutación** (0.02 contra 0.1): la tasa óptima depende de la escala a la que se corre, y
-optimizarla en un experimento de 300 generaciones no la transfiere a uno de 500.
-
-**4 · La granularidad de la cruza sí importa.** Cortar por triángulo gana en las dos
-imágenes. En una tanda anterior nos había dado empate, pero esa tanda usaba una base sin
-presión de selección en los padres; con una base sana la diferencia aparece.
-
-**5 · El óptimo depende del tipo de imagen.** La tasa de mutación ideal es 0.02 en la
-imagen plana y 0.005 en la detallada. Correr todo sobre un solo target habría escondido
-esto.
-
-**6 · La cruza espacial depende de la escala.** Partir por posición en el canvas en vez
-de por índice sale **última** en las dos imágenes a nuestra escala de experimentos (20
-triángulos), pero a 100 triángulos sube al **segundo puesto** en la imagen plana. Tiene
-sentido: con pocos triángulos una partición espacial casi no tiene qué repartir. No es
-un resultado negativo limpio, es un operador que necesita densidad para servir.
+```bash
+python main.py                    # images/japan.png, 20 triángulos, 500 generaciones
+# fitness 0.9333 (RMSE 17.01) | 23415 evaluaciones | corte: max_generations
+```
 
 ## ¿Los hallazgos aguantan a otra escala?
 
-Toda la grilla de arriba corre chico a propósito (20 triángulos, población 40, 300
-generaciones) para poder barrer muchos ejes con varias semillas. `analysis/check_scale.py`
-re-corre los tres ejes más frágiles a la escala de una corrida real —100 triángulos,
-población 100, 1500 generaciones— sobre las dos imágenes:
+La pregunta está respondida por dos vías, y la respuesta corta es **parcialmente**:
 
-```bash
-python analysis/check_scale.py    # ~10-15 min
-```
+- El barrido ya corre a una escala razonable (50 triángulos, N=K=60, 800 generaciones), y el
+  eje [`11-triangulos`](analysis/informe/11-triangulos/informe.md) lo estira de 10 a 200
+  triángulos dentro del mismo barrido.
+- El [caso final](analysis/informe/15-caso-final/informe.md) lleva la configuración heredada a
+  100–800 triángulos sobre una imagen que el barrido nunca vio, y ahí aparece el límite:
+  **la carga de mutación no se transfiere copiando `pm`**, y el método `gen` —ganador en dos
+  de las tres imágenes a 50 triángulos— es estructuralmente incapaz de escalar.
 
-| | Aguanta | No aguanta |
-|---|---|---|
-| **Inicialización** | grilla gana en las dos imágenes y en las dos escalas | |
-| **Selección** | torneo determinístico gana en las dos imágenes y en las dos escalas; un punto es siempre la peor cruza | ranking cae de 2º a 3º/4º al subir de escala, y ruleta sube |
-| **Cruza** | | la espacial pasa de última a 2ª en la imagen plana (ver hallazgo 6) |
+O sea: los hallazgos sobre *qué operador* elegir aguantan; los hallazgos sobre *con qué
+número* configurarlo, no — hay que traducirlos.
 
-Sólo dos semillas por celda, así que las diferencias chicas están dentro del ruido. Lo
-que se sostiene con claridad es lo primero: **la inicialización informada y el torneo
-determinístico ganan en todos los escenarios que probamos.**

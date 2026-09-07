@@ -1,0 +1,65 @@
+{
+  "triangles": 800,
+  "regimen": "carga fija",
+  "mutation_rate": 0.00025,
+  "generations": 3000,
+  "fitness": 0.9441878170150609,
+  "rmse": 14.232106661159461,
+  "evaluations": 240080,
+  "seconds": 803.9,
+  "stop_reason": "max_generations",
+  "canvas": [
+    96,
+    76
+  ],
+  "salida": [
+    900,
+    712
+  ],
+  "config": {
+    "triangles": 800,
+    "initialization": "grid",
+    "canvas_size": 96,
+    "preserve_aspect": true,
+    "background": [
+      255,
+      255,
+      255
+    ],
+    "population_size": 80,
+    "offspring_size": 80,
+    "selection_parents": "tournament_det",
+    "selection_survivors": "elite",
+    "tournament": {
+      "m": 4,
+      "threshold": 0.75
+    },
+    "boltzmann": {
+      "t0": 100.0,
+      "tmin": 1.0,
+      "k": 0.01
+    },
+    "crossover": "uniform",
+    "crossover_rate": 1.0,
+    "crossover_granularity": "triangle",
+    "crossover_uniform_p": 0.5,
+    "mutation": "uniform",
+    "mutation_rate": 0.00025,
+    "mutation_sigma": 0.2,
+    "mutation_genes": null,
+    "mutation_decay_floor": 0.1,
+    "replacement": "exclusive",
+    "stop": {
+      "max_generations": 3000,
+      "max_seconds": null,
+      "target_fitness": null,
+      "stall_generations": null,
+      "structure_generations": null,
+      "structure_epsilon": 0.01
+    },
+    "seed": 1,
+    "image": "images/noche_estrellada.jpg"
+  },
+  "bytes_json": 81441,
+  "bytes_original": 618432
+}

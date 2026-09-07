@@ -148,6 +148,11 @@ integrantes** una vez cerrado el step 4 (todos comparten las mismas interfaces).
 - Crear el esqueleto de carpetas.
 - Elegir 2-3 imágenes target simples y guardarlas en `images/` (ej.: bandera de Japón —
   trivial; bandera de Argentina o Alemania — franjas; un emoji — más difícil).
+  > Nota posterior: las tres que quedaron (`plana`, `detallada`, `compleja`) **no** se
+  > eligieron ni se presentan por dificultad, sino por **composición** — cuánta superficie
+  > plana tienen contra cuánta textura. Medido por error remanente, `detallada` (0.116)
+  > resulta más difícil que `compleja` (0.082), así que ordenarlas por dificultad sería
+  > falso. Ver [`analysis/informe/README.md`](../analysis/informe/README.md#las-tres-imágenes).
 - **DoD**: `python main.py --help` corre.
 
 ### Step 1 — Representación y render  ✅

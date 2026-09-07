@@ -76,7 +76,8 @@ def annular(a: Individual, b: Individual, ctx: Context):
     if n < 2:
         return a.copy(), b.copy()
     start = int(ctx.rng.integers(0, n))
-    length = int(ctx.rng.integers(0, n // 2 + 1))
+    # la cátedra define L en [0, ceil(S/2)]; con n impar, n//2 se queda uno corto
+    length = int(ctx.rng.integers(0, -(-n // 2) + 1))
     mask = np.zeros(n, dtype=bool)
     mask[(start + np.arange(length)) % n] = True
     return _swap(a, b, mask, _unit_size(ctx))

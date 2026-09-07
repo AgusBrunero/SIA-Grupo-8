@@ -1,0 +1,196 @@
+configuracion,target,seed,fitness,segundos
+base,plana,1,0.9435041266198129,21.87
+base,plana,2,0.9393289623018075,22.72
+base,plana,3,0.9416745303296981,21.52
+base,plana,4,0.9302689527438104,21.85
+base,plana,5,0.943288761200613,23.13
+base,detallada,1,0.8721297382991097,22.61
+base,detallada,2,0.8826331109991126,23.23
+base,detallada,3,0.8848455881657376,21.37
+base,detallada,4,0.8731385298822288,23.59
+base,detallada,5,0.8779670742606044,24.74
+base,compleja,1,0.9119360492877105,24.19
+base,compleja,2,0.9105943857914243,23.6
+base,compleja,3,0.9143526844104151,25.02
+base,compleja,4,0.917225177499006,24.52
+base,compleja,5,0.912369377198527,24.68
+compuesta (mejor de cada eje),plana,1,0.9726091289671873,43.94
+compuesta (mejor de cada eje),plana,2,0.9709086721287169,44.47
+compuesta (mejor de cada eje),plana,3,0.9746879407867435,44.33
+compuesta (mejor de cada eje),plana,4,0.9719056539600622,45.07
+compuesta (mejor de cada eje),plana,5,0.9680203603838696,44.87
+compuesta (mejor de cada eje),detallada,1,0.8861494874052418,44.69
+compuesta (mejor de cada eje),detallada,2,0.8805611526088283,43.75
+compuesta (mejor de cada eje),detallada,3,0.8910614289311812,45.08
+compuesta (mejor de cada eje),detallada,4,0.892811084118532,43.38
+compuesta (mejor de cada eje),detallada,5,0.8912033677638039,43.09
+compuesta (mejor de cada eje),compleja,1,0.9212285602740486,43.92
+compuesta (mejor de cada eje),compleja,2,0.9209328381513302,44.56
+compuesta (mejor de cada eje),compleja,3,0.9207018967241666,43.29
+compuesta (mejor de cada eje),compleja,4,0.9201840895188895,44.24
+compuesta (mejor de cada eje),compleja,5,0.9180238924551765,43.37
+inversa (peor de cada eje),plana,1,0.6632887444633908,6.4
+inversa (peor de cada eje),plana,2,0.6634898813603143,6.51
+inversa (peor de cada eje),plana,3,0.6831568230936911,5.78
+inversa (peor de cada eje),plana,4,0.6770868330918527,6.07
+inversa (peor de cada eje),plana,5,0.6576792675481347,5.88
+inversa (peor de cada eje),detallada,1,0.661137285136795,6.06
+inversa (peor de cada eje),detallada,2,0.6585950498668625,5.94
+inversa (peor de cada eje),detallada,3,0.6389213459674083,5.64
+inversa (peor de cada eje),detallada,4,0.6635999667530335,5.59
+inversa (peor de cada eje),detallada,5,0.6552814904670906,5.87
+inversa (peor de cada eje),compleja,1,0.5951364586986044,5.43
+inversa (peor de cada eje),compleja,2,0.5948308696869519,5.6
+inversa (peor de cada eje),compleja,3,0.6122050321327966,5.57
+inversa (peor de cada eje),compleja,4,0.6327931829754427,5.48
+inversa (peor de cada eje),compleja,5,0.6094594274156839,5.49
+base + seleccion,plana,1,0.9435041266198129,22.61
+base + seleccion,plana,2,0.9393289623018075,22.57
+base + seleccion,plana,3,0.9416745303296981,22.72
+base + seleccion,plana,4,0.9302689527438104,23.49
+base + seleccion,plana,5,0.943288761200613,23.71
+base + seleccion,detallada,1,0.8721297382991097,22.62
+base + seleccion,detallada,2,0.8826331109991126,23.6
+base + seleccion,detallada,3,0.8848455881657376,22.68
+base + seleccion,detallada,4,0.8731385298822288,23.32
+base + seleccion,detallada,5,0.8779670742606044,23.63
+base + seleccion,compleja,1,0.9119360492877105,23.55
+base + seleccion,compleja,2,0.9105943857914243,23.21
+base + seleccion,compleja,3,0.9143526844104151,23.84
+base + seleccion,compleja,4,0.917225177499006,22.99
+base + seleccion,compleja,5,0.912369377198527,23.8
+base + supervivencia,plana,1,0.9547145167587807,45.22
+base + supervivencia,plana,2,0.955262585608065,44.07
+base + supervivencia,plana,3,0.956187625705106,44.19
+base + supervivencia,plana,4,0.9600098181423449,45.62
+base + supervivencia,plana,5,0.9573374199512561,45.85
+base + supervivencia,detallada,1,0.8822186978713538,45.69
+base + supervivencia,detallada,2,0.890794182126778,45.95
+base + supervivencia,detallada,3,0.8824574947157116,46.31
+base + supervivencia,detallada,4,0.8846741665618862,47.73
+base + supervivencia,detallada,5,0.8818359193581061,47.99
+base + supervivencia,compleja,1,0.9182332842162658,47.16
+base + supervivencia,compleja,2,0.9150268851974381,48.7
+base + supervivencia,compleja,3,0.9131985023677299,49.11
+base + supervivencia,compleja,4,0.9167171904597203,46.99
+base + supervivencia,compleja,5,0.9135739570287141,47.89
+base + cruza,plana,1,0.951428531811085,23.41
+base + cruza,plana,2,0.944957183671788,23.56
+base + cruza,plana,3,0.9633985959293854,22.76
+base + cruza,plana,4,0.9532180320008197,22.79
+base + cruza,plana,5,0.9565442028946274,23.81
+base + cruza,detallada,1,0.8760863357455451,23.51
+base + cruza,detallada,2,0.8759791761584711,23.91
+base + cruza,detallada,3,0.8819386687387694,22.46
+base + cruza,detallada,4,0.8814012590952394,23.14
+base + cruza,detallada,5,0.871357176434584,23.47
+base + cruza,compleja,1,0.9116377005158471,22.75
+base + cruza,compleja,2,0.9154972702199278,24.06
+base + cruza,compleja,3,0.9141188916863212,23.37
+base + cruza,compleja,4,0.9154494536068685,23.85
+base + cruza,compleja,5,0.9150429389862688,24.34
+base + granularidad,plana,1,0.9572618603226928,22.4
+base + granularidad,plana,2,0.9513164861294945,22.28
+base + granularidad,plana,3,0.9577118271841276,22.34
+base + granularidad,plana,4,0.9399889137921258,23.0
+base + granularidad,plana,5,0.9473709624279101,22.68
+base + granularidad,detallada,1,0.8799826138664202,23.7
+base + granularidad,detallada,2,0.877371890308966,23.94
+base + granularidad,detallada,3,0.8838753409791781,24.02
+base + granularidad,detallada,4,0.8801408876744121,22.66
+base + granularidad,detallada,5,0.8794888702825291,22.94
+base + granularidad,compleja,1,0.9136244446073203,22.93
+base + granularidad,compleja,2,0.9128499806704824,23.11
+base + granularidad,compleja,3,0.914305112428478,24.28
+base + granularidad,compleja,4,0.9179949682603702,24.64
+base + granularidad,compleja,5,0.9167940529311795,24.54
+base + tasa_cruza,plana,1,0.9447255918494026,22.52
+base + tasa_cruza,plana,2,0.9507758683529525,24.01
+base + tasa_cruza,plana,3,0.958374639010047,23.83
+base + tasa_cruza,plana,4,0.9525228374642045,23.22
+base + tasa_cruza,plana,5,0.9465796725265837,23.0
+base + tasa_cruza,detallada,1,0.8743605111762998,24.6
+base + tasa_cruza,detallada,2,0.8737036128968342,24.63
+base + tasa_cruza,detallada,3,0.8763398260321096,23.96
+base + tasa_cruza,detallada,4,0.875227057070287,23.33
+base + tasa_cruza,detallada,5,0.8774227003626942,24.72
+base + tasa_cruza,compleja,1,0.9130791948325756,24.19
+base + tasa_cruza,compleja,2,0.9145226285504718,24.2
+base + tasa_cruza,compleja,3,0.9103263987676756,24.4
+base + tasa_cruza,compleja,4,0.9140471529740932,23.8
+base + tasa_cruza,compleja,5,0.9081946427386451,24.06
+base + mutacion,plana,1,0.9477986726802285,22.69
+base + mutacion,plana,2,0.9450805350032905,22.92
+base + mutacion,plana,3,0.9425942208052386,22.71
+base + mutacion,plana,4,0.9368230781905736,23.56
+base + mutacion,plana,5,0.9463396665257426,23.3
+base + mutacion,detallada,1,0.8687557881182053,23.89
+base + mutacion,detallada,2,0.8748870136101536,24.24
+base + mutacion,detallada,3,0.8741988997868189,23.78
+base + mutacion,detallada,4,0.8751695610501914,23.97
+base + mutacion,detallada,5,0.8743399927506565,24.46
+base + mutacion,compleja,1,0.9133291266910643,24.39
+base + mutacion,compleja,2,0.917393540291195,24.49
+base + mutacion,compleja,3,0.9111895852510126,24.96
+base + mutacion,compleja,4,0.9121209506936179,24.41
+base + mutacion,compleja,5,0.9182183901277752,24.83
+base + tasa_mutacion,plana,1,0.9431192759646256,22.87
+base + tasa_mutacion,plana,2,0.9470757050789776,23.24
+base + tasa_mutacion,plana,3,0.9497566704838581,22.79
+base + tasa_mutacion,plana,4,0.9415957484867814,23.35
+base + tasa_mutacion,plana,5,0.9493468911445403,23.19
+base + tasa_mutacion,detallada,1,0.8796013520230705,24.28
+base + tasa_mutacion,detallada,2,0.876623605866806,23.65
+base + tasa_mutacion,detallada,3,0.8692951220941936,23.34
+base + tasa_mutacion,detallada,4,0.8731037595927733,23.3
+base + tasa_mutacion,detallada,5,0.8707190174306205,23.77
+base + tasa_mutacion,compleja,1,0.918022896220519,23.42
+base + tasa_mutacion,compleja,2,0.9133412955979526,24.55
+base + tasa_mutacion,compleja,3,0.9110269162030763,24.64
+base + tasa_mutacion,compleja,4,0.9132389596692422,23.33
+base + tasa_mutacion,compleja,5,0.9156836294744145,23.51
+base + sigma,plana,1,0.9494752249136783,23.47
+base + sigma,plana,2,0.95419277857514,24.31
+base + sigma,plana,3,0.9515027835057583,24.06
+base + sigma,plana,4,0.9515945075481449,24.25
+base + sigma,plana,5,0.9446822833938262,24.75
+base + sigma,detallada,1,0.8742110772390643,25.03
+base + sigma,detallada,2,0.8714576299840344,24.79
+base + sigma,detallada,3,0.8800753166504635,24.74
+base + sigma,detallada,4,0.8743486877714604,24.17
+base + sigma,detallada,5,0.8742840920597428,25.1
+base + sigma,compleja,1,0.9136487400559165,24.16
+base + sigma,compleja,2,0.9131587240195239,23.91
+base + sigma,compleja,3,0.9141812650299848,25.42
+base + sigma,compleja,4,0.9121978410497338,24.74
+base + sigma,compleja,5,0.9093591022774504,24.86
+base + poblacion,plana,1,0.9464641226312539,49.52
+base + poblacion,plana,2,0.9471514309271888,47.89
+base + poblacion,plana,3,0.9535429424956614,48.65
+base + poblacion,plana,4,0.9489225349940248,47.36
+base + poblacion,plana,5,0.9488378146072275,47.36
+base + poblacion,detallada,1,0.8800394486124323,50.32
+base + poblacion,detallada,2,0.8920119669547515,48.77
+base + poblacion,detallada,3,0.8846640800213751,50.1
+base + poblacion,detallada,4,0.8785215522072074,50.34
+base + poblacion,detallada,5,0.8813692416347866,47.32
+base + poblacion,compleja,1,0.9171292171672208,47.2
+base + poblacion,compleja,2,0.9158698134985017,48.29
+base + poblacion,compleja,3,0.9178638359595728,47.87
+base + poblacion,compleja,4,0.9178703565276883,47.57
+base + poblacion,compleja,5,0.8996127407746024,50.34
+base + inicializacion,plana,1,0.9714504836983993,20.95
+base + inicializacion,plana,2,0.963182873700418,21.77
+base + inicializacion,plana,3,0.9662583059356425,22.5
+base + inicializacion,plana,4,0.963642075433361,22.08
+base + inicializacion,plana,5,0.964727767826223,22.58
+base + inicializacion,detallada,1,0.8851294950685324,23.19
+base + inicializacion,detallada,2,0.8842807291555635,22.66
+base + inicializacion,detallada,3,0.879099372518344,22.87
+base + inicializacion,detallada,4,0.8822642170156096,22.67
+base + inicializacion,detallada,5,0.8903790285713067,22.17
+base + inicializacion,compleja,1,0.9195651781740213,22.37
+base + inicializacion,compleja,2,0.9169391890048694,20.76
+base + inicializacion,compleja,3,0.9180085862624335,20.41
+base + inicializacion,compleja,4,0.9179674135678445,19.12
+base + inicializacion,compleja,5,0.9173272900459295,19.34

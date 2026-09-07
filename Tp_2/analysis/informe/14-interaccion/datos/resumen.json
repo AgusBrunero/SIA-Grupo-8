@@ -1,0 +1,115 @@
+{
+  "mejores": {
+    "seleccion": {
+      "variante": "torneo det",
+      "fitness_eje": 0.9103500000000001
+    },
+    "supervivencia": {
+      "variante": "exclusiva K=2N",
+      "fitness_eje": 0.9188166666666667
+    },
+    "cruza": {
+      "variante": "uniforme",
+      "fitness_eje": 0.9152033333333334
+    },
+    "granularidad": {
+      "variante": "corte por triangulo",
+      "fitness_eje": 0.9153366666666667
+    },
+    "tasa_cruza": {
+      "variante": "pc=1.00",
+      "fitness_eje": 0.91268
+    },
+    "mutacion": {
+      "variante": "gen (carga 1)",
+      "fitness_eje": 0.9105500000000001
+    },
+    "tasa_mutacion": {
+      "variante": "carga 2",
+      "fitness_eje": 0.9114366666666666
+    },
+    "sigma": {
+      "variante": "sigma=0.20",
+      "fitness_eje": 0.91256
+    },
+    "poblacion": {
+      "variante": "N=K=120",
+      "fitness_eje": 0.9153233333333334
+    },
+    "inicializacion": {
+      "variante": "grilla informada",
+      "fitness_eje": 0.9226800000000001
+    }
+  },
+  "peores": {
+    "seleccion": {
+      "variante": "ruleta",
+      "fitness_eje": 0.90345
+    },
+    "supervivencia": {
+      "variante": "exclusiva K=N/2",
+      "fitness_eje": 0.9010633333333332
+    },
+    "cruza": {
+      "variante": "espacial",
+      "fitness_eje": 0.9098166666666666
+    },
+    "granularidad": {
+      "variante": "corte por componente",
+      "fitness_eje": 0.9152033333333334
+    },
+    "tasa_cruza": {
+      "variante": "pc=0.00 (solo mutacion)",
+      "fitness_eje": 0.9016266666666666
+    },
+    "mutacion": {
+      "variante": "no uniforme (carga 4 -> 0.4)",
+      "fitness_eje": 0.9004833333333333
+    },
+    "tasa_mutacion": {
+      "variante": "carga 50",
+      "fitness_eje": 0.8771733333333334
+    },
+    "sigma": {
+      "variante": "sigma=0.02",
+      "fitness_eje": 0.88291
+    },
+    "poblacion": {
+      "variante": "N=K=15",
+      "fitness_eje": 0.9009900000000001
+    },
+    "inicializacion": {
+      "variante": "al azar",
+      "fitness_eje": 0.9103500000000001
+    }
+  },
+  "medias": {
+    "base": 0.9103504699326413,
+    "compuesta (mejor de cada eje)": 0.9267326369451853,
+    "inversa (peor de cada eje)": 0.6444441105772036,
+    "base + seleccion": 0.9103504699326413,
+    "base + supervivencia": 0.9188161497379503,
+    "base + cruza": 0.9152036944997032,
+    "base + granularidad": 0.9153385474577125,
+    "base + tasa_cruza": 0.9126801556403251,
+    "base + mutacion": 0.9105492681050509,
+    "base + tasa_mutacion": 0.9114367230220968,
+    "base + sigma": 0.9125580036049282,
+    "base + poblacion": 0.9153247399342329,
+    "base + inicializacion": 0.9226814670652331
+  },
+  "deltas": {
+    "seleccion": 0.0,
+    "supervivencia": 0.00846567980530899,
+    "cruza": 0.004853224567061831,
+    "granularidad": 0.004988077525071133,
+    "tasa_cruza": 0.0023296857076837707,
+    "mutacion": 0.00019879817240953113,
+    "tasa_mutacion": 0.0010862530894554245,
+    "sigma": 0.0022075336722868766,
+    "poblacion": 0.004974270001591563,
+    "inicializacion": 0.012330997132591781
+  },
+  "suma_individuales": 0.0414345196734609,
+  "efecto_conjunto": 0.016382167012543913
+}

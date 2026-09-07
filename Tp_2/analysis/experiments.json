@@ -1,38 +1,65 @@
 {
+  "_comentario": [
+    "Grilla del análisis. Cada experimento varía UN eje sobre la misma base.",
+    "",
+    "La base son 50 triángulos = 500 genes. La tasa de mutación se expresa siempre",
+    "como CARGA (genes esperados mutados por individuo y generación), no como pm",
+    "suelto: pm es probabilidad POR GEN, así que el mismo pm significa cosas",
+    "distintas segun el largo del cromosoma. Con 500 genes, carga 4 -> pm = 0.008.",
+    "",
+    "La base usa inicializacion 'random' a proposito: la informada es uno de los ejes",
+    "a estudiar y si estuviera en la base contaminaria todos los demas.",
+    "",
+    "La base usa torneo determinista y no elite porque elite con k=N devuelve la",
+    "poblacion entera, o sea presion de seleccion cero."
+  ],
   "base": {
-    "triangles": 20,
-    "canvas_size": 48,
-    "population_size": 40,
-    "offspring_size": 40,
+    "triangles": 50,
+    "canvas_size": 64,
+    "preserve_aspect": true,
+    "population_size": 60,
+    "offspring_size": 60,
+    "initialization": "random",
     "selection_parents": "tournament_det",
     "selection_survivors": "elite",
+    "tournament": {
+      "m": 4,
+      "threshold": 0.75
+    },
+    "boltzmann": {
+      "t0": 100.0,
+      "tmin": 1.0,
+      "k": 0.01
+    },
     "crossover": "one_point",
     "crossover_rate": 0.85,
     "crossover_granularity": "gene",
-    "mutation": "gene",
-    "mutation_rate": 0.5,
+    "mutation": "uniform",
+    "mutation_rate": 0.008,
     "mutation_sigma": 0.1,
     "replacement": "additive",
     "stop": {
-      "max_generations": 300
-    },
-    "initialization": "random"
+      "max_generations": 800
+    }
   },
   "targets": {
     "plana": "images/japan.png",
-    "detallada": "images/pika.png"
+    "detallada": "images/pika.png",
+    "compleja": "images/noche_estrellada.jpg"
   },
   "seeds": [
     1,
     2,
-    3
+    3,
+    4,
+    5
   ],
   "experiments": {
-    "selection": {
+    "seleccion": {
       "elite": {
         "selection_parents": "elite"
       },
-      "roulette": {
+      "ruleta": {
         "selection_parents": "roulette"
       },
       "universal": {
@@ -51,30 +78,84 @@
         "selection_parents": "tournament_prob"
       }
     },
-    "replacement": {
+    "presion": {
+      "torneo M=2": {
+        "selection_parents": "tournament_det",
+        "tournament": {
+          "m": 2,
+          "threshold": 0.75
+        }
+      },
+      "torneo M=4": {
+        "selection_parents": "tournament_det",
+        "tournament": {
+          "m": 4,
+          "threshold": 0.75
+        }
+      },
+      "torneo M=10": {
+        "selection_parents": "tournament_det",
+        "tournament": {
+          "m": 10,
+          "threshold": 0.75
+        }
+      },
+      "torneo M=30": {
+        "selection_parents": "tournament_det",
+        "tournament": {
+          "m": 30,
+          "threshold": 0.75
+        }
+      },
+      "torneo prob Th=0.55": {
+        "selection_parents": "tournament_prob",
+        "tournament": {
+          "m": 4,
+          "threshold": 0.55
+        }
+      },
+      "torneo prob Th=0.75": {
+        "selection_parents": "tournament_prob",
+        "tournament": {
+          "m": 4,
+          "threshold": 0.75
+        }
+      },
+      "torneo prob Th=0.95": {
+        "selection_parents": "tournament_prob",
+        "tournament": {
+          "m": 4,
+          "threshold": 0.95
+        }
+      }
+    },
+    "supervivencia": {
+      "aditiva K=N/2": {
+        "replacement": "additive",
+        "offspring_size": 30
+      },
       "aditiva K=N": {
         "replacement": "additive",
-        "offspring_size": 40
-      },
-      "exclusiva K=N": {
-        "replacement": "exclusive",
-        "offspring_size": 40
+        "offspring_size": 60
       },
       "aditiva K=2N": {
         "replacement": "additive",
-        "offspring_size": 80
+        "offspring_size": 120
+      },
+      "exclusiva K=N/2": {
+        "replacement": "exclusive",
+        "offspring_size": 30
+      },
+      "exclusiva K=N": {
+        "replacement": "exclusive",
+        "offspring_size": 60
       },
       "exclusiva K=2N": {
         "replacement": "exclusive",
-        "offspring_size": 80
-      },
-      "exclusiva K=2N + torneo": {
-        "replacement": "exclusive",
-        "offspring_size": 80,
-        "selection_survivors": "tournament_det"
+        "offspring_size": 120
       }
     },
-    "crossover": {
+    "cruza": {
       "un punto": {
         "crossover": "one_point"
       },
@@ -91,8 +172,8 @@
         "crossover": "spatial"
       }
     },
-    "granularity": {
-      "corte por gen": {
+    "granularidad": {
+      "corte por componente": {
         "crossover": "uniform",
         "crossover_granularity": "gene"
       },
@@ -101,63 +182,190 @@
         "crossover_granularity": "triangle"
       }
     },
-    "mutation": {
-      "gen": {
+    "tasa_cruza": {
+      "pc=0.00 (solo mutacion)": {
+        "crossover_rate": 0.0
+      },
+      "pc=0.25": {
+        "crossover_rate": 0.25
+      },
+      "pc=0.50": {
+        "crossover_rate": 0.5
+      },
+      "pc=0.85": {
+        "crossover_rate": 0.85
+      },
+      "pc=1.00": {
+        "crossover_rate": 1.0
+      }
+    },
+    "mutacion": {
+      "gen (carga 1)": {
         "mutation": "gene",
         "mutation_rate": 1.0
       },
-      "multigen (M=8)": {
+      "multigen M=8 (carga 4)": {
         "mutation": "multigene",
         "mutation_genes": 8,
         "mutation_rate": 0.5
       },
-      "uniforme": {
+      "uniforme (carga 4)": {
         "mutation": "uniform",
-        "mutation_rate": 0.02
+        "mutation_rate": 0.008
       },
-      "no uniforme": {
+      "no uniforme (carga 4 -> 0.4)": {
         "mutation": "non_uniform",
-        "mutation_rate": 0.02
+        "mutation_rate": 0.008
       }
     },
-    "triangles": {
-      "10": {
-        "triangles": 10
-      },
-      "25": {
-        "triangles": 25
-      },
-      "50": {
-        "triangles": 50
-      },
-      "100": {
-        "triangles": 100
-      }
-    },
-    "mutation_rate": {
-      "pm=0.005": {
+    "tasa_mutacion": {
+      "carga 0.5": {
         "mutation": "uniform",
-        "mutation_rate": 0.005
+        "mutation_rate": 0.001
       },
-      "pm=0.02": {
+      "carga 2": {
+        "mutation": "uniform",
+        "mutation_rate": 0.004
+      },
+      "carga 4": {
+        "mutation": "uniform",
+        "mutation_rate": 0.008
+      },
+      "carga 10": {
         "mutation": "uniform",
         "mutation_rate": 0.02
       },
-      "pm=0.05": {
+      "carga 25": {
         "mutation": "uniform",
         "mutation_rate": 0.05
       },
-      "pm=0.2": {
+      "carga 50": {
         "mutation": "uniform",
-        "mutation_rate": 0.2
+        "mutation_rate": 0.1
       }
     },
-    "initialization": {
+    "sigma": {
+      "sigma=0.02": {
+        "mutation_sigma": 0.02
+      },
+      "sigma=0.05": {
+        "mutation_sigma": 0.05
+      },
+      "sigma=0.10": {
+        "mutation_sigma": 0.1
+      },
+      "sigma=0.20": {
+        "mutation_sigma": 0.2
+      },
+      "sigma=0.40": {
+        "mutation_sigma": 0.4
+      }
+    },
+    "poblacion": {
+      "N=K=15": {
+        "population_size": 15,
+        "offspring_size": 15
+      },
+      "N=K=30": {
+        "population_size": 30,
+        "offspring_size": 30
+      },
+      "N=K=60": {
+        "population_size": 60,
+        "offspring_size": 60
+      },
+      "N=K=120": {
+        "population_size": 120,
+        "offspring_size": 120
+      }
+    },
+    "triangulos": {
+      "10 tri - pm fijo": {
+        "triangles": 10,
+        "mutation_rate": 0.008
+      },
+      "25 tri - pm fijo": {
+        "triangles": 25,
+        "mutation_rate": 0.008
+      },
+      "50 tri - pm fijo": {
+        "triangles": 50,
+        "mutation_rate": 0.008
+      },
+      "100 tri - pm fijo": {
+        "triangles": 100,
+        "mutation_rate": 0.008
+      },
+      "200 tri - pm fijo": {
+        "triangles": 200,
+        "mutation_rate": 0.008
+      },
+      "10 tri - carga fija": {
+        "triangles": 10,
+        "mutation_rate": 0.04
+      },
+      "25 tri - carga fija": {
+        "triangles": 25,
+        "mutation_rate": 0.016
+      },
+      "50 tri - carga fija": {
+        "triangles": 50,
+        "mutation_rate": 0.008
+      },
+      "100 tri - carga fija": {
+        "triangles": 100,
+        "mutation_rate": 0.004
+      },
+      "200 tri - carga fija": {
+        "triangles": 200,
+        "mutation_rate": 0.002
+      }
+    },
+    "inicializacion": {
       "al azar": {
         "initialization": "random"
       },
       "grilla informada": {
         "initialization": "grid"
+      }
+    },
+    "seleccion_combinada": {
+      "torneo det (puro)": {
+        "selection_parents": "tournament_det"
+      },
+      "elite (puro)": {
+        "selection_parents": "elite"
+      },
+      "ruleta (pura)": {
+        "selection_parents": "roulette"
+      },
+      "25% elite + 75% torneo": {
+        "selection_parents": {
+          "method_a": "elite",
+          "method_b": "tournament_det",
+          "a_ratio": 0.25
+        }
+      },
+      "50% elite + 50% torneo": {
+        "selection_parents": {
+          "method_a": "elite",
+          "method_b": "tournament_det",
+          "a_ratio": 0.5
+        }
+      },
+      "50% elite + 50% ruleta": {
+        "selection_parents": {
+          "method_a": "elite",
+          "method_b": "roulette",
+          "a_ratio": 0.5
+        }
+      },
+      "50% torneo + 50% ruleta": {
+        "selection_parents": {
+          "method_a": "tournament_det",
+          "method_b": "roulette",
+          "a_ratio": 0.5
+        }
       }
     }
   }

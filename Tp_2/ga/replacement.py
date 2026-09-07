@@ -11,9 +11,19 @@ N = tamaño de población, K = cantidad de hijos generados.
     exclusiva  los hijos desplazan a los padres: si K >= N se seleccionan N de los
                K hijos; si K < N pasan los K hijos y se completan N-K con padres
 
-(!) Los nombres aditiva/exclusiva no están definidos en el enunciado; este es el
-mapeo que asumimos, pendiente de confirmar con la cátedra. Si resultara al revés,
-sólo hay que intercambiar las claves de METHODS: la mecánica no cambia.
+Los nombres los define el deck de AG de la cátedra (láminas 45 y 46), textual:
+
+    Supervivencia Aditiva
+        "Generando K hijos de K padres... La nueva generación se formará
+         seleccionando N individuos del conjunto de [ N (individuos de la
+         generación actual) + K (hijos) ]."
+
+    Supervivencia Exclusiva
+        "Generando K hijos de K padres...
+         K > N : La nueva generación se genera seleccionando N de los K hijos
+                 exclusivamente.
+         K <= N: La nueva generación se conformará por los K hijos generados +
+                 (N-K) individuos seleccionados de la generación actual."
 """
 
 from __future__ import annotations

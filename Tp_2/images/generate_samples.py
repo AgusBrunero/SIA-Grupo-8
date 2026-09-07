@@ -1,4 +1,7 @@
-"""Genera imágenes target simples, para no depender de descargas.
+"""Genera las imágenes target sintéticas, para no depender de descargas.
+
+`pika.png`, `itba.png` y `noche_estrellada.jpg` no salen de acá: están
+commiteadas en el repo.
 
     python images/generate_samples.py
 """

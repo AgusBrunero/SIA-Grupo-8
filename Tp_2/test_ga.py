@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 import numpy as np
+from PIL import Image
 
 from ga import artifact
 from ga import crossover as crossover_mod
@@ -19,7 +20,7 @@ from ga.crossover import one_point
 from ga.fitness import FitnessEvaluator
 from ga.individual import GENES_PER_TRIANGLE, Individual, grid_individual, random_individual
 from ga.mutation import gene
-from ga.render import render, render_array
+from ga.render import canvas_size, load_target, render, render_array
 from ga.replacement import additive, exclusive
 from ga.selection import elite
 
@@ -45,6 +46,46 @@ class TestRender(unittest.TestCase):
         genes = np.array([0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0])
         rendered = render_array(Individual(genes), CANVAS)
         self.assertLess(rendered.mean(), 255.0)
+
+
+class TestCanvasRectangular(unittest.TestCase):
+    """`preserve_aspect`: una imagen apaisada no se puede comparar contra un target
+    aplastado a cuadrado. Con la opción activa, `canvas_size` es el lado LARGO."""
+
+    def setUp(self):
+        self.dir = tempfile.TemporaryDirectory()
+        self.addCleanup(self.dir.cleanup)
+        self.path = str(Path(self.dir.name) / "apaisada.png")
+        Image.new("RGB", (200, 100), (10, 20, 30)).save(self.path)
+
+    def test_por_defecto_fuerza_el_cuadrado(self):
+        self.assertEqual(canvas_size(self.path, 64, False), (64, 64))
+        self.assertEqual(load_target(self.path, 64).shape, (64, 64, 3))
+
+    def test_con_preserve_aspect_respeta_la_proporcion(self):
+        self.assertEqual(canvas_size(self.path, 64, True), (64, 32))
+        self.assertEqual(load_target(self.path, 64, preserve_aspect=True).shape, (32, 64, 3))
+
+    def test_tambien_para_imagenes_verticales(self):
+        vertical = str(Path(self.dir.name) / "vertical.png")
+        Image.new("RGB", (100, 200)).save(vertical)
+        self.assertEqual(canvas_size(vertical, 64, True), (32, 64))
+
+    def test_el_render_acepta_alto_distinto_del_ancho(self):
+        ind = random_individual(4, np.random.default_rng(0))
+        self.assertEqual(render_array(ind, 40, 20).shape, (20, 40, 3))
+        self.assertEqual(render_array(ind, 40).shape, (40, 40, 3))  # cuadrado sigue andando
+
+    def test_el_motor_corre_sobre_un_target_rectangular(self):
+        target = load_target(self.path, 32, preserve_aspect=True)
+        config = {"triangles": 4, "population_size": 6, "offspring_size": 6, "seed": 1,
+                  "stop": {"max_generations": 5}}
+        result = engine.run(config, target)
+        self.assertEqual(result.generations, 5)
+        # el fitness se evalúa contra el target rectangular, sin deformarlo
+        self.assertEqual(FitnessEvaluator(target).rmse(result.best),
+                         FitnessEvaluator(target).rmse(result.best))
+        self.assertGreater(result.best.fitness, 0.0)
 
 
 class TestInitialization(unittest.TestCase):
@@ -360,6 +401,135 @@ class TestMutationMethods(unittest.TestCase):
         self.assertGreater(cambiados(0), cambiados(90))
 
 
+class TestZOrderMutation(unittest.TestCase):
+    """Mutación de z-order: el método `zorder` y la perilla `mutation_zorder_rate`.
+
+    El locus del cromosoma es el z-order, y ninguna de las cuatro mutaciones que
+    perturban valores puede cambiarlo. Este operador es el único que se mueve en
+    esa dimensión.
+    """
+
+    def _individuo(self, n=4):
+        # cada triángulo lleva un valor distinto y reconocible
+        genes = np.concatenate([np.full(GENES_PER_TRIANGLE, i / 10) for i in range(n)])
+        return Individual(genes)
+
+    # --- el método registrado en METHODS -------------------------------------
+
+    def test_registrado_en_methods(self):
+        self.assertIn("zorder", mutation_mod.METHODS)
+        self.assertIs(mutation_mod.METHODS["zorder"], mutation_mod.zorder)
+
+    def test_metodo_reordena_sin_tocar_valores(self):
+        antes = self._individuo()
+        despues = mutation_mod.get("zorder")(antes.copy(), make_ctx())
+
+        bloques_antes = antes.genes.reshape(-1, GENES_PER_TRIANGLE)
+        bloques_despues = despues.genes.reshape(-1, GENES_PER_TRIANGLE)
+        # mismo multiconjunto de triángulos: sólo cambió el orden de pintado
+        self.assertCountEqual([tuple(b) for b in bloques_antes],
+                              [tuple(b) for b in bloques_despues])
+        # ningún triángulo quedó partido
+        for bloque in bloques_despues:
+            self.assertEqual(len(set(bloque)), 1)
+        # exactamente dos posiciones cambiaron
+        distintas = sum(1 for a, b in zip(bloques_antes, bloques_despues)
+                        if not np.array_equal(a, b))
+        self.assertEqual(distintas, 2)
+
+    def test_metodo_no_se_envuelve_con_la_perilla(self):
+        """`get('zorder')` no puede aplicar el swap dos veces: lo desharía."""
+        self.assertIs(mutation_mod.get("zorder"), mutation_mod.zorder)
+
+    def test_metodo_con_un_solo_triangulo_no_hace_nada(self):
+        ind = self._individuo(n=1)
+        antes = ind.genes.copy()
+        mutation_mod.get("zorder")(ind, make_ctx())
+        np.testing.assert_array_equal(ind.genes, antes)
+
+    # --- la perilla ortogonal ------------------------------------------------
+
+    def test_apagada_por_defecto_no_cambia_nada(self):
+        """Sin la perilla, `get` tiene que devolver exactamente el método de siempre."""
+        antes = self._individuo()
+        ctx = make_ctx(mutation_rate=0.0)          # sin z-order y sin perturbación
+        despues = mutation_mod.get("uniform")(antes.copy(), ctx)
+        np.testing.assert_array_equal(despues.genes, antes.genes)
+
+    def test_intercambia_dos_triangulos_enteros(self):
+        antes = self._individuo()
+        ctx = make_ctx(mutation_rate=0.0, mutation_zorder_rate=1.0)
+        despues = mutation_mod.get("uniform")(antes.copy(), ctx)
+
+        bloques_antes = antes.genes.reshape(-1, GENES_PER_TRIANGLE)
+        bloques_despues = despues.genes.reshape(-1, GENES_PER_TRIANGLE)
+        # el multiconjunto de triángulos es el mismo: sólo cambió el orden
+        self.assertCountEqual([tuple(b) for b in bloques_antes],
+                              [tuple(b) for b in bloques_despues])
+        # y ningún triángulo quedó partido: cada bloque sigue siendo homogéneo
+        for bloque in bloques_despues:
+            self.assertEqual(len(set(bloque)), 1)
+        # exactamente dos posiciones cambiaron
+        distintas = sum(1 for a, b in zip(bloques_antes, bloques_despues)
+                        if not np.array_equal(a, b))
+        self.assertEqual(distintas, 2)
+
+    def test_invalida_el_cache_porque_cambia_la_imagen(self):
+        ind = self._individuo()
+        ind.fitness = 0.5
+        mutation_mod.get("uniform")(ind, make_ctx(mutation_rate=0.0, mutation_zorder_rate=1.0))
+        self.assertIsNone(ind.fitness)
+
+    def test_se_aplica_sobre_cualquier_metodo(self):
+        for nombre in mutation_mod.METHODS:
+            with self.subTest(nombre):
+                ind = self._individuo()
+                ctx = make_ctx(mutation_rate=0.0, mutation_zorder_rate=1.0,
+                               mutation_genes=1, max_generations=10)
+                antes = ind.genes.copy()
+                mutation_mod.get(nombre)(ind, ctx)
+                self.assertFalse(np.array_equal(ind.genes, antes))
+
+    def test_con_un_solo_triangulo_no_hace_nada(self):
+        ind = self._individuo(n=1)
+        antes = ind.genes.copy()
+        mutation_mod.get("uniform")(ind, make_ctx(mutation_rate=0.0, mutation_zorder_rate=1.0))
+        np.testing.assert_array_equal(ind.genes, antes)
+
+
+class TestValidaciones(unittest.TestCase):
+    """Rangos que la cátedra acota explícitamente y antes no chequeábamos."""
+
+    def test_torneo_probabilistico_rechaza_threshold_fuera_de_rango(self):
+        poblacion = [Individual(np.zeros(10), fitness=f) for f in (0.1, 0.9)]
+        for malo in (0.3, 0.49, 1.01):
+            with self.subTest(malo):
+                ctx = make_ctx(tournament={"threshold": malo})
+                with self.assertRaises(ValueError):
+                    selection_mod.tournament_prob(poblacion, 2, ctx)
+
+    def test_torneo_probabilistico_acepta_el_rango_valido(self):
+        poblacion = [Individual(np.zeros(10), fitness=f) for f in (0.1, 0.9)]
+        for bueno in (0.5, 0.75, 1.0):
+            with self.subTest(bueno):
+                ctx = make_ctx(tournament={"threshold": bueno})
+                self.assertEqual(len(selection_mod.tournament_prob(poblacion, 3, ctx)), 3)
+
+    def test_cruza_anular_usa_el_largo_maximo_de_la_catedra(self):
+        """L en [0, ceil(S/2)]. Con S impar, n//2 se quedaba uno corto."""
+        import math
+        for n in (11, 12, 25):
+            with self.subTest(n=n):
+                vistos = set()
+                a = Individual(np.zeros(n)); b = Individual(np.ones(n))
+                for semilla in range(400):
+                    ctx = Context(rng=np.random.default_rng(semilla),
+                                  params={"crossover_granularity": "gene"})
+                    hijo, _ = crossover_mod.annular(a, b, ctx)
+                    vistos.add(int(hijo.genes.sum()))   # cuántas unidades vinieron de b
+                self.assertEqual(max(vistos), math.ceil(n / 2))
+
+
 class TestReplacement(unittest.TestCase):
     """Ambas estrategias de supervivencia (Step 8)."""
 
@@ -388,8 +558,9 @@ class TestStopping(unittest.TestCase):
 
     def _state(self, **kwargs):
         base = dict(
-            generation=1, best_fitness=0.5, mean_fitness=0.5, std_fitness=0.0,
-            diversity=0.0, stalled=0, structure_stable=0, evaluations=0, elapsed=0.0,
+            generation=1, best_fitness=0.5, best_global_fitness=0.5, mean_fitness=0.5,
+            std_fitness=0.0, diversity=0.0, stalled=0, structure_stable=0,
+            share_unchanged=0.0, evaluations=0, elapsed=0.0,
         )
         return engine.GenerationRecord(**{**base, **kwargs})
 
@@ -428,6 +599,30 @@ class TestEngine(unittest.TestCase):
         self.assertEqual(result.stop_reason, "max_generations")
         self.assertEqual(best, sorted(best))  # elitismo: nunca baja
         self.assertGreater(best[-1], best[0])
+
+    def test_el_mejor_global_es_monotono_aunque_la_poblacion_pierda_al_mejor(self):
+        """Con supervivencia exclusiva los hijos desplazan a los padres, así que el
+        mejor de la población puede bajar. `best_global_fitness` es el acumulado y
+        no puede bajar nunca: es el que hay que graficar como curva de convergencia."""
+        config = {
+            "triangles": 5,
+            "canvas_size": CANVAS,
+            "population_size": 10,
+            "offspring_size": 10,
+            "replacement": "exclusive",
+            "selection_survivors": "elite",
+            "seed": 3,
+            "stop": {"max_generations": 40},
+        }
+        result = engine.run(config, solid_target(0.0))
+        poblacion = [r.best_fitness for r in result.history]
+        global_ = [r.best_global_fitness for r in result.history]
+
+        self.assertEqual(global_, sorted(global_))
+        self.assertAlmostEqual(global_[-1], result.best.fitness)
+        # el mejor global domina siempre al de la población
+        for actual, acumulado in zip(poblacion, global_):
+            self.assertLessEqual(actual, acumulado + 1e-12)
 
     def test_corta_por_estructura_cuando_la_poblacion_se_congela(self):
         """Sin cruza ni mutación la población no cambia: corta por estructura."""
