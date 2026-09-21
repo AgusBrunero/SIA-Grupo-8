@@ -11,7 +11,9 @@ paquete-slides-claude.zip
 
 Tp_2/output/
 
-
+.idea/workspace.xml
+.idea/vcs.xml
+.idea
 /howto
 
 # los resultados y figuras del TP2 SI se versionan (igual que el TP1):

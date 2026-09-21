@@ -61,6 +61,11 @@ if __name__ == '__main__':
     # Funciones matemáticas usando numpy para que admitan vectores
     def sigmoid(x): return 1 / (1 + np.exp(-x))
     def sigmoid_derivative(x): return sigmoid(x) * (1 - sigmoid(x))
+    def linear(x): return x
+    def linear_derivative(x): return np.ones(x.shape)
+    def heaviside(x): return np.where(x > 0, 1, 0)
+    def tanh(x): return np.tanh(x)
+    def tanh_derivative(x): return 1 - x ** 2
 
     # Datos de entrada (Compuerta Lógica OR)
     X = [[0, 0],
@@ -71,9 +76,9 @@ if __name__ == '__main__':
 
     # Instanciamos la neurona
     neuron = Neuron(input_size=2,
-                    activation_function=sigmoid,
-                    derivative_function=sigmoid_derivative,
-                    learning_rate=0.5)
+                    activation_function=tanh,
+                    derivative_function=tanh_derivative,
+                    learning_rate=0.1)
 
     # Entrenamos por lotes 1000 épocas
     for epoch in range(1000):
