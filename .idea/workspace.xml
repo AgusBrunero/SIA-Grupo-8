@@ -5,12 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0452f9eb-9cc6-47c3-b33d-f499be0ed4f4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Tp_2/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Tp_2/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -21,23 +28,23 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.000000001787471" />
-      <entry key="S2" value="1.0136979309689063" />
-      <entry key="S5" value="1.4094684376208844" />
-      <entry key="S10" value="2.645943289833906" />
-      <entry key="S30" value="6.469827758045538" />
-      <entry key="S60" value="9.120071454195786" />
-      <entry key="M2" value="11.217796079415395" />
-      <entry key="M5" value="17.1094899224968" />
-      <entry key="M10" value="33.69844222811244" />
-      <entry key="M15" value="48.188088890418626" />
-      <entry key="M30" value="73.52673368140402" />
-      <entry key="H1" value="92.88827442873227" />
-      <entry key="H2" value="104.95750646912505" />
-      <entry key="H4" value="111.71132831567131" />
-      <entry key="D1" value="117.74615961345387" />
-      <entry key="W1" value="118.81989716280819" />
+      <entry key="MS100" value="1.000005139288242" />
+      <entry key="MS500" value="1.089345353721852" />
+      <entry key="S2" value="2.0139046474555" />
+      <entry key="S5" value="3.264965449620559" />
+      <entry key="S10" value="4.472086557412419" />
+      <entry key="S30" value="7.314492912685044" />
+      <entry key="S60" value="11.205418871698193" />
+      <entry key="M2" value="22.973062665469328" />
+      <entry key="M5" value="63.21722881073042" />
+      <entry key="M10" value="121.50501529360128" />
+      <entry key="M15" value="161.92340012378097" />
+      <entry key="M30" value="229.30418089784897" />
+      <entry key="H1" value="294.7517200910097" />
+      <entry key="H2" value="355.1225067268343" />
+      <entry key="H4" value="400.5877215482692" />
+      <entry key="D1" value="451.10804055189647" />
+      <entry key="W1" value="461.2596764396418" />
     </decayedCancelled>
     <decayedSelected>
       <entry key="MS100" value="0.0" />
@@ -59,23 +66,23 @@
       <entry key="W1" value="0.0" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.0908732823325194" />
-      <entry key="MS500" value="0.6189951471963094" />
-      <entry key="S2" value="0.90067424196232" />
-      <entry key="S5" value="1.3617445348447546" />
-      <entry key="S10" value="2.617398247774953" />
-      <entry key="S30" value="6.451640087441576" />
-      <entry key="S60" value="9.107243497063815" />
-      <entry key="M2" value="11.209852433706699" />
-      <entry key="M5" value="17.10577492444132" />
-      <entry key="M10" value="33.69633579345294" />
-      <entry key="M15" value="48.18652867297735" />
-      <entry key="M30" value="73.52578815243125" />
-      <entry key="H1" value="92.88772702329534" />
-      <entry key="H2" value="104.95720728278684" />
-      <entry key="H4" value="111.71117124951407" />
-      <entry key="D1" value="117.74613228988835" />
-      <entry key="W1" value="118.81989322986324" />
+      <entry key="MS100" value="1.4040963121665999E-5" />
+      <entry key="MS500" value="0.11524698259762005" />
+      <entry key="S2" value="1.3024264877866558" />
+      <entry key="S5" value="2.8542275005683493" />
+      <entry key="S10" value="4.234508419275112" />
+      <entry key="S30" value="7.222297987791191" />
+      <entry key="S60" value="11.15546171058255" />
+      <entry key="M2" value="22.94637509535988" />
+      <entry key="M5" value="63.20564834894149" />
+      <entry key="M10" value="121.49876350974769" />
+      <entry key="M15" value="161.91878938792885" />
+      <entry key="M30" value="229.29968486982833" />
+      <entry key="H1" value="294.74611005653105" />
+      <entry key="H2" value="355.1174526452681" />
+      <entry key="H4" value="400.584257429704" />
+      <entry key="D1" value="451.1072837598608" />
+      <entry key="W1" value="461.2595631247104" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -89,7 +96,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "KEY_CHAT_IN_TOOLWINDOW": "false",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.perceptron.executor": "Run",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -109,11 +118,76 @@
     "to.speed.mode.migration.done": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="SIA-Grupo-8" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="SIA-Grupo-8" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="RUN_AS_SCRIPT" value="" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="perceptron" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="SIA-Grupo-8" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TP3/perceptron" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="RUN_AS_SCRIPT" value="false" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TP3/perceptron/perceptron.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.perceptron" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-d2dedd3439cd-intellij.indexing.shared.core-IU-263.3889.65" />
-        <option value="bundled-js-predefined-d6986cc7102b-a0b4d89f0686-JavaScript-IU-263.3889.65" />
+        <option value="bundled-jdk-30f59d01ecdd-904411bcf1be-intellij.indexing.shared.core-IU-263.5153.40" />
+        <option value="bundled-js-predefined-d6986cc7102b-31b97525b52c-JavaScript-IU-263.5153.40" />
       </set>
     </attachedChunks>
   </component>
@@ -126,6 +200,7 @@
       <updated>1788636211629</updated>
       <workItem from="1788636216113" duration="6928000" />
       <workItem from="1788729550388" duration="1259000" />
+      <workItem from="1789945415411" duration="4340000" />
     </task>
     <servers />
   </component>
