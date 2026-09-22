@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0452f9eb-9cc6-47c3-b33d-f499be0ed4f4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/TP3/datasets/fraud_dataset.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TP3/datasets/fraud_dataset_documentation.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TP3/edas/fraud_analysis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP3/perceptron/perceptron.py" beforeDir="false" afterPath="$PROJECT_DIR$/TP3/perceptron/perceptron.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,60 +32,60 @@
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
       <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0000000000804028" />
-      <entry key="S2" value="1.003680744541776" />
-      <entry key="S5" value="1.152300465141291" />
-      <entry key="S10" value="1.6366782530244328" />
-      <entry key="S30" value="9.48838104193234" />
-      <entry key="S60" value="24.934400609554306" />
-      <entry key="M2" value="46.41107561509051" />
-      <entry key="M5" value="83.74423848468318" />
-      <entry key="M10" value="111.69135982501489" />
-      <entry key="M15" value="125.25400580398555" />
-      <entry key="M30" value="153.20331827640817" />
-      <entry key="H1" value="219.80998574745382" />
-      <entry key="H2" value="330.1293747283126" />
-      <entry key="H4" value="442.49582001371846" />
-      <entry key="D1" value="595.0047758352024" />
-      <entry key="W1" value="629.0508378538946" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.0000090186227502" />
+      <entry key="S60" value="1.023470077278655" />
+      <entry key="M2" value="2.3345604767681287" />
+      <entry key="M5" value="21.30372650543546" />
+      <entry key="M10" value="69.57068303723445" />
+      <entry key="M15" value="122.26961119580925" />
+      <entry key="M30" value="286.6650823839138" />
+      <entry key="H1" value="569.853419149123" />
+      <entry key="H2" value="930.9888815978406" />
+      <entry key="H4" value="1278.8364481261585" />
+      <entry key="D1" value="1767.3073811421984" />
+      <entry key="W1" value="1880.946257338704" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="5.091198054001838E-139" />
-      <entry key="S2" value="2.6712075634769386E-35" />
-      <entry key="S5" value="1.493568581601926E-14" />
-      <entry key="S10" value="1.3273031563569211E-7" />
-      <entry key="S30" value="0.00718086965239068" />
-      <entry key="S60" value="0.11759957512266038" />
-      <entry key="M2" value="0.4904465599995538" />
-      <entry key="M5" value="1.3500610836807676" />
-      <entry key="M10" value="2.165508671480642" />
-      <entry key="M15" value="2.610410370923486" />
-      <entry key="M30" value="3.2018570005324754" />
-      <entry key="H1" value="3.570420699393165" />
-      <entry key="H2" value="3.776902691672699" />
-      <entry key="H4" value="3.886282423583594" />
-      <entry key="D1" value="3.9807376768494307" />
-      <entry key="W1" value="3.9972405538181324" />
+      <entry key="MS100" value="3.5299322018593955E-5" />
+      <entry key="MS500" value="0.12869251042924965" />
+      <entry key="S2" value="0.5989468955188563" />
+      <entry key="S5" value="0.8146204856214068" />
+      <entry key="S10" value="0.9025632862139955" />
+      <entry key="S30" value="0.9664051178892935" />
+      <entry key="S60" value="0.983064478770831" />
+      <entry key="M2" value="0.9949539803902229" />
+      <entry key="M5" value="1.2334077914977222" />
+      <entry key="M10" value="2.3719873790077415" />
+      <entry key="M15" value="3.8722709575601306" />
+      <entry key="M30" value="8.754129725405443" />
+      <entry key="H1" value="16.710672755745914" />
+      <entry key="H2" value="25.279195954730792" />
+      <entry key="H4" value="31.907601087476394" />
+      <entry key="D1" value="39.27299387679644" />
+      <entry key="W1" value="40.74746724881486" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="3.8045145491235347E-4" />
-      <entry key="MS500" value="0.20704266533500515" />
-      <entry key="S2" value="0.6760539616972755" />
-      <entry key="S5" value="0.9643048311518689" />
-      <entry key="S10" value="1.4818570428448965" />
-      <entry key="S30" value="9.404040552210382" />
-      <entry key="S60" value="24.991638492503636" />
-      <entry key="M2" value="46.858656289309565" />
-      <entry key="M5" value="85.06495033803594" />
-      <entry key="M10" value="113.8355794317192" />
-      <entry key="M15" value="127.84770193182663" />
-      <entry key="M30" value="156.39485011628818" />
-      <entry key="H1" value="223.3734633110228" />
-      <entry key="H2" value="333.9008218704939" />
-      <entry key="H4" value="446.3781221064147" />
-      <entry key="D1" value="598.9845267970462" />
-      <entry key="W1" value="633.0479264927317" />
+      <entry key="MS100" value="0.0018477688487934729" />
+      <entry key="MS500" value="0.28996926623167374" />
+      <entry key="S2" value="1.0078894744106424" />
+      <entry key="S5" value="1.480879100655264" />
+      <entry key="S10" value="1.7130526274237883" />
+      <entry key="S30" value="1.897418381677494" />
+      <entry key="S60" value="1.9712505762413066" />
+      <entry key="M2" value="3.3115031766135425" />
+      <entry key="M5" value="22.52717772650046" />
+      <entry key="M10" value="71.93202286606066" />
+      <entry key="M15" value="126.12957792728075" />
+      <entry key="M30" value="295.40307892303775" />
+      <entry key="H1" value="586.5464688880826" />
+      <entry key="H2" value="956.2530045988549" />
+      <entry key="H4" value="1310.7333240055466" />
+      <entry key="D1" value="1806.5777751719083" />
+      <entry key="W1" value="1921.693324636271" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -97,7 +99,6 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "KEY_CHAT_IN_TOOLWINDOW": "false",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.perceptron.executor": "Run",
     "RunOnceActivity.MCP Project settings loaded": "true",
@@ -111,15 +112,26 @@
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.jshint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.jshint": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "python.packages.toolwindow.project.migrated.to.right.top.v2": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "to.speed.mode.migration.done": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="PyDebuggerOptionsProvider">
+    <option name="myDebuggerBackend" value="DEBUGPY" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Documentos\facu\sia\SIA-Grupo-8\TP3\datasets" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.fraud_analysis">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="SIA-Grupo-8" />
       <method v="2">
@@ -144,6 +156,32 @@
       <option name="RUN_TOOL" value="" />
       <option name="RUN_AS_SCRIPT" value="" />
       <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="fraud_analysis" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="SIA-Grupo-8" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TP3/edas" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="RUN_AS_SCRIPT" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TP3/edas/fraud_analysis.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -180,6 +218,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.fraud_analysis" />
         <item itemvalue="Python.perceptron" />
       </list>
     </recent_temporary>
@@ -201,7 +240,10 @@
       <updated>1788636211629</updated>
       <workItem from="1788636216113" duration="6928000" />
       <workItem from="1788729550388" duration="1259000" />
-      <workItem from="1789945415411" duration="7118000" />
+      <workItem from="1789945415411" duration="7384000" />
+      <workItem from="1790038719153" duration="99000" />
+      <workItem from="1790106032244" duration="1209000" />
+      <workItem from="1790107269884" duration="9443000" />
     </task>
     <servers />
   </component>
