@@ -1,14 +1,26 @@
 import numpy as np
 
+# Funciones matemáticas usando numpy para que admitan vectores
+def sigmoid(x): return 1 / (1 + np.exp(-x))
+def sigmoid_derivative(x): return sigmoid(x) * (1 - sigmoid(x))
+def linear(x): return x
+def linear_derivative(x): return np.ones(np.shape(x))
+def heaviside(x): return np.where(x > 0, 1, 0)
+def tanh(x): return np.tanh(x)
+# La derivada recibe h, no tanh(h)
+def tanh_derivative(x): return 1 - np.tanh(x) ** 2
+
 class Neuron:
-    def __init__(self, input_size, activation_function, derivative_function, learning_rate):
+    def __init__(self, input_size, activation_function, derivative_function, learning_rate, seed=None):
         self.activation_function = activation_function
         self.derivative_function = derivative_function
         self.learning_rate = learning_rate
 
+        # Semilla para que los experimentos sean reproducibles
+        rng = np.random.default_rng(seed)
         # Supuestamente el truco del umbral y el x0 es peor computacionalmente (NC)
-        self.weights = np.random.rand(input_size)
-        self.bias = np.random.rand()
+        self.weights = rng.random(input_size)
+        self.bias = rng.random()
 
     def compute(self, X):
         # np.dot calcula el producto punto
@@ -40,8 +52,10 @@ class Neuron:
         h = self.compute(X)
         outputs = self.activation_function(h)
 
-        # factors en este caso es un vector porque se opera vectorialmente
-        factors = self.learning_rate * (Y - outputs) * self.derivative_function(h)
+        # factors en este caso es un vector porque se opera vectorialmente.
+        # Se divide por la cantidad de muestras (gradiente promedio) para que el
+        # learning rate no dependa del tamaño del dataset
+        factors = self.learning_rate * (Y - outputs) * self.derivative_function(h) / len(X)
 
         # x.t es x transverso, o sea que queda un vector con la suma de cada peso
         self.weights += np.dot(X.T, factors)
@@ -58,15 +72,6 @@ class Neuron:
 
 # Pequeño test con OR
 if __name__ == '__main__':
-    # Funciones matemáticas usando numpy para que admitan vectores
-    def sigmoid(x): return 1 / (1 + np.exp(-x))
-    def sigmoid_derivative(x): return sigmoid(x) * (1 - sigmoid(x))
-    def linear(x): return x
-    def linear_derivative(x): return np.ones(x.shape)
-    def heaviside(x): return np.where(x > 0, 1, 0)
-    def tanh(x): return np.tanh(x)
-    def tanh_derivative(x): return 1 - x ** 2
-
     # Datos de entrada (Compuerta Lógica OR)
     X = [[0, 0],
          [0, 1],
