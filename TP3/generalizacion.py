@@ -66,11 +66,12 @@ def mse(y, pred):
     return float(np.mean((y - pred) ** 2))
 
 
-def train(X_tr, y_tr, lr, epochs, seed, X_val=None, y_val=None):
+def train(X_tr, y_tr, lr, epochs, seed, X_val=None, y_val=None,
+          activation=sigmoid, derivative=sigmoid_derivative):
     # El escalado se ajusta solo con entrenamiento para no filtrar información de validación/test
     mean, std = fit_standardizer(X_tr)
     X_tr = standardize(X_tr, mean, std)
-    neuron = Neuron(X_tr.shape[1], sigmoid, sigmoid_derivative, lr, seed=seed)
+    neuron = Neuron(X_tr.shape[1], activation, derivative, lr, seed=seed)
     train_hist, val_hist = np.empty(epochs), np.empty(epochs)
     X_val = None if X_val is None else standardize(X_val, mean, std)
     for epoch in range(epochs):
