@@ -5,6 +5,9 @@ def sigmoid(x): return 1 / (1 + np.exp(-x))
 def sigmoid_derivative(x): return sigmoid(x) * (1 - sigmoid(x))
 def linear(x): return x
 def linear_derivative(x): return np.ones(np.shape(x))
+def relu(x): return np.maximum(0, x)
+# En h = 0 no es derivable; se toma 0
+def relu_derivative(x): return np.where(x > 0, 1.0, 0.0)
 def heaviside(x): return np.where(x > 0, 1, 0)
 def tanh(x): return np.tanh(x)
 # La derivada recibe h, no tanh(h)
