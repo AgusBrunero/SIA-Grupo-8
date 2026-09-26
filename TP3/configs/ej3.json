@@ -1,0 +1,181 @@
+{
+  "descripcion": "Ej. 3: digits + more_digits (sin duplicados). Ablación acumulativa: cada paso suma una técnica al anterior. Selección por balanced accuracy en validación (el test está balanceado, el train no).",
+  "data": {
+    "train": [
+      "digits",
+      "more_digits"
+    ],
+    "dedupe": true,
+    "val_fraction": 0.15,
+    "split_seed": 0
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "base": {
+    "layers": [
+      784,
+      256,
+      10
+    ],
+    "hidden": "relu",
+    "output": "softmax",
+    "loss": "cross_entropy",
+    "beta": 1.0,
+    "init": "xavier",
+    "epochs": 40,
+    "batch_size": 16,
+    "optimizer": "adam",
+    "lr": 0.001,
+    "weight_decay": 0.0,
+    "dropout": 0.0,
+    "patience": null,
+    "adaptive_lr": null,
+    "augment": null,
+    "balance": false
+  },
+  "sweeps": {
+    "ablacion": [
+      {
+        "name": "1. config final del Ej. 2 (solo imágenes de digits)",
+        "data": {
+          "restrict_train_to": "digits"
+        }
+      },
+      {
+        "name": "2. + more_digits sin duplicados"
+      },
+      {
+        "name": "3. + early stopping",
+        "patience": 6
+      },
+      {
+        "name": "4. + balance de clases (oversampling)",
+        "patience": 6,
+        "balance": true
+      },
+      {
+        "name": "5. + augmentation (±2 px, ±10°)",
+        "patience": 6,
+        "balance": true,
+        "augment": {
+          "max_shift": 2,
+          "max_angle": 10
+        }
+      },
+      {
+        "name": "6. + L2 (λ=1e-4)",
+        "patience": 6,
+        "balance": true,
+        "augment": {
+          "max_shift": 2,
+          "max_angle": 10
+        },
+        "weight_decay": 0.0001
+      },
+      {
+        "name": "7. + capa oculta de 512",
+        "patience": 6,
+        "balance": true,
+        "augment": {
+          "max_shift": 2,
+          "max_angle": 10
+        },
+        "weight_decay": 0.0001,
+        "layers": [
+          784,
+          512,
+          10
+        ]
+      }
+    ],
+    "extras": [
+      {
+        "name": "7 + dropout 0.2",
+        "patience": 6,
+        "balance": true,
+        "augment": {
+          "max_shift": 2,
+          "max_angle": 10
+        },
+        "weight_decay": 0.0001,
+        "layers": [
+          784,
+          512,
+          10
+        ],
+        "dropout": 0.2
+      },
+      {
+        "name": "7 con L2 λ=1e-3",
+        "patience": 6,
+        "balance": true,
+        "augment": {
+          "max_shift": 2,
+          "max_angle": 10
+        },
+        "weight_decay": 0.001,
+        "layers": [
+          784,
+          512,
+          10
+        ]
+      },
+      {
+        "name": "7 sin quitar duplicados",
+        "patience": 6,
+        "balance": true,
+        "augment": {
+          "max_shift": 2,
+          "max_angle": 10
+        },
+        "weight_decay": 0.0001,
+        "layers": [
+          784,
+          512,
+          10
+        ],
+        "data": {
+          "dedupe": false
+        }
+      }
+    ]
+  },
+  "final": {
+    "descripcion": "paso 7 de la ablación",
+    "patience": 6,
+    "balance": true,
+    "augment": {
+      "max_shift": 2,
+      "max_angle": 10
+    },
+    "weight_decay": 0.0001,
+    "layers": [
+      784,
+      512,
+      10
+    ],
+    "epochs": 40,
+    "seed": 0
+  },
+  "final_ruido": {
+    "descripcion": "igual que final + ruido gaussiano en la augmentation (opcional de robustez)",
+    "patience": 6,
+    "balance": true,
+    "augment": {
+      "max_shift": 2,
+      "max_angle": 10,
+      "noise": 0.2
+    },
+    "weight_decay": 0.0001,
+    "layers": [
+      784,
+      512,
+      10
+    ],
+    "epochs": 40,
+    "seed": 0
+  }
+}

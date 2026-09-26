@@ -1,0 +1,311 @@
+{
+  "descripcion": "Ej. 2: MLP sobre digits.csv. Base = la versión de la cátedra (tanh oculta, logística a la salida, MSE). Se varía un factor por vez; el resto queda fijo.",
+  "data": {
+    "train": [
+      "digits"
+    ],
+    "val_fraction": 0.2,
+    "split_seed": 0
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "base": {
+    "layers": [
+      784,
+      64,
+      10
+    ],
+    "hidden": "tanh",
+    "output": "logistic",
+    "loss": "mse",
+    "beta": 1.0,
+    "init": "xavier",
+    "epochs": 40,
+    "batch_size": 64,
+    "optimizer": "adam",
+    "lr": 0.001,
+    "weight_decay": 0.0,
+    "dropout": 0.0,
+    "patience": null,
+    "adaptive_lr": null,
+    "augment": null,
+    "balance": false
+  },
+  "sweeps": {
+    "optimizador_lr": [
+      {
+        "optimizer": "gd",
+        "lr": 0.1
+      },
+      {
+        "optimizer": "gd",
+        "lr": 0.5
+      },
+      {
+        "optimizer": "gd",
+        "lr": 2.0
+      },
+      {
+        "optimizer": "gd",
+        "lr": 8.0
+      },
+      {
+        "name": "optimizer=gd, lr=0.5 adaptativo",
+        "optimizer": "gd",
+        "lr": 0.5,
+        "adaptive_lr": {
+          "a": 0.1,
+          "b": 0.5,
+          "k": 3
+        }
+      },
+      {
+        "optimizer": "momentum",
+        "lr": 0.01
+      },
+      {
+        "optimizer": "momentum",
+        "lr": 0.05
+      },
+      {
+        "optimizer": "momentum",
+        "lr": 0.2
+      },
+      {
+        "optimizer": "momentum",
+        "lr": 1.0
+      },
+      {
+        "optimizer": "rmsprop",
+        "lr": 0.0001
+      },
+      {
+        "optimizer": "rmsprop",
+        "lr": 0.001
+      },
+      {
+        "optimizer": "rmsprop",
+        "lr": 0.01
+      },
+      {
+        "optimizer": "rmsprop",
+        "lr": 0.1
+      },
+      {
+        "optimizer": "adam",
+        "lr": 0.0001
+      },
+      {
+        "optimizer": "adam",
+        "lr": 0.001
+      },
+      {
+        "optimizer": "adam",
+        "lr": 0.01
+      },
+      {
+        "optimizer": "adam",
+        "lr": 0.1
+      }
+    ],
+    "arquitectura": [
+      {
+        "layers": [
+          784,
+          16,
+          10
+        ]
+      },
+      {
+        "layers": [
+          784,
+          32,
+          10
+        ]
+      },
+      {
+        "layers": [
+          784,
+          64,
+          10
+        ]
+      },
+      {
+        "layers": [
+          784,
+          128,
+          10
+        ]
+      },
+      {
+        "layers": [
+          784,
+          256,
+          10
+        ]
+      },
+      {
+        "layers": [
+          784,
+          64,
+          64,
+          10
+        ]
+      },
+      {
+        "layers": [
+          784,
+          128,
+          64,
+          10
+        ]
+      },
+      {
+        "layers": [
+          784,
+          256,
+          128,
+          64,
+          10
+        ]
+      }
+    ],
+    "activacion_oculta": [
+      {
+        "hidden": "tanh"
+      },
+      {
+        "hidden": "logistic"
+      },
+      {
+        "hidden": "relu"
+      }
+    ],
+    "batch_size": [
+      {
+        "batch_size": 1
+      },
+      {
+        "batch_size": 16
+      },
+      {
+        "batch_size": 64
+      },
+      {
+        "batch_size": 256
+      },
+      {
+        "name": "batch_size=9959 (batch)",
+        "batch_size": 9959
+      }
+    ],
+    "perdida": [
+      {
+        "name": "logística + MSE",
+        "output": "logistic",
+        "loss": "mse"
+      },
+      {
+        "name": "softmax + cross-entropy",
+        "output": "softmax",
+        "loss": "cross_entropy"
+      }
+    ],
+    "beta": [
+      {
+        "beta": 0.5
+      },
+      {
+        "beta": 1.0
+      },
+      {
+        "beta": 2.0
+      }
+    ],
+    "inicializacion": [
+      {
+        "init": "xavier"
+      },
+      {
+        "init": "small"
+      }
+    ],
+    "combinacion": [
+      {
+        "name": "relu + softmax/CE, [784,128,10]",
+        "layers": [
+          784,
+          128,
+          10
+        ],
+        "hidden": "relu",
+        "output": "softmax",
+        "loss": "cross_entropy",
+        "optimizer": "adam",
+        "lr": 0.001
+      },
+      {
+        "name": "relu + softmax/CE, [784,256,10]",
+        "layers": [
+          784,
+          256,
+          10
+        ],
+        "hidden": "relu",
+        "output": "softmax",
+        "loss": "cross_entropy",
+        "optimizer": "adam",
+        "lr": 0.001
+      },
+      {
+        "name": "relu + softmax/CE, [784,256,128,64,10]",
+        "layers": [
+          784,
+          256,
+          128,
+          64,
+          10
+        ],
+        "hidden": "relu",
+        "output": "softmax",
+        "loss": "cross_entropy",
+        "optimizer": "adam",
+        "lr": 0.001
+      },
+      {
+        "name": "relu + softmax/CE, [784,256,10], bs=16",
+        "layers": [
+          784,
+          256,
+          10
+        ],
+        "batch_size": 16,
+        "hidden": "relu",
+        "output": "softmax",
+        "loss": "cross_entropy",
+        "optimizer": "adam",
+        "lr": 0.001
+      }
+    ]
+  },
+  "final": {
+    "descripcion": "mejor combinación en validación (sweep 'combinacion')",
+    "layers": [
+      784,
+      256,
+      10
+    ],
+    "hidden": "relu",
+    "output": "softmax",
+    "loss": "cross_entropy",
+    "optimizer": "adam",
+    "lr": 0.001,
+    "batch_size": 16,
+    "epochs": 40,
+    "patience": 8,
+    "seed": 0
+  }
+}
