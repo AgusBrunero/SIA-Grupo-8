@@ -9,6 +9,10 @@ def relu(x): return np.maximum(0, x)
 # En h = 0 no es derivable; se toma 0
 def relu_derivative(x): return np.where(x > 0, 1.0, 0.0)
 def heaviside(x): return np.where(x > 0, 1, 0)
+# Escalón con salida en {−1, 1}, como el AND de la consigna
+def sign(x): return np.where(x >= 0, 1, -1)
+# Regla de Rosenblatt Δw = η(ζ − O)x: no hay derivada, equivale a multiplicar por 1
+def step_derivative(x): return np.ones(np.shape(x))
 def tanh(x): return np.tanh(x)
 # La derivada recibe h, no tanh(h)
 def tanh_derivative(x): return 1 - np.tanh(x) ** 2
