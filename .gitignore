@@ -26,9 +26,5 @@ Tp_2/docs/presentacion*.html
 Tp_2/docs/build_presentacion.py
 Tp_2/watch_noche.py
 
-# TP3: los CSV de dígitos pesan 75-95 MB (GitHub corta en 100 MB); se bajan del zip de la cátedra
-TP3/datasets/digits.csv
-TP3/datasets/digits_test.csv
-TP3/datasets/more_digits.csv
-TP3/datasets/digit_dataset_loader.py
+# TP3: los datasets se versionan; la caché generada localmente no
 TP3/datasets/cache/
