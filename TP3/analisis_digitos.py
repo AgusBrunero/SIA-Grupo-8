@@ -298,7 +298,7 @@ def ej3_ablation(runs, out):
     ax.invert_yaxis()
     ax.set_xlim(0.8, 1.0)
     ax.legend(frameon=False, labelcolor=INK, loc='upper left', bbox_to_anchor=(0, -0.08), ncol=2)
-    title(ax, 'Ej. 3 · Ablación: cada paso suma una técnica al anterior (media ± desvío, 3 semillas)')
+    title(ax, 'Ej. 3 · Ablación: cada paso suma una técnica al anterior (media ± desvío de 3 semillas; extras, 1 semilla)')
     style(ax)
     save(fig, out, 'ablacion.png')
 

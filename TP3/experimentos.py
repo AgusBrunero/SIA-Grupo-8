@@ -110,15 +110,17 @@ def run_one(args):
 # ---------- barridos ----------
 
 def expand(spec: dict) -> list[dict]:
-    """Config base × (variantes de cada barrido) × semillas."""
+    """Config base × (variantes de cada barrido) × semillas.
+    'seeds_por_grupo' permite correr un grupo con menos semillas (p. ej. los extras del Ej. 3)."""
     runs = []
     for group, variants in spec['sweeps'].items():
+        seeds = spec.get('seeds_por_grupo', {}).get(group, spec['seeds'])
         for variant in variants:
             name = variant.pop('name', None) or ', '.join(f'{k}={v}' for k, v in variant.items())
             variant['name'] = name
             # En las ablaciones cada paso se acumula sobre el anterior
             cfg = spec['base'] | variant
-            for seed in spec['seeds']:
+            for seed in seeds:
                 runs.append(cfg | {'group': group, 'variant': name, 'seed': seed})
     return runs
 
@@ -214,8 +216,13 @@ def main(name: str):
 
 
 def load_runs(name: str) -> list[dict]:
+    """Corridas guardadas que pertenecen a la config actual. Si se saca una variante o una
+    semilla de la config, sus corridas quedan en el .jsonl (por si se vuelven a agregar)
+    pero no entran en el análisis."""
     path = RESULTS / name / 'corridas.jsonl'
-    return [json.loads(line) for line in path.read_text().splitlines() if line]
+    current = {run_key(cfg) for cfg in expand(spec(name))}
+    runs = [json.loads(line) for line in path.read_text().splitlines() if line]
+    return [r for r in runs if run_key(r['config']) in current]
 
 
 def spec(name: str) -> dict:
