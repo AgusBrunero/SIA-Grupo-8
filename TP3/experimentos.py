@@ -53,13 +53,13 @@ def dataset(data_cfg: dict):
 
 
 def balance(X, y, rng):
-    """Oversampling: repite muestras de las clases chicas hasta la mediana de las presentes."""
+    """Oversampling: agrega copias al azar de las clases chicas hasta la mediana de las presentes.
+    Se conservan todas las muestras originales; solo se suman repeticiones."""
     counts = digitos.class_counts(y)
     target = int(np.median(counts[counts > 0]))
-    idx = np.concatenate([
-        np.flatnonzero(y == c) if counts[c] >= target else rng.choice(np.flatnonzero(y == c), target)
-        for c in range(digitos.N_CLASSES) if counts[c] > 0
-    ])
+    extra = [rng.choice(np.flatnonzero(y == c), target - counts[c])
+             for c in range(digitos.N_CLASSES) if 0 < counts[c] < target]
+    idx = np.concatenate([np.arange(len(y)), *extra])
     return X[idx], y[idx]
 
 

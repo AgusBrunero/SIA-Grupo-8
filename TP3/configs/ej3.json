@@ -1,5 +1,5 @@
 {
-  "descripcion": "Ej. 3: digits + more_digits (sin duplicados). Ablación acumulativa: cada paso suma una técnica al anterior. Selección por balanced accuracy en validación (el test está balanceado, el train no).",
+  "descripcion": "Ej. 3: digits + more_digits (sin duplicados). Ablación acumulativa: cada paso suma una técnica al anterior. Selección por balanced accuracy en validación (el test está balanceado, el train no); el early stopping mira la misma métrica.",
   "data": {
     "train": [
       "digits",
@@ -32,6 +32,7 @@
     "weight_decay": 0.0,
     "dropout": 0.0,
     "patience": null,
+    "monitor": "val_bacc",
     "adaptive_lr": null,
     "augment": null,
     "balance": false
@@ -144,19 +145,13 @@
     ]
   },
   "final": {
-    "descripcion": "paso 7 de la ablación",
+    "descripcion": "paso 5 de la ablación: mejor balanced accuracy en validación y la mitad de parámetros que el paso 7",
     "patience": 6,
     "balance": true,
     "augment": {
       "max_shift": 2,
       "max_angle": 10
     },
-    "weight_decay": 0.0001,
-    "layers": [
-      784,
-      512,
-      10
-    ],
     "epochs": 40,
     "seed": 0
   },
@@ -169,12 +164,6 @@
       "max_angle": 10,
       "noise": 0.2
     },
-    "weight_decay": 0.0001,
-    "layers": [
-      784,
-      512,
-      10
-    ],
     "epochs": 40,
     "seed": 0
   }
