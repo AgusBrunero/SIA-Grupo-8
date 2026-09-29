@@ -249,7 +249,9 @@ def select_hyperparameters(X, y, folds):
 
 def compare_features(X_dev_all, y, folds, lr, epochs):
     rows = []
-    for name, cols in (('6 features', slice(0, len(FEATURES))), ('9 features', slice(None))):
+    # 'sin items_viewed' valida la única feature dudosa del EDA (§5): correlaciona con amount y quantity
+    for name, cols in (('6 features', slice(0, len(FEATURES))), ('9 features', slice(None)),
+                       ('5 features (sin items_viewed)', slice(0, len(FEATURES) - 1))):
         val = [mse(y[va], train(X_dev_all[tr][:, cols], y[tr], lr, epochs, SEED)[0](X_dev_all[va][:, cols]))
                for tr, va in folds]
         rows.append({'features': name, 'mse_val': np.mean(val), 'std_val': np.std(val)})
@@ -269,6 +271,21 @@ def train_size_curve(X, y, labels, folds, lr, epochs, rng):
         rows.append({'fraccion': frac, 'n_train': int(np.mean(n)), 'mse_train': np.mean(tr_mse),
                      'std_train': np.std(tr_mse), 'mse_val': np.mean(va_mse), 'std_val': np.std(va_mse)})
     return pd.DataFrame(rows)
+
+
+def calibration_table(score, big, labels):
+    # Por tramo de la salida de TinyModel: ¿coincide con BigModel (fidelidad) y con el fraude real (calibración)?
+    bins = pd.cut(score, np.linspace(0, 1, 11), include_lowest=True)
+    df = pd.DataFrame({'tiny': score, 'big': big, 'fraude': labels})
+    table = df.groupby(bins, observed=True).agg(n=('tiny', 'size'), media_tinymodel=('tiny', 'mean'),
+                                                media_bigmodel=('big', 'mean'), tasa_fraude=('fraude', 'mean'))
+    table.index = [f'{max(iv.left, 0):.1f}-{iv.right:.1f}' for iv in table.index]
+    return table.rename_axis('tramo').reset_index()
+
+
+def ece(table, column):
+    # Expected Calibration Error: |media predicha − tasa real| promediado por tramo, pesado por n
+    return float(np.sum(table.n * np.abs(table[column] - table.tasa_fraude)) / table.n.sum())
 
 
 def out_of_fold(X, y, folds, lr, epochs):
@@ -361,10 +378,17 @@ def main():
     print(clf.round(4).to_string(index=False))
 
     # Fidelidad: ¿TinyModel toma la misma decisión que BigModel?
-    t = chosen['max F1']
-    agreement = float(np.mean((score_test >= t) == (big >= BIG_MODEL_THRESHOLD)))
-    print(f'Acuerdo de decisión con BigModel en test (umbral {t:.2f}): {agreement:.4f}')
-    plot_test_scores(score_test, labels[test], t)
+    for name, t in chosen.items():
+        agreement = float(np.mean((score_test >= t) == (big >= BIG_MODEL_THRESHOLD)))
+        print(f'Acuerdo de decisión con BigModel en test ({name}, umbral {t:.2f}): {agreement:.4f}')
+    # Umbral recomendado: máximo F2 (mínimo costo si un fraude cuesta entre ~3 y ~7 falsas alarmas)
+    plot_test_scores(score_test, labels[test], chosen['max F2'])
+
+    calibration = calibration_table(score_test, big, labels[test])
+    calibration.to_csv(OUT / 'calibracion_test.csv', index=False)
+    print(calibration.round(3).to_string(index=False))
+    print(f"ECE vs flagged_fraud en test: TinyModel {ece(calibration, 'media_tinymodel'):.3f}, "
+          f"BigModel {ece(calibration, 'media_bigmodel'):.3f}")
 
     model = pd.DataFrame({'feature': FEATURES + ['bias'], 'peso': list(neuron.weights) + [neuron.bias],
                           'media': list(mean) + [np.nan], 'desvio': list(std) + [np.nan]})

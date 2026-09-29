@@ -1,6 +1,8 @@
 """Loop de entrenamiento genérico para el MLP.
 
-- batch_size = 1 → online (SGD); 1 < batch_size < p → mini-batch; batch_size = p → batch (GD).
+- batch_size = 1 → online (SGD); 1 < batch_size < p → mini-batch; batch_size ≥ p → batch (GD).
+  Para batch completo conviene un valor grande y no p exacto: si el batch no divide a p,
+  cada época termina con un paso extra sobre las muestras que sobran.
 - Early stopping sobre validación: se guarda el mejor modelo, no el último (clase 13).
 - Devuelve el historial por época (loss/accuracy en train y validación, tiempo, η) para que
   los scripts de experimentos lo guarden y el análisis lo grafique por separado.
@@ -24,6 +26,7 @@ class TrainConfig:
     weight_decay: float = 0.0          # λ de L2
     dropout: float = 0.0
     patience: int | None = None        # early stopping: épocas sin mejorar en validación
+    monitor: str = 'val_loss'          # qué se mira en validación: 'val_loss', 'val_acc' o 'val_bacc'
     adaptive_lr: dict | None = None    # {'a': ..., 'b': ..., 'k': ...}
     augment: dict | None = None        # kwargs de digitos.augment, se aplica a cada época
     seed: int = 0
@@ -64,7 +67,9 @@ def train(model: MLP, X, Y, cfg: TrainConfig, X_val=None, Y_val=None,
     y_val = Y_val.argmax(axis=1) if Y_val is not None else None
 
     history = {k: [] for k in ['loss', 'acc', 'val_loss', 'val_acc', 'val_bacc', 'lr', 'time']}
-    best = (np.inf, None, 0)  # (val_loss, params, época)
+    # La pérdida se minimiza y las accuracies se maximizan: se compara siempre "más alto es mejor"
+    sign = -1 if cfg.monitor == 'val_loss' else 1
+    best = (-np.inf, None, 0)  # (sign · métrica monitoreada, params, época)
     start = time.perf_counter()
     p = len(X)
 
@@ -96,8 +101,9 @@ def train(model: MLP, X, Y, cfg: TrainConfig, X_val=None, Y_val=None,
             on_epoch(epoch, history)
 
         if X_val is not None:
-            if history['val_loss'][-1] < best[0]:
-                best = (history['val_loss'][-1], [q.copy() for q in model.params], epoch)
+            score = sign * history[cfg.monitor][-1]
+            if score > best[0]:
+                best = (score, [q.copy() for q in model.params], epoch)
             elif cfg.patience and epoch - best[2] >= cfg.patience:
                 if verbose:
                     print(f'  early stopping: {cfg.patience} épocas sin mejorar (mejor época {best[2]})')

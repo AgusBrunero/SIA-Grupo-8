@@ -198,8 +198,8 @@
         "batch_size": 256
       },
       {
-        "name": "batch_size=9959 (batch)",
-        "batch_size": 9959
+        "name": "batch completo",
+        "batch_size": 1000000
       }
     ],
     "perdida": [
@@ -292,7 +292,7 @@
     ]
   },
   "final": {
-    "descripcion": "mejor combinación en validación (sweep 'combinacion')",
+    "descripcion": "mejor combinación en validación (sweep 'combinacion'); early stopping por accuracy de validación, el mismo criterio con que se compararon las variantes",
     "layers": [
       784,
       256,
@@ -306,6 +306,7 @@
     "batch_size": 16,
     "epochs": 40,
     "patience": 8,
+    "monitor": "val_acc",
     "seed": 0
   }
 }

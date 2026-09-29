@@ -605,7 +605,7 @@ class FraudeSimulador(tk.Frame):
         right = tk.Frame(self, bg=BG)
         right.grid(row=0, column=2, sticky='n', padx=(8, 16), pady=16)
         tk.Label(right, text='Umbral de detección', bg=BG, fg=MUTED, font=FONT).pack(anchor='w')
-        self.threshold = tk.DoubleVar(value=0.89)
+        self.threshold = tk.DoubleVar(value=0.80)  # recomendación del Ej. 1 (máximo F2, mínimo costo con FN/FP entre 2,8 y 7,3)
         tk.Scale(right, from_=0.01, to=0.99, resolution=0.01, orient='horizontal', variable=self.threshold,
                  command=lambda _: self.update_view(), bg=BG, fg=INK, troughcolor=PANEL2, highlightthickness=0,
                  length=400, sliderrelief='flat').pack(anchor='w')

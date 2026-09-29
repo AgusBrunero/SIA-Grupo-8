@@ -196,7 +196,7 @@ def ej2_batch(runs, out):
     labels = []
     for v in order:
         bs = g[v][0]['config']['batch_size']
-        labels.append('online (1)' if bs == 1 else f'batch ({bs})' if bs > 1000 else f'mini-batch {bs}')
+        labels.append('online (1)' if bs == 1 else 'batch completo' if bs > 1000 else f'mini-batch {bs}')
     plot_curves(axes[0], groups, 'val_acc', labels)
     axes[0].set_ylabel('Accuracy en validación', color=MUTED)
     axes[0].set_ylim(0.3, 1)

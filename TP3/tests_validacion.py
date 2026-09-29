@@ -159,6 +159,40 @@ def test_hand_calculation_221():
         assert np.allclose(g, e), (g, e)
 
 
+def test_hand_calculation_2321():
+    """Lo mismo para [2,3,2,1], con las fórmulas de la clase escritas neurona por neurona
+    (listas y floats, sin productos matriciales) y comparadas contra el MLP matricial."""
+    model = MLP([2, 3, 2, 1], hidden='tanh', output='tanh', seed=7)
+    x, z = [1.0, -1.0], 1.0
+    W = [w.tolist() for w in model.W]   # W[l][i][j]: peso de la neurona i de la capa l a la j de la l+1
+    b = [c.tolist() for c in model.b]
+
+    # Feed-forward: h_j = Σ_i V_i w_ij + b_j ;  V_j = tanh(h_j)
+    V, hs = [x], []
+    for l in range(3):
+        h = [sum(V[l][i] * W[l][i][j] for i in range(len(V[l]))) + b[l][j] for j in range(len(b[l]))]
+        hs.append(h)
+        V.append([float(np.tanh(v)) for v in h])
+    O = V[-1][0]
+
+    # Backprop: δ salida = −(ζ − O)(1 − O²) ;  δ_i(l) = (Σ_j δ_j(l+1) w_ij) (1 − V_i²)
+    deltas = [None, None, [-(z - O) * (1 - O ** 2)]]
+    for l in (1, 0):
+        deltas[l] = [sum(deltas[l + 1][j] * W[l + 1][i][j] for j in range(len(deltas[l + 1])))
+                     * (1 - V[l + 1][i] ** 2) for i in range(len(V[l + 1]))]
+    # ∂E/∂w_ij = V_i δ_j ;  ∂E/∂b_j = δ_j
+    expected = []
+    for l in range(3):
+        expected.append(np.array([[V[l][i] * deltas[l][j] for j in range(len(deltas[l]))]
+                                  for i in range(len(V[l]))]))
+        expected.append(np.array(deltas[l]))
+
+    _, grads = model.gradients(np.array([x]), np.array([[z]]))
+    assert np.isclose(model.forward(np.array([x]))[0, 0], O)
+    for g, e in zip(grads, expected):
+        assert np.allclose(g, e), (g, e)
+
+
 def test_optimizers_reduce_loss():
     rng = np.random.default_rng(0)
     X = rng.normal(size=(200, 4))
