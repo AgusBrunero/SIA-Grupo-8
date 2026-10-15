@@ -1,5 +1,7 @@
 # Ejercicio 2.1 · Recuperación de los QR de Trattoria Aurora
 
+Documento principal con todas las conclusiones: [README de TP4](../../../README.md).
+
 Experimento: `qr.py`; modelo compartido con las letras: `models/hopfield.py`.
 Se mantiene **Hebb como caso principal** y se compara una mejora opcional por pseudoinversa.
 Los CSV y gráficos se generan con el script; este informe se redactó a partir de esas salidas.
@@ -136,7 +138,7 @@ consulta ruidosa llegue a la memoria correcta. La caída cerca del 50 % de ruido
 a 40 % muestran la diferencia entre estabilidad y tamaño de la cuenca de atracción.
 
 La pseudoinversa se presenta como extensión separada. El resultado del modelo clásico
-pedido sigue siendo que Hebb no recupera correctamente este conjunto de QR.
+con Hebb sigue siendo que Hebb no recupera correctamente este conjunto de QR.
 
 ## Iteraciones y energía
 

@@ -1,5 +1,7 @@
 # Ejercicio 2 · Memoria asociativa con Hopfield
 
+Documento principal con todas las conclusiones: [README de TP4](../README.md).
+
 Se completaron el caso sencillo de letras 5×5 (2.2) y la recuperación de los cinco QR de
 Trattoria Aurora (2.1). Los experimentos usan el mismo modelo implementado con NumPy.
 

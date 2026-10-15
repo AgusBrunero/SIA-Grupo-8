@@ -1,5 +1,7 @@
 # Ejercicio 2.2 · Hopfield con letras 5×5
 
+Documento principal con todas las conclusiones: [README de TP4](../../../README.md).
+
 Primera parte del ejercicio 2; los códigos QR se abordan después.
 Modelo: `models/hopfield.py`. Experimento: `python letras.py`, desde `TP4/`, con las
 dependencias de `requirements.txt`. No se agregaron dependencias.

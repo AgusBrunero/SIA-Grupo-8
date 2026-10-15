@@ -1,5 +1,7 @@
 # Ej. 1.3 · Índice de creadores con la regla de Oja
 
+Documento principal con todas las conclusiones: [README de TP4](../../README.md).
+
 Script: `TP4/indice.py` (se corre desde `TP4/` con `python indice.py`, tarda unos 10 s).
 Regenera los CSV, gráficos y el modelo de esta carpeta; los Markdown son informes manuales. Modelo: `models/oja.py`.
 

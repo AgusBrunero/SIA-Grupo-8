@@ -1,5 +1,7 @@
 # Ejercicio 1 · Selección de creadores para campañas
 
+Documento principal con todas las conclusiones: [README de TP4](../README.md).
+
 ## 1.1 Exploración y representación
 
 Los 50 registros no tienen faltantes. Se excluyen `creator_id` y `name` del entrenamiento:
@@ -207,5 +209,5 @@ python indice.py
 `agrupamiento.py final` e `indice.py final` regeneran solo los resultados finales;
 los modos `barridos` y `convergencia` regeneran los experimentos correspondientes.
 Las salidas se escriben en `resultados/exploracion/`, `resultados/kohonen/` y `resultados/oja/`.
-Este informe cierra el análisis del ejercicio 1; la presentación y el README general del TP
-siguen siendo entregables separados.
+El análisis completo de ambos ejercicios y las instrucciones de ejecución están reunidos
+en el README principal. Este documento conserva el detalle del ejercicio 1 como respaldo.
