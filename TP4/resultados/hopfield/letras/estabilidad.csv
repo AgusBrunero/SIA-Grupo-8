@@ -1,0 +1,9 @@
+grupo,letra,punto_fijo,bits_modificados,energia_inicial,energia_final
+menor_solapamiento,F,True,0,-10.879999999999999,-10.879999999999999
+menor_solapamiento,I,True,0,-11.2,-11.2
+menor_solapamiento,L,True,0,-11.2,-11.2
+menor_solapamiento,X,True,0,-10.559999999999999,-10.559999999999999
+mayor_solapamiento,B,False,1,-25.439999999999998,-27.519999999999996
+mayor_solapamiento,E,False,1,-25.439999999999998,-27.519999999999996
+mayor_solapamiento,F,True,0,-28.480000000000004,-28.480000000000004
+mayor_solapamiento,P,True,0,-28.480000000000004,-28.480000000000004
