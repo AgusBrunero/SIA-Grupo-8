@@ -16,18 +16,29 @@ class RecallResult:
 class Hopfield:
     """W = Σ ξ ξᵀ / N, diagonal nula y empates que conservan el estado.
 
+    `fit(..., rule="pseudoinverse")` permite comparar una regla de proyección
+    para memorias correlacionadas; Hebb es la opción predeterminada.
     Cada barrido actualiza todas las neuronas en una permutación aleatoria.
     Se guarda energía después de cada actualización, incluidos los pasos sin cambio.
     """
 
-    def fit(self, patterns):
+    def fit(self, patterns, rule="hebb"):
         patterns = np.asarray(patterns, dtype=float)
         if patterns.ndim != 2 or not all(patterns.shape):
             raise ValueError("patterns debe ser una matriz no vacía (patrones, neuronas)")
         if not np.isin(patterns, [-1, 1]).all():
             raise ValueError("Los patrones deben contener únicamente −1 y +1")
         self.patterns = patterns.copy()
-        self.weights = patterns.T @ patterns / patterns.shape[1]
+        if rule == "hebb":
+            self.weights = patterns.T @ patterns / patterns.shape[1]
+        elif rule == "pseudoinverse":
+            # Proyección sobre el espacio generado por las memorias: mejora opcional
+            # para patrones correlacionados. La dinámica de recuperación no cambia.
+            self.weights = patterns.T @ np.linalg.pinv(patterns @ patterns.T) @ patterns
+            self.weights = (self.weights + self.weights.T) / 2
+        else:
+            raise ValueError(f"Regla desconocida: {rule}")
+        self.rule = rule
         np.fill_diagonal(self.weights, 0)
         return self
 

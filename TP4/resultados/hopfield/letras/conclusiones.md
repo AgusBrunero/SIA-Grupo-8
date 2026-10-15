@@ -136,13 +136,16 @@ energía disminuya **no implica recuperar la memoria consultada**.
 
 ## Verificación y siguiente parte
 
-`python -m unittest discover -s tests -v` ejecuta seis pruebas del modelo: Hebb simétrica
+En la etapa de letras pasaron seis pruebas del modelo con
+`python -m unittest discover -s tests -v`: Hebb simétrica
 con diagonal nula, corrección de errores para una memoria, energía no creciente y su
 cálculo incremental, empates, estabilidad de patrones inversos y validación de entradas.
 Además, el experimento verifica energía no creciente en las 6.400 consultas.
-Se inspeccionaron los gráficos generados.
+Se inspeccionaron los gráficos generados. El conjunto actual agrega controles de
+pseudoinversa y QR: con `requirements-qr.txt` instalado, pasan doce pruebas en total.
 
-Queda completo el caso sencillo 2.2. El siguiente paso es aplicar la misma red a los cinco
-QR de 37×37: comprobar primero su estabilidad con Hebb y después estudiar recuperación,
-energía e iteraciones con diferentes deterioros. Estos resultados con letras no anticipan
-el porcentaje de recuperación de los QR.
+Queda completo el caso sencillo 2.2. La siguiente etapa aplicó la misma red a los cinco
+QR de 37×37: se comprobó su estabilidad con Hebb y se estudiaron recuperación, energía
+e iteraciones con diferentes deterioros. Los resultados de letras no anticipaban el
+porcentaje de recuperación de QR; esa etapa ya está completa y documentada en
+[conclusiones de QR](../qr/conclusiones.md).

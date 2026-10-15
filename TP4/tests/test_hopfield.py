@@ -61,6 +61,25 @@ class HopfieldTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             model.recall([1, -1], max_sweeps=0)
 
+    def test_pseudoinverse_stores_correlated_independent_patterns(self):
+        memories = np.array([[1, 1, 1, 1, 1, -1],
+                             [1, 1, 1, 1, -1, 1],
+                             [1, 1, 1, -1, 1, 1]])
+        model = Hopfield().fit(memories, rule="pseudoinverse")
+        np.testing.assert_allclose(model.weights, model.weights.T)
+        np.testing.assert_array_equal(np.diag(model.weights), 0)
+        for memory in memories:
+            self.assertTrue(model.is_fixed_point(memory))
+            np.testing.assert_array_equal(model.recall(memory).state, memory)
+
+    def test_pseudoinverse_accepts_dependent_memories(self):
+        memory = np.array([1, -1, 1, -1, -1])
+        model = Hopfield().fit([memory, memory, -memory], rule="pseudoinverse")
+        self.assertTrue(np.isfinite(model.weights).all())
+        self.assertTrue(model.is_fixed_point(memory))
+        with self.assertRaises(ValueError):
+            Hopfield().fit([memory], rule="unknown")
+
 
 if __name__ == "__main__":
     unittest.main()
