@@ -4,42 +4,21 @@ Uso: python exploracion.py  →  resultados/exploracion/
 """
 from pathlib import Path
 
-import matplotlib
-
-matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from matplotlib.colors import LinearSegmentedColormap
 
 from datos import (DERIVADAS, cargar_creadores, estandarizar, tema_dominante,
                    variables_seleccionadas)
+from graficos import DIVERGENTE, ESTILO_TEMA, GRILLA, TINTA, TINTA_SUAVE
+from graficos import guardar as _guardar
 from models.pca import PCA
 
 SALIDA = Path(__file__).parent / "resultados" / "exploracion"
 
-# Paleta categórica validada (orden fijo) + forma de marcador como codificación secundaria.
-ESTILO_TEMA = {
-    "fútbol": ("#2a78d6", "o"),
-    "maquillaje": ("#eb6834", "s"),
-    "perros": ("#1baf7a", "^"),
-    "arte": ("#eda100", "D"),
-}
-DIVERGENTE = LinearSegmentedColormap.from_list("azul_rojo", ["#2a78d6", "#f0efec", "#e34948"])
-TINTA, TINTA_SUAVE, GRILLA = "#0b0b0b", "#52514e", "#e4e3df"
-
-plt.rcParams.update({
-    "figure.facecolor": "#fcfcfb", "axes.facecolor": "#fcfcfb", "savefig.facecolor": "#fcfcfb",
-    "axes.edgecolor": GRILLA, "axes.labelcolor": TINTA_SUAVE, "text.color": TINTA,
-    "xtick.color": TINTA_SUAVE, "ytick.color": TINTA_SUAVE, "axes.grid": True,
-    "grid.color": GRILLA, "grid.linewidth": 0.6, "axes.spines.top": False,
-    "axes.spines.right": False, "font.size": 9,
-})
-
 
 def guardar(fig, nombre):
-    fig.savefig(SALIDA / nombre, dpi=150, bbox_inches="tight")
-    plt.close(fig)
+    _guardar(fig, SALIDA / nombre)
 
 
 def heatmap(ax, matriz, filas, columnas, anotar=False):
