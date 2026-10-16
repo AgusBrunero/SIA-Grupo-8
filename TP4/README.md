@@ -786,6 +786,57 @@ a 40 % muestran la diferencia entre estabilidad y tamaño de la cuenca de atracc
 La pseudoinversa se presenta como extensión separada. El resultado del modelo clásico
 con Hebb sigue siendo que Hebb no recupera correctamente este conjunto de QR.
 
+#### Opcional pedido en clase: desgaste del papel
+
+Santiago Reyes pidió en clase probar un ruido más realista que invertir bits al azar: el
+**desgaste**, donde la tinta negra se gasta y algunos módulos negros pasan a blancos. Se
+implementó en `qr.desgaste(patron, fraccion, semilla, agrupado=True)`:
+
+- Solo cambia **negro → blanco**; un blanco nunca se vuelve negro. `fraccion` es la parte de
+  los módulos negros que se aclaran (los QR tienen 52 % de módulos negros, unos 710).
+- **Agrupado** (el realista): se gastan primero las zonas de mayor intensidad de un campo
+  suave, ruido gaussiano en una grilla de 6×6 interpolado a 37×37, más una variación por
+  módulo. El resultado son manchas de roce y no píxeles sueltos.
+- **Disperso** (control): los negros que se aclaran se eligen al azar, sin estructura espacial.
+  Sirve para separar el efecto de la dirección del daño del efecto de su agrupamiento.
+
+Las pruebas verifican que solo se aclaran negros, la cantidad exacta y la reproducibilidad
+por semilla, y que el agrupado efectivamente forma manchas: el 71 % de los módulos gastados
+tiene un vecino gastado, contra el 49 % del disperso. Se corrieron 30 repeticiones por QR,
+nivel y variante: **5.400 recuperaciones** más, agregadas al final para no cambiar las
+semillas de los ensayos anteriores (sus resultados quedaron idénticos).
+
+| Negros gastados | Bits distintos | Lector directo | Hebb exacto | Pseudoinversa, agrupado | Pseudoinversa, disperso |
+|---:|---:|---:|---:|---:|---:|
+| 2 % | 1,0 % | 53 % | 0 % | 100 % | 100 % |
+| 5 % | 2,6 % | 0 % | 0 % | 100 % | 100 % |
+| 10–50 % | 5,2–25,9 % | 0 % | 0 % | 100 % | 100 % |
+| 70 % | 36,3 % | 0 % | 0 % | 98,67 % | 100 % |
+| 80 % | 41,5 % | 0 % | 0 % | 98,67 % | 100 % |
+| 90 % | 46,7 % | 0 % | 0 % | 80 % | 85,33 % |
+| 95 % | 49,3 % | 0 % | 0 % | 20 % | 18,67 % |
+
+![Desgaste: recuperación, lectura y comparación con ruido simétrico](resultados/hopfield/qr/desgaste.png)
+
+![food con desgaste agrupado y disperso](resultados/hopfield/qr/desgaste_ejemplos.png)
+
+Lecturas:
+
+- **El lector solo ya no alcanza con muy poco desgaste**: lee el 53 % de los QR con 2 % de
+  los negros gastados y ninguno con 5 %. Hebb sigue sin recuperar nada.
+- **El desgaste es más fácil que el ruido simétrico para la pseudoinversa**: con 50 % de los
+  bits invertidos al azar no se recupera ningún QR, mientras que el desgaste con 46,7 % de
+  bits distintos todavía se recupera en el 80 % y con 49,3 % en el 20 %. Los negros que quedan
+  son todos correctos: el desgaste borra información pero no agrega negros falsos, y esos
+  negros siguen apuntando al menú correcto.
+- **Que el daño esté agrupado lo hace algo más difícil**: con 70–90 % de los negros gastados,
+  el agrupado falla antes que el disperso (98,67 % contra 100 % y 80 % contra 85,33 %), porque
+  una mancha borra regiones enteras en lugar de repartir el daño. Con 95 % la imagen está casi
+  blanca y ambos caen a ~20 %.
+- **Los fallos siguen siendo peligrosos**: con 90 % de desgaste agrupado, 10 de los 30 fallos
+  terminan en **otro menú** y 20 en un estado espurio; con 95 % aparecen también inversos de
+  memorias. Por eso se compara siempre la URL con la del menú consultado.
+
 #### Iteraciones y energía
 
 En Hebb, las medias por condición quedan entre **2 y 2,97 barridos**, con máximo 3.
@@ -794,7 +845,7 @@ dos, el 40 % promedia 2,13 (máximo 4) y el 50 % promedia 2,90 (máximo 5).
 Dos barridos corresponden a 2.738 actualizaciones; el segundo puede ser únicamente la
 confirmación sin cambios.
 
-Se verificó que la energía no aumenta en **las 3.000 recuperaciones**. Convergencia no es
+Se verificó que la energía no aumenta en **las 8.400 recuperaciones** (3.000 más 5.400 de desgaste). Convergencia no es
 sinónimo de recuperación: Hebb también disminuye su energía y llega a un estado incorrecto.
 Cada regla define pesos y escalas de energía diferentes; no se compara «más negativo» entre
 reglas como indicador de calidad.
@@ -844,15 +895,16 @@ a consultas ya alineadas y binarizadas. No es un lector universal de QR nuevos o
 OPENBLAS_NUM_THREADS=1 python -m unittest discover -s tests -v
 ```
 
-Pasaron **doce pruebas**: ocho del modelo Hopfield y cuatro de integración con QR.
+Pasaron **catorce pruebas**: ocho del modelo Hopfield y seis de integración con QR.
 Se comprueban pesos simétricos y diagonal nula, recuperación con una memoria, energía
 no creciente y concordancia de su cálculo incremental, tratamiento de empates, patrones
 inversos, validación de entradas y proyección con memorias correlacionadas o dependientes.
 Los controles de QR verifican lectura de los cinco originales, ruido reproducible, diferencia
-entre área pintada y bits cambiados, y estabilidad con ambas reglas. Sin ZXing-C++ las cuatro
+entre área pintada y bits cambiados, que el desgaste solo aclare negros y forme manchas, y
+estabilidad con ambas reglas. Sin ZXing-C++ las seis
 pruebas de QR se omiten; para ejecutarlas se instala `requirements-qr.txt`.
 
-Además se verificaron las 6.400 consultas de letras y las 3.000 recuperaciones de QR,
+Además se verificaron las 6.400 consultas de letras y las 8.400 recuperaciones de QR,
 las energías de los ejemplos contra el cálculo completo, la reproducción de las consultas
 seleccionadas y los enlaces locales de la documentación. Se inspeccionaron los gráficos.
 En Oja se verificó el ranking coincidente con PC1 para los 50 creadores y en Kohonen las
