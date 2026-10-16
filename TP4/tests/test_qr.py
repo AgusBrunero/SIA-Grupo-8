@@ -42,6 +42,33 @@ class QRTests(unittest.TestCase):
             self.assertTrue(np.all(noisy[mask] == fill))
             self.assertLess(int((noisy != self.patterns[0]).sum()), area)
 
+    def test_wear_only_fades_black_and_is_reproducible(self):
+        from qr import deteriorar
+        pattern = self.patterns[0]
+        black = pattern == -1
+        for kind in ["desgaste", "desgaste_disperso"]:
+            worn, mask = deteriorar(pattern, kind, 0.30, 11)
+            self.assertTrue(np.all(black[mask]))
+            self.assertTrue(np.all(worn[mask] == 1))
+            np.testing.assert_array_equal(worn[~mask], pattern[~mask])
+            self.assertEqual(int(mask.sum()), round(0.30 * black.sum()))
+            self.assertFalse(np.any((pattern == 1) & (worn == -1)))
+            np.testing.assert_array_equal(deteriorar(pattern, kind, 0.30, 11)[0], worn)
+
+    def test_grouped_wear_is_spatially_clustered(self):
+        from qr import desgaste
+
+        def faded_neighbours(mask):
+            grid = mask.reshape(37, 37)
+            padded = np.pad(grid, 1)
+            neighbours = (padded[:-2, 1:-1] | padded[2:, 1:-1] | padded[1:-1, :-2] | padded[1:-1, 2:])
+            return (grid & neighbours).sum() / grid.sum()
+
+        grouped = np.mean([faded_neighbours(desgaste(self.patterns[0], 0.3, s)[1]) for s in range(20)])
+        scattered = np.mean([faded_neighbours(desgaste(self.patterns[0], 0.3, s, agrupado=False)[1])
+                             for s in range(20)])
+        self.assertGreater(grouped, scattered + 0.1)
+
     def test_correlated_qr_interference_and_projection_control(self):
         hebb = Hopfield().fit(self.patterns)
         projection = Hopfield().fit(self.patterns, rule="pseudoinverse")

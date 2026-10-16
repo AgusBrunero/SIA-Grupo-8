@@ -1,5 +1,8 @@
 """Ej. 2.1: QR deteriorados en Hopfield; Hebb y mejora opcional con pseudoinversa.
 
+Deterioros: ruido aleatorio simétrico, esquina blanca, mancha negra, raya blanca y, como
+opcional pedido en clase, desgaste del papel (`desgaste`: solo el negro se aclara).
+
 Instalar requirements-qr.txt y ejecutar: OPENBLAS_NUM_THREADS=1 python qr.py
 El lector ZXing verifica el texto del QR; no participa del entrenamiento ni la dinámica.
 Salida: resultados/hopfield/qr/. No se modifica ninguna imagen de entrada.
@@ -21,6 +24,10 @@ REPETICIONES = 30
 REPETICIONES_ESTRUCTURADO = 10
 RUIDOS = [0, 0.05, 0.10, 0.20, 0.30, 0.40, 0.50]
 LADOS = [5, 9, 13]
+# Desgaste (opcional, pedido en clase): fracción de los módulos negros que se aclaran.
+DESGASTES = [0.02, 0.05, 0.10, 0.30, 0.50, 0.70, 0.80, 0.90, 0.95]
+LOCALIZADOS = ["esquina_blanca", "mancha_negra", "raya_blanca"]
+DESGASTE = ["desgaste", "desgaste_disperso"]
 REGLAS = ["hebb", "pseudoinverse"]
 
 
@@ -56,6 +63,35 @@ def leer(estado):
     return _leer(np.asarray(estado, dtype=np.int8).tobytes())
 
 
+def campo_desgaste(rng, lado=37, celdas=6):
+    """Intensidad de desgaste suave: ruido gaussiano en una grilla de celdas×celdas
+    interpolado bilinealmente a lado×lado. Zonas vecinas se gastan parecido."""
+    gruesa = rng.normal(size=(celdas, celdas))
+    x, nodos = np.linspace(0, celdas - 1, lado), np.arange(celdas)
+    filas = np.array([np.interp(x, nodos, fila) for fila in gruesa])
+    return np.array([np.interp(x, nodos, columna) for columna in filas.T]).T
+
+
+def desgaste(patron, fraccion, semilla, agrupado=True):
+    """Desgaste del papel: una `fraccion` de los módulos negros pierde la tinta y queda
+    blanca; el blanco nunca se vuelve negro. Con `agrupado` se gastan primero las zonas de
+    mayor intensidad de un campo suave más una variación por módulo (manchas de roce);
+    sin él, los negros que se aclaran se eligen al azar (control sin estructura espacial).
+    Devuelve consulta y máscara de módulos aclarados."""
+    rng = np.random.default_rng(semilla)
+    estado = np.asarray(patron).ravel().copy()
+    negros = np.flatnonzero(estado == -1)
+    if agrupado:
+        intensidad = (campo_desgaste(rng) + 0.5 * rng.normal(size=(37, 37))).ravel()
+    else:
+        intensidad = rng.random(estado.size)
+    gastados = negros[np.argsort(-intensidad[negros])[:int(round(fraccion * negros.size))]]
+    mascara = np.zeros(estado.size, dtype=bool)
+    mascara[gastados] = True
+    estado[mascara] = 1
+    return estado, mascara
+
+
 def deteriorar(patron, tipo, nivel, semilla):
     """Devuelve consulta y máscara afectada; el borrado blanco puede dejar bits intactos."""
     rng = np.random.default_rng(semilla)
@@ -75,6 +111,8 @@ def deteriorar(patron, tipo, nivel, semilla):
         fila, columna = rng.integers(0, 38 - lado, size=2)
         mascara[fila:fila + lado, columna:columna + lado] = True
         estado[mascara] = -1
+    elif tipo in DESGASTE:
+        return desgaste(patron, nivel, semilla, agrupado=tipo == "desgaste")
     elif tipo == "raya_blanca":
         # Una raya de ancho nivel, horizontal o vertical, ubicada al azar.
         ancho = int(nivel)
@@ -119,9 +157,13 @@ def estabilidad(nombres, patrones, modelos):
 def ensayos():
     for nivel in RUIDOS:
         yield "aleatorio", nivel, REPETICIONES
-    for tipo in ["esquina_blanca", "mancha_negra", "raya_blanca"]:
+    for tipo in LOCALIZADOS:
         for nivel in LADOS:
             yield tipo, nivel, REPETICIONES_ESTRUCTURADO
+    # Al final, para no cambiar las semillas de los ensayos anteriores.
+    for tipo in DESGASTE:
+        for nivel in DESGASTES:
+            yield tipo, nivel, REPETICIONES
 
 
 def experimentos(nombres, patrones, modelos, textos):
@@ -161,7 +203,8 @@ def experimentos(nombres, patrones, modelos, textos):
                                          "nivel": nivel, "semilla": semilla, "barrido": barrido,
                                          "energia": resultado.energies[barrido * patron.size]})
                     if nombre == "food" and repeticion == 0 and (
-                        tipo == "aleatorio" and nivel == 0.30 or tipo != "aleatorio" and nivel == 9
+                        tipo == "aleatorio" and nivel == 0.30 or tipo in LOCALIZADOS and nivel == 9
+                        or tipo == "desgaste" and nivel == 0.50
                     ):
                         # Ejemplo fijado antes de ver los resultados, no elegido por éxito.
                         ejemplos[(tipo, regla)] = (patron, consulta, resultado, semilla)
@@ -223,9 +266,9 @@ def graficos(nombres, patrones, resumen, ejemplos):
     fig.tight_layout()
     guardar(fig, SALIDA / "recuperacion.png")
 
-    fig, axes = plt.subplots(4, 4, figsize=(10, 11))
-    fig_e, ejes_e = plt.subplots(2, 4, figsize=(14, 6))
-    for fila, tipo in enumerate(["aleatorio", "esquina_blanca", "mancha_negra", "raya_blanca"]):
+    fig, axes = plt.subplots(5, 4, figsize=(10, 13.5))
+    fig_e, ejes_e = plt.subplots(2, 5, figsize=(17, 6))
+    for fila, tipo in enumerate(["aleatorio", *LOCALIZADOS, "desgaste"]):
         patron, consulta, hebb, _ = ejemplos[(tipo, "hebb")]
         pseudo = ejemplos[(tipo, "pseudoinverse")][2]
         for ax, estado, titulo in zip(axes[fila], [patron, consulta, hebb.state, pseudo.state],
@@ -244,12 +287,66 @@ def graficos(nombres, patrones, resumen, ejemplos):
             eje.set_xlabel("barridos (incluye cada actualización)")
             if fila == 0:
                 eje.set_ylabel("energía")
-    fig.suptitle("Ejemplos prefijados: food, 30 % aleatorio o deterioro de tamaño 9")
+    fig.suptitle("Ejemplos prefijados: food, 30 % aleatorio, deterioro de tamaño 9 o 50 % de negros gastados")
     fig.tight_layout()
     guardar(fig, SALIDA / "ejemplos.png")
     fig_e.suptitle("Energía durante la recuperación; cada regla tiene su propia escala")
     fig_e.tight_layout()
     guardar(fig_e, SALIDA / "energia.png")
+    grafico_desgaste(nombres, patrones, resumen)
+
+
+def grafico_desgaste(nombres, patrones, resumen):
+    """Desgaste agrupado contra disperso, y contra ruido simétrico con igual cantidad de bits."""
+    fig, axes = plt.subplots(1, 3, figsize=(16, 4.6))
+    estilos = {"desgaste": "-", "desgaste_disperso": "--"}
+    for tipo, estilo in estilos.items():
+        nombre = "agrupado" if tipo == "desgaste" else "disperso"
+        for regla, color in zip(REGLAS, [NARANJA, AZUL]):
+            tabla = resumen[(resumen.deterioro == tipo) & (resumen.regla == regla)]
+            axes[0].plot(tabla.nivel * 100, tabla.recuperacion_exacta * 100, "o" + estilo,
+                         color=color, label=f"{regla}, {nombre}")
+        axes[1].plot(tabla.nivel * 100, tabla.lectura_entrada * 100, "o" + estilo, color="k",
+                     label=f"lector sin Hopfield, {nombre}")
+        axes[1].plot(tabla.nivel * 100, tabla.lectura_salida * 100, "o" + estilo, color=AZUL,
+                     label=f"pseudoinversa + lector, {nombre}")
+    for tipo, etiqueta, estilo in [("aleatorio", "ruido simétrico", ":"),
+                                   ("desgaste", "desgaste agrupado", "-")]:
+        tabla = resumen[(resumen.deterioro == tipo) & (resumen.regla == "pseudoinverse")]
+        axes[2].plot(tabla.fraccion_invertida_media * 100, tabla.recuperacion_exacta * 100,
+                     "o" + estilo, color=AZUL, label=etiqueta)
+    axes[0].set_xlabel("módulos negros gastados (%)")
+    axes[0].set_ylabel("recuperación exacta (%)")
+    axes[0].set_title("Hopfield ante el desgaste", fontsize=9)
+    axes[1].set_xlabel("módulos negros gastados (%)")
+    axes[1].set_ylabel("lectura correcta del QR (%)")
+    axes[1].set_title("¿Lee la URL correcta?", fontsize=9)
+    axes[2].set_xlabel("bits distintos del original (% de 1369)")
+    axes[2].set_ylabel("recuperación exacta, pseudoinversa (%)")
+    axes[2].set_title("Mismo daño en bits: desgaste contra ruido simétrico", fontsize=9)
+    for ax in axes:
+        ax.set_ylim(-3, 103)
+        ax.legend(frameon=False, fontsize=7)
+    fig.suptitle(f"Desgaste: solo el negro se aclara ({(patrones == -1).mean():.0%} de los módulos son negros)")
+    fig.tight_layout()
+    guardar(fig, SALIDA / "desgaste.png")
+
+    # Cómo se ve: food con distintos niveles, agrupado contra disperso.
+    niveles = [0.30, 0.70, 0.90]
+    fig, axes = plt.subplots(2, len(niveles), figsize=(9, 7))
+    patron = patrones[nombres.index("food")]
+    for fila, agrupado in enumerate([True, False]):
+        for columna, nivel in enumerate(niveles):
+            consulta, _ = desgaste(patron, nivel, semilla=0, agrupado=agrupado)
+            axes[fila, columna].imshow(consulta.reshape(37, 37), cmap="gray", vmin=-1, vmax=1,
+                                       interpolation="nearest")
+            axes[fila, columna].set_title(f"{'agrupado' if agrupado else 'disperso'}, {nivel:.0%} de negros",
+                                          fontsize=8)
+            axes[fila, columna].axis("off")
+    fig.suptitle("food con desgaste: manchas de roce (arriba) contra módulos sueltos (abajo)")
+    fig.tight_layout()
+    fig.subplots_adjust(hspace=0.2)
+    guardar(fig, SALIDA / "desgaste_ejemplos.png")
 
 
 def main():
