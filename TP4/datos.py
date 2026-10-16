@@ -14,6 +14,21 @@ DERIVADAS = {
     "estimated_argentina_reach": "average_reach × argentina_audience_pct / 100",
 }
 
+# Supuesto de negocio: los clientes son argentinos (precio en ARS, adopciones locales).
+# Su correlación con el resto es compatible con ruido, pero es la única medida de audiencia local.
+CONSERVAR_POR_DOMINIO = {
+    "argentina_audience_pct": "única medida de audiencia local; los clientes venden/adoptan en Argentina",
+}
+
+# 15 variables de entrenamiento elegidas por `seleccion.py` (derivadas → ruido → bloques de
+# correlación → PCA hacia atrás). Las descartadas siguen en el DataFrame para interpretar.
+VARIABLES = [
+    "average_reach", "argentina_audience_pct", "non_follower_reach_pct", "comments_per_1000",
+    "saves_per_1000", "shares_per_1000", "profile_visits_per_1000", "sponsored_posts_pct",
+    "topic_football_pct", "topic_makeup_pct", "topic_dogs_pct", "topic_art_pct",
+    "content_tutorial_pct", "content_showcase_pct", "average_watch_time_seconds",
+]
+
 TEMAS = ["topic_football_pct", "topic_makeup_pct", "topic_dogs_pct", "topic_art_pct"]
 NOMBRE_TEMA = {
     "topic_football_pct": "fútbol",
@@ -29,9 +44,8 @@ def cargar_creadores():
 
 
 def variables_seleccionadas(df):
-    """Columnas numéricas sin las derivadas (ver `DERIVADAS`)."""
-    numericas = df.select_dtypes("number").columns
-    return [c for c in numericas if c not in DERIVADAS]
+    """Las 15 variables de entrenamiento (ver `VARIABLES` y `seleccion.py`)."""
+    return list(VARIABLES)
 
 
 def tema_dominante(df):

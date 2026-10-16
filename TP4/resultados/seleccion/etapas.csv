@@ -1,0 +1,18 @@
+etapa,variable,motivo
+1. derivada,price_ars,= price_usd × 1500
+1. derivada,organic_posts_pct,= 100 − sponsored_posts_pct
+1. derivada,total_engagement_per_1000,= likes + comments + saves + shares (por 1000)
+1. derivada,estimated_argentina_reach,= average_reach × argentina_audience_pct / 100
+2. ruido,monthly_posts,"max|r| = 0.29 (p = 0.45), η² tema = 0.00"
+2. ruido (se conserva),argentina_audience_pct,"max|r| = 0.30 (p = 0.37), η² tema = 0.07; única medida de audiencia local; los clientes venden/adoptan en Argentina"
+3. correlación,average_impressions,|r| = 0.987 con average_reach (representante del bloque)
+3. correlación,average_video_views,|r| = 0.997 con average_reach (representante del bloque)
+3. correlación,followers,|r| = 0.918 con average_reach (representante del bloque)
+3. correlación,price_usd,|r| = 0.907 con average_reach (representante del bloque)
+3. correlación,video_posts_pct,|r| = 0.971 con short_form_posts_pct (representante del bloque)
+3. correlación,trend_posts_pct,|r| = 0.961 con short_form_posts_pct (representante del bloque)
+3. correlación,likes_per_1000,|r| = 0.901 con short_form_posts_pct (representante del bloque)
+4. PCA (B2),content_entertainment_pct,coef. +0.79 en espacio nulo (autovalor 0.000)
+4. PCA (B2),average_caption_words,coef. +0.71 en PC17 (autovalor 0.054)
+4. PCA (B2),short_form_posts_pct,coef. +0.77 en PC16 (autovalor 0.069)
+4. PCA (B2),content_review_pct,coef. +0.54 en PC15 (autovalor 0.128)

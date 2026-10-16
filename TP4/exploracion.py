@@ -47,17 +47,17 @@ def grafico_distribuciones(df, variables):
     guardar(fig, "distribuciones.png")
 
 
-def grafico_correlaciones(df):
+def grafico_correlaciones(df, variables):
     numericas = df.select_dtypes("number").columns
     corr = df[numericas].corr().to_numpy()
     fig, ax = plt.subplots(figsize=(11, 10))
     im = heatmap(ax, corr, numericas, numericas)
-    # Las derivadas (que se descartan) quedan marcadas en las etiquetas.
+    # Las descartadas (ver seleccion.py) quedan marcadas en las etiquetas.
     for etiqueta in [*ax.get_xticklabels(), *ax.get_yticklabels()]:
-        if etiqueta.get_text() in DERIVADAS:
+        if etiqueta.get_text() not in variables:
             etiqueta.set_color("#e34948")
     fig.colorbar(im, ax=ax, shrink=0.7, label="correlación de Pearson")
-    ax.set_title("Correlaciones entre todas las variables (en rojo: derivadas, se descartan)")
+    ax.set_title("Correlaciones entre todas las variables (en rojo: descartadas)")
     guardar(fig, "correlaciones.png")
 
 
@@ -145,14 +145,14 @@ def main():
     descripcion["asimetria"] = df.select_dtypes("number").skew()
     descripcion.round(3).to_csv(SALIDA / "descripcion.csv")
     grafico_distribuciones(df, variables)
-    grafico_correlaciones(df)
+    grafico_correlaciones(df, variables)
 
     print(f"Creadores: {len(df)} · columnas numéricas: {df.select_dtypes('number').shape[1]}"
           f" · vacíos: {int(df.isna().sum().sum())}")
     print("Descartadas por ser derivadas:")
     for var, formula in DERIVADAS.items():
         print(f"  {var:28s} = {formula}")
-    print(f"Variables seleccionadas: {len(variables)}")
+    print(f"Variables seleccionadas ({len(variables)}, ver seleccion.py): {variables}")
     print("Tema dominante:", temas.value_counts().to_dict())
 
     # --- PCA sobre las variables seleccionadas, estandarizadas ---

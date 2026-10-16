@@ -37,8 +37,8 @@ VARIACIONES = {
 # Elegida a partir de barridos.png (ver la justificación en el README).
 FINAL = BASE
 
-PLANOS = ["followers", "price_usd", "non_follower_reach_pct", "trend_posts_pct",
-          "saves_per_1000", "average_caption_words", "content_tutorial_pct",
+PLANOS = ["average_reach", "non_follower_reach_pct", "shares_per_1000", "saves_per_1000",
+          "profile_visits_per_1000", "content_tutorial_pct", "content_showcase_pct",
           "argentina_audience_pct", "sponsored_posts_pct", "topic_football_pct",
           "topic_makeup_pct", "topic_dogs_pct", "topic_art_pct"]
 
