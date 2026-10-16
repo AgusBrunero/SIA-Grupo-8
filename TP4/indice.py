@@ -133,7 +133,9 @@ def grafico_convergencia(resultados):
     axes[1, 0].set_ylabel("ángulo con PC1 en grados (log; línea = 1°)")
     axes[1, 0].set_xlabel("época")
     axes[1, 1].set_xlabel("época")
-    axes[0, 0].set_title("Según η (‖w₀‖ = 1). η = 0,05 diverge en las primeras épocas", fontsize=9)
+    divergen = resultados[(resultados.grupo == "eta") & resultados.divergio].experimento.unique()
+    axes[0, 0].set_title("Según η (‖w₀‖ = 1). " + (f"Divergen: {', '.join(divergen)}" if len(divergen)
+                         else "Ninguno diverge en 100 épocas"), fontsize=9)
     axes[0, 1].set_title("Según la norma inicial (η = 0,001)", fontsize=9)
     fig.suptitle(f"Convergencia de la regla de Oja ({len(SEMILLAS)} semillas por curva)")
     fig.tight_layout()
@@ -198,7 +200,7 @@ def grafico_indice(tabla):
     axes[2].set_title("Índice por tema dominante", fontsize=9)
     for ax in axes[1:]:
         ax.set_ylabel("índice de Oja")
-    fig.suptitle("El índice de Oja: igual a PC1, inverso al tamaño y ciego al tema")
+    fig.suptitle("El índice de Oja: igual a PC1 y ligado al tamaño (un solo eje para los cuatro temas)")
     fig.tight_layout()
     guardar(fig, SALIDA / "indice.png")
 
