@@ -1,5 +1,9 @@
 # Ej. 1.3 · Bitácora: paso a paso, ideas probadas y descartadas
 
+> **Versión anterior (27 variables).** El ejercicio 1 se rehízo con 15 variables elegidas por
+> análisis de correlación y PCA (`seleccion.py`). Los resultados vigentes están en el
+> [README de TP4](../../README.md); este informe se conserva como registro.
+
 Registro de cómo se llegó a `indice.py`, `models/oja.py` y `conclusiones.md` (15/10/2026).
 Las pruebas rápidas se hicieron en scripts sueltos; lo que quedó está en `indice.py`.
 

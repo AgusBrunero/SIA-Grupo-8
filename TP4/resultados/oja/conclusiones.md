@@ -1,5 +1,9 @@
 # Ej. 1.3 · Índice de creadores con la regla de Oja
 
+> **Versión anterior (27 variables).** El ejercicio 1 se rehízo con 15 variables elegidas por
+> análisis de correlación y PCA (`seleccion.py`). Los resultados vigentes están en el
+> [README de TP4](../../README.md); este informe se conserva como registro.
+
 Documento principal con todas las conclusiones: [README de TP4](../../README.md).
 
 Script: `TP4/indice.py` (se corre desde `TP4/` con `python indice.py`, tarda unos 10 s).

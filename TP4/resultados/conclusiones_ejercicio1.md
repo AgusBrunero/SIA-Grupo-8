@@ -1,5 +1,9 @@
 # Ejercicio 1 · Selección de creadores para campañas
 
+> **Versión anterior (27 variables).** El ejercicio 1 se rehízo con 15 variables elegidas por
+> análisis de correlación y PCA (`seleccion.py`). Los resultados vigentes están en el
+> [README de TP4](../README.md); este informe se conserva como registro.
+
 Documento principal con todas las conclusiones: [README de TP4](../README.md).
 
 ## 1.1 Exploración y representación
