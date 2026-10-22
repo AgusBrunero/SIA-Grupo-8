@@ -52,12 +52,16 @@ def grafico_correlaciones(df, variables):
     corr = df[numericas].corr().to_numpy()
     fig, ax = plt.subplots(figsize=(11, 10))
     im = heatmap(ax, corr, numericas, numericas)
-    # Las descartadas (ver seleccion.py) quedan marcadas en las etiquetas.
-    for etiqueta in [*ax.get_xticklabels(), *ax.get_yticklabels()]:
-        if etiqueta.get_text() not in variables:
-            etiqueta.set_color("#e34948")
+    # Las descartadas (ver seleccion.py) quedan subrayadas en las etiquetas.
+
+    def subrayar(nombre):
+        return "".join(f"{caracter}\u0332" for caracter in nombre)
+
+    ax.set_xticklabels([nombre if nombre in variables else subrayar(nombre) for nombre in numericas],
+                       rotation=90)
+    ax.set_yticklabels([nombre if nombre in variables else subrayar(nombre) for nombre in numericas])
     fig.colorbar(im, ax=ax, shrink=0.7, label="correlación de Pearson")
-    ax.set_title("Correlaciones entre todas las variables (en rojo: descartadas)")
+    ax.set_title("Correlaciones entre todas las variables (subrayadas: descartadas)")
     guardar(fig, "correlaciones.png")
 
 
