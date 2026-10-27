@@ -572,15 +572,15 @@ pre.tree { max-width: 100%; }
 
   <div class="slide" data-title="Hiperparámetros del SOM">
     <div class="sec-head">
-      <h2>Elegir la grilla: un parámetro por vez, 5 semillas</h2>
+      <h2>Red de Kohonen</h2>
       <p>Grilla hexagonal, cada neurona con 6 vecinas a distancia 1. η y radio decaen linealmente. Medimos error de cuantización (ajuste), error topográfico (si la 1.ª y 2.ª BMU son vecinas) y neuronas vacías.</p>
     </div>
-    <div class="proc"><div><span class="pn">1 · La pregunta</span><p>¿Qué tamaño de grilla y qué ritmo de aprendizaje usamos?</p></div><div><span class="pn">2 · Qué hicimos</span><p>Un barrido de un parámetro por vez con 5 semillas: k de 3 a 8, η inicial, radio inicial y final, épocas e inicialización. Medimos error de cuantización, error topográfico y neuronas vacías.</p></div><div><span class="pn">3 · Qué vimos</span><p>Una grilla más grande baja el error pero deja neuronas vacías; con radio final 0 se rompe el orden del mapa; η, inicialización y épocas casi no cambian nada (meseta).</p></div><div><span class="pn">4 · Qué decidimos</span><p>5×5, η 0,5 → 0,01, radio 3 → 1, 500 épocas, arranque con muestras. De las 5 semillas, la de menor error (semilla 3).</p></div></div>
+    <div class="proc"><div><span class="pn">1 · La pregunta</span><p>¿Cuál es la mejor configuración?</p></div><div><span class="pn">2 · Búsqueda</span><p>Se barrieron 5 semillas por  los parámetro: k, η inicial, radio inicial y final; épocas e inicialización. Medimos error de cuantización, error topográfico y neuronas vacías.</p></div><div><span class="pn">3 · Observaciones</span><p>Una grilla más grande baja el error pero deja neuronas vacías. Con radio final 0 se rompe el orden del mapa. η, inicialización y épocas casi no cambian nada (meseta).</p></div><div><span class="pn">4 · Configuración final</span><p>5×5, η: 0,5 → 0,01, radio: 3 → 1, 500 épocas, arranque con muestras. De las 5 semillas, la de menor error (semilla 3).</p></div></div>
     <div class="btns"><div class="toggle" id="sw-p" role="group" aria-label="Parámetro"></div><div class="toggle" id="sw-m" role="group" aria-label="Métrica"></div></div>
     <div class="g-wide">
       <figure class="chart"><div class="chart-title"><span id="sw-title"></span></div><svg viewBox="0 0 620 300" id="ch-sw" role="img" aria-label="Barrido"></svg><figcaption id="sw-cap"></figcaption></figure>
       <div class="qa">
-        <div class="q"><span class="ql">Configuración elegida</span><span class="answer">5×5, inicio con muestras, 500 épocas, η 0,5 → 0,01, radio 3 → 1.</span></div>
+        <div class="q"><span class="ql">Configuración elegida</span><span class="answer">5×5, inicio con muestras, 500 épocas, η: 0,5 → 0,01, radio: 3 → 1.</span></div>
         <div class="q"><span class="ql">¿Por qué no más grande?</span><span class="answer small-a">k = 8 baja el error a 1,69, pero deja 30 de 64 neuronas vacías para 50 creadores.</span></div>
         <div class="q"><span class="ql">¿Por qué radio final 1?</span><span class="answer small-a">Con 0 ajusta mejor (1,51) pero el error topográfico sube a 0,20: se pierde la continuidad entre vecinas.</span></div>
       </div>
@@ -595,10 +595,10 @@ pre.tree { max-width: 100%; }
 
   <div class="slide" data-title="El mapa">
     <div class="sec-head">
-      <h2>El mapa: qué perfiles reúne cada región</h2>
+      <h2>Mapa obtenido</h2>
       <p>Cada neurona es un prototipo de 15 pesos estandarizados. Elegí qué pintar y pasá el mouse por una neurona.</p>
     </div>
-    <div class="proc"><div><span class="pn">1 · La pregunta</span><p>¿Qué perfiles reúne cada región? ¿Coincide con el biplot? ¿Qué significa una U alta?</p></div><div><span class="pn">2 · Qué hicimos</span><p>Hit map, mapa por tema, matriz U, planos de cada variable y la grilla proyectada sobre PC1–PC2.</p></div><div><span class="pn">3 · Qué vimos</span><p>Las filas siguen a PC1 (profundo arriba, masivo abajo) y las columnas separan temas. La U más alta está en la frontera entre perros y fútbol masivo. Solo 2 neuronas mezclan temas; antes eran 6.</p></div><div><span class="pn">4 · Qué decidimos</span><p>Usar las regiones para preseleccionar por cliente. Las neuronas vacías son transiciones, no grupos.</p></div></div>
+    <div class="proc"><div><span class="pn">1 · La pregunta</span><p>¿Qué perfiles reúne cada región? ¿Coincide con el biplot? ¿Qué significa una U alta?</p></div><div><span class="pn">2 · Observables</span><p>Hit map, mapa por tema, matriz U, planos de cada variable y la grilla proyectada sobre PC1–PC2.</p></div><div><span class="pn">3 · Observaciones</span><p>PC1 va de arriba a la izquierda hacia abajo a la derecha. Los temas están mayormente segregados. La U más alta está en la frontera entre perros y fútbol masivo. Solo 2 neuronas mezclan temas, antes eran 6.</p></div><div><span class="pn">4 · Decisión</span><p>Usar las regiones para preseleccionar por cliente. Las neuronas vacías son transiciones, no grupos.</p></div></div>
     <div class="btns"><div class="toggle" id="som-mode" role="group" aria-label="Vista"></div><select id="som-var" aria-label="Variable" hidden></select><div class="toggle" id="som-ver" role="group" aria-label="Versión"><button type="button" aria-pressed="true" data-v="15">15 variables</button><button type="button" aria-pressed="false" data-v="27">27 (antes)</button></div></div>
     <div class="g-wide">
       <figure class="chart"><div class="legend" id="lg-som"></div><svg viewBox="0 0 560 450" id="ch-som" role="img" aria-label="Mapa de Kohonen"></svg><figcaption id="som-cap"></figcaption></figure>
@@ -1591,8 +1591,8 @@ $('#b2-table').innerHTML = '<thead><tr><th>descartada</th><th>dónde pesa</th></
     ['Columna izquierda, abajo', '(3,0), (4,0)', 'Perros con más alcance y shares.', '@patitasenred, @crearenreels, @huellasargentinas'],
     ['Arriba al centro', '(0,1)–(1,2), (2,1)', 'Fútbol y maquillaje educativos: comentarios, guardados, tutoriales y patrocinio.', '@reelargentino, @futbolentrepases, @pasiondepotrero'],
     ['Arriba a la derecha', '(0,3)–(1,4)', 'Arte con showcase. La zona más homogénea (U mínima).', '@arteentusmanos, @pincelcotidiano, @colorenmovimiento'],
-    ['Abajo al centro', '(3,1)–(3,2), (4,2)', 'Fútbol masivo y de descubrimiento: alcance, no seguidores, shares; pocos tutoriales.', '@golconmate, @tacticavisual, @futbolsinvueltas'],
-    ['Abajo a la derecha', '(3,3)–(3,4), (4,4)', 'Maquillaje masivo.', '@mateconideas, @brillourbano, @maquillajereal'],
+    ['Abajo al centro', '(3,1), (3,2), (4,2)', 'Fútbol masivo y de descubrimiento: alcance, no seguidores, shares, pocos tutoriales.', '@golconmate, @tacticavisual, @futbolsinvueltas'],
+    ['Abajo a la derecha', '(3,3), (3,4), (4,4)', 'Maquillaje masivo.', '@mateconideas, @brillourbano, @maquillajereal'],
   ];
   $('#regions').innerHTML = '<thead><tr><th>región</th><th>neuronas</th><th>perfil</th><th>ejemplos</th></tr></thead><tbody>' + REG.map(r => `<tr><td>${r[0]}</td><td class="n">${r[1]}</td><td>${r[2]}</td><td><code>${r[3]}</code></td></tr>`).join('') + '</tbody>';
 })();
