@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Perfiles y memorias</title>
-<meta name="description" content="TP4 de Sistemas de IA (ITBA, grupo 8): PCA, Kohonen, Oja y Hopfield implementados desde cero, con guion de exposición para cinco personas y los modelos corriendo en el navegador.">
+<meta name="description" content="TP4 de Sistemas de IA (ITBA, grupo 8): PCA, Kohonen, Oja y Hopfield implementados desde cero, con los modelos corriendo en el navegador.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -157,31 +157,18 @@ header.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 
 .fact b { display: block; font: 500 22px/1.1 var(--mono); }
 .fact span { font-size: 13px; color: var(--chalk-3); }
 
-/* ---------- partes, guion y equipo ---------- */
+/* ---------- partes ---------- */
 section.part { border-top: 1px dashed var(--line); padding-block: 40px 8px; }
 .part-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 6px; background: var(--board-2); }
 .part-head .pn { font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--chalk-3); }
-.part-head .who { font-weight: 700; font-size: 17px; }
 .part-head .pt { color: var(--chalk-2); font-size: 15px; }
 .anexo .part-head { background: transparent; border-style: dashed; }
-.guion { border: 1px dashed var(--line); border-radius: 6px; padding: 12px 16px 14px; background: var(--ink); font-size: 15px; color: var(--chalk-2); display: grid; gap: 8px; }
-.guion .gh { display: flex; justify-content: space-between; gap: 10px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--chalk-3); max-width: none; }
-.guion .gh b { color: var(--chalk); font-weight: 500; }
-.guion ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; max-width: 90ch; }
-.guion li b { color: var(--chalk); }
-.guion .pase { color: var(--chalk); font-style: italic; max-width: none; }
-body.nonotes .guion { display: none; }
-header.hero .guion { grid-column: 1 / -1; }
-.agenda { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 4px; }
+body.nonotes header.hero .agenda { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 4px; }
 .agenda a { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px; align-items: baseline; padding: 6px 10px; border-radius: 4px; color: var(--chalk-2); text-decoration: none; border: 1px solid transparent; font-size: 15px; }
 .agenda a:hover { border-color: var(--line); background: var(--board-2); }
 .agenda b { color: var(--chalk); font-weight: 700; }
 .agenda .num { color: var(--chalk-3); font-size: 13px; }
 .agenda span:last-child { font-size: 13px; color: var(--chalk-3); white-space: nowrap; }
-.team { display: grid; gap: 6px; }
-.tm { display: grid; grid-template-columns: 80px minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 14px; color: var(--chalk-2); }
-.tm input { font: 15px var(--body); color: var(--chalk); background: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 5px 8px; min-width: 0; }
-.tm em { font: 12px var(--mono); color: var(--chalk-3); font-style: normal; }
 .qa { display: grid; gap: 16px; align-content: start; min-width: 0; }
 .grid3.mini .concept p { font-size: 14.5px; }
 .answer.small-a { font-size: 15px; }
@@ -197,7 +184,6 @@ details.extra[open] > summary::after { content: "Ocultar ▴"; }
 details.extra > summary:hover { color: var(--chalk); }
 details.extra[open] > summary { border-bottom: 1px solid var(--line); }
 .extra-body { padding: 16px; display: grid; gap: 20px; }
-.guion li.opt { color: var(--chalk-3); font-style: italic; }
 
 /* ---------- consigna y ayuda ---------- */
 .drawer { position: fixed; top: calc(var(--navh) + env(safe-area-inset-top, 0px)); right: 0; bottom: 0; width: min(460px, 100%); z-index: 30; background: var(--board-2); border-left: 1px solid var(--line); padding: 18px 20px 30px; overflow-y: auto; box-shadow: -20px 0 40px rgba(0,0,0,.35); }
@@ -221,8 +207,7 @@ footer { margin-top: 48px; padding-top: 20px; border-top: 1px dashed var(--line)
 
 /* ---------- modo exposición: una lámina por pantalla ---------- */
 body.expo { font-size: 19px; }
-body.expo .guion { font-size: 14px; }
-body.expo .slide { min-height: calc(100vh - var(--navh) - 24px); align-content: center; padding-block: 28px; }
+body.expo body.expo .slide { min-height: calc(100vh - var(--navh) - 24px); align-content: center; padding-block: 28px; }
 body.expo section.ex { padding-block: 0; }
 body.expo header.hero { min-height: calc(100vh - var(--navh) - 24px); align-content: center; }
 html.snap { scroll-snap-type: y proximity; }
@@ -339,10 +324,9 @@ pre.tree { max-width: 100%; }
     </div>
     <div class="tools">
       <span class="where" id="where"></span>
-      <button type="button" class="kbtn" id="notesBtn" aria-pressed="true" title="Mostrar u ocultar el guion (N)">Guion <kbd>N</kbd></button>
       <button type="button" class="kbtn" id="consBtn" aria-pressed="false" title="Consigna de lo que se está viendo (C)">Consigna <kbd>C</kbd></button>
       <button type="button" class="kbtn" id="expoBtn" aria-pressed="false" title="Una lámina por pantalla (E)">Exponer <kbd>E</kbd></button>
-      <button type="button" class="kbtn" id="helpBtn" title="Atajos y equipo (?)">?</button>
+      <button type="button" class="kbtn" id="helpBtn" title="Atajos (?)">?</button>
     </div>
   </div>
 </nav>
@@ -355,19 +339,15 @@ pre.tree { max-width: 100%; }
 </aside>
 
 <div class="help" id="help" hidden>
-  <div class="board" role="dialog" aria-label="Atajos y equipo">
+  <div class="board" role="dialog" aria-label="Atajos">
     <div class="chart-title"><span>Atajos de teclado</span><button type="button" class="close">Cerrar</button></div>
     <table>
-      <tr><td><span class="kb">1</span> … <span class="kb">6</span></td><td>Ir a la parte de cada persona · <span class="kb">0</span> portada · <span class="kb">A</span> anexo</td></tr>
+      <tr><td><span class="kb">1</span> … <span class="kb">6</span></td><td>Ir a cada parte · <span class="kb">0</span> portada · <span class="kb">A</span> anexo</td></tr>
       <tr><td><span class="kb">→</span> <span class="kb">j</span> <span class="kb">PgDn</span> · <span class="kb">←</span> <span class="kb">k</span></td><td>Lámina siguiente · anterior</td></tr>
       <tr><td><span class="kb">E</span></td><td>Modo exposición: una lámina por pantalla, <span class="kb">espacio</span> avanza</td></tr>
-      <tr><td><span class="kb">N</span></td><td>Mostrar u ocultar el guion (qué dice cada uno)</td></tr>
       <tr><td><span class="kb">C</span></td><td>Consigna de lo que se está viendo</td></tr>
       <tr><td><span class="kb">Esc</span></td><td>Cerrar paneles</td></tr>
     </table>
-    <div class="chart-title" style="margin-top:16px"><span>Quién presenta cada parte</span></div>
-    <div class="team" id="team"></div>
-    <p class="small muted" style="margin-top:6px">Se guarda en este navegador.</p>
   </div>
 </div>
 
@@ -397,17 +377,11 @@ pre.tree { max-width: 100%; }
     <svg viewBox="0 0 520 430" id="ch-hero" role="img" aria-label="Mapa de Kohonen coloreado por tema"></svg>
     <p class="small muted">Pasá el mouse por una neurona para ver qué creadores reúne. Perros a la izquierda, fútbol al centro, arte y maquillaje a la derecha. Arriba los perfiles profundos y abajo los masivos.</p>
   </div>
-  <aside class="guion" data-p="1" data-min="1">
-    <ul><li>Presentar el TP: métodos no supervisados implementados con numpy, sin librerías de machine learning.</li>
-      <li>Dos problemas: <b>elegir creadores</b> para refugios de perros, ropa de fútbol, belleza y arte (Ej. 1) y <b>recuperar QR deteriorados</b> con memoria asociativa (Ej. 2).</li>
-      <li>Señalar el mapa: "Al final, el mapa separa los cuatro clientes y además lo masivo de lo profundo. Para llegar a esto primero hubo que limpiar las variables."</li></ul>
-    <p class="pase">Pase: "Arrancamos por los datos."</p>
-  </aside>
 </header>
 
 <!-- ================= PARTE 1 · DATOS Y 15 VARIABLES ================= -->
 <section class="part" id="p1" data-sec data-part="1" data-consigna="ej1_1">
-  <div class="part-head"><span class="pn">Parte 1 de 6</span><span class="who" data-p="1"></span><span class="pt">Ej. 1.1 · exploración y reducción a 15 variables</span></div>
+  <div class="part-head"><span class="pn">Parte 1 de 6</span><span class="pt">Ej. 1.1 · exploración y reducción a 15 variables</span></div>
 
   <div class="slide" data-title="El problema y los datos">
     <div class="sec-head">
@@ -426,12 +400,7 @@ pre.tree { max-width: 100%; }
       <div class="concept"><h3>Muchas columnas no aportan nada nuevo</h3><p>Algunas son fórmulas de otras (<code>price_ars = price_usd × 1500</code>), otras son casi copias (alcance, impresiones y vistas) y una es ruido. Si entran todas, el mismo concepto pesa cinco veces.</p></div>
     </div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="exploracion/distribuciones.png" tabindex="0"><img alt="Distribución de cada variable seleccionada"><figcaption><code>exploracion.py</code> · Distribución de cada variable seleccionada</figcaption></figure><figure class="shot" data-img="exploracion/correlaciones.png" tabindex="0"><img alt="Correlación de las 31 variables; en rojo, las descartadas"><figcaption><code>exploracion.py</code> · Correlación de las 31 variables; en rojo, las descartadas</figcaption></figure></div></div>
-    <aside class="guion" data-p="1" data-min="1">
-      <ul><li>50 creadores con 31 variables numéricas: perfil comercial (precio, % patrocinado), audiencia (alcance, % argentino, alcance a no seguidores) y contenido (temas, formatos).</li>
-        <li>Primer problema: las escalas. Se estandariza todo.</li>
-        <li>Segundo problema, y el centro de esta parte: hay columnas repetidas. Alcance y vistas tienen correlación 0,997.</li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="De 31 a 15 en cuatro etapas">
     <div class="sec-head">
@@ -449,14 +418,7 @@ pre.tree { max-width: 100%; }
       <figure class="chart"><div class="chart-title"><span>Correlación de Pearson entre las 31 variables</span></div><svg viewBox="0 0 520 520" id="ch-corr" role="img" aria-label="Matriz de correlación"></svg><figcaption>Rojo = correlación positiva, azul = negativa. Los bloques rojos grandes son los grupos casi duplicados: tamaño (5 variables) y formato (4).</figcaption></figure>
     </div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="seleccion/correlaciones_seleccionadas.png" tabindex="0"><img alt="Después: las 15 elegidas; la mayor correlación baja a 0,74"><figcaption><code>seleccion.py</code> · Después: las 15 elegidas; la mayor correlación baja a 0,74</figcaption></figure></div></div>
-    <aside class="guion" data-p="1" data-min="1.5">
-      <ul><li><b>Etapa 1, derivadas:</b> 4 columnas son fórmulas de otras. Quedan 27.</li>
-        <li><b>Etapa 2, ruido:</b> <code>monthly_posts</code> no se relaciona con nada más de lo que daría el azar. Quedan 26.</li>
-        <li><b>Etapa 3, correlación:</b> bloques con |r| ≥ 0,9. De cada bloque queda la variable más central: <code>average_reach</code> representa a seguidores, impresiones, vistas y precio. Quedan 19.</li>
-        <li><b>Etapa 4, PCA hacia atrás:</b> se toma la componente de menor varianza y se descarta la variable que más pesa en ella. Se repite hasta 15.</li>
-        <li>Mostrar la etapa 3 en la matriz: se apagan los dos bloques rojos.</li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="Ruido y supuestos">
     <div class="sec-head">
@@ -479,19 +441,12 @@ pre.tree { max-width: 100%; }
       <div class="tscroll" style="max-height:none"><table id="b2-table"></table></div>
       <p class="muted">Una componente con autovalor casi nulo es una combinación de variables que casi no varía: una de ellas se reconstruye con las demás. Las palabras por caption tienen r = −0,86 con el alcance y +0,82 con los guardados. Lo que miden ya está en las otras variables.</p>
     </div></details>
-    <aside class="guion" data-p="1" data-min="1.5">
-      <ul><li>Solo dos variables quedan por encima de la línea: <code>monthly_posts</code> y <code>argentina_audience_pct</code>.</li>
-        <li>La frecuencia se descarta: no cambia lo que entrega una publicación patrocinada y no se relaciona con el tema (η² = 0,00).</li>
-        <li><b>Supuesto 1:</b> tocar "sin arte" en la tabla. Arte queda más cerca de todos y fútbol, maquillaje y perros quedan lejos entre sí. Con 4 temas todas las distancias son parecidas.</li>
-        <li><b>Supuesto 2:</b> la audiencia argentina es ruido estadístico, pero es el dato más importante para un refugio local.</li></ul>
-      <p class="pase">Pase: "¿Por qué este método y no otro? Lo iteramos con PCA."</p>
-    </aside>
-  </div>
+</div>
 </section>
 
 <!-- ================= PARTE 2 · PCA ================= -->
 <section class="part" id="p2" data-sec data-part="2" data-consigna="ej1_1">
-  <div class="part-head"><span class="pn">Parte 2 de 6</span><span class="who" data-p="2"></span><span class="pt">Ej. 1.1 · iteración y componentes principales</span></div>
+  <div class="part-head"><span class="pn">Parte 2 de 6</span><span class="pt">Ej. 1.1 · iteración y componentes principales</span></div>
 
   <div class="slide" data-title="Iteramos seis estrategias">
     <div class="sec-head">
@@ -511,12 +466,7 @@ pre.tree { max-width: 100%; }
     <details class="extra"><summary><span class="pill">Opcional</span> Tabla completa de la comparación</summary><div class="extra-body"><div class="tscroll" style="max-height:none"><table id="cmp-table"></table></div>
       <p class="muted small">Entre los 1365 subconjuntos de 15 que tienen los 4 temas y salen de la etapa 3, la varianza retenida va de 0,850 a 0,938. La elección queda en 0,929, en la parte alta.</p></div></details>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="seleccion/comparacion.png" tabindex="0"><img alt="Las estrategias en los cuatro criterios; en naranja, la elegida"><figcaption><code>seleccion.py</code> · Las estrategias en los cuatro criterios; en naranja, la elegida</figcaption></figure></div></div>
-    <aside class="guion" data-p="2" data-min="1.5">
-      <ul><li>Mostrar "varianza retenida": todas casi iguales. Con solo ese criterio no hay ganadora.</li>
-        <li>Pasar a "pureza de tema en el SOM": entrenamos el mapa final con cada conjunto (5 semillas) y medimos cuántos creadores caen en una neurona de su tema. La elegida gana con 95 %; las 27 variables dan 84 %.</li>
-        <li>Con las 27, los bloques de tamaño y formato dominan las distancias y tapan el tema. La reducción no es solo achicar: mejora lo que el mapa puede separar.</li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="Componentes principales">
     <div class="sec-head">
@@ -534,12 +484,7 @@ pre.tree { max-width: 100%; }
       <div class="concept"><h3>PC3 y PC4 · los clientes (19,1 %)</h3><p>PC3 separa fútbol (+0,77) de arte (−0,68). PC4 es maquillaje (+0,83). El tema explica el 81 % de la varianza de PC3.</p></div>
     </div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="exploracion/scree.png" tabindex="0"><img alt="Scree plot con 15 variables"><figcaption><code>exploracion.py</code> · Scree plot con 15 variables</figcaption></figure><figure class="shot" data-img="antes/exploracion/scree.png" tabindex="0"><img alt="Antes: PC1 inflada por el bloque de tamaño"><figcaption><code>exploracion.py · versión de 27</code> · Antes: PC1 inflada por el bloque de tamaño</figcaption></figure><figure class="shot" data-img="exploracion/cargas.png" tabindex="0"><img alt="Cargas de las primeras componentes"><figcaption><code>exploracion.py</code> · Cargas de las primeras componentes</figcaption></figure></div></div>
-    <aside class="guion" data-p="2" data-min="1.5">
-      <ul><li>Cambiar a "27 (antes)": PC1 tenía casi 50 %, pero era el mismo concepto de tamaño contado cinco veces.</li>
-        <li>Con 15, PC1 baja a 36,5 % y aparecen componentes que separan clientes: PC3 y PC4.</li>
-        <li>Kaiser (autovalor &gt; 1) retiene 5 componentes, con 75 % de la varianza.</li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="Biplot">
     <div class="sec-head">
@@ -557,18 +502,12 @@ pre.tree { max-width: 100%; }
       </div>
     </div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="exploracion/biplot.png" tabindex="0"><img alt="Biplot PC1–PC2 con 15 variables"><figcaption><code>exploracion.py</code> · Biplot PC1–PC2 con 15 variables</figcaption></figure><figure class="shot" data-img="antes/exploracion/biplot.png" tabindex="0"><img alt="Antes: PC1 explicaba 49,7 %, dominada por el tamaño"><figcaption><code>exploracion.py · versión de 27</code> · Antes: todas las flechas de tamaño apiladas en PC1</figcaption></figure></div></div>
-    <aside class="guion" data-p="2" data-min="1.5">
-      <ul><li>PC1–PC2: perros abajo a la izquierda (profundos y locales), fútbol y maquillaje masivos a la derecha.</li>
-        <li>Cambiar a PC3–PC4: aparecen fútbol, arte y maquillaje separados. Eso es lo que el biplot clásico no muestra.</li>
-        <li>PC1 correlaciona 0,85 con seguidores, aunque <code>followers</code> no entró en la PCA.</li></ul>
-      <p class="pase">Pase: "El SOM usa las 15 dimensiones a la vez, no solo dos."</p>
-    </aside>
-  </div>
+</div>
 </section>
 
 <!-- ================= PARTE 3 · KOHONEN ================= -->
 <section class="part" id="p3" data-sec data-part="3" data-consigna="ej1_2">
-  <div class="part-head"><span class="pn">Parte 3 de 6</span><span class="who" data-p="3"></span><span class="pt">Ej. 1.2 · red de Kohonen</span></div>
+  <div class="part-head"><span class="pn">Parte 3 de 6</span><span class="pt">Ej. 1.2 · red de Kohonen</span></div>
 
   <div class="slide" data-title="Hiperparámetros del SOM">
     <div class="sec-head">
@@ -586,12 +525,7 @@ pre.tree { max-width: 100%; }
       </div>
     </div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="kohonen/barridos.png" tabindex="0"><img alt="Un parámetro por vez, 5 semillas"><figcaption><code>agrupamiento.py barridos</code> · Un parámetro por vez, 5 semillas</figcaption></figure></div></div>
-    <aside class="guion" data-p="3" data-min="1.5">
-      <ul><li>Mostrar "k" con error de cuantización: baja siempre. Cambiar a "neuronas vacías": explota.</li>
-        <li>Mostrar "radio final" con error topográfico: con 0 el mapa deja de estar ordenado.</li>
-        <li>η inicial, inicialización y épocas cambian poco (meseta). De las 5 semillas guardamos la de menor error: EC = 2,331, ET = 0 y 4 neuronas vacías.</li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="El mapa">
     <div class="sec-head">
@@ -606,13 +540,7 @@ pre.tree { max-width: 100%; }
     </div>
     <div class="tscroll" style="max-height:none"><table id="regions"></table></div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="kohonen/temas.png" tabindex="0"><img alt="Tema dominante por neurona"><figcaption><code>agrupamiento.py final</code> · Tema dominante por neurona</figcaption></figure><figure class="shot" data-img="antes/kohonen/temas.png" tabindex="0"><img alt="Antes: 6 neuronas mezclaban temas"><figcaption><code>agrupamiento.py · versión de 27</code> · Antes: 6 neuronas mezclaban temas</figcaption></figure><figure class="shot" data-img="kohonen/hit_map.png" tabindex="0"><img alt="Hit map con los nombres"><figcaption><code>agrupamiento.py final</code> · Hit map con los nombres</figcaption></figure><figure class="shot" data-img="kohonen/u_matrix.png" tabindex="0"><img alt="Matriz U"><figcaption><code>agrupamiento.py final</code> · Matriz U</figcaption></figure><figure class="shot" data-img="kohonen/component_planes.png" tabindex="0"><img alt="Planos de componentes"><figcaption><code>agrupamiento.py final</code> · Planos de componentes</figcaption></figure><figure class="shot" data-img="kohonen/grilla_en_pca.png" tabindex="0"><img alt="La grilla vista sobre PC1–PC2"><figcaption><code>agrupamiento.py final</code> · La grilla vista sobre PC1–PC2</figcaption></figure></div></div>
-    <aside class="guion" data-p="3" data-min="2">
-      <ul><li><b>Temas:</b> perros en la columna izquierda, fútbol en el centro, arte arriba a la derecha y maquillaje abajo a la derecha.</li>
-        <li><b>PC1:</b> las filas siguen a PC1. Arriba lo profundo y abajo lo masivo. Coincide con el biplot, pero el SOM además separa los temas con PC3 y PC4.</li>
-        <li><b>27 (antes):</b> 6 neuronas mezclaban temas; ahora son 2.</li>
-        <li><b>Matriz U:</b> distancia media a las vecinas. Alta = transición marcada. Lo más homogéneo es arte (1,03); lo más alto es el borde entre perros y fútbol masivo (2,36). No mide calidad ni rentabilidad.</li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="SOM en vivo">
     <div class="sec-head">
@@ -630,18 +558,12 @@ pre.tree { max-width: 100%; }
       </div>
       <figure class="chart"><div class="legend" id="lg-live-som"></div><svg viewBox="0 0 560 450" id="ch-live-som" role="img" aria-label="SOM entrenado en vivo"></svg></figure>
     </div>
-    <aside class="guion" data-p="3" data-min="1">
-      <ul><li>Entrenar con k = 8: el error baja pero aparecen muchas neuronas vacías.</li>
-        <li>Volver a k = 5 con radio final 0: el error topográfico deja de ser 0.</li>
-        <li class="opt">Si no hay tiempo, saltear: es la misma evidencia que el barrido.</li></ul>
-      <p class="pase">Pase: "El SOM mira todas las variables. Oja resume todo en un solo número."</p>
-    </aside>
-  </div>
+</div>
 </section>
 
 <!-- ================= PARTE 4 · OJA Y CAMPAÑAS ================= -->
 <section class="part" id="p4" data-sec data-part="4" data-consigna="ej1_3">
-  <div class="part-head"><span class="pn">Parte 4 de 6</span><span class="who" data-p="4"></span><span class="pt">Ej. 1.3 y 1.4 · índice de Oja y decisiones</span></div>
+  <div class="part-head"><span class="pn">Parte 4 de 6</span><span class="pt">Ej. 1.3 y 1.4 · índice de Oja y decisiones</span></div>
 
   <div class="slide" data-title="Oja converge a PC1">
     <div class="sec-head">
@@ -656,12 +578,7 @@ pre.tree { max-width: 100%; }
     </div>
     <div class="tscroll" style="max-height:none"><table id="oja-table"></table></div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="oja/convergencia.png" tabindex="0"><img alt="‖w‖ y ángulo con PC1 por época, 5 semillas por curva"><figcaption><code>indice.py convergencia</code> · ‖w‖ y ángulo con PC1 por época, 5 semillas por curva</figcaption></figure><figure class="shot" data-img="oja/pesos_vs_pc1.png" tabindex="0"><img alt="Pesos de Oja contra el autovector de PC1"><figcaption><code>indice.py final</code> · Pesos de Oja contra el autovector de PC1</figcaption></figure></div></div>
-    <aside class="guion" data-p="4" data-min="1.5">
-      <ul><li>Con η fijo hay un compromiso: 0,0001 no llega en 100 épocas y 0,01 oscila a unos 8° de PC1.</li>
-        <li>Elegimos η = 0,01/(1 + t/50): rápido al principio y fino al final. Ángulo final 0,06°, mismo ranking que PC1 en los 50 creadores.</li>
-        <li><b>Hallazgo:</b> los tres pesos mayores de PC1 están casi empatados (alcance 0,375; guardados y visitas 0,355). Con η = 0,01 la convención de signo ("el peso mayor queda positivo") invierte el índice entero. Elegir η = 0,01 con semilla 0: sale invertido (pasa en 7 de 10 semillas). Con η decreciente no pasa en ninguna.</li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="Qué es el índice">
     <div class="sec-head">
@@ -683,12 +600,7 @@ pre.tree { max-width: 100%; }
       </div>
     </div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="oja/indice.png" tabindex="0"><img alt="Índice contra PC1, contra seguidores y por tema"><figcaption><code>indice.py final</code> · Índice contra PC1, contra seguidores y por tema</figcaption></figure><figure class="shot" data-img="antes/oja/indice.png" tabindex="0"><img alt="Antes: misma recta con el signo invertido"><figcaption><code>indice.py · versión de 27</code> · Antes: misma recta con el signo invertido</figcaption></figure></div></div>
-    <aside class="guion" data-p="4" data-min="1.5">
-      <ul><li>Señalar los creadores de perros, abajo a la izquierda: índice bajo. El primero de perros en el ranking está en el puesto 12.</li>
-        <li>Antes, con 27 variables, el índice alto era lo profundo. Es solo convención de signo: la recta es la misma.</li>
-        <li>Comparado con PC1: ángulo 0,06°, Pearson y Spearman 1,00000, 0 posiciones distintas. Oja no aporta nada que la PCA no dé, pero llega sin diagonalizar y procesando un creador a la vez.</li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="Decisiones para las campañas">
     <div class="sec-head">
@@ -712,19 +624,12 @@ pre.tree { max-width: 100%; }
         <div class="concept"><h3>Descubrimiento</h3><p><code>@tacticavisual</code>: 71,5 % de alcance a no seguidores, pero solo 29,5 % argentino y USD 5.335. No conviene para una campaña local.</p></div>
       </div>
     </div></details>
-    <aside class="guion" data-p="4" data-min="2">
-      <ul><li>Recorrer los 4 clientes. Todos los elegidos están en las filas de arriba del mapa (profundidad), filtrados por tema.</li>
-        <li>Comparar con "por seguidores": sin filtrar por tema elegiría a <code>@mateconideas</code> (maquillaje) para los cuatro clientes.</li>
-        <li><code>price_usd</code> y <code>followers</code> no entraron al entrenamiento por redundantes, pero se usan para decidir.</li>
-        <li>Mantenimiento: ver anexo. Si cambian los datos o las variables, se vuelve a correr la selección.</li></ul>
-      <p class="pase">Pase: "Cambiamos de problema: memoria asociativa."</p>
-    </aside>
-  </div>
+</div>
 </section>
 
 <!-- ================= PARTE 5 · HOPFIELD ================= -->
 <section class="part" id="p5" data-sec data-part="5" data-consigna="ej2_2">
-  <div class="part-head"><span class="pn">Parte 5 de 6</span><span class="who" data-p="5"></span><span class="pt">Ej. 2 · memoria asociativa con Hopfield</span></div>
+  <div class="part-head"><span class="pn">Parte 5 de 6</span><span class="pt">Ej. 2 · memoria asociativa con Hopfield</span></div>
 
   <div class="slide" data-title="Letras: ortogonalidad">
     <div class="sec-head">
@@ -741,11 +646,7 @@ pre.tree { max-width: 100%; }
       <figure class="chart"><div class="chart-title"><span>Solapamiento medio de los 1820 cuartetos</span></div><svg viewBox="0 0 520 300" id="ch-quart" role="img" aria-label="Histograma de cuartetos"></svg><figcaption>Con N = 25 impar no puede haber ortogonalidad exacta: la suma de 25 términos ±1 nunca da 0.</figcaption></figure>
     </div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="hopfield/letras/patrones.png" tabindex="0"><img alt="Las 16 letras candidatas"><figcaption><code>letras.py</code> · Las 16 letras candidatas</figcaption></figure><figure class="shot" data-img="hopfield/letras/ortogonalidad.png" tabindex="0"><img alt="Solapamientos dentro de FILX y de BEFP"><figcaption><code>letras.py</code> · Solapamientos dentro de FILX y de BEFP</figcaption></figure></div></div>
-    <aside class="guion" data-p="5" data-min="1">
-      <ul><li>FILX tiene solapamiento medio 0,09; BEFP 0,65. Elegimos los extremos antes de ver cómo recuperaban.</li>
-        <li>Sin ruido, en FILX las 4 letras son puntos fijos. En BEFP, B y E terminan con un bit cambiado: interferencia entre memorias sin ruido.</li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="Letras en vivo">
     <div class="sec-head">
@@ -769,13 +670,7 @@ pre.tree { max-width: 100%; }
       <figure class="chart"><div class="chart-title"><span>Capacidad: memorias estables al aumentar las letras</span></div><div class="legend" id="lg-hcap"></div><svg viewBox="0 0 520 280" id="ch-hcap" role="img" aria-label="Capacidad"></svg><figcaption>Referencia 0,138·N ≈ 3,45: es para redes grandes con patrones aleatorios, no una garantía con 25 neuronas.</figcaption></figure>
     </div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="hopfield/letras/recuperacion_capacidad.png" tabindex="0"><img alt="Recuperación con ruido y capacidad (6400 corridas)"><figcaption><code>letras.py</code> · Recuperación con ruido y capacidad (6400 corridas)</figcaption></figure><figure class="shot" data-img="hopfield/letras/espurio.png" tabindex="0"><img alt="Consulta ruidosa y estado espurio"><figcaption><code>letras.py</code> · Consulta ruidosa y estado espurio</figcaption></figure><figure class="shot" data-img="hopfield/letras/energia_espurio.png" tabindex="0"><img alt="Energía del espurio en cada actualización"><figcaption><code>letras.py</code> · Energía del espurio en cada actualización</figcaption></figure></div></div>
-    <aside class="guion" data-p="5" data-min="2">
-      <ul><li>Correr F con 5 bits: casi siempre vuelve. Subir a 10: empiezan los errores.</li>
-        <li>FILX resiste mejor hasta 20 % de ruido. Con 40 % ninguna red es confiable.</li>
-        <li>Capacidad: con 3 letras el 91 % de los conjuntos queda estable; con 6, solo el 1 %.</li>
-        <li><b>Espurio:</b> F con 10 bits termina en un punto fijo a 6, 5, 5 y 13 bits de F, I, L y X. La energía bajó de 0,32 a −10,40. <b>Converger y bajar la energía no significa recuperar.</b></li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="QR en vivo">
     <div class="sec-head">
@@ -803,13 +698,7 @@ pre.tree { max-width: 100%; }
       <figure class="chart"><div class="chart-title"><span>Energía después de cada actualización</span></div><svg viewBox="0 0 520 300" id="ch-qr-e" role="img" aria-label="Energía QR"></svg><figcaption id="qr-cap"></figcaption></figure>
     </div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="hopfield/qr/solapamientos.png" tabindex="0"><img alt="Solapamiento entre los cinco QR"><figcaption><code>qr.py</code> · Solapamiento entre los cinco QR</figcaption></figure><figure class="shot" data-img="hopfield/qr/ejemplos.png" tabindex="0"><img alt="food: original, entrada y salidas con las dos reglas"><figcaption><code>qr.py</code> · food: original, entrada y salidas con las dos reglas</figcaption></figure></div></div>
-    <aside class="guion" data-p="5" data-min="2">
-      <ul><li>Con Hebb, recuperar <b>sin ruido</b> (nivel 0): ni siquiera el original es estable. Los 5 terminan en el mismo estado espurio.</li>
-        <li>¿Por qué? Los QR comparten el 70 % de los píxeles (patrones de posición, timing) y sus solapamientos van de 0,58 a 0,86. Tener 1369 neuronas y 5 memorias no alcanza si son tan parecidas.</li>
-        <li>Cambiar a pseudoinversa: <code>W = Xᵀ(XXᵀ)⁺X</code>, misma dinámica. Recupera con 30 % de ruido, y con esquinas, manchas y rayas.</li>
-        <li>Pintar una mancha grande a mano para mostrar que la red solo recupera QR que ya conoce.</li></ul>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="QR: resultados y límites">
     <div class="sec-head">
@@ -833,13 +722,7 @@ pre.tree { max-width: 100%; }
     </div>
     <details class="extra"><summary><span class="pill">Opcional</span> Deterioros localizados: lector directo contra Hopfield</summary><div class="extra-body"><div class="tscroll" style="max-height:none"><table id="qr-local"></table></div></div></details>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="hopfield/qr/recuperacion.png" tabindex="0"><img alt="Recuperación exacta y lectura del QR por deterioro"><figcaption><code>qr.py</code> · Recuperación exacta y lectura del QR por deterioro</figcaption></figure><figure class="shot" data-img="hopfield/qr/energia.png" tabindex="0"><img alt="Energía por actualización en los ejemplos"><figcaption><code>qr.py</code> · Energía por actualización en los ejemplos</figcaption></figure></div></div>
-    <aside class="guion" data-p="5" data-min="1.5">
-      <ul><li>Hebb: 0 % en todos los niveles. Pseudoinversa: 100 % hasta 30 %, 99,3 % con 40 % y 0 % con 50 %.</li>
-        <li>La pseudoinversa es una extensión opcional: la respuesta con el modelo clásico es que Hebb no sirve para estos 5 QR juntos.</li>
-        <li>Un lector que detecta "algún QR" tampoco certifica nada: siempre comparamos la URL con la del menú consultado.</li></ul>
-      <p class="pase">Pase: "Además probamos un deterioro más realista, que nos pidieron en clase."</p>
-    </aside>
-  </div>
+</div>
 
   <div class="slide" data-title="Opcional: desgaste del papel">
     <div class="sec-head">
@@ -858,19 +741,12 @@ pre.tree { max-width: 100%; }
       <div class="concept"><h3>Los fallos siguen siendo peligrosos</h3><p>Con 90 % agrupado, 10 de los 30 fallos llegan a <b>otro menú</b> y 20 a un espurio. Con 95 % aparecen inversos.</p></div>
     </div>
     <div class="shots"><p class="eyebrow">Lo que corrimos</p><div class="shots-grid"><figure class="shot" data-img="hopfield/qr/desgaste_ejemplos.png" tabindex="0"><img alt="food con desgaste"><figcaption><code>qr.py</code> · food con desgaste agrupado (manchas) y disperso</figcaption></figure><figure class="shot" data-img="hopfield/qr/desgaste.png" tabindex="0"><img alt="Resultados del desgaste"><figcaption><code>qr.py</code> · recuperación, lectura y comparación con ruido simétrico</figcaption></figure><figure class="shot qrsquare" data-img="hopfield/qr/lector/entrada_desgaste.png" tabindex="0"><img alt="Entrada con desgaste"><figcaption>entrada que recibió el lector: food, 50 % de los negros gastados</figcaption></figure><figure class="shot qrsquare" data-img="hopfield/qr/lector/salida_desgaste_pseudoinverse.png" tabindex="0"><img alt="Salida pseudoinversa"><figcaption>salida de la pseudoinversa: food recuperado</figcaption></figure></div></div>
-    <aside class="guion" data-p="5" data-min="1.5">
-      <ul><li>"Esto lo pidió Santiago Reyes en clase: un ruido más realista." El QR de una mesa no invierte bits al azar, se gasta la tinta.</li>
-        <li>Mostrarlo en vivo: volver a la lámina "QR en vivo", deterioro <b>desgaste</b>, 70 % de los negros, pseudoinversa → recupera. Con Hebb → espurio.</li>
-        <li>Dato clave: el lector solo ya no lee con 5 % de desgaste; con Hopfield y pseudoinversa se recupera hasta 50 % siempre.</li>
-        <li>Es más fácil que el ruido simétrico porque los negros que quedan son verdaderos. Pero agrupado es más difícil que disperso: la ubicación del daño importa, no solo la cantidad.</li></ul>
-      <p class="pase">Pase: "Cerramos con lo que nos llevamos de los dos ejercicios."</p>
-    </aside>
-  </div>
+</div>
 </section>
 
 <!-- ================= PARTE 6 · CIERRE ================= -->
 <section class="part" id="p6" data-sec data-part="6" data-consigna="general">
-  <div class="part-head"><span class="pn">Parte 6 de 6</span><span class="who" data-p="6"></span><span class="pt">Cierre</span></div>
+  <div class="part-head"><span class="pn">Parte 6 de 6</span><span class="pt">Cierre</span></div>
   <div class="slide" data-title="Conclusiones">
     <div class="sec-head"><h2>Lo que nos llevamos</h2></div>
     <div class="grid2">
@@ -883,12 +759,7 @@ pre.tree { max-width: 100%; }
       <div class="chart-title"><span>Qué cambió al reducir a 15 variables</span></div>
       <table id="before-after"></table>
     </div>
-    <aside class="guion" data-p="6" data-min="1.5">
-      <ul><li>Cuatro ideas, una por tarjeta.</li>
-        <li>Recorrer la tabla de antes y después: el cambio que pidió la profe mejoró el mapa y aclaró el índice.</li>
-        <li>Cerrar: "Las selecciones son hipótesis para un piloto; la pseudoinversa mejora estos QR pero no es un lector universal. ¿Preguntas?" Para preguntas, ver el anexo.</li></ul>
-    </aside>
-  </div>
+</div>
 </section>
 
 <!-- ================= ANEXO ================= -->
@@ -1145,31 +1016,14 @@ function legend(elm, items) {
 }
 
 
-/* ---------- equipo: 6 partes, 5 personas (la persona 1 abre y cierra) ---------- */
-const PART_PERSON = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 1 };
+/* ---------- agenda de partes ---------- */
 const PART_NAME = { 1: 'Datos y reducción a 15 variables', 2: 'PCA: iteración y componentes', 3: 'Red de Kohonen', 4: 'Oja y decisiones de campaña', 5: 'Hopfield: letras y QR', 6: 'Cierre' };
-let TEAM = ['', '', '', '', ''];
-try { const s = JSON.parse(localStorage.getItem('tp4-team') || 'null'); if (Array.isArray(s)) TEAM = s.concat(TEAM).slice(0, 5); } catch (e) { }
-const personLabel = n => TEAM[n - 1] ? `${TEAM[n - 1]} (P${n})` : `Persona ${n}`;
-const partMinutes = part => $$(`[data-part="${part}"] .guion`).reduce((a, g) => a + +g.dataset.min, 0) + (part === 1 ? +$('header.hero .guion').dataset.min : 0);
-function renderTeam() {
-  $$('.who').forEach(w => { w.textContent = personLabel(PART_PERSON[w.dataset.p]); });
-  $$('.guion').forEach(g => {
-    let h = g.querySelector('.gh');
-    if (!h) { h = document.createElement('p'); h.className = 'gh'; g.prepend(h); }
-    h.innerHTML = `<b>Guion · ${esc(personLabel(PART_PERSON[g.dataset.p]))}</b><span>~${String(g.dataset.min).replace('.', ',')} min</span>`;
-  });
-  $('#agenda').innerHTML = Object.keys(PART_NAME).map(k => `<li><a href="#p${k}"><span class="num">${k}</span><b>${PART_NAME[k]}</b><span>${esc(personLabel(PART_PERSON[k]))} · ~${String(partMinutes(+k)).replace('.', ',')} min</span></a></li>`).join('');
+function renderAgenda() {
+  $('#agenda').innerHTML = Object.keys(PART_NAME).map(k => `<li><a href="#p${k}"><span class="num">${k}</span><b>${PART_NAME[k]}</b></a></li>`).join('');
   $$('#agenda a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); goSec(a.getAttribute('href').slice(1)); }));
 }
-$('#team').innerHTML = [1, 2, 3, 4, 5].map(n => `<label class="tm" for="tm${n}"><span>Persona ${n}</span><input id="tm${n}" type="text" placeholder="Nombre" value="${esc(TEAM[n - 1])}"><em>${Object.keys(PART_PERSON).filter(k => PART_PERSON[k] === n).map(k => 'parte ' + k).join(' y ')}</em></label>`).join('');
-[1, 2, 3, 4, 5].forEach(n => $('#tm' + n).addEventListener('input', e => {
-  TEAM[n - 1] = e.target.value.trim();
-  try { localStorage.setItem('tp4-team', JSON.stringify(TEAM)); } catch (err) { }
-  renderTeam(); updateWhere(true);
-}));
 
-/* ---------- navegación: chips, atajos, modo exposición, consigna, guion ---------- */
+/* ---------- navegación: chips, atajos, modo exposición, consigna ---------- */
 const SECTIONS = $$('[data-sec]');
 const SLIDES = () => $$('.slide, header.hero');
 const chips = $$('.chips a');
@@ -1195,10 +1049,9 @@ function updateWhere(force) {
   slides.forEach((s, i) => s.classList.toggle('cur', i === idx));
   if (slides[idx] !== currentSlide) { currentSlide = slides[idx]; if (!$('#drawer').hidden) fillDrawer(); }
   const part = cur.dataset.part;
-  const who = part && part !== 'A' ? ` · ${personLabel(PART_PERSON[part])}` : '';
   const main = slides.filter(s => !s.closest('.anexo'));
   const pos = main.indexOf(slides[idx]);
-  $('#where').textContent = (part === 'A' ? 'Anexo' : part ? `Parte ${part}/6` : 'Portada') + who + (pos >= 0 ? ` · ${pos + 1}/${main.length}` : '');
+  $('#where').textContent = (part === 'A' ? 'Anexo' : part ? `Parte ${part}/6` : 'Portada') + (pos >= 0 ? ` · ${pos + 1}/${main.length}` : '');
 }
 addEventListener('scroll', () => requestAnimationFrame(() => updateWhere()), { passive: true });
 addEventListener('resize', () => updateWhere());
@@ -1220,12 +1073,6 @@ function toggleExpo(force) {
   $('#expoBtn').setAttribute('aria-pressed', on);
   try { localStorage.setItem('tp4-expo', on ? '1' : '0'); } catch (e) { }
   updateWhere();
-}
-function toggleNotes(force) {
-  const show = force ?? document.body.classList.contains('nonotes');
-  document.body.classList.toggle('nonotes', !show);
-  $('#notesBtn').setAttribute('aria-pressed', show);
-  try { localStorage.setItem('tp4-notes', show ? '1' : '0'); } catch (e) { }
 }
 function fillDrawer() {
   const holder = (currentSlide && currentSlide.closest('[data-consigna]')) || currentSec;
@@ -1253,19 +1100,17 @@ document.addEventListener('keydown', e => {
   else if (k === 'ArrowRight' || k === 'j' || k === 'PageDown' || (k === ' ' && document.body.classList.contains('expo'))) { goSlide(1); e.preventDefault(); }
   else if (k === 'ArrowLeft' || k === 'k' || k === 'PageUp') { goSlide(-1); e.preventDefault(); }
   else if (k === 'e' || k === 'E' || k === 'f' || k === 'F') toggleExpo();
-  else if (k === 'n' || k === 'N') toggleNotes();
   else if (k === 'c' || k === 'C') toggleDrawer();
   else if (k === '?' || k === 'h' || k === 'H') toggleHelp();
   else if (k === 'Escape') { toggleHelp(false); toggleDrawer(false); }
 });
 $('#expoBtn').addEventListener('click', () => toggleExpo());
-$('#notesBtn').addEventListener('click', () => toggleNotes());
 $('#consBtn').addEventListener('click', () => toggleDrawer());
 $('#helpBtn').addEventListener('click', () => toggleHelp());
 $('#drawer .close').addEventListener('click', () => toggleDrawer(false));
 $('#help').addEventListener('click', e => { if (e.target.id === 'help' || e.target.closest('.close')) toggleHelp(false); });
 chips.forEach(a => a.addEventListener('click', e => { e.preventDefault(); goSec(a.getAttribute('href').slice(1)); }));
-renderTeam();
+renderAgenda();
 
 
 DATA.consigna = {
@@ -2013,7 +1858,7 @@ $('#gallery').innerHTML = GROUPS.map(([cmd, title, f]) => `<div class="gal-group
   box.innerHTML = '<p class="eyebrow">Lo que leyó ZXing-C++ (food, imágenes de 360×360 con borde blanco)</p><div class="lector">' +
     '<span></span><b>entrada</b><b>salida Hebb · no lee food</b><b>salida pseudoinversa · lee food</b>' +
     rows.map(([k, l]) => `<span>${l}</span>` + cell('entrada_' + k, 'entrada') + cell('salida_' + k + '_hebb', 'Hebb') + cell('salida_' + k + '_pseudoinverse', 'pseudoinversa')).join('') + '</div>';
-  const slide = $('[data-title="QR: resultados y límites"]'); slide.insertBefore(box, slide.querySelector('aside.guion'));
+  const slide = $('[data-title="QR: resultados y límites"]'); slide.appendChild(box);
 })();
 const SHOTS = $$('.shot');
 SHOTS.forEach(f => {
@@ -2027,7 +1872,7 @@ $('#lightbox').addEventListener('click', e => { if (e.target.id !== 'lb-img') cl
 document.addEventListener('keydown', e => { if (!$('#lightbox').hidden) { if (e.key === 'Escape') closeLb(); e.stopImmediatePropagation(); } }, true);
 
 updateWhere(true);
-try { if (localStorage.getItem('tp4-notes') === '0') toggleNotes(false); if (localStorage.getItem('tp4-expo') === '1') toggleExpo(true); } catch (e) { }
+try { if (localStorage.getItem('tp4-expo') === '1') toggleExpo(true); } catch (e) { }
 </script>
 </body>
 </html>
