@@ -843,7 +843,7 @@ pre.tree { max-width: 100%; }
 
   <div class="slide" data-title="Opcional: desgaste del papel">
     <div class="sec-head">
-      <p class="eyebrow"><span class="pill y">Opcional</span> &nbsp;Pedido en clase por Santiago Reyes</p>
+      <p class="eyebrow"><span class="pill y">Opcional</span></p>
       <h2>Un ruido realista: la tinta negra se gasta</h2>
       <p>En una mesa real el QR no cambia bits al azar: el papel se roza y <b>algunos negros pasan a blancos</b>; el blanco nunca se vuelve negro. Lo implementamos en <code>qr.desgaste(patron, fraccion, semilla, agrupado=True)</code>.</p>
     </div>
@@ -894,10 +894,6 @@ pre.tree { max-width: 100%; }
 <!-- ================= ANEXO ================= -->
 <section class="part anexo" id="anexo" data-sec data-part="A" data-consigna="general">
   <div class="part-head"><span class="pn">Anexo</span><span class="pt">Proceso, decisiones y preguntas probables</span></div>
-  <div class="slide" data-title="Cómo llegamos">
-    <div class="sec-head"><h2>Cómo llegamos: el historial del TP</h2><p>Un commit por paso. La reducción a 15 variables llegó al final, cuando la profe la pidió, y obligó a reentrenar todo.</p></div>
-    <ol class="timeline" id="timeline"></ol>
-  </div>
   <div class="slide" data-title="Decisiones descartadas">
     <div class="sec-head"><h2>Ideas que probamos y descartamos</h2><p>De la bitácora de Oja (escrita sobre la versión de 27 variables) y de la iteración de la selección.</p></div>
     <div class="tscroll" style="max-height:none"><table id="discarded"></table></div>
@@ -1277,7 +1273,7 @@ DATA.consigna = {
   ej1_1: { title: '1.1 · Exploración y representación', html: '<p>Analizar el conjunto de datos y seleccionar qué variables serán utilizadas para resolver el problema. Para ello, se debe realizar un Exploratory Data Analysis (EDA) y un Análisis de Componentes Principales (PCA).</p><p>Justificar si se realiza una reducción de dimensionalidad y cómo se interpretan las componentes.</p><p><b>Indicación de la cátedra:</b> reducir a 15 variables con PCA y análisis de correlación.</p><p class="muted">Aclaración: se pueden asumir ciertos supuestos sobre las features si es necesario.</p>' },
   ej1_2: { title: '1.2 · Implementación: red de Kohonen', html: '<p>Implementar una red de Kohonen con el objetivo de agrupar los creadores de contenido en términos de todas sus variables. Como mínimo:</p><ul><li>Variar los hiperparámetros correspondientes a la red y justificar la elección final evaluando la performance del modelo.</li><li>Analizar la grilla de neuronas y la distribución de los creadores en la misma y analizar la Matriz U.</li><li>Interpretar los resultados: ¿qué perfiles reúne cada región de la grilla? ¿Coinciden con los perfiles observados en la PC1 y PC2 (biplot)? ¿Qué indica una distancia alta entre neuronas vecinas en la matriz U?</li></ul>' },
   ej1_3: { title: '1.3 · Índice con la regla de Oja', html: '<p>Implementar la regla de Oja sobre los mismos datos para generar un índice de creadores de contenido y analizarlo. ¿Qué representa este índice? ¿Cómo se puede interpretar? ¿Sería correcto elegir automáticamente al creador con el valor más alto para cualquier campaña?</p><p>Comparar el resultado con la proyección sobre PC1 obtenida mediante PCA.</p><p><b>1.4 · Decisión para las campañas.</b> Para fútbol, ¿conviene priorizar alcance masivo, descubrimiento o profundidad educativa? Comparar con una estrategia basada únicamente en followers. ¿Qué implica el mantenimiento del sistema? ¿Qué ocurre con una nueva campaña, con más creadores, con nuevas variables o con la actualización mensual?</p>' },
-  ej2_2: { title: '2 · Memoria asociativa', html: '<p><b>2.2 Recomendación, letras.</b> Construir patrones de letras con 1 y −1 en matrices de 5×5. Almacenar 4 patrones e implementar Hopfield. Realizar un análisis de ortogonalidad y de la capacidad de almacenamiento. Ingresar un patrón muy ruidoso e identificar un estado espurio.</p><p><b>2.1 QR deteriorados.</b> Representar cada QR como una matriz binaria de 37×37. Almacenar los cinco vectores y construir patrones de consulta. Analizar la alteración con distintos niveles de ruido aleatorio. Analizar la cantidad de iteraciones y la energía en cada paso. Explicar las limitaciones del caso de uso.</p><p><b>Opcional pedido en clase (Santiago Reyes):</b> agregar un ruido realista de desgaste, donde algunos negros pasan a blancos.</p>' },
+  ej2_2: { title: '2 · Memoria asociativa', html: '<p><b>2.2 Recomendación, letras.</b> Construir patrones de letras con 1 y −1 en matrices de 5×5. Almacenar 4 patrones e implementar Hopfield. Realizar un análisis de ortogonalidad y de la capacidad de almacenamiento. Ingresar un patrón muy ruidoso e identificar un estado espurio.</p><p><b>2.1 QR deteriorados.</b> Representar cada QR como una matriz binaria de 37×37. Almacenar los cinco vectores y construir patrones de consulta. Analizar la alteración con distintos niveles de ruido aleatorio. Analizar la cantidad de iteraciones y la energía en cada paso. Explicar las limitaciones del caso de uso.</p><p><b>Opcional:</b> agregar un ruido realista de desgaste, donde algunos negros pasan a blancos.</p>' },
 };
 /* ---------- TP4: datos, utilidades y demos ---------- */
 const TOPIC = { 'fútbol': C.s1, 'maquillaje': C.s2, 'perros': C.s3, 'arte': C.s4 };
@@ -1958,23 +1954,6 @@ $('#before-after').innerHTML = '<thead><tr><th></th><th>27 variables (antes)</th
   ['Preselección para las campañas', '—', 'los mismos 8 creadores'],
 ].map(r => `<tr><td>${r[0]}</td><td class="muted">${r[1]}</td><td>${r[2]}</td></tr>`).join('') + '</tbody>';
 
-$('#timeline').innerHTML = [
-  ['13/10', '6a9e278', 'Primer esqueleto de la red de Kohonen.'],
-  ['15/10', '9307534', 'EDA y PCA con numpy sobre 27 variables (solo se quitaban las derivadas).'],
-  ['15/10', 'c0183ee', 'Kohonen vectorizado: épocas, decaimiento de η y radio, semillas y error topográfico.'],
-  ['15/10', 'c8123e8', 'Barridos de hiperparámetros de Kohonen y mapa final.'],
-  ['15/10', '09da83f', 'Índice de Oja y comparación de convergencia con PC1.'],
-  ['15/10', '7828edc', 'Conclusiones del ejercicio 1 y selección para las campañas.'],
-  ['15/10', '100e5fe · 37f0aca', 'Hopfield con letras: ortogonalidad, ruido, capacidad y estado espurio.'],
-  ['15/10', '67eb62e', 'QR de la Trattoria: Hebb, pseudoinversa opcional y lectura real con ZXing-C++.'],
-  ['15/10', '65110e8', 'README consolidado con todas las conclusiones.'],
-  ['16/10', '829f89e', '<b>La profe pide 15 variables.</b> Selección reproducible: derivadas, ruido, correlación y PCA hacia atrás; 6 estrategias comparadas.'],
-  ['16/10', '94d288d', 'Kohonen y Oja reentrenados con las 15 variables.'],
-  ['16/10', '00108c2', 'Análisis del ejercicio 1 reescrito con los resultados nuevos.'],
-  ['16/10', '8a4d3d7', 'Títulos de las figuras de Oja calculados a partir de los resultados.'],
-  ['16/10', '5c34acc', '<b>Opcional pedido en clase por Santiago Reyes:</b> desgaste del papel en los QR (solo el negro se aclara, en manchas), 5400 recuperaciones más.'],
-].map(([d, h, t]) => `<li><span class="num">${d}</span><code>${h}</code><span>${t}</span></li>`).join('');
-
 $('#discarded').innerHTML = '<thead><tr><th>idea</th><th>qué pasó</th></tr></thead><tbody>' + [
   ['Elegir las 15 solo por varianza retenida o por PCA (B2, B4)', 'Empatan en información, pero conservan ruido (<code>monthly_posts</code>) y tiran el alcance o el descubrimiento. Se agregaron el test de ruido y la protección de los temas.'],
   ['Sacar un tema porque suman 100', 'Descartado: el tema quitado queda como origen y las distancias entre temas dejan de ser simétricas.'],
@@ -1990,7 +1969,7 @@ $('#discarded').innerHTML = '<thead><tr><th>idea</th><th>qué pasó</th></tr></t
 ].map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('') + '</tbody>';
 
 $('#faq').innerHTML = [
-  ['¿Por qué 15 variables y no 5 componentes principales?', 'Las 15 las pidió la cátedra y además conservan el significado: cada peso del SOM es una variable del negocio. La PCA se usa para decidir qué sobra (PCA hacia atrás) y para visualizar. Kaiser con las 15 da 5 componentes y 75 %.'],
+  ['¿Por qué 15 variables y no 5 componentes principales?', 'Las 15 conservan el significado: cada peso del SOM es una variable del negocio. La PCA se usa para decidir qué sobra (PCA hacia atrás) y para visualizar. Kaiser con las 15 da 5 componentes y 75 %.'],
   ['Si los temas suman 100, ¿no hay uno redundante?', 'Sí, linealmente: hay un autovalor nulo. Pero sacar uno lo convierte en el origen: un creador de arte puro quedaría más cerca de todos que cualquier otro par. Con los 4 las distancias entre temas son simétricas. Es el supuesto 1.'],
   ['¿Por qué conservar la audiencia argentina si el test dice que es ruido?', 'El test dice que no se relaciona con las demás, no que no sirva. Es la única medida de audiencia local, y los clientes son argentinos: un refugio necesita adoptantes que vivan cerca. Es el supuesto 2.'],
   ['¿Por qué sacar followers si es lo que usa la agencia?', 'Tiene r = 0,92 con el alcance: dentro del modelo sería una copia. Sigue en los datos para comparar: PC1 e índice de Oja correlacionan 0,85 con followers y la comparación de estrategias usa followers.'],
@@ -1999,7 +1978,7 @@ $('#faq').innerHTML = [
   ['¿Por qué el índice de Oja cambió de sentido?', 'El signo de un autovector es arbitrario; se fija con "el peso mayor queda positivo". Con 27 el mayor era palabras por caption (profundidad); con 15 es el alcance. Es la misma recta.'],
   ['¿Por qué Hebb falla con 1369 neuronas y solo 5 QR?', 'La capacidad 0,138·N vale para patrones aleatorios poco correlacionados. Estos QR comparten el 70 % de los píxeles y tienen solapamientos de 0,58 a 0,86: la parte común domina W.'],
   ['¿La pseudoinversa no es hacer trampa?', 'Es una extensión opcional y se presenta aparte. Cambia solo cómo se construye W; la dinámica, las consultas y las semillas son las mismas. La respuesta con el modelo clásico es que Hebb no sirve acá.'],
-  ['¿Cómo modelaron el desgaste y por qué es realista?', 'Solo cambia negro → blanco, como la tinta que se gasta. El agrupado usa un campo suave de 6×6 interpolado a 37×37 más variación por módulo, así el daño viene en manchas de roce: el 71 % de los módulos gastados tiene un vecino gastado, contra el 49 % del control disperso. Lo pidió Santiago Reyes en clase como opcional.'],
+  ['¿Cómo modelaron el desgaste y por qué es realista?', 'Solo cambia negro → blanco, como la tinta que se gasta. El agrupado usa un campo suave de 6×6 interpolado a 37×37 más variación por módulo, así el daño viene en manchas de roce: el 71 % de los módulos gastados tiene un vecino gastado, contra el 49 % del control disperso.'],
   ['¿Por qué el desgaste se recupera mejor que el ruido simétrico?', 'Porque no inventa negros: todos los negros que quedan son del QR original y siguen apuntando al menú correcto. Con 50 % de bits al azar no se recupera ninguno; con 46,7 % de bits gastados, el 80 %.'],
   ['Si la energía baja, ¿la red recuperó?', 'No. La energía baja siempre con pesos simétricos y actualización asincrónica. El espurio de las letras y todas las corridas de Hebb con QR bajan la energía y terminan mal.'],
   ['¿Qué pasa cuando llegan creadores nuevos o se actualizan los datos a fin de mes?', 'Con las mismas variables, se transforman con la media y el desvío guardados y se ubican en el SOM sin reentrenar. Si cambia la población o las variables, se vuelve a correr la selección, porque una variable puede cruzar el umbral de 0,9 o el test de ruido, y se reentrena todo versionando los resultados.'],
