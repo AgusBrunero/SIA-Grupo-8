@@ -1,0 +1,300 @@
+[
+ {
+  "lamina": 1,
+  "tipo": "portada",
+  "texto": "TP5 · Deep Learning Autoencoder, Denoising Autoencoder y Autoencoder Variacional Grupo 8 · Sistemas de Inteligencia Artificial · ITBA",
+  "numeros": []
+ },
+ {
+  "lamina": 2,
+  "tipo": "teoria",
+  "texto": "El autoencoder son dos perceptrones multicapa en espejo Z = f(X)        X′ = g(Z) Se entrena como un MLP, con salida esperada X:   L = ‖X − X′‖²",
+  "numeros": []
+ },
+ {
+  "lamina": 3,
+  "tipo": "resultado",
+  "texto": "Con latente lineal y una capa oculta, la red representa las letras en dos dimensiones De 210 a 12 píxeles incorrectos en total, cambiando solo la arquitectura.",
+  "numeros": [
+   {
+    "clave": "px_base",
+    "texto": "210",
+    "origen": "e1a2/resumen.csv · E1 · total_px_media"
+   },
+   {
+    "clave": "px_latente_lineal",
+    "texto": "12",
+    "origen": "e1a2/resumen.csv · E3 · total_px_media"
+   }
+  ]
+ },
+ {
+  "lamina": 4,
+  "tipo": "resultado",
+  "texto": "Ningún optimizador alcanza un píxel de error con error cuadrático El que más veces llega es el descenso por gradiente: 4 de 10 semillas.",
+  "numeros": [
+   {
+    "clave": "logro_gd",
+    "texto": "4 de 10",
+    "origen": "e1a2/resumen.csv · E4 · logradas y semillas"
+   }
+  ]
+ },
+ {
+  "lamina": 5,
+  "tipo": "teoria",
+  "texto": "Los píxeles equivocados se saturan y dejan de aprender Error cuadrático:   δ = (ζ − O) · θ′(h) Entropía cruzada:   δ ∝ (ζ − O) 709 de 711 píxeles incorrectos tienen la salida pegada al valor opuesto.",
+  "numeros": [
+   {
+    "clave": "saturados",
+    "texto": "709 de 711",
+    "origen": "e1a2/resumen.csv · E4 a E8 · px_mal_saturados y px_mal_total"
+   }
+  ]
+ },
+ {
+  "lamina": 6,
+  "tipo": "resultado",
+  "texto": "Con entropía cruzada la red aprende las 32 letras sin errores 10 de 10 semillas, con 0 píxeles incorrectos. Se aprende el dataset completo.",
+  "numeros": [
+   {
+    "clave": "n_letras",
+    "texto": "32",
+    "origen": "docs/tp5/font.h · cantidad de patrones"
+   },
+   {
+    "clave": "logro_bce",
+    "texto": "10 de 10",
+    "origen": "e1a2/resumen.csv · E9 · logradas y semillas"
+   },
+   {
+    "clave": "px_bce",
+    "texto": "0",
+    "origen": "e1a2/resumen.csv · E9 · total_px_media"
+   }
+  ]
+ },
+ {
+  "lamina": 7,
+  "tipo": "resultado",
+  "texto": "El latente ubica las letras, pero su forma cambia con la semilla Dos entrenamientos de la misma red. La correlación entre sus distancias entre letras es 0,47.",
+  "numeros": [
+   {
+    "clave": "corr_semillas",
+    "texto": "0,47",
+    "origen": "e1a3_e1a4/estabilidad.csv · AE–AE · semilla 0 y semilla 1"
+   }
+  ]
+ },
+ {
+  "lamina": 8,
+  "tipo": "resultado",
+  "texto": "Una proyección lineal a dos dimensiones deja 230 píxeles mal Dos componentes principales explican el 27 % de la varianza. El autoencoder reconstruye con 0 errores.",
+  "numeros": [
+   {
+    "clave": "pca_px",
+    "texto": "230",
+    "origen": "e1a3_e1a4/pca.csv · total_pixeles"
+   },
+   {
+    "clave": "pca_var",
+    "texto": "27 %",
+    "origen": "e1a3_e1a4/pca.csv · varianza_c1 + varianza_c2"
+   },
+   {
+    "clave": "px_bce",
+    "texto": "0",
+    "origen": "e1a2/resumen.csv · E9 · total_px_media"
+   }
+  ]
+ },
+ {
+  "lamina": 9,
+  "tipo": "resultado",
+  "texto": "Entre la “o” y la “e” la red genera una letra que no está en el dataset Es un punto intermedio del latente, a 2 píxeles de la “o”, la letra más cercana.",
+  "numeros": [
+   {
+    "clave": "letra_dist",
+    "texto": "2",
+    "origen": "elegidas/elegidas.csv · 1a.4 · distancia"
+   }
+  ]
+ },
+ {
+  "lamina": 10,
+  "tipo": "cierre",
+  "texto": "Dos números alcanzan para guardar cada letra La función de costo pesó más que el optimizador. El latente sirve para reconstruir, pero no está ordenado para generar.",
+  "numeros": []
+ },
+ {
+  "lamina": 11,
+  "tipo": "teoria",
+  "texto": "El DAE recibe la letra con ruido y tiene que devolverla limpia Entrada X̃: cada píxel de X se invierte con probabilidad p Salida esperada: X, la letra sin ruido",
+  "numeros": []
+ },
+ {
+  "lamina": 12,
+  "tipo": "resultado",
+  "texto": "Un cuello de botella de diez neuronas saca más ruido que uno de dos o que ninguno Con ruido medio: 0,7 incorrectos por letra, contra 2,6 (dos neuronas) y 1,7 (sin cuello).",
+  "numeros": [
+   {
+    "clave": "mal_B",
+    "texto": "0,7",
+    "origen": "e1b/resumen.csv · B · entrenada y probada con p = 0,1 · mal_media"
+   },
+   {
+    "clave": "mal_A",
+    "texto": "2,6",
+    "origen": "e1b/resumen.csv · A · entrenada y probada con p = 0,1 · mal_media"
+   },
+   {
+    "clave": "mal_C",
+    "texto": "1,7",
+    "origen": "e1b/resumen.csv · C · entrenada y probada con p = 0,1 · mal_media"
+   }
+  ]
+ },
+ {
+  "lamina": 13,
+  "tipo": "resultado",
+  "texto": "Sin entrenar con ruido, el autoencoder lo empeora Con ruido bajo entran 1,75 píxeles alterados por letra y salen 7,0 incorrectos.",
+  "numeros": [
+   {
+    "clave": "entran_bajo",
+    "texto": "1,75",
+    "origen": "e1b/resumen.csv · p_prueba 0,05 · alterados"
+   },
+   {
+    "clave": "salen_sin_ruido",
+    "texto": "7,0",
+    "origen": "e1b/resumen.csv · A · p_entrenamiento 0 · p_prueba 0,05 · mal_media"
+   }
+  ]
+ },
+ {
+  "lamina": 14,
+  "tipo": "resultado",
+  "texto": "El DAE corrige casi todo con ruido bajo y cae con ruido alto Reconstrucciones con un píxel de error o menos: 85 % con ruido bajo y 15 % con ruido alto.",
+  "numeros": [
+   {
+    "clave": "hasta1_bajo",
+    "texto": "85 %",
+    "origen": "e1b/resumen.csv · B · entrenada y probada con p = 0,1 · hasta_1px_media"
+   },
+   {
+    "clave": "hasta1_alto",
+    "texto": "15 %",
+    "origen": "e1b/resumen.csv · B · entrenada con p = 0,1, probada con p = 0,3 · hasta_1px_media"
+   }
+  ]
+ },
+ {
+  "lamina": 15,
+  "tipo": "resultado",
+  "texto": "Los errores son confusiones entre letras parecidas La más frecuente en la arquitectura elegida: “|” por “l”, que difieren en 2 píxeles.",
+  "numeros": [
+   {
+    "clave": "dist_l_barra",
+    "texto": "2",
+    "origen": "docs/tp5/font.h · distancia de Hamming entre l y |"
+   }
+  ]
+ },
+ {
+  "lamina": 16,
+  "tipo": "cierre",
+  "texto": "Para limpiar ruido hay que entrenar con ruido y dejar un cuello de botella intermedio Demasiado ruido al entrenar arruina las letras limpias. Con mucho ruido, una letra se confunde con otra parecida.",
+  "numeros": []
+ },
+ {
+  "lamina": 17,
+  "tipo": "teoria",
+  "texto": "El VAE aprende una distribución por dato y samplea de ella ϵ ~ N(0, 1)        se supone p(z) = N(0, I) J = L + λR        R = KL(q‖p) = ½ Σ (σ² + μ² − 1 − log σ²)",
+  "numeros": []
+ },
+ {
+  "lamina": 18,
+  "tipo": "resultado",
+  "texto": "Construimos 500 caritas a partir de 7 parámetros Imágenes en grises hechas en código: sabemos de qué depende cada una.",
+  "numeros": [
+   {
+    "clave": "n_caritas",
+    "texto": "500",
+    "origen": "e2b/config.json · dataset.n"
+   },
+   {
+    "clave": "n_parametros",
+    "texto": "7",
+    "origen": "src/data/emojis.py · cantidad de parámetros"
+   }
+  ]
+ },
+ {
+  "lamina": 19,
+  "tipo": "resultado",
+  "texto": "El VAE aprende: la reconstrucción baja y la regularización se estabiliza L baja de 174 a 67; R queda en 3,6.",
+  "numeros": [
+   {
+    "clave": "L_inicial",
+    "texto": "174",
+    "origen": "e2b/curvas.csv · época 1 · media de L entre semillas"
+   },
+   {
+    "clave": "L_final",
+    "texto": "67",
+    "origen": "e2b/curvas.csv · última época · media de L entre semillas"
+   },
+   {
+    "clave": "R_final",
+    "texto": "3,6",
+    "origen": "e2b/curvas.csv · última época · media de R entre semillas"
+   }
+  ]
+ },
+ {
+  "lamina": 20,
+  "tipo": "resultado",
+  "texto": "El VAE lleva los códigos a la normal estándar; el autoencoder los desparrama Desvío de los códigos: 9,6 en el autoencoder y 1,0 en el VAE. El prior tiene desvío uno.",
+  "numeros": [
+   {
+    "clave": "desvio_ae",
+    "texto": "9,6",
+    "origen": "e2c/corridas.csv · AE · media de codigo_desvio"
+   },
+   {
+    "clave": "desvio_vae",
+    "texto": "1,0",
+    "origen": "e2c/corridas.csv · VAE λ = 1 · media de codigo_desvio"
+   }
+  ]
+ },
+ {
+  "lamina": 21,
+  "tipo": "resultado",
+  "texto": "λ intercambia nitidez por orden en el latente Con λ grande todas las caritas se parecen; con λ chico el modelo se acerca a un autoencoder.",
+  "numeros": []
+ },
+ {
+  "lamina": 22,
+  "tipo": "resultado",
+  "texto": "Las caritas generadas son nuevas y están tan cerca del dataset como las reales Distancia por píxel a la carita más cercana: 0,037; entre caritas reales, 0,035.",
+  "numeros": [
+   {
+    "clave": "dist_generada",
+    "texto": "0,037",
+    "origen": "e2c/corridas.csv · VAE λ = 1 · media de distancia_vecino_media"
+   },
+   {
+    "clave": "dist_real",
+    "texto": "0,035",
+    "origen": "src/data/emojis.py · distancia media de cada carita a la otra más cercana (igual que en RESULTADOS.md)"
+   }
+  ]
+ },
+ {
+  "lamina": 23,
+  "tipo": "cierre",
+  "texto": "El VAE ordena el latente, y por eso permite generar El autoencoder comprime. El DAE limpia. El VAE genera.",
+  "numeros": []
+ }
+]

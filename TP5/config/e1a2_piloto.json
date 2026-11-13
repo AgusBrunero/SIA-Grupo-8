@@ -1,0 +1,678 @@
+{
+ "experimento": "e1a2_piloto",
+ "descripcion": "Piloto para elegir eta por optimizador antes de la escalera e1a2. Semillas distintas de las oficiales. El eta adaptativo (E6) se pilotea despues, sobre el eta de GD elegido.",
+ "semillas": [
+  100,
+  101
+ ],
+ "epocas": 10000,
+ "curva_cada": 100,
+ "codificacion": "01",
+ "perdida": "error_cuadratico",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "capas_encoder": [
+    35,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.0003
+   },
+   "id": "E1_gd_0.0003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.001
+   },
+   "id": "E1_gd_0.001"
+  },
+  {
+   "capas_encoder": [
+    35,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.003
+   },
+   "id": "E1_gd_0.003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "id": "E1_gd_0.01"
+  },
+  {
+   "capas_encoder": [
+    35,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.03
+   },
+   "id": "E1_gd_0.03"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.0003
+   },
+   "id": "E2_gd_0.0003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.001
+   },
+   "id": "E2_gd_0.001"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.003
+   },
+   "id": "E2_gd_0.003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "id": "E2_gd_0.01"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.03
+   },
+   "id": "E2_gd_0.03"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.0003
+   },
+   "id": "E3_gd_0.0003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.001
+   },
+   "id": "E3_gd_0.001"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.003
+   },
+   "id": "E3_gd_0.003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "id": "E3_gd_0.01"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.03
+   },
+   "id": "E3_gd_0.03"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.0003
+   },
+   "id": "E4_gd_0.0003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.001
+   },
+   "id": "E4_gd_0.001"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.003
+   },
+   "id": "E4_gd_0.003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "id": "E4_gd_0.01"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.03
+   },
+   "id": "E4_gd_0.03"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.0001,
+    "alfa": 0.9
+   },
+   "id": "E5_momentum_0.0001"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.0003,
+    "alfa": 0.9
+   },
+   "id": "E5_momentum_0.0003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.001,
+    "alfa": 0.9
+   },
+   "id": "E5_momentum_0.001"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.003,
+    "alfa": 0.9
+   },
+   "id": "E5_momentum_0.003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.01,
+    "alfa": 0.9
+   },
+   "id": "E5_momentum_0.01"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "rmsprop",
+    "eta": 0.0003,
+    "gamma": 0.9,
+    "epsilon": 1e-08
+   },
+   "id": "E7_rmsprop_0.0003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "rmsprop",
+    "eta": 0.001,
+    "gamma": 0.9,
+    "epsilon": 1e-08
+   },
+   "id": "E7_rmsprop_0.001"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "rmsprop",
+    "eta": 0.003,
+    "gamma": 0.9,
+    "epsilon": 1e-08
+   },
+   "id": "E7_rmsprop_0.003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "rmsprop",
+    "eta": 0.01,
+    "gamma": 0.9,
+    "epsilon": 1e-08
+   },
+   "id": "E7_rmsprop_0.01"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.0003,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "E8_adam_0.0003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 8,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.0003,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "E9_adam_lote8_0.0003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "E8_adam_0.001"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 8,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "E9_adam_lote8_0.001"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.003,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "E8_adam_0.003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 8,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.003,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "E9_adam_lote8_0.003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.01,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "E8_adam_0.01"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 8,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.01,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "E9_adam_lote8_0.01"
+  }
+ ]
+}

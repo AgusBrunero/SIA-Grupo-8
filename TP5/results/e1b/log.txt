@@ -1,0 +1,189 @@
+A p_entrenamiento=0.0  semilla 0  sin ruido: 0 px mal  2.1 s
+A p_entrenamiento=0.0  semilla 1  sin ruido: 0 px mal  2.1 s
+A p_entrenamiento=0.0  semilla 2  sin ruido: 0 px mal  2.2 s
+A p_entrenamiento=0.0  semilla 3  sin ruido: 0 px mal  2.2 s
+A p_entrenamiento=0.0  semilla 4  sin ruido: 0 px mal  2.1 s
+A p_entrenamiento=0.05 semilla 0  sin ruido: 4 px mal  2.2 s
+A p_entrenamiento=0.05 semilla 1  sin ruido: 9 px mal  2.2 s
+A p_entrenamiento=0.05 semilla 2  sin ruido: 5 px mal  2.3 s
+A p_entrenamiento=0.05 semilla 3  sin ruido: 5 px mal  2.4 s
+A p_entrenamiento=0.05 semilla 4  sin ruido: 6 px mal  2.2 s
+A p_entrenamiento=0.1  semilla 0  sin ruido: 34 px mal  2.2 s
+A p_entrenamiento=0.1  semilla 1  sin ruido: 55 px mal  2.2 s
+A p_entrenamiento=0.1  semilla 2  sin ruido: 42 px mal  2.3 s
+A p_entrenamiento=0.1  semilla 3  sin ruido: 49 px mal  2.2 s
+A p_entrenamiento=0.1  semilla 4  sin ruido: 58 px mal  2.2 s
+A p_entrenamiento=0.2  semilla 0  sin ruido: 168 px mal  2.1 s
+A p_entrenamiento=0.2  semilla 1  sin ruido: 153 px mal  2.2 s
+A p_entrenamiento=0.2  semilla 2  sin ruido: 156 px mal  2.1 s
+A p_entrenamiento=0.2  semilla 3  sin ruido: 152 px mal  2.2 s
+A p_entrenamiento=0.2  semilla 4  sin ruido: 164 px mal  2.1 s
+A p_entrenamiento=0.3  semilla 0  sin ruido: 222 px mal  2.1 s
+A p_entrenamiento=0.3  semilla 1  sin ruido: 212 px mal  2.1 s
+A p_entrenamiento=0.3  semilla 2  sin ruido: 244 px mal  2.1 s
+A p_entrenamiento=0.3  semilla 3  sin ruido: 212 px mal  2.2 s
+A p_entrenamiento=0.3  semilla 4  sin ruido: 256 px mal  2.1 s
+B p_entrenamiento=0.0  semilla 0  sin ruido: 0 px mal  2.2 s
+B p_entrenamiento=0.0  semilla 1  sin ruido: 0 px mal  2.2 s
+B p_entrenamiento=0.0  semilla 2  sin ruido: 0 px mal  2.2 s
+B p_entrenamiento=0.0  semilla 3  sin ruido: 0 px mal  2.2 s
+B p_entrenamiento=0.0  semilla 4  sin ruido: 0 px mal  2.2 s
+B p_entrenamiento=0.05 semilla 0  sin ruido: 0 px mal  2.2 s
+B p_entrenamiento=0.05 semilla 1  sin ruido: 0 px mal  2.2 s
+B p_entrenamiento=0.05 semilla 2  sin ruido: 2 px mal  2.2 s
+B p_entrenamiento=0.05 semilla 3  sin ruido: 0 px mal  2.2 s
+B p_entrenamiento=0.05 semilla 4  sin ruido: 0 px mal  2.1 s
+B p_entrenamiento=0.1  semilla 0  sin ruido: 0 px mal  2.2 s
+B p_entrenamiento=0.1  semilla 1  sin ruido: 3 px mal  2.2 s
+B p_entrenamiento=0.1  semilla 2  sin ruido: 1 px mal  2.2 s
+B p_entrenamiento=0.1  semilla 3  sin ruido: 1 px mal  2.2 s
+B p_entrenamiento=0.1  semilla 4  sin ruido: 0 px mal  2.3 s
+B p_entrenamiento=0.2  semilla 0  sin ruido: 13 px mal  2.5 s
+B p_entrenamiento=0.2  semilla 1  sin ruido: 34 px mal  2.3 s
+B p_entrenamiento=0.2  semilla 2  sin ruido: 23 px mal  2.4 s
+B p_entrenamiento=0.2  semilla 3  sin ruido: 20 px mal  2.2 s
+B p_entrenamiento=0.2  semilla 4  sin ruido: 16 px mal  2.2 s
+B p_entrenamiento=0.3  semilla 0  sin ruido: 74 px mal  2.2 s
+B p_entrenamiento=0.3  semilla 1  sin ruido: 73 px mal  2.2 s
+B p_entrenamiento=0.3  semilla 2  sin ruido: 73 px mal  2.2 s
+B p_entrenamiento=0.3  semilla 3  sin ruido: 70 px mal  2.3 s
+B p_entrenamiento=0.3  semilla 4  sin ruido: 66 px mal  2.2 s
+C p_entrenamiento=0.0  semilla 0  sin ruido: 0 px mal  1.6 s
+C p_entrenamiento=0.0  semilla 1  sin ruido: 0 px mal  1.5 s
+C p_entrenamiento=0.0  semilla 2  sin ruido: 0 px mal  1.5 s
+C p_entrenamiento=0.0  semilla 3  sin ruido: 0 px mal  1.5 s
+C p_entrenamiento=0.0  semilla 4  sin ruido: 0 px mal  1.5 s
+C p_entrenamiento=0.05 semilla 0  sin ruido: 0 px mal  1.6 s
+C p_entrenamiento=0.05 semilla 1  sin ruido: 0 px mal  1.6 s
+C p_entrenamiento=0.05 semilla 2  sin ruido: 0 px mal  1.6 s
+C p_entrenamiento=0.05 semilla 3  sin ruido: 0 px mal  1.6 s
+C p_entrenamiento=0.05 semilla 4  sin ruido: 0 px mal  1.6 s
+C p_entrenamiento=0.1  semilla 0  sin ruido: 0 px mal  1.7 s
+C p_entrenamiento=0.1  semilla 1  sin ruido: 0 px mal  1.6 s
+C p_entrenamiento=0.1  semilla 2  sin ruido: 0 px mal  1.6 s
+C p_entrenamiento=0.1  semilla 3  sin ruido: 0 px mal  1.6 s
+C p_entrenamiento=0.1  semilla 4  sin ruido: 0 px mal  1.6 s
+C p_entrenamiento=0.2  semilla 0  sin ruido: 7 px mal  1.6 s
+C p_entrenamiento=0.2  semilla 1  sin ruido: 4 px mal  1.7 s
+C p_entrenamiento=0.2  semilla 2  sin ruido: 8 px mal  1.6 s
+C p_entrenamiento=0.2  semilla 3  sin ruido: 7 px mal  1.6 s
+C p_entrenamiento=0.2  semilla 4  sin ruido: 7 px mal  1.6 s
+C p_entrenamiento=0.3  semilla 0  sin ruido: 33 px mal  1.7 s
+C p_entrenamiento=0.3  semilla 1  sin ruido: 37 px mal  1.6 s
+C p_entrenamiento=0.3  semilla 2  sin ruido: 32 px mal  1.6 s
+C p_entrenamiento=0.3  semilla 3  sin ruido: 40 px mal  1.8 s
+C p_entrenamiento=0.3  semilla 4  sin ruido: 34 px mal  1.7 s
+## 1b · Denoising Autoencoder (e1b)
+
+3 arquitecturas × 5 niveles de entrenamiento × 5 semillas (10000 épocas, receta de E9), cada una probada con 5 niveles de ruido. Ruido salt-and-pepper: cada píxel se invierte con probabilidad p. Cada celda son 5 semillas × 32 patrones × 20 realizaciones de ruido nuevas = 3200 reconstrucciones; se informa media ± desvío entre semillas. Datos en `results/e1b/`.
+
+Figuras: `fig_hasta_1px.png`, `fig_exactos.png`, `fig_pixeles_mal.png` (matrices entrenamiento × prueba), `fig_ganancia.png` (píxeles mal a la salida contra píxeles alterados a la entrada), `fig_confusion.png`.
+
+Píxeles alterados a la entrada, en promedio por patrón: p = 0,0: 0,00, p = 0,05: 1,75, p = 0,1: 3,50, p = 0,2: 7,00, p = 0,3: 10,50 (35·p).
+
+### Sin ruido en la prueba
+
+| Arquitectura | p de entrenamiento | Corridas con ≤ 1 px en los 32 patrones limpios | Px mal en total (media ± desvío) |
+|---|---|---|---|
+| A (35–20–2–20–35) | 0,0 | 5 de 5 | 0,0 ± 0,0 |
+| A (35–20–2–20–35) | 0,05 | 2 de 5 | 5,8 ± 1,9 |
+| A (35–20–2–20–35) | 0,1 | 0 de 5 | 47,6 ± 9,8 |
+| A (35–20–2–20–35) | 0,2 | 0 de 5 | 158,6 ± 7,1 |
+| A (35–20–2–20–35) | 0,3 | 0 de 5 | 229,2 ± 19,9 |
+| B (35–20–10–20–35) | 0,0 | 5 de 5 | 0,0 ± 0,0 |
+| B (35–20–10–20–35) | 0,05 | 5 de 5 | 0,4 ± 0,9 |
+| B (35–20–10–20–35) | 0,1 | 5 de 5 | 1,0 ± 1,2 |
+| B (35–20–10–20–35) | 0,2 | 0 de 5 | 21,2 ± 8,1 |
+| B (35–20–10–20–35) | 0,3 | 0 de 5 | 71,2 ± 3,3 |
+| C (35–50–35) | 0,0 | 5 de 5 | 0,0 ± 0,0 |
+| C (35–50–35) | 0,05 | 5 de 5 | 0,0 ± 0,0 |
+| C (35–50–35) | 0,1 | 5 de 5 | 0,0 ± 0,0 |
+| C (35–50–35) | 0,2 | 4 de 5 | 6,6 ± 1,5 |
+| C (35–50–35) | 0,3 | 0 de 5 | 35,2 ± 3,3 |
+
+### Arquitectura A: 35–20–2–20–35
+
+% de reconstrucciones con ≤ 1 píxel incorrecto:
+
+| p de entrenamiento \ p de prueba | 0,0 | 0,05 | 0,1 | 0,2 | 0,3 |
+|---|---|---|---|---|---|
+| 0,0 | 100,0 ± 0,0 | 36,7 ± 1,6 | 18,5 ± 1,8 | 8,3 ± 1,6 | 3,9 ± 1,1 |
+| 0,05 | 96,2 ± 4,1 | 82,3 ± 2,9 | 62,2 ± 2,8 | 24,6 ± 1,8 | 8,2 ± 0,7 |
+| 0,1 | 57,5 ± 11,4 | 55,5 ± 7,2 | 46,4 ± 3,9 | 20,9 ± 1,7 | 6,7 ± 1,3 |
+| 0,2 | 17,5 ± 2,8 | 18,3 ± 2,1 | 17,4 ± 2,5 | 11,2 ± 1,3 | 4,6 ± 1,0 |
+| 0,3 | 8,1 ± 3,6 | 9,0 ± 2,2 | 9,2 ± 2,4 | 8,1 ± 0,9 | 4,6 ± 0,5 |
+
+Píxeles incorrectos a la salida, por patrón:
+
+| p de entrenamiento \ p de prueba | 0,0 | 0,05 | 0,1 | 0,2 | 0,3 |
+|---|---|---|---|---|---|
+| 0,0 | 0,00 ± 0,00 | 6,97 ± 0,25 | 9,62 ± 0,27 | 12,33 ± 0,06 | 14,33 ± 0,43 |
+| 0,05 | 0,18 ± 0,06 | 0,82 ± 0,08 | 2,29 ± 0,19 | 6,73 ± 0,31 | 10,33 ± 0,29 |
+| 0,1 | 1,49 ± 0,31 | 1,74 ± 0,23 | 2,63 ± 0,18 | 6,14 ± 0,24 | 9,78 ± 0,33 |
+| 0,2 | 4,96 ± 0,22 | 4,92 ± 0,12 | 5,01 ± 0,10 | 6,23 ± 0,13 | 8,49 ± 0,24 |
+| 0,3 | 7,16 ± 0,62 | 6,88 ± 0,46 | 6,70 ± 0,25 | 7,09 ± 0,06 | 8,44 ± 0,23 |
+
+### Arquitectura B: 35–20–10–20–35
+
+% de reconstrucciones con ≤ 1 píxel incorrecto:
+
+| p de entrenamiento \ p de prueba | 0,0 | 0,05 | 0,1 | 0,2 | 0,3 |
+|---|---|---|---|---|---|
+| 0,0 | 100,0 ± 0,0 | 56,9 ± 1,9 | 29,1 ± 2,4 | 8,7 ± 2,3 | 2,6 ± 0,5 |
+| 0,05 | 100,0 ± 0,0 | 96,2 ± 0,8 | 81,2 ± 1,2 | 37,8 ± 1,8 | 11,8 ± 1,9 |
+| 0,1 | 100,0 ± 0,0 | 96,9 ± 0,5 | 85,2 ± 1,9 | 44,9 ± 1,3 | 15,4 ± 1,6 |
+| 0,2 | 83,8 ± 7,8 | 79,8 ± 5,6 | 71,2 ± 5,0 | 40,5 ± 4,5 | 14,6 ± 1,7 |
+| 0,3 | 44,4 ± 4,1 | 39,9 ± 6,0 | 34,1 ± 5,4 | 20,1 ± 3,3 | 8,1 ± 1,0 |
+
+Píxeles incorrectos a la salida, por patrón:
+
+| p de entrenamiento \ p de prueba | 0,0 | 0,05 | 0,1 | 0,2 | 0,3 |
+|---|---|---|---|---|---|
+| 0,0 | 0,00 ± 0,00 | 2,39 ± 0,15 | 4,82 ± 0,23 | 8,49 ± 0,38 | 11,78 ± 0,35 |
+| 0,05 | 0,01 ± 0,03 | 0,17 ± 0,06 | 0,96 ± 0,09 | 4,43 ± 0,29 | 8,43 ± 0,16 |
+| 0,1 | 0,03 ± 0,04 | 0,15 ± 0,03 | 0,68 ± 0,12 | 3,50 ± 0,11 | 7,34 ± 0,17 |
+| 0,2 | 0,66 ± 0,25 | 0,83 ± 0,19 | 1,20 ± 0,21 | 3,18 ± 0,27 | 6,76 ± 0,12 |
+| 0,3 | 2,23 ± 0,10 | 2,36 ± 0,14 | 2,67 ± 0,16 | 4,22 ± 0,18 | 6,79 ± 0,11 |
+
+### Arquitectura C: 35–50–35
+
+% de reconstrucciones con ≤ 1 píxel incorrecto:
+
+| p de entrenamiento \ p de prueba | 0,0 | 0,05 | 0,1 | 0,2 | 0,3 |
+|---|---|---|---|---|---|
+| 0,0 | 100,0 ± 0,0 | 70,9 ± 1,0 | 35,0 ± 2,2 | 5,4 ± 1,2 | 0,6 ± 0,3 |
+| 0,05 | 100,0 ± 0,0 | 84,2 ± 1,9 | 52,1 ± 1,1 | 10,1 ± 1,4 | 1,3 ± 0,3 |
+| 0,1 | 100,0 ± 0,0 | 83,5 ± 2,5 | 53,0 ± 1,2 | 12,2 ± 1,4 | 1,9 ± 0,4 |
+| 0,2 | 99,4 ± 1,4 | 74,4 ± 2,9 | 47,5 ± 2,0 | 12,0 ± 1,4 | 2,2 ± 0,5 |
+| 0,3 | 68,8 ± 5,4 | 43,7 ± 2,3 | 28,4 ± 1,7 | 9,2 ± 1,7 | 1,5 ± 0,4 |
+
+Píxeles incorrectos a la salida, por patrón:
+
+| p de entrenamiento \ p de prueba | 0,0 | 0,05 | 0,1 | 0,2 | 0,3 |
+|---|---|---|---|---|---|
+| 0,0 | 0,00 ± 0,00 | 1,15 ± 0,02 | 2,69 ± 0,09 | 6,33 ± 0,12 | 10,30 ± 0,12 |
+| 0,05 | 0,00 ± 0,00 | 0,65 ± 0,04 | 1,80 ± 0,03 | 4,99 ± 0,06 | 8,44 ± 0,13 |
+| 0,1 | 0,00 ± 0,00 | 0,68 ± 0,04 | 1,74 ± 0,04 | 4,61 ± 0,05 | 7,99 ± 0,11 |
+| 0,2 | 0,21 ± 0,05 | 0,96 ± 0,06 | 1,92 ± 0,06 | 4,40 ± 0,06 | 7,50 ± 0,08 |
+| 0,3 | 1,10 ± 0,10 | 1,87 ± 0,05 | 2,65 ± 0,11 | 4,76 ± 0,11 | 7,31 ± 0,04 |
+
+### Píxeles incorrectos a la salida por nivel de prueba
+
+Para cada arquitectura, el nivel de entrenamiento con menos píxeles mal en ese nivel de prueba (entre paréntesis).
+
+| p de prueba | Entrada (px alterados) | AE de 1a (A, p = 0) | A: mejor nivel de entrenamiento | B: mejor nivel de entrenamiento | C: mejor nivel de entrenamiento |
+|---|---|---|---|---|---|
+| 0,05 | 1,75 | 6,97 ± 0,25 | 0,82 ± 0,08 (p = 0,05) | 0,15 ± 0,03 (p = 0,1) | 0,65 ± 0,04 (p = 0,05) |
+| 0,1 | 3,50 | 9,62 ± 0,27 | 2,29 ± 0,19 (p = 0,05) | 0,68 ± 0,12 (p = 0,1) | 1,74 ± 0,04 (p = 0,1) |
+| 0,2 | 7,00 | 12,33 ± 0,06 | 6,14 ± 0,24 (p = 0,1) | 3,18 ± 0,27 (p = 0,2) | 4,40 ± 0,06 (p = 0,2) |
+| 0,3 | 10,50 | 14,33 ± 0,43 | 8,44 ± 0,23 (p = 0,3) | 6,76 ± 0,12 (p = 0,2) | 7,31 ± 0,04 (p = 0,3) |
+
+### Confusiones entre letras (entrenado con p = 0,1, probado con p = 0,1)
+
+Se asigna a cada salida umbralizada la letra del dataset más cercana por distancia de Hamming. 'l' y '|' difieren en 2 píxeles.
+
+- **A:** 984 de 3200 reconstrucciones quedan más cerca de otra letra que de la original. Más frecuentes: 'w' → 'u': 53 de 100; 'v' → 'u': 44 de 100; 'r' → 'n': 44 de 100; 'e' → 'o': 38 de 100; 'l' → '|': 35 de 100. 'l' → '|': 35 de 100; '|' → 'l': 33 de 100.
+- **B:** 228 de 3200 reconstrucciones quedan más cerca de otra letra que de la original. Más frecuentes: '|' → 'l': 25 de 100; 'l' → '|': 13 de 100; '~' → '`': 13 de 100; 'r' → 'n': 11 de 100; 'n' → 'm': 7 de 100. 'l' → '|': 13 de 100; '|' → 'l': 25 de 100.
+- **C:** 138 de 3200 reconstrucciones quedan más cerca de otra letra que de la original. Más frecuentes: '|' → 'l': 18 de 100; '~' → '`': 15 de 100; 'r' → 'n': 7 de 100; 'v' → 'u': 7 de 100; 'w' → 'u': 5 de 100. 'l' → '|': 3 de 100; '|' → 'l': 18 de 100.
+
+.venv/bin/python -m experiments.e1b_dae config/e1b.json  151.15s user 0.73s system 98% cpu 2:34.60 total

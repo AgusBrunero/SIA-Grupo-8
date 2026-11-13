@@ -1,0 +1,117 @@
+{
+ "nota": "Generado por experiments/presentacion.py desde results/. No editar a mano.",
+ "numeros": {
+  "px_base": {
+   "texto": "210",
+   "origen": "e1a2/resumen.csv · E1 · total_px_media"
+  },
+  "px_latente_lineal": {
+   "texto": "12",
+   "origen": "e1a2/resumen.csv · E3 · total_px_media"
+  },
+  "logro_gd": {
+   "texto": "4 de 10",
+   "origen": "e1a2/resumen.csv · E4 · logradas y semillas"
+  },
+  "logro_bce": {
+   "texto": "10 de 10",
+   "origen": "e1a2/resumen.csv · E9 · logradas y semillas"
+  },
+  "px_bce": {
+   "texto": "0",
+   "origen": "e1a2/resumen.csv · E9 · total_px_media"
+  },
+  "saturados": {
+   "texto": "709 de 711",
+   "origen": "e1a2/resumen.csv · E4 a E8 · px_mal_saturados y px_mal_total"
+  },
+  "n_letras": {
+   "texto": "32",
+   "origen": "docs/tp5/font.h · cantidad de patrones"
+  },
+  "dist_l_barra": {
+   "texto": "2",
+   "origen": "docs/tp5/font.h · distancia de Hamming entre l y |"
+  },
+  "pca_px": {
+   "texto": "230",
+   "origen": "e1a3_e1a4/pca.csv · total_pixeles"
+  },
+  "pca_var": {
+   "texto": "27 %",
+   "origen": "e1a3_e1a4/pca.csv · varianza_c1 + varianza_c2"
+  },
+  "corr_semillas": {
+   "texto": "0,47",
+   "origen": "e1a3_e1a4/estabilidad.csv · AE–AE · semilla 0 y semilla 1"
+  },
+  "letra_dist": {
+   "texto": "2",
+   "origen": "elegidas/elegidas.csv · 1a.4 · distancia"
+  },
+  "mal_A": {
+   "texto": "2,6",
+   "origen": "e1b/resumen.csv · A · entrenada y probada con p = 0,1 · mal_media"
+  },
+  "mal_B": {
+   "texto": "0,7",
+   "origen": "e1b/resumen.csv · B · entrenada y probada con p = 0,1 · mal_media"
+  },
+  "mal_C": {
+   "texto": "1,7",
+   "origen": "e1b/resumen.csv · C · entrenada y probada con p = 0,1 · mal_media"
+  },
+  "entran_bajo": {
+   "texto": "1,75",
+   "origen": "e1b/resumen.csv · p_prueba 0,05 · alterados"
+  },
+  "salen_sin_ruido": {
+   "texto": "7,0",
+   "origen": "e1b/resumen.csv · A · p_entrenamiento 0 · p_prueba 0,05 · mal_media"
+  },
+  "hasta1_bajo": {
+   "texto": "85 %",
+   "origen": "e1b/resumen.csv · B · entrenada y probada con p = 0,1 · hasta_1px_media"
+  },
+  "hasta1_alto": {
+   "texto": "15 %",
+   "origen": "e1b/resumen.csv · B · entrenada con p = 0,1, probada con p = 0,3 · hasta_1px_media"
+  },
+  "n_caritas": {
+   "texto": "500",
+   "origen": "e2b/config.json · dataset.n"
+  },
+  "n_parametros": {
+   "texto": "7",
+   "origen": "src/data/emojis.py · cantidad de parámetros"
+  },
+  "L_inicial": {
+   "texto": "174",
+   "origen": "e2b/curvas.csv · época 1 · media de L entre semillas"
+  },
+  "L_final": {
+   "texto": "67",
+   "origen": "e2b/curvas.csv · última época · media de L entre semillas"
+  },
+  "R_final": {
+   "texto": "3,6",
+   "origen": "e2b/curvas.csv · última época · media de R entre semillas"
+  },
+  "desvio_ae": {
+   "texto": "9,6",
+   "origen": "e2c/corridas.csv · AE · media de codigo_desvio"
+  },
+  "desvio_vae": {
+   "texto": "1,0",
+   "origen": "e2c/corridas.csv · VAE λ = 1 · media de codigo_desvio"
+  },
+  "dist_generada": {
+   "texto": "0,037",
+   "origen": "e2c/corridas.csv · VAE λ = 1 · media de distancia_vecino_media"
+  },
+  "dist_real": {
+   "texto": "0,035",
+   "origen": "src/data/emojis.py · distancia media de cada carita a la otra más cercana (igual que en RESULTADOS.md)"
+  }
+ }
+}

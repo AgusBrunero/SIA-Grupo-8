@@ -1,0 +1,193 @@
+{
+ "experimento": "e1a2_piloto_eta",
+ "descripcion": "Piloto de las constantes del eta adaptativo (Clase 12.1 diap. 6-7) sobre GD con eta inicial 0.01, el elegido en e1a2_piloto. Semillas del piloto.",
+ "semillas": [
+  100,
+  101
+ ],
+ "epocas": 10000,
+ "curva_cada": 100,
+ "codificacion": "01",
+ "perdida": "error_cuadratico",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": {
+    "a": 0.0005,
+    "b": 0.1,
+    "k": 5,
+    "k_prima": 1
+   },
+   "id": "E6_a0.0005_b0.1_k5_kp1"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": {
+    "a": 0.0005,
+    "b": 0.1,
+    "k": 5,
+    "k_prima": 3
+   },
+   "id": "E6_a0.0005_b0.1_k5_kp3"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": {
+    "a": 0.0005,
+    "b": 0.5,
+    "k": 5,
+    "k_prima": 1
+   },
+   "id": "E6_a0.0005_b0.5_k5_kp1"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": {
+    "a": 0.0005,
+    "b": 0.5,
+    "k": 5,
+    "k_prima": 3
+   },
+   "id": "E6_a0.0005_b0.5_k5_kp3"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": {
+    "a": 0.002,
+    "b": 0.1,
+    "k": 5,
+    "k_prima": 1
+   },
+   "id": "E6_a0.002_b0.1_k5_kp1"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": {
+    "a": 0.002,
+    "b": 0.1,
+    "k": 5,
+    "k_prima": 3
+   },
+   "id": "E6_a0.002_b0.1_k5_kp3"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": {
+    "a": 0.002,
+    "b": 0.5,
+    "k": 5,
+    "k_prima": 1
+   },
+   "id": "E6_a0.002_b0.5_k5_kp1"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": {
+    "a": 0.002,
+    "b": 0.5,
+    "k": 5,
+    "k_prima": 3
+   },
+   "id": "E6_a0.002_b0.5_k5_kp3"
+  }
+ ]
+}

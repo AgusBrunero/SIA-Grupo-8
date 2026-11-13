@@ -1,0 +1,77 @@
+{
+ "experimento": "e1b",
+ "descripcion": "Consigna 1b. Denoising Autoencoder: tres arquitecturas, matriz nivel de entrenamiento x nivel de prueba con ruido salt-and-pepper.",
+ "origen_del_modelo": "receta del escalon E9 de config/e1a2.json; solo cambia capas_encoder",
+ "origen_de_los_niveles": "fijados por el grupo (la catedra no da niveles de ruido, Autoencoders diap. 22)",
+ "arquitecturas": [
+  {
+   "id": "A",
+   "nombre": "35–20–2–20–35",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "sosten": "Autoencoders diap. 6 y 21; es la red de 1a"
+  },
+  {
+   "id": "B",
+   "nombre": "35–20–10–20–35",
+   "capas_encoder": [
+    35,
+    20,
+    10
+   ],
+   "sosten": "Autoencoders diap. 6"
+  },
+  {
+   "id": "C",
+   "nombre": "35–50–35",
+   "capas_encoder": [
+    35,
+    50
+   ],
+   "sosten": "Autoencoders diap. 22"
+  }
+ ],
+ "niveles": [
+  0.0,
+  0.05,
+  0.1,
+  0.2,
+  0.3
+ ],
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
+ "realizaciones": 20,
+ "epocas": 10000,
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "codificacion": "01",
+ "modelo": {
+  "activacion_oculta": "tanh",
+  "activacion_latente": "identidad",
+  "activacion_salida": "logistica",
+  "perdida": "bce",
+  "optimizador": {
+   "nombre": "adam",
+   "eta": 0.001,
+   "beta1": 0.9,
+   "beta2": 0.999,
+   "epsilon": 1e-08
+  },
+  "eta_adaptativo": null,
+  "tamano_lote": 32
+ },
+ "confusion": {
+  "p_entrenamiento": 0.1,
+  "p_prueba": 0.1,
+  "maximo_porcentaje": 30
+ }
+}

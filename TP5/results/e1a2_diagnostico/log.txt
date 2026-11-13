@@ -1,0 +1,19 @@
+D0_referencia_E8             semilla 100  logro=False max_px= 2  total_px= 15  error=7.5164  1.7 s
+D0_referencia_E8             semilla 101  logro=False max_px= 3  total_px= 28  error=14.0201  1.7 s
+D1_bce                       semilla 100  logro=True  max_px= 0  total_px=  0  error=1.6934  2.0 s
+D1_bce                       semilla 101  logro=True  max_px= 0  total_px=  0  error=0.3500  2.0 s
+D2_salida_identidad          semilla 100  logro=False max_px= 4  total_px=  9  error=9.2133  1.4 s
+D2_salida_identidad          semilla 101  logro=False max_px= 2  total_px=  4  error=8.4702  1.4 s
+D3_35-20-10-2                semilla 100  logro=False max_px= 2  total_px= 11  error=5.8735  2.3 s
+D3_35-20-10-2                semilla 101  logro=False max_px= 3  total_px= 16  error=8.0457  2.3 s
+D4_35-30-2                   semilla 100  logro=False max_px= 3  total_px= 11  error=5.5071  1.8 s
+D4_35-30-2                   semilla 101  logro=False max_px= 3  total_px= 19  error=9.5213  1.8 s
+D5_bce_35-20-10-2            semilla 100  logro=True  max_px= 0  total_px=  0  error=1.2241  2.6 s
+D5_bce_35-20-10-2            semilla 101  logro=True  max_px= 0  total_px=  0  error=0.9265  2.7 s
+D6_bce_gd_0.01               semilla 100  logro=False max_px=18  total_px=256  error=593.5075  1.8 s
+D6_bce_gd_0.01               semilla 101  logro=False max_px=29  total_px=425  error=2866.9429  1.7 s
+D7_bce_adam_0.003            semilla 100  logro=True  max_px= 0  total_px=  0  error=0.0935  2.0 s
+D7_bce_adam_0.003            semilla 101  logro=True  max_px= 0  total_px=  0  error=0.0475  2.0 s
+D8_bce_35-30-2               semilla 100  logro=True  max_px= 0  total_px=  0  error=0.1653  2.1 s
+D8_bce_35-30-2               semilla 101  logro=True  max_px= 0  total_px=  0  error=0.1269  2.2 s
+18 corridas en 36 s → /Users/brunoenzobaumgart/Desktop/itba/sia/tps/TP5/results/e1a2_diagnostico

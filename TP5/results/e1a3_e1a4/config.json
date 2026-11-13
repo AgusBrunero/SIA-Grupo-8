@@ -1,0 +1,48 @@
+{
+ "experimento": "e1a3_e1a4",
+ "descripcion": "Consigna 1a.3 y 1a.4. Latente 2D y generacion con el escalon E9 de e1a2 (configuracion elegida por el grupo).",
+ "origen_del_modelo": "escalon E9 de config/e1a2.json",
+ "semillas": [0, 1, 2, 3, 4],
+ "epocas": 10000,
+ "codificacion": "01",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "modelo": {
+  "capas_encoder": [
+   35,
+   20,
+   2
+  ],
+  "activacion_oculta": "tanh",
+  "activacion_latente": "identidad",
+  "activacion_salida": "logistica",
+  "perdida": "bce",
+  "optimizador": {
+   "nombre": "adam",
+   "eta": 0.001,
+   "beta1": 0.9,
+   "beta2": 0.999,
+   "epsilon": 1e-08
+  },
+  "eta_adaptativo": null,
+  "tamano_lote": 32
+ },
+ "grilla": 10,
+ "pasos_interpolacion": 9,
+ "pares_interpolacion": [
+  [
+   "n",
+   "r"
+  ],
+  [
+   "o",
+   "e"
+  ],
+  [
+   "k",
+   "q"
+  ]
+ ],
+ "criterio_par_lejano": "k-q es el par de letras a-z con mayor distancia de Hamming (24 px)"
+}

@@ -1,0 +1,49 @@
+{
+ "descripcion": "TP5 Deep Learning (AE, DAE, VAE). Indice de configuraciones: cada experimento lee su propio archivo de config/ (semillas, arquitectura, optimizador, epocas). Nada esta fijo en el codigo.",
+ "python": "3.14",
+ "como_correr": ".venv/bin/python -m experiments.<script> config/<archivo>.json   (desde TP5/, en primer plano)",
+ "experimentos": [
+  {
+   "consigna": "1a.1 y 1a.2",
+   "script": "experiments.e1a2_escalera",
+   "config": "config/e1a2.json",
+   "analisis": "experiments.e1a2_analisis",
+   "resultados": "results/e1a2/"
+  },
+  {
+   "consigna": "1a.3 y 1a.4",
+   "script": "experiments.e1a3_e1a4_latente",
+   "config": "config/e1a3_e1a4.json",
+   "resultados": "results/e1a3_e1a4/"
+  },
+  {
+   "consigna": "1b.1 y 1b.2",
+   "script": "experiments.e1b_dae",
+   "config": "config/e1b.json",
+   "resultados": "results/e1b/"
+  },
+  {
+   "consigna": "2a y 2b",
+   "script": "experiments.e2b_vae",
+   "config": "config/e2b.json",
+   "resultados": "results/e2b/"
+  },
+  {
+   "consigna": "2b y 2c",
+   "script": "experiments.e2c_latente_generacion",
+   "config": "config/e2c.json",
+   "resultados": "results/e2c/"
+  },
+  {
+   "consigna": "1a.4 y 2c (muestras elegidas por el grupo)",
+   "script": "experiments.elegidas",
+   "config": "config/elegidas.json",
+   "resultados": "results/elegidas/"
+  }
+ ],
+ "pilotos_no_son_resultado": [
+  "config/e1a2_piloto.json",
+  "config/e1a2_piloto_eta.json",
+  "config/e1a2_diagnostico.json"
+ ]
+}

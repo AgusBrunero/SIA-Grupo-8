@@ -1,0 +1,18 @@
+{
+ "experimento": "e2b",
+ "descripcion": "Consigna 2a y 2b. Dataset de caritas construido en codigo y entrenamiento del VAE con lambda = 1.",
+ "dataset": {"n": 500, "semilla": 2026, "origen": "src/data/emojis.py, elegido por el grupo"},
+ "modelo": {
+  "capas_encoder": [256, 64, 2],
+  "capas_decoder": [2, 64, 256],
+  "activacion_oculta": "tanh",
+  "sosten": "Autoencoders diap. 74-89; una capa oculta y latente de 2 como el Colab de la diap. 90; tanh de Clase 10.2"
+ },
+ "lambda": 1.0,
+ "optimizador": {"nombre": "adam", "eta": 0.001, "beta1": 0.9, "beta2": 0.999, "epsilon": 1e-08},
+ "tamano_lote": 50,
+ "epocas": 2000,
+ "semillas": [0, 1, 2, 3, 4],
+ "beta": 1.0,
+ "amplitud_inicial": 0.1
+}

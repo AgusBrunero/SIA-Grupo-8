@@ -1,0 +1,102 @@
+E1                           semilla   0  logro=False max_px=17  total_px=195  error=74.1157  1.1 s
+E1                           semilla   1  logro=False max_px=21  total_px=226  error=78.7493  1.1 s
+E1                           semilla   2  logro=False max_px=19  total_px=208  error=76.9183  1.1 s
+E1                           semilla   3  logro=False max_px=23  total_px=206  error=78.9944  1.1 s
+E1                           semilla   4  logro=False max_px=16  total_px=223  error=79.2139  1.1 s
+E1                           semilla   5  logro=False max_px=18  total_px=198  error=77.4488  1.1 s
+E1                           semilla   6  logro=False max_px=20  total_px=206  error=76.9807  1.1 s
+E1                           semilla   7  logro=False max_px=16  total_px=225  error=80.1470  1.1 s
+E1                           semilla   8  logro=False max_px=17  total_px=204  error=79.7793  1.1 s
+E1                           semilla   9  logro=False max_px=22  total_px=209  error=76.9426  1.1 s
+E2                           semilla   0  logro=False max_px= 8  total_px= 95  error=37.9392  1.9 s
+E2                           semilla   1  logro=False max_px= 7  total_px= 64  error=30.5338  1.9 s
+E2                           semilla   2  logro=False max_px= 8  total_px= 68  error=31.0575  1.8 s
+E2                           semilla   3  logro=False max_px= 9  total_px= 55  error=27.3520  1.8 s
+E2                           semilla   4  logro=False max_px=16  total_px= 78  error=36.1167  1.8 s
+E2                           semilla   5  logro=False max_px= 8  total_px= 72  error=33.6299  1.9 s
+E2                           semilla   6  logro=False max_px= 8  total_px=105  error=43.3096  1.9 s
+E2                           semilla   7  logro=False max_px=10  total_px=148  error=56.1808  1.8 s
+E2                           semilla   8  logro=False max_px= 6  total_px= 51  error=28.0397  2.3 s
+E2                           semilla   9  logro=False max_px=12  total_px=178  error=66.2357  1.9 s
+E3                           semilla   0  logro=False max_px= 2  total_px= 14  error=8.1059  1.7 s
+E3                           semilla   1  logro=False max_px= 2  total_px=  9  error=5.8321  1.8 s
+E3                           semilla   2  logro=False max_px= 2  total_px= 11  error=6.7309  1.7 s
+E3                           semilla   3  logro=False max_px= 8  total_px= 19  error=9.4799  1.7 s
+E3                           semilla   4  logro=False max_px= 2  total_px=  6  error=4.5832  1.8 s
+E3                           semilla   5  logro=False max_px= 2  total_px= 11  error=7.0159  1.7 s
+E3                           semilla   6  logro=False max_px= 2  total_px= 12  error=7.1458  1.7 s
+E3                           semilla   7  logro=False max_px= 2  total_px= 13  error=7.8055  1.7 s
+E3                           semilla   8  logro=False max_px= 2  total_px=  7  error=4.7231  1.8 s
+E3                           semilla   9  logro=False max_px= 3  total_px= 15  error=8.8444  1.7 s
+E4                           semilla   0  logro=True  max_px= 1  total_px= 10  error=5.2469  1.4 s
+E4                           semilla   1  logro=False max_px= 2  total_px= 13  error=6.7052  1.5 s
+E4                           semilla   2  logro=True  max_px= 1  total_px= 12  error=6.1799  1.5 s
+E4                           semilla   3  logro=True  max_px= 1  total_px=  9  error=4.7384  1.5 s
+E4                           semilla   4  logro=False max_px= 2  total_px= 11  error=5.6783  1.5 s
+E4                           semilla   5  logro=False max_px= 2  total_px= 10  error=5.2634  1.5 s
+E4                           semilla   6  logro=True  max_px= 1  total_px=  8  error=4.2006  1.5 s
+E4                           semilla   7  logro=False max_px= 2  total_px=  9  error=4.6951  1.5 s
+E4                           semilla   8  logro=False max_px= 2  total_px= 12  error=6.2621  1.5 s
+E4                           semilla   9  logro=False max_px= 2  total_px=  6  error=3.2053  1.4 s
+E5                           semilla   0  logro=False max_px= 3  total_px= 16  error=8.1866  1.5 s
+E5                           semilla   1  logro=False max_px= 3  total_px= 12  error=6.1850  1.5 s
+E5                           semilla   2  logro=False max_px= 3  total_px= 19  error=9.6853  1.5 s
+E5                           semilla   3  logro=False max_px= 2  total_px= 18  error=9.1832  1.5 s
+E5                           semilla   4  logro=False max_px= 3  total_px= 15  error=7.7098  1.5 s
+E5                           semilla   5  logro=False max_px= 2  total_px= 17  error=8.6824  1.5 s
+E5                           semilla   6  logro=False max_px= 2  total_px=  9  error=4.7589  1.5 s
+E5                           semilla   7  logro=False max_px= 3  total_px= 29  error=14.6759  1.6 s
+E5                           semilla   8  logro=False max_px= 2  total_px= 16  error=8.1449  1.5 s
+E5                           semilla   9  logro=False max_px= 2  total_px= 16  error=8.2139  1.5 s
+E6                           semilla   0  logro=False max_px= 3  total_px= 18  error=9.6917  1.5 s
+E6                           semilla   1  logro=False max_px= 2  total_px=  7  error=4.3248  1.7 s
+E6                           semilla   2  logro=False max_px= 2  total_px=  9  error=5.1449  2.0 s
+E6                           semilla   3  logro=False max_px= 2  total_px= 16  error=8.7190  1.6 s
+E6                           semilla   4  logro=False max_px= 2  total_px= 12  error=7.0403  1.5 s
+E6                           semilla   5  logro=False max_px= 3  total_px= 10  error=5.4802  1.6 s
+E6                           semilla   6  logro=False max_px= 2  total_px=  7  error=4.3974  1.6 s
+E6                           semilla   7  logro=False max_px= 2  total_px= 14  error=7.6277  1.5 s
+E6                           semilla   8  logro=False max_px= 2  total_px=  9  error=5.6294  1.5 s
+E6                           semilla   9  logro=False max_px= 2  total_px= 12  error=6.9144  1.5 s
+E7                           semilla   0  logro=False max_px= 2  total_px= 15  error=7.5008  1.6 s
+E7                           semilla   1  logro=False max_px= 2  total_px= 18  error=9.0001  1.6 s
+E7                           semilla   2  logro=False max_px= 4  total_px= 17  error=8.5011  1.7 s
+E7                           semilla   3  logro=False max_px= 3  total_px= 19  error=9.5000  1.6 s
+E7                           semilla   4  logro=False max_px= 2  total_px=  9  error=4.5020  1.6 s
+E7                           semilla   5  logro=True  max_px= 1  total_px= 11  error=5.5007  1.7 s
+E7                           semilla   6  logro=False max_px= 3  total_px= 17  error=8.5001  1.7 s
+E7                           semilla   7  logro=False max_px= 2  total_px= 13  error=6.5005  1.6 s
+E7                           semilla   8  logro=False max_px= 2  total_px= 12  error=6.0012  1.6 s
+E7                           semilla   9  logro=False max_px= 2  total_px= 15  error=7.5001  1.7 s
+E8                           semilla   0  logro=False max_px= 4  total_px= 19  error=9.5236  2.0 s
+E8                           semilla   1  logro=False max_px= 2  total_px= 16  error=8.0171  1.8 s
+E8                           semilla   2  logro=False max_px= 6  total_px= 19  error=9.5210  1.8 s
+E8                           semilla   3  logro=False max_px= 3  total_px= 19  error=9.5229  1.7 s
+E8                           semilla   4  logro=False max_px= 4  total_px= 21  error=10.5199  1.7 s
+E8                           semilla   5  logro=False max_px= 2  total_px= 21  error=10.5184  1.7 s
+E8                           semilla   6  logro=False max_px= 2  total_px= 13  error=6.5211  1.7 s
+E8                           semilla   7  logro=False max_px= 2  total_px= 19  error=9.5242  1.7 s
+E8                           semilla   8  logro=False max_px= 2  total_px= 13  error=6.5147  1.7 s
+E8                           semilla   9  logro=False max_px= 3  total_px= 24  error=12.0142  1.7 s
+E9                           semilla   0  logro=True  max_px= 0  total_px=  0  error=0.7249  2.0 s
+E9                           semilla   1  logro=True  max_px= 0  total_px=  0  error=0.3870  2.0 s
+E9                           semilla   2  logro=True  max_px= 0  total_px=  0  error=0.5048  2.0 s
+E9                           semilla   3  logro=True  max_px= 0  total_px=  0  error=0.3058  2.1 s
+E9                           semilla   4  logro=True  max_px= 0  total_px=  0  error=0.3574  2.0 s
+E9                           semilla   5  logro=True  max_px= 0  total_px=  0  error=0.7378  2.0 s
+E9                           semilla   6  logro=True  max_px= 0  total_px=  0  error=0.6069  2.0 s
+E9                           semilla   7  logro=True  max_px= 0  total_px=  0  error=1.1998  2.1 s
+E9                           semilla   8  logro=True  max_px= 0  total_px=  0  error=0.7447  2.0 s
+E9                           semilla   9  logro=True  max_px= 0  total_px=  0  error=0.5364  2.0 s
+E10                          semilla   0  logro=False max_px=32  total_px=363  error=114.4844  0.2 s
+E10                          semilla   1  logro=False max_px=24  total_px=304  error=96.4921  2.2 s
+E10                          semilla   2  logro=False max_px=34  total_px=363  error=114.4844  0.2 s
+E10                          semilla   3  logro=False max_px=33  total_px=363  error=114.4844  0.2 s
+E10                          semilla   4  logro=False max_px=33  total_px=363  error=114.4844  0.2 s
+E10                          semilla   5  logro=False max_px=23  total_px=328  error=105.6466  0.8 s
+E10                          semilla   6  logro=False max_px=28  total_px=331  error=104.7355  1.7 s
+E10                          semilla   7  logro=False max_px=24  total_px=312  error=104.3629  1.1 s
+E10                          semilla   8  logro=False max_px=31  total_px=308  error=100.8403  1.0 s
+E10                          semilla   9  logro=False max_px=33  total_px=363  error=114.4844  0.1 s
+100 corridas en 155 s → /Users/brunoenzobaumgart/Desktop/itba/sia/tps/TP5/results/e1a2
+.venv/bin/python -m experiments.e1a2_escalera config/e1a2.json  152.45s user 0.43s system 98% cpu 2:35.62 total

@@ -1,0 +1,201 @@
+{
+ "experimento": "e1a2_diagnostico",
+ "descripcion": "Diagnostico de por que el piloto no llega a <=1 px: salidas logisticas saturadas con error cuadratico. Semillas del piloto.",
+ "semillas": [
+  100,
+  101
+ ],
+ "epocas": 10000,
+ "curva_cada": 100,
+ "codificacion": "01",
+ "perdida": "error_cuadratico",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "D0_referencia_E8"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "perdida": "bce",
+   "id": "D1_bce"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "identidad",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "D2_salida_identidad"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    10,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "D3_35-20-10-2"
+  },
+  {
+   "capas_encoder": [
+    35,
+    30,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "id": "D4_35-30-2"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    10,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "perdida": "bce",
+   "id": "D5_bce_35-20-10-2"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "perdida": "bce",
+   "id": "D6_bce_gd_0.01"
+  },
+  {
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.003,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "perdida": "bce",
+   "id": "D7_bce_adam_0.003"
+  },
+  {
+   "capas_encoder": [
+    35,
+    30,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "eta_adaptativo": null,
+   "tamano_lote": 32,
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "perdida": "bce",
+   "id": "D8_bce_35-30-2"
+  }
+ ]
+}

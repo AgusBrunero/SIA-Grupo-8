@@ -1,0 +1,75 @@
+E1_gd_0.0003                 semilla 100  logro=False max_px=28  total_px=243  error=89.3540  1.1 s
+E1_gd_0.0003                 semilla 101  logro=False max_px=24  total_px=254  error=87.7089  1.1 s
+E1_gd_0.001                  semilla 100  logro=False max_px=21  total_px=221  error=81.5700  1.1 s
+E1_gd_0.001                  semilla 101  logro=False max_px=23  total_px=232  error=82.0473  1.1 s
+E1_gd_0.003                  semilla 100  logro=False max_px=13  total_px=198  error=75.4909  1.1 s
+E1_gd_0.003                  semilla 101  logro=False max_px=16  total_px=218  error=78.3228  1.1 s
+E1_gd_0.01                   semilla 100  logro=False max_px=17  total_px=224  error=82.6092  1.1 s
+E1_gd_0.01                   semilla 101  logro=False max_px=16  total_px=216  error=78.3214  1.1 s
+E1_gd_0.03                   semilla 100  logro=False max_px=23  total_px=209  error=78.5856  1.1 s
+E1_gd_0.03                   semilla 101  logro=False max_px=21  total_px=245  error=84.6078  1.1 s
+E2_gd_0.0003                 semilla 100  logro=False max_px=32  total_px=361  error=114.4412  1.9 s
+E2_gd_0.0003                 semilla 101  logro=False max_px=32  total_px=355  error=114.4788  1.9 s
+E2_gd_0.001                  semilla 100  logro=False max_px=20  total_px=276  error=94.8763  1.9 s
+E2_gd_0.001                  semilla 101  logro=False max_px=22  total_px=283  error=97.1510  1.9 s
+E2_gd_0.003                  semilla 100  logro=False max_px=10  total_px=157  error=62.0650  1.9 s
+E2_gd_0.003                  semilla 101  logro=False max_px=10  total_px=165  error=65.4593  1.9 s
+E2_gd_0.01                   semilla 100  logro=False max_px= 7  total_px= 61  error=31.4553  1.9 s
+E2_gd_0.01                   semilla 101  logro=False max_px=10  total_px=112  error=43.5456  1.9 s
+E2_gd_0.03                   semilla 100  logro=False max_px=20  total_px=186  error=63.7397  1.9 s
+E2_gd_0.03                   semilla 101  logro=False max_px= 8  total_px= 95  error=36.5777  1.9 s
+E3_gd_0.0003                 semilla 100  logro=False max_px=20  total_px=292  error=100.5247  1.8 s
+E3_gd_0.0003                 semilla 101  logro=False max_px=31  total_px=356  error=112.9602  1.7 s
+E3_gd_0.001                  semilla 100  logro=False max_px= 8  total_px=132  error=54.5939  1.7 s
+E3_gd_0.001                  semilla 101  logro=False max_px=12  total_px=161  error=62.1313  1.7 s
+E3_gd_0.003                  semilla 100  logro=False max_px= 2  total_px= 20  error=16.6871  1.8 s
+E3_gd_0.003                  semilla 101  logro=False max_px= 3  total_px= 22  error=17.0627  1.7 s
+E3_gd_0.01                   semilla 100  logro=False max_px= 2  total_px= 14  error=8.4595  1.8 s
+E3_gd_0.01                   semilla 101  logro=False max_px= 3  total_px= 11  error=6.6990  1.7 s
+E3_gd_0.03                   semilla 100  logro=False max_px= 7  total_px= 30  error=10.5693  1.7 s
+E3_gd_0.03                   semilla 101  logro=False max_px= 9  total_px= 56  error=19.7772  1.8 s
+E4_gd_0.0003                 semilla 100  logro=False max_px=10  total_px=153  error=57.5193  1.5 s
+E4_gd_0.0003                 semilla 101  logro=False max_px=12  total_px=164  error=61.7931  1.5 s
+E4_gd_0.001                  semilla 100  logro=False max_px= 3  total_px= 21  error=17.0101  1.5 s
+E4_gd_0.001                  semilla 101  logro=False max_px= 3  total_px= 23  error=17.3310  1.5 s
+E4_gd_0.003                  semilla 100  logro=False max_px= 2  total_px= 13  error=7.9697  1.5 s
+E4_gd_0.003                  semilla 101  logro=False max_px= 2  total_px= 12  error=6.9404  1.5 s
+E4_gd_0.01                   semilla 100  logro=False max_px= 2  total_px=  8  error=4.2171  1.5 s
+E4_gd_0.01                   semilla 101  logro=False max_px= 3  total_px=  5  error=2.7047  1.5 s
+E4_gd_0.03                   semilla 100  logro=False max_px=10  total_px= 84  error=33.8351  1.5 s
+E4_gd_0.03                   semilla 101  logro=False max_px=11  total_px= 91  error=35.7107  1.5 s
+E5_momentum_0.0001           semilla 100  logro=False max_px= 3  total_px= 30  error=19.3467  1.5 s
+E5_momentum_0.0001           semilla 101  logro=False max_px= 4  total_px= 29  error=18.7785  1.5 s
+E5_momentum_0.0003           semilla 100  logro=False max_px= 2  total_px= 18  error=10.1570  1.5 s
+E5_momentum_0.0003           semilla 101  logro=False max_px= 2  total_px= 18  error=9.8710  1.5 s
+E5_momentum_0.001            semilla 100  logro=False max_px= 2  total_px= 18  error=9.1915  1.5 s
+E5_momentum_0.001            semilla 101  logro=False max_px= 2  total_px= 16  error=8.1891  1.5 s
+E5_momentum_0.003            semilla 100  logro=False max_px= 2  total_px= 26  error=13.0497  1.5 s
+E5_momentum_0.003            semilla 101  logro=False max_px= 2  total_px= 10  error=5.0552  1.5 s
+E5_momentum_0.01             semilla 100  logro=False max_px=20  total_px=227  error=85.7390  1.5 s
+E5_momentum_0.01             semilla 101  logro=False max_px=22  total_px=248  error=87.3878  1.5 s
+E7_rmsprop_0.0003            semilla 100  logro=False max_px= 2  total_px= 17  error=8.6306  1.7 s
+E7_rmsprop_0.0003            semilla 101  logro=False max_px= 2  total_px= 14  error=7.0534  1.6 s
+E7_rmsprop_0.001             semilla 100  logro=False max_px= 3  total_px= 21  error=10.5012  1.7 s
+E7_rmsprop_0.001             semilla 101  logro=False max_px= 3  total_px= 19  error=9.5010  1.6 s
+E7_rmsprop_0.003             semilla 100  logro=False max_px= 2  total_px= 19  error=9.5038  1.6 s
+E7_rmsprop_0.003             semilla 101  logro=False max_px= 6  total_px= 36  error=18.0005  1.6 s
+E7_rmsprop_0.01              semilla 100  logro=False max_px= 3  total_px= 15  error=7.5007  1.6 s
+E7_rmsprop_0.01              semilla 101  logro=False max_px= 2  total_px=  8  error=4.0002  1.6 s
+E8_adam_0.0003               semilla 100  logro=False max_px= 2  total_px= 21  error=10.9611  1.7 s
+E8_adam_0.0003               semilla 101  logro=False max_px= 5  total_px= 32  error=16.5134  1.7 s
+E9_adam_lote8_0.0003         semilla 100  logro=False max_px= 3  total_px= 12  error=6.9385  4.4 s
+E9_adam_lote8_0.0003         semilla 101  logro=False max_px= 3  total_px= 16  error=8.8076  4.2 s
+E8_adam_0.001                semilla 100  logro=False max_px= 2  total_px= 15  error=7.5164  1.7 s
+E8_adam_0.001                semilla 101  logro=False max_px= 3  total_px= 28  error=14.0201  1.7 s
+E9_adam_lote8_0.001          semilla 100  logro=False max_px= 2  total_px= 13  error=6.5041  4.2 s
+E9_adam_lote8_0.001          semilla 101  logro=False max_px= 2  total_px= 15  error=7.5067  4.8 s
+E8_adam_0.003                semilla 100  logro=False max_px= 2  total_px= 18  error=9.0207  1.8 s
+E8_adam_0.003                semilla 101  logro=False max_px= 4  total_px= 16  error=8.0038  2.1 s
+E9_adam_lote8_0.003          semilla 100  logro=False max_px= 2  total_px= 17  error=8.5067  4.2 s
+E9_adam_lote8_0.003          semilla 101  logro=False max_px= 4  total_px= 26  error=13.0186  4.5 s
+E8_adam_0.01                 semilla 100  logro=False max_px= 7  total_px= 68  error=34.0051  2.0 s
+E8_adam_0.01                 semilla 101  logro=False max_px= 4  total_px= 21  error=10.5004  1.7 s
+E9_adam_lote8_0.01           semilla 100  logro=False max_px= 4  total_px= 21  error=10.5013  4.4 s
+E9_adam_lote8_0.01           semilla 101  logro=False max_px= 2  total_px= 15  error=7.5000  4.2 s
+74 corridas en 140 s → /Users/brunoenzobaumgart/Desktop/itba/sia/tps/TP5/results/e1a2_piloto

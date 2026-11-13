@@ -28,3 +28,12 @@ Tp_2/watch_noche.py
 
 # TP3: los datasets se versionan; la caché generada localmente no
 TP3/datasets/cache/
+
+# TP5: las diapositivas de la cátedra no se versionan (material de cátedra, pesado)
+TP5/docs/tp5/clases/
+# TP5: el enunciado y el resumen de la cátedra tampoco se versionan (material de cátedra)
+TP5/docs/tp5/SIATP5.pdf
+TP5/docs/tp5/enunciado_y_catedra_tp5.md
+
+# TP5: dependencias del generador de la presentación
+TP5/docs/presentacion/node_modules/

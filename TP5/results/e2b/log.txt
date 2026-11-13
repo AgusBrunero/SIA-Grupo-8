@@ -1,0 +1,33 @@
+{'semilla': 0, 'L_con_z_igual_mu': 65.663, 'R': 3.618, 'error_absoluto_por_pixel': 0.044, 'mu_media': 0.004, 'mu_desvio': 1.02, 'sigma_media': 0.18, 'segundos': 12.82}
+{'semilla': 1, 'L_con_z_igual_mu': 65.687, 'R': 3.644, 'error_absoluto_por_pixel': 0.043, 'mu_media': -0.013, 'mu_desvio': 1.02, 'sigma_media': 0.18, 'segundos': 13.558}
+{'semilla': 2, 'L_con_z_igual_mu': 65.682, 'R': 3.545, 'error_absoluto_por_pixel': 0.044, 'mu_media': 0.012, 'mu_desvio': 1.018, 'sigma_media': 0.188, 'segundos': 12.937}
+{'semilla': 3, 'L_con_z_igual_mu': 65.597, 'R': 3.603, 'error_absoluto_por_pixel': 0.043, 'mu_media': -0.0, 'mu_desvio': 1.014, 'sigma_media': 0.183, 'segundos': 13.071}
+{'semilla': 4, 'L_con_z_igual_mu': 65.606, 'R': 3.675, 'error_absoluto_por_pixel': 0.044, 'mu_media': -0.001, 'mu_desvio': 1.021, 'sigma_media': 0.177, 'segundos': 13.372}
+## 2a y 2b · Dataset de caritas y entrenamiento del VAE (e2b)
+
+Datos en `results/e2b/`. Figuras: `fig_dataset.png`, `fig_curvas.png`, `fig_reconstrucciones.png`.
+
+### 2a · Dataset
+
+- 500 caritas de 16 × 16 (256 píxeles) en grises en [0, 1], construidas en código (`src/data/emojis.py`) con la semilla 2026 a partir de 7 parámetros continuos: centro_x, centro_y, curvatura_boca, ancho_boca, apertura_ojos, separacion_ojos, inclinacion_cejas.
+- Valor medio de un píxel: 0,219. El 44,1 % de los píxeles es gris (ni 0 ni 1). No hay caritas repetidas (500 distintas de 500).
+
+### 2b · Entrenamiento
+
+- Encoder 256–64–(μ y s de 2), decoder 2–64–256, ocultas tanh, salida logística. λ = 1,0, adam con η = 0,001, lotes de 50, 2000 épocas, semillas 0, 1, 2, 3, 4.
+- L y R durante el entrenamiento (con el ϵ sorteado en cada actualización):
+
+| Época | L (media ± desvío entre semillas) | R (media ± desvío entre semillas) |
+|---|---|---|
+| 1 | 174,33 ± 1,02 | 0,19 ± 0,09 |
+| 10 | 89,68 ± 0,34 | 3,91 ± 0,11 |
+| 100 | 70,81 ± 0,18 | 3,10 ± 0,02 |
+| 1000 | 67,22 ± 0,05 | 3,42 ± 0,02 |
+| 2000 | 66,66 ± 0,07 | 3,61 ± 0,05 |
+
+- En el último 10 % de las épocas, L cambia -0,10 ± 0,10 (media ± desvío entre semillas del valor final menos el inicial del tramo).
+- Piso de L para estos datos: 58,55. Con datos en grises la BCE no llega a 0 ni con una salida idéntica al dato (vale la entropía de los píxeles grises).
+- Al terminar, decodificando z = μ(x) sin ruido: L = 65,65 ± 0,04; error absoluto por píxel = 0,044 ± 0,000; R = 3,62 ± 0,05.
+- Códigos de los 500 patrones: desvío de μ = 1,02 ± 0,00 (el prior tiene desvío 1); σ media = 0,182 ± 0,004.
+- Tiempo por corrida: 13,2 ± 0,3 s.
+

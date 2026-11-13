@@ -1,0 +1,20 @@
+{
+ "experimento": "e2c",
+ "descripcion": "Consigna 2b y 2c. AE comun contra VAE sobre las caritas: latente, grilla decodificada, muestras desde z ~ N(0, I) y efecto de lambda.",
+ "dataset": {"n": 500, "semilla": 2026, "origen": "src/data/emojis.py, el mismo de e2b"},
+ "modelo": {
+  "capas_encoder": [256, 64, 2],
+  "capas_decoder": [2, 64, 256],
+  "activacion_oculta": "tanh",
+  "sosten": "La misma arquitectura base de e2b para el AE y el VAE; el AE tiene latente identidad de 2 y el VAE, mu y s de 2"
+ },
+ "lambdas": [0.1, 1.0, 10.0],
+ "optimizador": {"nombre": "adam", "eta": 0.001, "beta1": 0.9, "beta2": 0.999, "epsilon": 1e-08},
+ "tamano_lote": 50,
+ "epocas": 2000,
+ "semillas": [0, 1, 2, 3, 4],
+ "semilla_figuras": 0,
+ "generacion": {"n_muestras": 200, "semilla": 7, "rango_grilla": 3.0, "n_grilla": 11, "n_mostradas": 12, "n_candidatas": 40},
+ "beta": 1.0,
+ "amplitud_inicial": 0.1
+}

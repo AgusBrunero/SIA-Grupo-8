@@ -1,0 +1,22 @@
+tipo,a,b,correlacion,mismo_vecino
+AE–AE,semilla 0,semilla 1,0.46567857637087884,5.0
+AE–AE,semilla 0,semilla 2,0.39760050588903895,8.0
+AE–AE,semilla 0,semilla 3,0.6975948257149676,7.0
+AE–AE,semilla 0,semilla 4,0.34136412137754696,7.0
+AE–AE,semilla 1,semilla 2,0.2980730937620892,9.0
+AE–AE,semilla 1,semilla 3,0.6359918296043069,9.0
+AE–AE,semilla 1,semilla 4,0.3998681503007185,3.0
+AE–AE,semilla 2,semilla 3,0.3905045790141019,10.0
+AE–AE,semilla 2,semilla 4,0.1352285914711332,3.0
+AE–AE,semilla 3,semilla 4,0.4521401663988357,2.0
+AE–Hamming,semilla 0,Hamming,0.4495242303503381,
+AE–PCA,semilla 0,PCA,0.6218068294197442,8.0
+AE–Hamming,semilla 1,Hamming,0.40267446953740815,
+AE–PCA,semilla 1,PCA,0.5157520230360384,6.0
+AE–Hamming,semilla 2,Hamming,0.44963898838323607,
+AE–PCA,semilla 2,PCA,0.5359224736939189,6.0
+AE–Hamming,semilla 3,Hamming,0.5385981480494634,
+AE–PCA,semilla 3,PCA,0.6413587259294168,8.0
+AE–Hamming,semilla 4,Hamming,0.3340382987192736,
+AE–PCA,semilla 4,PCA,0.4048227897561138,8.0
+PCA–Hamming,PCA,Hamming,0.6470304591759126,

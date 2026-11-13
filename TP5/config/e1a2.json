@@ -1,0 +1,256 @@
+{
+ "experimento": "e1a2",
+ "descripcion": "Consigna 1a.2. Escalera de configuraciones del autoencoder con latente 2D sobre font.h. Cada escalón cambia una sola clave respecto del escalón indicado en respecto_de.",
+ "origen_de_los_hiperparametros": {
+  "gd.eta": "results/e1a2_piloto: menor error final promedio en E4 entre 0.0003, 0.001, 0.003, 0.01 y 0.03",
+  "momentum.eta": "results/e1a2_piloto: menor error final promedio entre 0.0001, 0.0003, 0.001, 0.003 y 0.01; alfa 0.9 es el valor tipico de Clase 12.1 diap. 5",
+  "rmsprop": "results/e1a2_piloto: eta con menor error final promedio entre 0.0003, 0.001, 0.003 y 0.01; gamma 0.9 y epsilon 1e-8 los fija el grupo (la catedra no da valores)",
+  "adam": "valores sugeridos en Clase 12.1 diap. 13",
+  "eta_adaptativo": "results/e1a2_piloto_eta: menor error final promedio entre 8 combinaciones de a, b y k_prima con k = 5",
+  "bce": "aprobada por el grupo como escalon E9 a partir de results/e1a2_diagnostico",
+  "powell.max_evaluaciones": "tope fijado por el grupo; se reporta si se alcanza"
+ },
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 10000,
+ "curva_cada": 20,
+ "codificacion": "01",
+ "perdida": "error_cuadratico",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "id": "E1",
+   "respecto_de": null,
+   "cambia": "Base: 35-2-35, logística en todas las capas, error cuadrático, GD en batch",
+   "sosten": "Autoencoders 3-4; Clase 11 diap. 37 y 54; Clase 10.2 diap. 23",
+   "capas_encoder": [
+    35,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "E2",
+   "respecto_de": "E1",
+   "cambia": "Arquitectura: una capa oculta de 20 (35-20-2-20-35)",
+   "sosten": "Autoencoders 5-6; Clase 11 diap. 60",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "E3",
+   "respecto_de": "E2",
+   "cambia": "Activación del latente: identidad",
+   "sosten": "Clase 10.2 diap. 8",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "E4",
+   "respecto_de": "E3",
+   "cambia": "Activación oculta: tanh",
+   "sosten": "Clase 10.2 diap. 23",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "E5",
+   "respecto_de": "E4",
+   "cambia": "Optimizador: momentum (alfa 0,9)",
+   "sosten": "Clase 12.1 diap. 5",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.001,
+    "alfa": 0.9
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "E6",
+   "respecto_de": "E4",
+   "cambia": "eta adaptativo sobre GD",
+   "sosten": "Clase 12.1 diap. 6-7",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": {
+    "a": 0.002,
+    "b": 0.5,
+    "k": 5,
+    "k_prima": 3
+   },
+   "tamano_lote": 32
+  },
+  {
+   "id": "E7",
+   "respecto_de": "E4",
+   "cambia": "Optimizador: RMSProp",
+   "sosten": "Clase 12.1 diap. 8",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "rmsprop",
+    "eta": 0.01,
+    "gamma": 0.9,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "E8",
+   "respecto_de": "E4",
+   "cambia": "Optimizador: Adam",
+   "sosten": "Clase 12.1 diap. 11-13",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "E9",
+   "respecto_de": "E8",
+   "cambia": "Pérdida: BCE",
+   "sosten": "Autoencoders diap. 51; Colab de la diap. 90",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "E10",
+   "respecto_de": "E1",
+   "cambia": "Optimizador: Powell (scipy)",
+   "sosten": "Análisis de Datos diap. 9; OptimizacionNOLineal 35-37",
+   "capas_encoder": [
+    35,
+    2
+   ],
+   "activacion_oculta": "logistica",
+   "activacion_latente": "logistica",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "powell",
+    "max_evaluaciones": 200000
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  }
+ ]
+}
