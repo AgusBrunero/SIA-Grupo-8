@@ -1,4 +1,4 @@
-"""Consigna 2a y 2b: dataset nuevo (caritas) y entrenamiento del VAE.
+"""Consigna 2a y 2b: dataset nuevo (relojes de agujas) y entrenamiento del VAE.
 
 2a  ¿Cómo es el conjunto de datos construido? Se dibuja una muestra.
 2b  ¿Aprende el VAE? Curvas de la reconstrucción L y de la regularización R por separado
@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 
 from experiments.comun import COLOR, RAIZ, TINTA_SECUNDARIA, aplicar_estilo, escribir_seccion
-from src.data.emojis import LADO, PARAMETROS, generar_caritas
+from src.data.relojes import LADO, a_texto, generar_relojes
 from src.modelos.vae import VAE, HistorialVAE, entrenar_vae
 from src.nn.optimizadores import crear
 from src.nn.perdidas import bce
@@ -68,13 +68,14 @@ def dibujar(ax, imagen: np.ndarray) -> None:
         borde.set_color('#c3c2b7')
 
 
-def figura_dataset(X: np.ndarray, cantidad: int, ruta) -> None:
+def figura_dataset(X: np.ndarray, horas: np.ndarray, cantidad: int, ruta) -> None:
     columnas = 12
     filas = cantidad // columnas
-    fig, ejes = plt.subplots(filas, columnas, figsize=(columnas * 0.8, filas * 0.8))
-    for ax, imagen in zip(ejes.ravel(), X[:filas * columnas]):
+    fig, ejes = plt.subplots(filas, columnas, figsize=(columnas * 0.8, filas * 0.95))
+    for ax, imagen, hora in zip(ejes.ravel(), X[:filas * columnas], horas):
         dibujar(ax, imagen)
-    fig.supxlabel(f'Primeras {filas * columnas} caritas del dataset (16 × 16 píxeles, grises en [0, 1])', fontsize=10)
+        ax.set_xlabel(a_texto(hora), fontsize=8, labelpad=1)
+    fig.supxlabel(f'Primeros {filas * columnas} relojes del dataset, con la hora que marcan (16 × 16 píxeles, grises en [0, 1])', fontsize=10)
     fig.tight_layout(h_pad=0.2, w_pad=0.2)
     fig.savefig(ruta)
     plt.close(fig)
@@ -104,7 +105,7 @@ def figura_reconstrucciones(X: np.ndarray, reconstrucciones: dict[int, np.ndarra
         for columna in range(cantidad):
             dibujar(ejes[fila, columna], salida[columna])
         ejes[fila, 0].set_ylabel(f'semilla {semilla}', fontsize=9, rotation=0, ha='right', va='center', color=TINTA_SECUNDARIA)
-    fig.supxlabel('Arriba: carita del dataset. Abajo: salida del decoder para z = μ(x), por semilla', fontsize=10)
+    fig.supxlabel('Arriba: reloj del dataset. Abajo: salida del decoder para z = μ(x), por semilla', fontsize=10)
     fig.tight_layout(h_pad=0.2, w_pad=0.2)
     fig.savefig(ruta)
     plt.close(fig)
@@ -128,14 +129,14 @@ def texto(config: dict, X: np.ndarray, entrenamiento: pd.DataFrame, curvas: pd.D
         lineas.append(f'| {epoca} | {pm(c.L)} | {pm(c.R)} |')
     ultimo_tramo = curvas[curvas.epoca > 0.9 * epocas].groupby('semilla')
     cambio_L = (ultimo_tramo.L.last() - ultimo_tramo.L.first())
-    return f"""## 2a y 2b · Dataset de caritas y entrenamiento del VAE (e2b)
+    return f"""## 2a y 2b · Dataset de relojes y entrenamiento del VAE (e2b)
 
 Datos en `results/e2b/`. Figuras: `fig_dataset.png`, `fig_curvas.png`, `fig_reconstrucciones.png`.
 
 ### 2a · Dataset
 
-- {len(X)} caritas de {LADO} × {LADO} ({X.shape[1]} píxeles) en grises en [0, 1], construidas en código (`src/data/emojis.py`) con la semilla {config['dataset']['semilla']} a partir de {len(PARAMETROS)} parámetros continuos: {', '.join(PARAMETROS)}.
-- Valor medio de un píxel: {num(X.mean(), 3)}. El {num(100 * ((X > 0) & (X < 1)).mean(), 1)} % de los píxeles es gris (ni 0 ni 1). No hay caritas repetidas ({len(np.unique(X, axis=0))} distintas de {len(X)}).
+- {len(X)} relojes de agujas de {LADO} × {LADO} ({X.shape[1]} píxeles) en grises en [0, 1], construidos en código (`src/data/relojes.py`) con la semilla {config['dataset']['semilla']}. La esfera es fija; lo único que cambia es la hora, sorteada uniforme entre las 12:00 y las 11:59, que fija el ángulo de las dos agujas como en un reloj real.
+- Valor medio de un píxel: {num(X.mean(), 3)}. El {num(100 * ((X > 0) & (X < 1)).mean(), 1)} % de los píxeles es gris (ni 0 ni 1). Imágenes distintas: {len(np.unique(X, axis=0))} de {len(X)} (las repetidas son relojes que marcan el mismo minuto; lo verifica `tests/test_relojes.py`).
 
 ### 2b · Entrenamiento
 
@@ -158,8 +159,9 @@ def main(ruta_config: str) -> None:
     salida = RAIZ / 'results' / config['experimento']
     salida.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(ruta_config, salida / 'config.json')
-    X = generar_caritas(config['dataset']['n'], config['dataset']['semilla']).X
-    figura_dataset(X, 72, salida / 'fig_dataset.png')
+    relojes = generar_relojes(config['dataset']['n'], config['dataset']['semilla'])
+    X = relojes.X
+    figura_dataset(X, relojes.parametros[:, 0], 72, salida / 'fig_dataset.png')
 
     filas, curvas, reconstrucciones = [], [], {}
     for semilla in config['semillas']:

@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 
 from experiments.e2c_latente_generacion import Modelo, entrenar_ae, entrenar_vae_modelo, etiqueta, medir, mosaico
-from src.data.emojis import generar_caritas
+from src.data.relojes import generar_relojes
 from src.modelos.generacion import vecino_por_pixel
 from src.modelos.autoencoder import Autoencoder
 from tests.gradcheck import TOLERANCIA, error_relativo, gradiente_numerico
@@ -59,13 +59,14 @@ class E2cTests(unittest.TestCase):
 
     def test_corrida_corta(self) -> None:
         config = dict(self.config, epocas=3)
-        X = generar_caritas(60, 0).X
+        relojes = generar_relojes(60, 0)
+        X, horas = relojes.X, relojes.parametros[:, 0]
         Z_prior = np.random.default_rng(0).standard_normal((15, 2))
         for lam in (None, 1.0):
             filas = []
             for _ in range(2):
                 modelo = entrenar_ae(config, 0, X) if lam is None else entrenar_vae_modelo(config, 0, X, lam)
-                fila, Z, generadas, vecino, distancia = medir(modelo, X, Z_prior)
+                fila, Z, generadas, vecino, distancia = medir(modelo, X, horas, Z_prior)
                 filas.append({k: v for k, v in fila.items() if k != 'segundos'})
             self.assertEqual(str(filas[0]), str(filas[1]))                 # misma semilla, misma corrida
             self.assertEqual((Z.shape, generadas.shape, vecino.shape, distancia.shape), ((60, 2), (15, 256), (15,), (15,)))
@@ -73,16 +74,20 @@ class E2cTests(unittest.TestCase):
             self.assertAlmostEqual(fila['distancia_vecino_media'], distancia.mean())
             for clave in ('fraccion_codigos_en_radio', 'fraccion_prior_en_rectangulo'):
                 self.assertTrue(0.0 <= fila[clave] <= 1.0)
+            self.assertTrue(1 <= fila['horas_cubiertas'] <= 12)
 
     def test_fracciones_con_un_modelo_conocido(self) -> None:
-        """Códigos fijos: 2 de 4 dentro de ‖z‖ ≤ 3; el rectángulo de los códigos es [0, 10] × [0, 10]."""
+        """Códigos fijos: 2 de 4 dentro de ‖z‖ ≤ 3; el rectángulo de los códigos es [0, 10] × [0, 10].
+        El decoder devuelve siempre lo mismo: todas las muestras caen en la imagen 0, que marca las 12:30,
+        así que cubren una sola hora de las 12."""
         codigos = np.array([[0.0, 0.0], [1.0, 1.0], [10.0, 0.0], [0.0, 10.0]])
         X = np.eye(4)
         modelo = Modelo(lambda datos: codigos, lambda Z: np.full((len(Z), 4), 0.5), {'R': np.nan, 'sigma_media': np.nan, 'segundos': 0.0})
-        fila, *_ = medir(modelo, X, np.array([[1.0, 1.0], [-1.0, 1.0], [5.0, 5.0]]))
+        fila, *_ = medir(modelo, X, np.array([0.5, 3.2, 3.9, 11.0]), np.array([[1.0, 1.0], [-1.0, 1.0], [5.0, 5.0]]))
         self.assertEqual(fila['fraccion_codigos_en_radio'], 0.5)
         self.assertAlmostEqual(fila['fraccion_prior_en_rectangulo'], 2 / 3)
         self.assertEqual(fila['distancia_vecino_media'], 0.5)
+        self.assertEqual(fila['horas_cubiertas'], 1)
 
     def test_etiqueta_y_mosaico(self) -> None:
         self.assertEqual((etiqueta(None), etiqueta(0.1), etiqueta(10.0)), ('AE', 'VAE, λ = 0,1', 'VAE, λ = 10'))

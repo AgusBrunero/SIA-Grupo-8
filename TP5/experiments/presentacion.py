@@ -90,9 +90,9 @@ def numeros() -> dict:
           'e1b/resumen.csv · B · entrenada con p = 0,1, probada con p = 0,3 · hasta_1px_media')
 
     e2b_config = json.loads((RESULTADOS / 'e2b' / 'config.json').read_text(encoding='utf-8'))
-    poner('n_caritas', str(e2b_config['dataset']['n']), 'e2b/config.json · dataset.n')
-    from src.data.emojis import PARAMETROS
-    poner('n_parametros', str(len(PARAMETROS)), 'src/data/emojis.py · cantidad de parámetros')
+    poner('n_relojes', str(e2b_config['dataset']['n']), 'e2b/config.json · dataset.n')
+    from src.data.relojes import PARAMETROS
+    poner('n_parametros', str(len(PARAMETROS)), 'src/data/relojes.py · cantidad de parámetros')
     curvas = leer('e2b/curvas.csv')
     primera, ultima = curvas[curvas.epoca == 1], curvas[curvas.epoca == curvas.epoca.max()]
     assert len(primera) == len(ultima) == curvas.semilla.nunique() >= 5
@@ -105,12 +105,14 @@ def numeros() -> dict:
     assert len(ae) == len(vae) >= 5
     poner('desvio_ae', num(ae.codigo_desvio.mean(), 1), 'e2c/corridas.csv · AE · media de codigo_desvio')
     poner('desvio_vae', num(vae.codigo_desvio.mean(), 1), 'e2c/corridas.csv · VAE λ = 1 · media de codigo_desvio')
+    poner('horas_vae', num(vae.horas_cubiertas.mean(), 1), 'e2c/corridas.csv · VAE λ = 1 · media de horas_cubiertas')
+    poner('horas_ae', num(ae.horas_cubiertas.mean(), 1), 'e2c/corridas.csv · AE · media de horas_cubiertas')
     poner('dist_generada', num(vae.distancia_vecino_media.mean(), 3), 'e2c/corridas.csv · VAE λ = 1 · media de distancia_vecino_media')
     from experiments.e2c_latente_generacion import vecino_por_pixel
-    from src.data.emojis import generar_caritas
-    caritas = generar_caritas(e2b_config['dataset']['n'], e2b_config['dataset']['semilla']).X
-    poner('dist_real', num(vecino_por_pixel(caritas, caritas, excluir_identicas=True)[1].mean(), 3),
-          'src/data/emojis.py · distancia media de cada carita a la otra más cercana (igual que en RESULTADOS.md)')
+    from src.data.relojes import generar_relojes
+    relojes = generar_relojes(e2b_config['dataset']['n'], e2b_config['dataset']['semilla']).X
+    poner('dist_real', num(vecino_por_pixel(relojes, relojes, excluir_identicas=True)[1].mean(), 3),
+          'src/data/relojes.py · distancia media de cada reloj al otro más cercano (igual que en RESULTADOS.md)')
     return m
 
 

@@ -24,11 +24,11 @@ class ElegidasTests(unittest.TestCase):
         self.assertGreater(filas.distancia.iloc[1], 0)
         self.assertEqual(len(filas.pixeles.iloc[1]), 35)
 
-    def test_las_caritas_estan_en_candidatas(self) -> None:
-        caritas = self.config['caritas']
-        tabla = pd.read_csv(RAIZ / caritas['origen'])
-        filas = tabla[(tabla['lambda'] == caritas['lambda']) & tabla.numero.isin(caritas['numeros'])]
-        self.assertEqual(len(filas), len(caritas['numeros']))
+    def test_los_relojes_estan_en_candidatas(self) -> None:
+        relojes = self.config['relojes']
+        tabla = pd.read_csv(RAIZ / relojes['origen'])
+        filas = tabla[(tabla['lambda'] == relojes['lambda']) & tabla.numero.isin(relojes['numeros'])]
+        self.assertEqual(len(filas), len(relojes['numeros']))
         self.assertTrue((filas.distancia > 0).all())
 
 
