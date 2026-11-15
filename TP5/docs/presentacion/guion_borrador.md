@@ -4,7 +4,7 @@ Generado desde `laminas.json`. Es un borrador: quien presenta cada lámina lo re
 
 ## 1. TP5 · Deep Learning
 
-Tres partes: comprimir letras con un autoencoder, limpiar ruido con un DAE y generar caritas con un VAE. Todo implementado a mano en numpy.
+Tres partes: comprimir letras con un autoencoder, limpiar ruido con un DAE y generar relojes con un VAE. Todo implementado a mano en numpy.
 
 ## 2. El autoencoder son dos perceptrones multicapa en espejo
 
@@ -70,25 +70,25 @@ Consecuencia: el nivel de ruido del entrenamiento se elige según el ruido que s
 
 Autoencoders diap. 74–89. L es la reconstrucción y R penaliza que la distribución de cada código se aleje de la normal estándar. El truco de reparametrización saca el sorteo afuera (ϵ) para poder hacer backpropagation. El encoder devuelve μ y s = log σ². Verificado con gradient check con ϵ fijo.
 
-## 18. Construimos 500 caritas a partir de 7 parámetros
+## 18. Construimos 500 relojes de agujas: lo único que cambia es la hora
 
-Caritas de 16 × 16. Parámetros: posición, curvatura y ancho de la boca, apertura y separación de los ojos, inclinación de las cejas. Lo construimos para poder juzgar si una muestra generada pertenece al conjunto.
+Relojes de 16 × 16. La esfera es fija; la hora, sorteada al azar, fija las dos agujas como en un reloj real (la de las horas avanza también con los minutos). Probamos variar también el tamaño y la posición de la esfera, pero el VAE gastaba el latente en eso y dejaba las agujas borrosas. Lo construimos para poder juzgar si una muestra generada es un reloj del conjunto.
 
 ## 19. El VAE aprende: la reconstrucción baja y la regularización se estabiliza
 
-Encoder 256–64–(μ y s de 2), decoder 2–64–256, λ = 1, Adam, 2000 épocas, 5 semillas (una línea por semilla). L no puede llegar a 0: con datos en grises tiene un piso de 58,55. Fuente: results/e2b/curvas.csv.
+Encoder 256–64–(μ y s de 2), decoder 2–64–256, λ = 1, Adam, 2000 épocas, 5 semillas (una línea por semilla). L no puede llegar a 0: con datos en grises tiene un piso de 48,45. Fuente: results/e2b/curvas.csv.
 
 ## 20. El VAE lleva los códigos a la normal estándar; el autoencoder los desparrama
 
-Misma arquitectura y mismos datos; cambia solo el latente. La línea punteada es ‖z‖ = 3. En el autoencoder solo el 19 % de los códigos cae adentro; en el VAE con λ = 1, todos. Límite a declarar: en la distancia de una muestra generada al dataset, autoencoder y VAE empatan según nuestra regla; lo que cambia es dónde quedan los códigos y que el autoencoder depende de la semilla. Fuente: results/e2c/corridas.csv, 5 semillas.
+Misma arquitectura y mismos datos; cambia solo el latente. El color es la hora que marca cada reloj. La línea punteada es ‖z‖ = 3. En el autoencoder solo el 15 % de los códigos cae adentro; en el VAE con λ = 1, todos. Fuente: results/e2c/corridas.csv, 5 semillas.
 
 ## 21. λ intercambia nitidez por orden en el latente
 
-El decoder evaluado sobre la misma grilla del latente. J = L + λR (diap. 78, ec. 13). Con λ = 10 gana R: los códigos se pegan al prior, σ crece y el decoder recibe casi lo mismo para todos los datos. Con λ = 0,1 gana L. Números para decir: L pasa de 64,66 a 72,40 y R de 6,82 a 0,73 entre λ = 0,1 y λ = 10. Fuente: results/e2c/corridas.csv.
+El decoder evaluado sobre la misma grilla del latente. J = L + λR (diap. 78, ec. 13). Con λ = 10 gana R: todos los códigos quedan en el origen con σ = 1 (R = 0) y el decoder dibuja la esfera con una mancha gris. Con λ = 0,1 gana L. Números para decir: L pasa de 51,89 a 62,19 y R de 7,84 a 0,00 entre λ = 0,1 y λ = 10. Fuente: results/e2c/corridas.csv.
 
-## 22. Las caritas generadas son nuevas y están tan cerca del dataset como las reales
+## 22. Los relojes generados son nuevos y el VAE recorre todas las horas
 
-Se descarta el encoder y se decodifica z sorteado de N(0, I). Las juzgamos del conjunto: tienen contorno, ojos y boca. Ninguna de las 4000 generadas es copia de una del dataset. La distancia es la diferencia absoluta media por píxel, una métrica nuestra. Fuente: results/e2c/corridas.csv y results/elegidas/elegidas.csv.
+Se descarta el encoder y se decodifica z sorteado de N(0, I). Los juzgamos del conjunto: tienen esfera, marcas y dos agujas. Ninguna de las 4000 generadas es copia de una del dataset. Para medir variedad miramos la hora del reloj del dataset más cercano a cada muestra. Límite: las del VAE son más borrosas; su distancia por píxel al más cercano (0,018) es mayor que la del autoencoder y que la de los relojes reales entre sí (0,006). Fuente: results/e2c/corridas.csv y results/elegidas/elegidas.csv.
 
 ## 23. El VAE ordena el latente, y por eso permite generar
 

@@ -77,41 +77,49 @@
    "texto": "15 %",
    "origen": "e1b/resumen.csv · B · entrenada con p = 0,1, probada con p = 0,3 · hasta_1px_media"
   },
-  "n_caritas": {
+  "n_relojes": {
    "texto": "500",
    "origen": "e2b/config.json · dataset.n"
   },
   "n_parametros": {
-   "texto": "7",
-   "origen": "src/data/emojis.py · cantidad de parámetros"
+   "texto": "1",
+   "origen": "src/data/relojes.py · cantidad de parámetros"
   },
   "L_inicial": {
    "texto": "174",
    "origen": "e2b/curvas.csv · época 1 · media de L entre semillas"
   },
   "L_final": {
-   "texto": "67",
+   "texto": "54",
    "origen": "e2b/curvas.csv · última época · media de L entre semillas"
   },
   "R_final": {
-   "texto": "3,6",
+   "texto": "3,5",
    "origen": "e2b/curvas.csv · última época · media de R entre semillas"
   },
   "desvio_ae": {
-   "texto": "9,6",
+   "texto": "11,9",
    "origen": "e2c/corridas.csv · AE · media de codigo_desvio"
   },
   "desvio_vae": {
    "texto": "1,0",
    "origen": "e2c/corridas.csv · VAE λ = 1 · media de codigo_desvio"
   },
+  "horas_vae": {
+   "texto": "12,0",
+   "origen": "e2c/corridas.csv · VAE λ = 1 · media de horas_cubiertas"
+  },
+  "horas_ae": {
+   "texto": "7,4",
+   "origen": "e2c/corridas.csv · AE · media de horas_cubiertas"
+  },
   "dist_generada": {
-   "texto": "0,037",
+   "texto": "0,018",
    "origen": "e2c/corridas.csv · VAE λ = 1 · media de distancia_vecino_media"
   },
   "dist_real": {
-   "texto": "0,035",
-   "origen": "src/data/emojis.py · distancia media de cada carita a la otra más cercana (igual que en RESULTADOS.md)"
+   "texto": "0,006",
+   "origen": "src/data/relojes.py · distancia media de cada reloj al otro más cercano (igual que en RESULTADOS.md)"
   }
  }
 }
