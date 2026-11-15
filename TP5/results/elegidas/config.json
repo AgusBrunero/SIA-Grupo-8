@@ -2,5 +2,11 @@
  "experimento": "elegidas",
  "descripcion": "Consigna 1a.4 y 2c. Las muestras generadas para presentar: la letra la eligio el grupo (2026-11-11); los relojes los propuso Claude (2026-11-15) y el grupo tiene que confirmarlos, tomadas de e1a3_e1a4 y de e2c.",
  "letra": {"origen": "results/e1a3_e1a4/interpolaciones.csv", "semilla": 0, "par": "o→e", "paso": 3},
- "relojes": {"origen": "results/e2c/candidatas.csv", "config": "config/e2c.json", "lambda": 1.0, "numeros": [14, 36]}
+ "relojes": {"origen": "results/e2c/candidatas.csv", "config": "config/e2c.json", "lambda": 1.0, "numeros": [14, 21]},
+ "letras_grilla": {
+  "origen": "results/e1a4_grilla/unicas.csv",
+  "numeros": [172, 344, 345],
+  "elegidas_por": "Claude, a pedido de Bruno (2026-11-14), para la lamina 8; el grupo puede cambiarlas",
+  "criterio": "Entre las salidas a 3 px o mas de toda letra y con tinta dentro del rango de las letras del dataset (3 a 35 px), las que se leen como un glifo y salen de una region amplia del latente (muchos puntos de la grilla). 172: se lee como una S (6 px de la g, 22 puntos). 344: una o con un punto (3 px de la m, 57 puntos). 345: una u con un punto (3 px de la u, 55 puntos)."
+ }
 }
