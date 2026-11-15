@@ -244,14 +244,14 @@ Se asigna a cada salida umbralizada la letra del dataset más cercana por distan
 <!-- e1b:fin -->
 
 <!-- e2b:inicio -->
-## 2a y 2b · Dataset de caritas y entrenamiento del VAE (e2b)
+## 2a y 2b · Dataset de relojes y entrenamiento del VAE (e2b)
 
 Datos en `results/e2b/`. Figuras: `fig_dataset.png`, `fig_curvas.png`, `fig_reconstrucciones.png`.
 
 ### 2a · Dataset
 
-- 500 caritas de 16 × 16 (256 píxeles) en grises en [0, 1], construidas en código (`src/data/emojis.py`) con la semilla 2026 a partir de 7 parámetros continuos: centro_x, centro_y, curvatura_boca, ancho_boca, apertura_ojos, separacion_ojos, inclinacion_cejas.
-- Valor medio de un píxel: 0,219. El 44,1 % de los píxeles es gris (ni 0 ni 1). No hay caritas repetidas (500 distintas de 500).
+- 500 relojes de agujas de 16 × 16 (256 píxeles) en grises en [0, 1], construidos en código (`src/data/relojes.py`) con la semilla 2026. La esfera es fija; lo único que cambia es la hora, sorteada uniforme entre las 12:00 y las 11:59, que fija el ángulo de las dos agujas como en un reloj real.
+- Valor medio de un píxel: 0,182. El 36,1 % de los píxeles es gris (ni 0 ni 1). Imágenes distintas: 494 de 500 (las repetidas son relojes que marcan el mismo minuto; lo verifica `tests/test_relojes.py`).
 
 ### 2b · Entrenamiento
 
@@ -260,17 +260,17 @@ Datos en `results/e2b/`. Figuras: `fig_dataset.png`, `fig_curvas.png`, `fig_reco
 
 | Época | L (media ± desvío entre semillas) | R (media ± desvío entre semillas) |
 |---|---|---|
-| 1 | 174,33 ± 1,02 | 0,19 ± 0,09 |
-| 10 | 89,68 ± 0,34 | 3,91 ± 0,11 |
-| 100 | 70,81 ± 0,18 | 3,10 ± 0,02 |
-| 1000 | 67,22 ± 0,05 | 3,42 ± 0,02 |
-| 2000 | 66,66 ± 0,07 | 3,61 ± 0,05 |
+| 1 | 173,83 ± 1,22 | 0,19 ± 0,12 |
+| 10 | 65,15 ± 0,15 | 5,00 ± 0,13 |
+| 100 | 61,68 ± 0,50 | 0,72 ± 0,29 |
+| 1000 | 56,41 ± 0,45 | 2,64 ± 0,17 |
+| 2000 | 54,37 ± 0,20 | 3,50 ± 0,08 |
 
-- En el último 10 % de las épocas, L cambia -0,10 ± 0,10 (media ± desvío entre semillas del valor final menos el inicial del tramo).
-- Piso de L para estos datos: 58,55. Con datos en grises la BCE no llega a 0 ni con una salida idéntica al dato (vale la entropía de los píxeles grises).
-- Al terminar, decodificando z = μ(x) sin ruido: L = 65,65 ± 0,04; error absoluto por píxel = 0,044 ± 0,000; R = 3,62 ± 0,05.
-- Códigos de los 500 patrones: desvío de μ = 1,02 ± 0,00 (el prior tiene desvío 1); σ media = 0,182 ± 0,004.
-- Tiempo por corrida: 13,2 ± 0,3 s.
+- En el último 10 % de las épocas, L cambia -0,22 ± 0,12 (media ± desvío entre semillas del valor final menos el inicial del tramo).
+- Piso de L para estos datos: 48,45. Con datos en grises la BCE no llega a 0 ni con una salida idéntica al dato (vale la entropía de los píxeles grises).
+- Al terminar, decodificando z = μ(x) sin ruido: L = 53,42 ± 0,28; error absoluto por píxel = 0,020 ± 0,001; R = 3,50 ± 0,10.
+- Códigos de los 500 patrones: desvío de μ = 1,03 ± 0,01 (el prior tiene desvío 1); σ media = 0,201 ± 0,008.
+- Tiempo por corrida: 52,0 ± 0,2 s.
 <!-- e2b:fin -->
 
 <!-- e2c:inicio -->
@@ -278,24 +278,25 @@ Datos en `results/e2b/`. Figuras: `fig_dataset.png`, `fig_curvas.png`, `fig_reco
 
 Datos en `results/e2c/`. Figuras: `fig_latente.png`, `fig_grilla.png`, `fig_muestras.png`, `fig_lambda.png`, `fig_candidatas_lambda_*.png`.
 
-- Mismo dataset (500 caritas) y misma arquitectura base (256–64–2 y decoder espejo, ocultas tanh, salida logística, BCE, adam, lotes de 50, 2000 épocas) para el AE común y para el VAE con λ = 0,1, 1, 10.
+- Mismo dataset (500 relojes) y misma arquitectura base (256–64–2 y decoder espejo, ocultas tanh, salida logística, BCE, adam, lotes de 50, 2000 épocas) para el AE común y para el VAE con λ = 0,1, 1, 10.
 - 5 semillas por modelo; cada celda es media ± desvío entre semillas. El código de un dato es z para el AE y μ(x) para el VAE.
 - Generación: 200 valores de z ~ N(0, I), los mismos para todos los modelos, decodificados. La distancia entre dos imágenes es la media sobre los píxeles de la diferencia absoluta (0 = idénticas).
 
 | Medida | AE | VAE, λ = 0,1 | VAE, λ = 1 | VAE, λ = 10 |
 |---|---|---|---|---|
-| L con z = código | 63,97 ± 0,07 | 64,66 ± 0,11 | 65,65 ± 0,04 | 72,40 ± 0,21 |
-| Error abs. por píxel | 0,037 ± 0,000 | 0,040 ± 0,000 | 0,044 ± 0,000 | 0,076 ± 0,001 |
-| Desvío de los códigos | 9,55 ± 1,20 | 1,34 ± 0,04 | 1,02 ± 0,00 | 0,72 ± 0,02 |
-| Mayor valor absoluto de una coordenada de un código | 34,62 ± 2,08 | 4,53 ± 0,43 | 2,75 ± 0,05 | 1,31 ± 0,08 |
-| Códigos con ‖z‖ ≤ 3 | 0,19 ± 0,05 | 0,91 ± 0,02 | 1,00 ± 0,00 | 1,00 ± 0,00 |
-| z ~ N(0, I) dentro del rectángulo de los códigos | 1,00 ± 0,00 | 1,00 ± 0,00 | 0,99 ± 0,00 | 0,68 ± 0,03 |
-| Distancia media al más cercano | 0,056 ± 0,020 | 0,036 ± 0,000 | 0,037 ± 0,000 | 0,052 ± 0,001 |
-| Distancia mínima al más cercano | 0,027 ± 0,001 | 0,023 ± 0,001 | 0,025 ± 0,001 | 0,037 ± 0,001 |
-| R | — | 6,82 ± 0,16 | 3,62 ± 0,05 | 0,73 ± 0,04 |
-| σ media | — | 0,053 ± 0,002 | 0,182 ± 0,004 | 0,696 ± 0,010 |
+| L con z = código | 50,92 ± 0,32 | 51,89 ± 0,29 | 53,42 ± 0,28 | 62,19 ± 0,00 |
+| Error abs. por píxel | 0,012 ± 0,001 | 0,015 ± 0,001 | 0,020 ± 0,001 | 0,040 ± 0,000 |
+| Desvío de los códigos | 11,89 ± 1,44 | 1,56 ± 0,05 | 1,03 ± 0,01 | 0,00 ± 0,00 |
+| Mayor valor absoluto de una coordenada de un código | 39,49 ± 2,35 | 5,07 ± 0,23 | 2,57 ± 0,15 | 0,01 ± 0,00 |
+| Códigos con ‖z‖ ≤ 3 | 0,15 ± 0,05 | 0,82 ± 0,02 | 1,00 ± 0,00 | 1,00 ± 0,00 |
+| z ~ N(0, I) dentro del rectángulo de los códigos | 1,00 ± 0,00 | 1,00 ± 0,00 | 0,98 ± 0,00 | 0,00 ± 0,00 |
+| Distancia media al más cercano | 0,013 ± 0,001 | 0,015 ± 0,001 | 0,018 ± 0,000 | 0,034 ± 0,000 |
+| Distancia mínima al más cercano | 0,007 ± 0,001 | 0,007 ± 0,002 | 0,010 ± 0,001 | 0,034 ± 0,000 |
+| Horas (de 12) en las que cae el más cercano de alguna muestra | 7,4 ± 1,5 | 12,0 ± 0,0 | 12,0 ± 0,0 | 1,0 ± 0,0 |
+| R | — | 7,84 ± 0,17 | 3,50 ± 0,10 | 0,00 ± 0,00 |
+| σ media | — | 0,049 ± 0,002 | 0,201 ± 0,008 | 1,000 ± 0,000 |
 
-- Referencia dentro del dataset: la distancia de cada carita a la otra carita más cercana es 0,035 en promedio (mínimo 0,008, máximo 0,058).
-- Ninguna de las 4000 muestras generadas (todos los modelos y semillas) es idéntica a una imagen del dataset: la menor distancia es 0,022.
+- Referencia dentro del dataset: la distancia de cada reloj al otro reloj más cercano es 0,006 en promedio (mínimo 0,000, máximo 0,023).
+- Ninguna de las 4000 muestras generadas (todos los modelos y semillas) es idéntica a una imagen del dataset: la menor distancia es 0,004.
 - `fig_candidatas_lambda_*.png` trae 40 candidatas numeradas por cada λ (semilla 0), con su z, su imagen más cercana y la distancia en `candidatas.csv`. La elección queda para el grupo.
 <!-- e2c:fin -->

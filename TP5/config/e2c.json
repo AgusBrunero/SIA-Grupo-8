@@ -1,7 +1,7 @@
 {
  "experimento": "e2c",
- "descripcion": "Consigna 2b y 2c. AE comun contra VAE sobre las caritas: latente, grilla decodificada, muestras desde z ~ N(0, I) y efecto de lambda.",
- "dataset": {"n": 500, "semilla": 2026, "origen": "src/data/emojis.py, el mismo de e2b"},
+ "descripcion": "Consigna 2b y 2c. AE comun contra VAE sobre los relojes: latente, grilla decodificada, muestras desde z ~ N(0, I) y efecto de lambda.",
+ "dataset": {"n": 500, "semilla": 2026, "origen": "src/data/relojes.py, el mismo de e2b"},
  "modelo": {
   "capas_encoder": [256, 64, 2],
   "capas_decoder": [2, 64, 256],

@@ -1,7 +1,7 @@
 {
  "experimento": "e2b",
- "descripcion": "Consigna 2a y 2b. Dataset de caritas construido en codigo y entrenamiento del VAE con lambda = 1.",
- "dataset": {"n": 500, "semilla": 2026, "origen": "src/data/emojis.py, elegido por el grupo"},
+ "descripcion": "Consigna 2a y 2b. Dataset de relojes de agujas construido en codigo y entrenamiento del VAE con lambda = 1.",
+ "dataset": {"n": 500, "semilla": 2026, "origen": "src/data/relojes.py, elegido por el grupo"},
  "modelo": {
   "capas_encoder": [256, 64, 2],
   "capas_decoder": [2, 64, 256],

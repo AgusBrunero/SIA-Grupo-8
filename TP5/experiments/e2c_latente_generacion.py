@@ -16,7 +16,7 @@ Uso, desde TP5/ y en primer plano:
 
 Salida en results/e2c/: corridas.csv, muestras.csv, candidatas.csv, fig_latente.png,
 fig_grilla.png, fig_muestras.png, fig_lambda.png, fig_candidatas_lambda_*.png,
-fig_latente_ae_vae.png, fig_grilla_lambdas.png (las dos últimas, con menos paneles, para proyectar),
+fig_latente_ae_vae.png, fig_grilla_lambdas.png, fig_muestras_ae_vae.png (las tres últimas, con menos paneles, para proyectar),
 config.json y el bloque e2c de docs/RESULTADOS.md.
 """
 import json
@@ -31,7 +31,7 @@ import pandas as pd
 
 from experiments.comun import COLOR, RAIZ, TINTA_SECUNDARIA, aplicar_estilo, escribir_seccion
 from experiments.e2b_vae import dibujar, entrenar_semilla, evaluar_vae, num, pm
-from src.data.emojis import LADO, generar_caritas
+from src.data.relojes import LADO, generar_relojes
 from src.modelos.autoencoder import Autoencoder, entrenar
 from src.modelos.generacion import vecino_por_pixel
 from src.nn.optimizadores import crear
@@ -75,8 +75,10 @@ def entrenar_vae_modelo(config: dict, semilla: int, X: np.ndarray, lam: float) -
                   {'R': medidas['R'], 'sigma_media': medidas['sigma_media'], 'segundos': historial.segundos})
 
 
-def medir(modelo: Modelo, X: np.ndarray, Z_prior: np.ndarray) -> tuple[dict, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """Medidas de una corrida. Devuelve (fila, códigos, generadas, vecino, distancia)."""
+def medir(modelo: Modelo, X: np.ndarray, horas: np.ndarray, Z_prior: np.ndarray) -> tuple[dict, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Medidas de una corrida. Devuelve (fila, códigos, generadas, vecino, distancia).
+    horas_cubiertas (medida nuestra, como la distancia de D44): de las 12 horas del reloj (la 1, las 2, …),
+    en cuántas cae el reloj del dataset más cercano a al menos una muestra generada. Mide variedad."""
     Z = modelo.codificar(X)
     salida = modelo.decodificar(Z)
     generadas = modelo.decodificar(Z_prior)
@@ -90,6 +92,7 @@ def medir(modelo: Modelo, X: np.ndarray, Z_prior: np.ndarray) -> tuple[dict, np.
             'fraccion_prior_en_rectangulo': float(dentro.mean()),
             'distancia_vecino_media': float(distancia.mean()),
             'distancia_vecino_minima': float(distancia.min()),
+            'horas_cubiertas': len(np.unique(np.floor(horas[vecino]))),
             **modelo.extras}
     return fila, Z, generadas, vecino, distancia
 
@@ -105,18 +108,21 @@ def mosaico(imagenes: np.ndarray, columnas: int) -> np.ndarray:
     return lienzo
 
 
-def figura_latente(guardados: dict, ruta) -> None:
-    fig, ejes = plt.subplots(1, len(guardados), figsize=(3.6 * len(guardados), 3.9))
+def figura_latente(guardados: dict, horas: np.ndarray, ruta) -> None:
+    """El color de cada punto es la hora que marca el reloj, en una escala cíclica (las 12 y las 11:59 casi igual)."""
+    fig, ejes = plt.subplots(1, len(guardados), figsize=(3.6 * len(guardados) + 0.8, 3.9), layout='constrained')
     angulo = np.linspace(0, 2 * np.pi, 200)
     for ax, (lam, g) in zip(ejes, guardados.items()):
-        ax.scatter(g['Z'][:, 0], g['Z'][:, 1], s=8, color=COLOR['AE' if lam is None else 'VAE'], alpha=0.6, linewidths=0)
+        puntos = ax.scatter(g['Z'][:, 0], g['Z'][:, 1], s=8, c=horas, cmap='twilight', vmin=0, vmax=12, alpha=0.8, linewidths=0)
         ax.plot(RADIO * np.cos(angulo), RADIO * np.sin(angulo), color=TINTA_SECUNDARIA, linewidth=1, linestyle='--')
         ax.set_aspect('equal', adjustable='datalim')
         ax.set_xlabel(f'z₁ · {etiqueta(lam)}')
     ejes[0].set_ylabel('z₂')
-    fig.supxlabel('Un punto por carita del dataset (para el VAE, μ(x)). Línea punteada: ‖z‖ = 3, tres desvíos del prior N(0, I).\n'
+    barra = fig.colorbar(puntos, ax=list(ejes), ticks=[0, 3, 6, 9, 12], fraction=0.025, pad=0.02)
+    barra.ax.set_yticklabels(['12:00', '3:00', '6:00', '9:00', '12:00'])
+    barra.set_label('Hora que marca el reloj')
+    fig.supxlabel('Un punto por reloj del dataset (para el VAE, μ(x)). Línea punteada: ‖z‖ = 3, tres desvíos del prior N(0, I).\n'
                   'Cada panel tiene su propia escala.', fontsize=10)
-    fig.tight_layout()
     fig.savefig(ruta)
     plt.close(fig)
 
@@ -203,7 +209,8 @@ def texto(config: dict, corridas: pd.DataFrame, distancia_dataset: np.ndarray) -
                 ('fraccion_codigos_en_radio', 'Códigos con ‖z‖ ≤ 3', 2),
                 ('fraccion_prior_en_rectangulo', 'z ~ N(0, I) dentro del rectángulo de los códigos', 2),
                 ('distancia_vecino_media', 'Distancia media al más cercano', 3),
-                ('distancia_vecino_minima', 'Distancia mínima al más cercano', 3), ('R', 'R', 2), ('sigma_media', 'σ media', 3))
+                ('distancia_vecino_minima', 'Distancia mínima al más cercano', 3),
+                ('horas_cubiertas', 'Horas (de 12) en las que cae el más cercano de alguna muestra', 1), ('R', 'R', 2), ('sigma_media', 'σ media', 3))
     grupos = {nombre: g for nombre, g in corridas.groupby('etiqueta', sort=False)}
     assert all(len(g) == n_semillas for g in grupos.values())
     lineas = ['| Medida | ' + ' | '.join(grupos) + ' |', '|---|' + '---|' * len(grupos)]
@@ -215,13 +222,13 @@ def texto(config: dict, corridas: pd.DataFrame, distancia_dataset: np.ndarray) -
 
 Datos en `results/e2c/`. Figuras: `fig_latente.png`, `fig_grilla.png`, `fig_muestras.png`, `fig_lambda.png`, `fig_candidatas_lambda_*.png`.
 
-- Mismo dataset ({config['dataset']['n']} caritas) y misma arquitectura base ({'–'.join(map(str, config['modelo']['capas_encoder']))} y decoder espejo, ocultas {config['modelo']['activacion_oculta']}, salida logística, BCE, {config['optimizador']['nombre']}, lotes de {config['tamano_lote']}, {config['epocas']} épocas) para el AE común y para el VAE con λ = {', '.join(f'{v:g}'.replace('.', ',') for v in config['lambdas'])}.
+- Mismo dataset ({config['dataset']['n']} relojes) y misma arquitectura base ({'–'.join(map(str, config['modelo']['capas_encoder']))} y decoder espejo, ocultas {config['modelo']['activacion_oculta']}, salida logística, BCE, {config['optimizador']['nombre']}, lotes de {config['tamano_lote']}, {config['epocas']} épocas) para el AE común y para el VAE con λ = {', '.join(f'{v:g}'.replace('.', ',') for v in config['lambdas'])}.
 - {n_semillas} semillas por modelo; cada celda es media ± desvío entre semillas. El código de un dato es z para el AE y μ(x) para el VAE.
 - Generación: {gen['n_muestras']} valores de z ~ N(0, I), los mismos para todos los modelos, decodificados. La distancia entre dos imágenes es la media sobre los píxeles de la diferencia absoluta (0 = idénticas).
 
 {chr(10).join(lineas)}
 
-- Referencia dentro del dataset: la distancia de cada carita a la otra carita más cercana es {num(distancia_dataset.mean(), 3)} en promedio (mínimo {num(distancia_dataset.min(), 3)}, máximo {num(distancia_dataset.max(), 3)}).
+- Referencia dentro del dataset: la distancia de cada reloj al otro reloj más cercano es {num(distancia_dataset.mean(), 3)} en promedio (mínimo {num(distancia_dataset.min(), 3)}, máximo {num(distancia_dataset.max(), 3)}).
 - Ninguna de las {len(corridas) * gen['n_muestras']} muestras generadas (todos los modelos y semillas) es idéntica a una imagen del dataset: la menor distancia es {num(corridas.distancia_vecino_minima.min(), 3)}.
 - `fig_candidatas_lambda_*.png` trae {gen['n_candidatas']} candidatas numeradas por cada λ (semilla {config['semilla_figuras']}), con su z, su imagen más cercana y la distancia en `candidatas.csv`. La elección queda para el grupo.
 """
@@ -234,14 +241,15 @@ def main(ruta_config: str) -> None:
     salida.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(ruta_config, salida / 'config.json')
     gen = config['generacion']
-    X = generar_caritas(config['dataset']['n'], config['dataset']['semilla']).X
+    relojes = generar_relojes(config['dataset']['n'], config['dataset']['semilla'])
+    X, horas = relojes.X, relojes.parametros[:, 0]
     Z_prior = np.random.default_rng(gen['semilla']).standard_normal((gen['n_muestras'], config['modelo']['capas_encoder'][-1]))
 
     filas, muestras, guardados = [], [], {}
     for lam in [None] + config['lambdas']:
         for semilla in config['semillas']:
             modelo = entrenar_ae(config, semilla, X) if lam is None else entrenar_vae_modelo(config, semilla, X, lam)
-            fila, Z, generadas, vecino, distancia = medir(modelo, X, Z_prior)
+            fila, Z, generadas, vecino, distancia = medir(modelo, X, horas, Z_prior)
             clave = {'modelo': 'AE' if lam is None else 'VAE', 'lambda': lam, 'etiqueta': etiqueta(lam), 'semilla': semilla}
             filas.append({**clave, **fila})
             muestras.append(pd.DataFrame({**clave, 'muestra': np.arange(1, len(Z_prior) + 1), 'z1': Z_prior[:, 0],
@@ -260,14 +268,15 @@ def main(ruta_config: str) -> None:
                           & (muestras.muestra <= gen['n_candidatas'])]
     candidatas.rename(columns={'muestra': 'numero'}).to_csv(salida / 'candidatas.csv', index=False)
 
-    figura_latente(guardados, salida / 'fig_latente.png')
+    figura_latente(guardados, horas, salida / 'fig_latente.png')
     figura_grilla(guardados, gen['rango_grilla'], gen['n_grilla'], salida / 'fig_grilla.png')
     figura_muestras(guardados, X, gen['n_mostradas'], salida / 'fig_muestras.png')
     # Versiones con menos paneles, para proyectar: AE contra el VAE de λ = 1, y solo los tres λ
     ae_y_vae = {lam: guardados[lam] for lam in (None, 1.0) if lam in guardados}
     solo_vae = {lam: guardados[lam] for lam in config['lambdas']}
     if len(ae_y_vae) == 2:
-        figura_latente(ae_y_vae, salida / 'fig_latente_ae_vae.png')
+        figura_latente(ae_y_vae, horas, salida / 'fig_latente_ae_vae.png')
+        figura_muestras(ae_y_vae, X, gen['n_mostradas'], salida / 'fig_muestras_ae_vae.png')
     figura_grilla(solo_vae, gen['rango_grilla'], gen['n_grilla'], salida / 'fig_grilla_lambdas.png')
     figura_lambda(corridas, salida / 'fig_lambda.png')
     for lam in config['lambdas']:

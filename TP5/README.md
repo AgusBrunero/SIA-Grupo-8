@@ -61,7 +61,7 @@ TP5/
   config.json        índice de las configuraciones
   config/            un .json por experimento
   src/
-    data/            font.py (lee font.h), ruido.py (salt-and-pepper), emojis.py (dataset de caritas)
+    data/            font.py (lee font.h), ruido.py (salt-and-pepper), relojes.py (dataset de relojes de agujas)
     nn/              activaciones, pérdidas, MLP con backpropagation, optimizadores, adaptador de Powell
     modelos/         autoencoder, DAE, VAE, PCA con SVD, generación y métricas
   experiments/       un script por ítem de la consigna
@@ -73,7 +73,7 @@ TP5/
 ## Datos
 
 - **Ejercicio 1:** los 32 caracteres de 5 × 7 de `docs/tp5/font.h`, leídos desde el archivo.
-- **Ejercicio 2:** un dataset propio de caritas de 16 × 16 en grises, construido en código con semilla (`src/data/emojis.py`). No se descarga nada.
+- **Ejercicio 2:** un dataset propio de 500 relojes de agujas de 16 × 16 en grises, construido en código con semilla (`src/data/relojes.py`). La esfera es fija y lo único que cambia es la hora que marcan. No se descarga nada.
 
 ## Documentación
 

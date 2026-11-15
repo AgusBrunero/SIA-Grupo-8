@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 
 from experiments.e2b_vae import construir_vae, entrenar_semilla, evaluar_vae
-from src.data.emojis import N_PIXELES, generar_caritas
+from src.data.relojes import N_PIXELES, generar_relojes
 
 RAIZ = Path(__file__).resolve().parents[1]
 
@@ -29,7 +29,7 @@ class E2bTests(unittest.TestCase):
 
     def test_corrida_corta(self) -> None:
         config = dict(self.config, epocas=3)
-        X = generar_caritas(60, 0).X
+        X = generar_relojes(60, 0).X
         resultados = []
         for _ in range(2):
             vae, historial = entrenar_semilla(config, 0, X, config['lambda'])
@@ -40,7 +40,7 @@ class E2bTests(unittest.TestCase):
         self.assertLess(resultados[0][0][-1], resultados[0][0][0])      # L baja
 
     def test_medidas_sin_ruido_de_muestreo(self) -> None:
-        X = generar_caritas(20, 0).X
+        X = generar_relojes(20, 0).X
         vae = construir_vae(self.config, 0)
         a, b = evaluar_vae(vae, X), evaluar_vae(vae, X)
         self.assertEqual(a, b)

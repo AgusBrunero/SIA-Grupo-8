@@ -4,7 +4,7 @@
   "titulo": "TP5 · Deep Learning",
   "subtitulo": "Autoencoder, Denoising Autoencoder y Autoencoder Variacional",
   "pie": "Grupo 8 · Sistemas de Inteligencia Artificial · ITBA",
-  "notas": "Tres partes: comprimir letras con un autoencoder, limpiar ruido con un DAE y generar caritas con un VAE. Todo implementado a mano en numpy.",
+  "notas": "Tres partes: comprimir letras con un autoencoder, limpiar ruido con un DAE y generar relojes con un VAE. Todo implementado a mano en numpy.",
   "presenta": "Louis"
  },
  {
@@ -192,10 +192,10 @@
   "tipo": "resultado",
   "modelo": "VAE",
   "item": "2a · Conjunto de datos",
-  "titulo": "Construimos {{n_caritas}} caritas a partir de {{n_parametros}} parámetros",
+  "titulo": "Construimos {{n_relojes}} relojes de agujas: lo único que cambia es la hora",
   "figura": "results/e2b/fig_dataset.png",
-  "lectura": "Imágenes en grises hechas en código: sabemos de qué depende cada una.",
-  "notas": "Caritas de 16 × 16. Parámetros: posición, curvatura y ancho de la boca, apertura y separación de los ojos, inclinación de las cejas. Lo construimos para poder juzgar si una muestra generada pertenece al conjunto.",
+  "lectura": "Imágenes en grises hechas en código: sabemos qué hora marca cada una.",
+  "notas": "Relojes de 16 × 16. La esfera es fija; la hora, sorteada al azar, fija las dos agujas como en un reloj real (la de las horas avanza también con los minutos). Probamos variar también el tamaño y la posición de la esfera, pero el VAE gastaba el latente en eso y dejaba las agujas borrosas. Lo construimos para poder juzgar si una muestra generada es un reloj del conjunto.",
   "presenta": "Canzo"
  },
  {
@@ -215,7 +215,7 @@
   "titulo": "El VAE lleva los códigos a la normal estándar; el autoencoder los desparrama",
   "figura": "results/e2c/fig_latente_ae_vae.png",
   "lectura": "Desvío de los códigos: {{desvio_ae}} en el autoencoder y {{desvio_vae}} en el VAE. El prior tiene desvío uno.",
-  "notas": "Misma arquitectura y mismos datos; cambia solo el latente. La línea punteada es ‖z‖ = 3. En el autoencoder solo el 19 % de los códigos cae adentro; en el VAE con λ = 1, todos. Qué codifica cada eje del VAE: Pearson ve un eje como posición horizontal y el otro como vertical (|r| ≥ {{r_pos_min}}); la relación lineal con los demás parámetros no pasa de {{r_otros_max}}. Pero la curvatura de la boca sí está codificada, en forma no lineal: una grilla de 8 × 8 sobre μ explica {{var_curvatura}} de su varianza, contra {{var_azar}} por azar (sonrisa en el borde, boca triste en el centro). Ancho de la boca, ojos y cejas quedan al nivel del azar. Fuente: results/e2c/corridas.csv y results/e2c_justa/correlaciones.csv, results/e2c_parametros/celdas.csv, 5 semillas.",
+  "notas": "Misma arquitectura y mismos datos; cambia solo el latente. El color es la hora que marca cada reloj. La línea punteada es ‖z‖ = 3. En el autoencoder solo el 15 % de los códigos cae adentro; en el VAE con λ = 1, todos. Fuente: results/e2c/corridas.csv, 5 semillas.",
   "presenta": "Canzo"
  },
  {
@@ -224,8 +224,8 @@
   "item": "2b · Efecto de λ",
   "titulo": "λ intercambia nitidez por orden en el latente",
   "figura": "results/e2c/fig_grilla_lambdas.png",
-  "lectura": "Con λ grande todas las caritas se parecen; con λ chico el modelo se acerca a un autoencoder.",
-  "notas": "El decoder evaluado sobre la misma grilla del latente. J = L + λR (diap. 78, ec. 13). Con λ = 10 gana R: los códigos se pegan al prior, σ crece y el decoder recibe casi lo mismo para todos los datos. Con λ = 0,1 gana L. Números para decir: L pasa de 64,66 a 72,40 y R de 6,82 a 0,73 entre λ = 0,1 y λ = 10. Fuente: results/e2c/corridas.csv.",
+  "lectura": "Con λ grande el VAE deja de usar el latente y dibuja siempre el mismo reloj; con λ chico se acerca a un autoencoder.",
+  "notas": "El decoder evaluado sobre la misma grilla del latente. J = L + λR (diap. 78, ec. 13). Con λ = 10 gana R: todos los códigos quedan en el origen con σ = 1 (R = 0) y el decoder dibuja la esfera con una mancha gris. Con λ = 0,1 gana L. Números para decir: L pasa de 51,89 a 62,19 y R de 7,84 a 0,00 entre λ = 0,1 y λ = 10. Fuente: results/e2c/corridas.csv.",
   "presenta": "Bruno"
  },
  {
@@ -242,10 +242,10 @@
   "tipo": "resultado",
   "modelo": "VAE",
   "item": "2c · Generación",
-  "titulo": "Las caritas del VAE no son copias, pero quedan más lejos del banco que las reales",
-  "figura": "results/elegidas/fig_caritas.png",
-  "lectura": "El latente guarda posición y curvatura de la boca, no ojos ni cejas. Distancia al banco: {{dist_banco_vae}} contra {{dist_banco_real}}.",
-  "notas": "Se descarta el encoder y se decodifica z sorteado de N(0, I). Copia: la distancia de una generada a las 500 del dataset es la misma que la de una carita real nueva, así que no copian. Válida: contra un banco de 20.000 caritas nuevas, las generadas quedan más lejos que las reales. La distancia es la diferencia absoluta media por píxel, una métrica nuestra. Lectura posible, no medida: si el latente no guarda ojos ni cejas, el decoder los promedia, y eso podría explicar que las generadas queden más lejos del banco. Curvatura de la boca: {{var_curvatura}} de varianza explicada, contra {{var_azar}} por azar. Fuente: results/e2c_parametros/celdas.csv, results/e2c_justa/resumen.csv y results/elegidas/elegidas.csv.",
+  "titulo": "Los relojes generados son nuevos y el VAE recorre todas las horas",
+  "figura": "results/elegidas/fig_relojes.png",
+  "lectura": "De las doce horas del reloj, entre las muestras aparecen {{horas_vae}} con el VAE y {{horas_ae}} con el autoencoder.",
+  "notas": "Se descarta el encoder y se decodifica z sorteado de N(0, I). Los juzgamos del conjunto: tienen esfera, marcas y dos agujas. Ninguna de las 4000 generadas es copia de una del dataset. Para medir variedad miramos la hora del reloj del dataset más cercano a cada muestra. Límite: las del VAE son más borrosas; su distancia por píxel al más cercano ({{dist_generada}}) es mayor que la del autoencoder y que la de los relojes reales entre sí ({{dist_real}}). Fuente: results/e2c/corridas.csv y results/elegidas/elegidas.csv.",
   "presenta": "Bruno"
  },
  {

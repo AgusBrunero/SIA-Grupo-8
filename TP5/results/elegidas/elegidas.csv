@@ -1,4 +1,4 @@
 item,identificador,z1,z2,mas_cercano,distancia,unidad
-1a.4,"o→e, semilla 0, paso 3",-11.431105274395694,-11.296426737405275,o,2.0,píxeles distintos
-2c,"candidata 14, λ = 1, semilla 0",-2.516759710820513,-0.5386928958466366,389,0.034442005471529445,diferencia absoluta media por píxel
-2c,"candidata 39, λ = 1, semilla 0",-0.32721342022219785,-0.3685758940999591,307,0.033462489173269605,diferencia absoluta media por píxel
+1a.4,"o→e, semilla 0, paso 3",-11.431105274395694,-11.296426737405277,o,2.0,píxeles distintos
+2c,"candidata 14, λ = 1, semilla 0",-2.516759710820513,-0.5386928958466366,33,0.0130223318730444,diferencia absoluta media por píxel
+2c,"candidata 36, λ = 1, semilla 0",0.6469034225734218,-1.9924197841744944,465,0.0190257910159403,diferencia absoluta media por píxel

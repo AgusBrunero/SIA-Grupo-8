@@ -133,9 +133,9 @@ def numeros() -> dict:
     poner('salen_sin_ruido', num(celda('A', 0.0, 0.05).mal_media, 1), 'e1b/resumen.csv · A · p_entrenamiento 0 · p_prueba 0,05 · mal_media')
 
     e2b_config = json.loads((RESULTADOS / 'e2b' / 'config.json').read_text(encoding='utf-8'))
-    poner('n_caritas', str(e2b_config['dataset']['n']), 'e2b/config.json · dataset.n')
-    from src.data.emojis import PARAMETROS
-    poner('n_parametros', str(len(PARAMETROS)), 'src/data/emojis.py · cantidad de parámetros')
+    poner('n_relojes', str(e2b_config['dataset']['n']), 'e2b/config.json · dataset.n')
+    from src.data.relojes import PARAMETROS
+    poner('n_parametros', str(len(PARAMETROS)), 'src/data/relojes.py · cantidad de parámetros')
     curvas = leer('e2b/curvas.csv')
     primera, ultima = curvas[curvas.epoca == 1], curvas[curvas.epoca == curvas.epoca.max()]
     assert len(primera) == len(ultima) == curvas.semilla.nunique() >= 5
@@ -148,32 +148,18 @@ def numeros() -> dict:
     assert len(ae) == len(vae) >= 5
     poner('desvio_ae', num(ae.codigo_desvio.mean(), 1), 'e2c/corridas.csv · AE · media de codigo_desvio')
     poner('desvio_vae', num(vae.codigo_desvio.mean(), 1), 'e2c/corridas.csv · VAE λ = 1 · media de codigo_desvio')
-    from src.data.emojis import generar_caritas
+    poner('horas_vae', num(vae.horas_cubiertas.mean(), 1), 'e2c/corridas.csv · VAE λ = 1 · media de horas_cubiertas')
+    poner('horas_ae', num(ae.horas_cubiertas.mean(), 1), 'e2c/corridas.csv · AE · media de horas_cubiertas')
+    poner('dist_generada', num(vae.distancia_vecino_media.mean(), 3), 'e2c/corridas.csv · VAE λ = 1 · media de distancia_vecino_media')
+    from experiments.e2c_latente_generacion import vecino_por_pixel
+    from src.data.relojes import generar_relojes
+    relojes = generar_relojes(e2b_config['dataset']['n'], e2b_config['dataset']['semilla']).X
+    poner('dist_real', num(vecino_por_pixel(relojes, relojes, excluir_identicas=True)[1].mean(), 3),
+          'src/data/relojes.py · distancia media de cada reloj al otro más cercano (igual que en RESULTADOS.md)')
     from src.nn.perdidas import bce
-    caritas = generar_caritas(e2b_config['dataset']['n'], e2b_config['dataset']['semilla']).X
     # Piso de L: la BCE de los datos en grises consigo mismos (la misma cuenta que e2b escribe en RESULTADOS.md)
-    poner('L_piso', num(bce(np.clip(caritas, 1e-12, 1 - 1e-12), caritas, 'media')[0], 1),
-          'src/data/emojis.py · BCE de las 500 caritas consigo mismas (igual que en RESULTADOS.md, e2b)')
-
-    justa = leer('e2c_justa/resumen.csv').set_index('modelo')
-    assert (justa.loc[['AE', 'VAE'], 'semillas'] >= 5).all()
-    poner('fuera_ae', f"{num(100 * justa.loc['AE', 'fuera_media'], 0)} %", 'e2c_justa/resumen.csv · AE · fuera_media')
-    poner('fuera_vae', f"{num(100 * justa.loc['VAE', 'fuera_media'], 0)} %", 'e2c_justa/resumen.csv · VAE · fuera_media')
-    poner('dist_banco_vae', num(justa.loc['VAE', 'd_banco_media'], 3), 'e2c_justa/resumen.csv · VAE · d_banco_media')
-    poner('dist_banco_real', num(justa.loc['Caritas reales', 'd_banco_media'], 3), 'e2c_justa/resumen.csv · Caritas reales · d_banco_media')
-    correlaciones = leer('e2c_justa/correlaciones.csv').assign(abs_r=lambda d: d.r.abs())
-    posicion = correlaciones[correlaciones.parametro.isin(['centro_x', 'centro_y'])]
-    # Por semilla, cada parámetro de posición queda en el eje con el que más correlaciona
-    mejor_eje = posicion.groupby(['semilla', 'parametro']).abs_r.max()
-    assert len(mejor_eje) == 2 * correlaciones.semilla.nunique()
-    poner('r_pos_min', num(mejor_eje.min()), 'e2c_justa/correlaciones.csv · por semilla, |r| máximo de cada posición; el menor')
-    poner('r_otros_max', num(correlaciones[~correlaciones.parametro.isin(['centro_x', 'centro_y'])].abs_r.max()),
-          'e2c_justa/correlaciones.csv · |r| máximo de los otros cinco parámetros')
-    celdas = leer('e2c_parametros/celdas.csv')
-    assert (celdas.groupby('parametro').size() >= 5).all()
-    curvatura = celdas[celdas.parametro == 'curvatura_boca']
-    poner('var_curvatura', num(curvatura.explicada.mean()), 'e2c_parametros/celdas.csv · curvatura_boca · media de explicada entre semillas')
-    poner('var_azar', num(celdas.azar_media.mean()), 'e2c_parametros/celdas.csv · media de azar_media (parámetro mezclado)')
+    poner('L_piso', num(bce(np.clip(relojes, 1e-12, 1 - 1e-12), relojes, 'media')[0], 1),
+          'src/data/relojes.py · BCE de los 500 relojes consigo mismos (igual que en RESULTADOS.md, e2b)')
     return m
 
 
@@ -359,12 +345,12 @@ def figura_letras_nuevas(ruta) -> None:
 
 
 def piso_L() -> float:
-    """BCE de las caritas en grises consigo mismas: lo mínimo que puede valer L (igual que e2b)."""
-    from src.data.emojis import generar_caritas
+    """BCE de los relojes en grises consigo mismos: lo mínimo que puede valer L (igual que e2b)."""
+    from src.data.relojes import generar_relojes
     from src.nn.perdidas import bce
     config = json.loads((RESULTADOS / 'e2b' / 'config.json').read_text(encoding='utf-8'))
-    caritas = generar_caritas(config['dataset']['n'], config['dataset']['semilla']).X
-    return float(bce(np.clip(caritas, 1e-12, 1 - 1e-12), caritas, 'media')[0])
+    relojes = generar_relojes(config['dataset']['n'], config['dataset']['semilla']).X
+    return float(bce(np.clip(relojes, 1e-12, 1 - 1e-12), relojes, 'media')[0])
 
 
 def figura_curvas_vae(ruta) -> None:

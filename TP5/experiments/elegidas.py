@@ -2,10 +2,10 @@
 cercano del dataset.
 
 1a.4  ¿Qué letra nueva se muestra y entre qué letras del dataset está?
-2c    ¿Qué caritas generadas se muestran y cuál es la imagen del dataset más cercana a cada una?
+2c    ¿Qué relojes generados se muestran y cuál es la imagen del dataset más cercana a cada uno?
 
 No genera candidatas nuevas: lee las elegidas de los CSV de e1a3_e1a4 y de e2c. Para dibujar
-las caritas vuelve a entrenar el VAE de e2c con la misma semilla y verifica que la distancia
+los relojes vuelve a entrenar el VAE de e2c con la misma semilla y verifica que la distancia
 a la imagen más cercana coincide con la guardada.
 Sostén: Autoencoders diap. 33–34 (moverse en el latente y generar especificando z) y
 diap. 74 y 90 (decodificar z ~ N(0, I)).
@@ -13,7 +13,7 @@ diap. 74 y 90 (decodificar z ~ N(0, I)).
 Uso, desde TP5/ y en primer plano:
     .venv/bin/python -m experiments.elegidas config/elegidas.json
 
-Salida en results/elegidas/: elegidas.csv, fig_letra.png, fig_caritas.png y config.json.
+Salida en results/elegidas/: elegidas.csv, fig_letra.png, fig_relojes.png y config.json.
 """
 import json
 import shutil
@@ -25,7 +25,7 @@ import pandas as pd
 
 from experiments.comun import RAIZ, TINTA_SECUNDARIA, aplicar_estilo
 from experiments.e2b_vae import dibujar, entrenar_semilla, num
-from src.data.emojis import generar_caritas
+from src.data.relojes import a_texto, generar_relojes
 from src.modelos.generacion import vecino_por_pixel
 
 
@@ -38,18 +38,19 @@ def letra_elegida(config: dict) -> pd.DataFrame:
     return filas
 
 
-def caritas_elegidas(config: dict) -> tuple[pd.DataFrame, np.ndarray, np.ndarray]:
-    """(filas de candidatas.csv, imágenes generadas, imágenes más cercanas del dataset)."""
+def relojes_elegidos(config: dict) -> tuple[pd.DataFrame, np.ndarray, np.ndarray, np.ndarray]:
+    """(filas de candidatas.csv, imágenes generadas, imágenes más cercanas del dataset, hora que marcan esas más cercanas)."""
     tabla = pd.read_csv(RAIZ / config['origen'])
     filas = tabla[(tabla['lambda'] == config['lambda']) & tabla.numero.isin(config['numeros'])]
     filas = filas.set_index('numero').loc[config['numeros']].reset_index()
     e2c = json.loads((RAIZ / config['config']).read_text(encoding='utf-8'))
-    X = generar_caritas(e2c['dataset']['n'], e2c['dataset']['semilla']).X
+    relojes = generar_relojes(e2c['dataset']['n'], e2c['dataset']['semilla'])
+    X = relojes.X
     vae, _ = entrenar_semilla(e2c, int(filas.semilla.iloc[0]), X, config['lambda'])
     generadas = vae.decodificar(filas[['z1', 'z2']].to_numpy())
     vecino, distancia = vecino_por_pixel(generadas, X)
     assert np.array_equal(vecino, filas.vecino.to_numpy()) and np.allclose(distancia, filas.distancia.to_numpy())
-    return filas, generadas, X[vecino]
+    return filas, generadas, X[vecino], relojes.parametros[vecino, 0]
 
 
 def figura_letra(filas: pd.DataFrame, ruta) -> None:
@@ -67,13 +68,13 @@ def figura_letra(filas: pd.DataFrame, ruta) -> None:
     plt.close(fig)
 
 
-def figura_caritas(filas: pd.DataFrame, generadas: np.ndarray, vecinas: np.ndarray, ruta) -> None:
+def figura_relojes(filas: pd.DataFrame, generadas: np.ndarray, vecinas: np.ndarray, horas_vecinas: np.ndarray, ruta) -> None:
     fig, ejes = plt.subplots(len(filas), 2, figsize=(4.4, 2.4 * len(filas)), squeeze=False)
-    for (ax_g, ax_v), (_, fila), generada, vecina in zip(ejes, filas.iterrows(), generadas, vecinas):
+    for (ax_g, ax_v), (_, fila), generada, vecina, hora in zip(ejes, filas.iterrows(), generadas, vecinas, horas_vecinas):
         dibujar(ax_g, generada)
         dibujar(ax_v, vecina)
         ax_g.set_xlabel(f'generada (candidata {fila.numero})\nz = ({num(fila.z1)}; {num(fila.z2)})', fontsize=9)
-        ax_v.set_xlabel(f'la más cercana del dataset\ndistancia media por píxel: {num(fila.distancia, 3)}', fontsize=9,
+        ax_v.set_xlabel(f'el más cercano del dataset ({a_texto(hora)})\ndistancia media por píxel: {num(fila.distancia, 3)}', fontsize=9,
                         color=TINTA_SECUNDARIA)
     fig.tight_layout()
     fig.savefig(ruta)
@@ -87,16 +88,16 @@ def main(ruta_config: str) -> None:
     salida.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(ruta_config, salida / 'config.json')
     letra = letra_elegida(config['letra'])
-    caritas, generadas, vecinas = caritas_elegidas(config['caritas'])
+    relojes, generadas, vecinas, horas_vecinas = relojes_elegidos(config['relojes'])
     figura_letra(letra, salida / 'fig_letra.png')
-    figura_caritas(caritas, generadas, vecinas, salida / 'fig_caritas.png')
+    figura_relojes(relojes, generadas, vecinas, horas_vecinas, salida / 'fig_relojes.png')
     elegida = letra.iloc[1]
     tabla = pd.DataFrame(
         [{'item': '1a.4', 'identificador': f"{elegida.par}, semilla {elegida.semilla}, paso {elegida.paso}", 'z1': elegida.z1,
           'z2': elegida.z2, 'mas_cercano': elegida.vecino, 'distancia': elegida.distancia, 'unidad': 'píxeles distintos'}]
         + [{'item': '2c', 'identificador': f"candidata {f.numero}, λ = {f['lambda']:g}, semilla {f.semilla}", 'z1': f.z1, 'z2': f.z2,
             'mas_cercano': f.vecino, 'distancia': f.distancia, 'unidad': 'diferencia absoluta media por píxel'}
-           for _, f in caritas.iterrows()])
+           for _, f in relojes.iterrows()])
     tabla.to_csv(salida / 'elegidas.csv', index=False)
     print(tabla.to_string(index=False))
 
