@@ -153,69 +153,77 @@
    "texto": "7,0",
    "origen": "e1b/resumen.csv · A · p_entrenamiento 0 · p_prueba 0,05 · mal_media"
   },
-  "n_caritas": {
+  "n_relojes": {
    "texto": "500",
    "origen": "e2b/config.json · dataset.n"
   },
   "n_parametros": {
-   "texto": "7",
-   "origen": "src/data/emojis.py · cantidad de parámetros"
+   "texto": "1",
+   "origen": "src/data/relojes.py · cantidad de parámetros"
   },
   "L_inicial": {
    "texto": "174",
    "origen": "e2b/curvas.csv · época 1 · media de L entre semillas"
   },
   "L_final": {
-   "texto": "67",
+   "texto": "54",
    "origen": "e2b/curvas.csv · última época · media de L entre semillas"
   },
   "R_final": {
-   "texto": "3,6",
+   "texto": "3,5",
    "origen": "e2b/curvas.csv · última época · media de R entre semillas"
   },
   "desvio_ae": {
-   "texto": "9,6",
+   "texto": "11,9",
    "origen": "e2c/corridas.csv · AE · media de codigo_desvio"
   },
   "desvio_vae": {
    "texto": "1,0",
    "origen": "e2c/corridas.csv · VAE λ = 1 · media de codigo_desvio"
   },
+  "horas_vae": {
+   "texto": "12,0",
+   "origen": "e2c/corridas.csv · VAE λ = 1 · media de horas_cubiertas"
+  },
+  "horas_ae": {
+   "texto": "7,4",
+   "origen": "e2c/corridas.csv · AE · media de horas_cubiertas"
+  },
+  "dist_generada": {
+   "texto": "0,018",
+   "origen": "e2c/corridas.csv · VAE λ = 1 · media de distancia_vecino_media"
+  },
+  "dist_real": {
+   "texto": "0,006",
+   "origen": "src/data/relojes.py · distancia media de cada reloj al otro más cercano (igual que en RESULTADOS.md)"
+  },
   "L_piso": {
-   "texto": "58,6",
-   "origen": "src/data/emojis.py · BCE de las 500 caritas consigo mismas (igual que en RESULTADOS.md, e2b)"
+   "texto": "48,4",
+   "origen": "src/data/relojes.py · BCE de los 500 relojes consigo mismos (igual que en RESULTADOS.md, e2b)"
   },
-  "fuera_ae": {
-   "texto": "20 %",
-   "origen": "e2c_justa/resumen.csv · AE · fuera_media"
+  "med_ae": {
+   "texto": "0,013",
+   "origen": "e2c_justa/resumen.csv · AE · d_banco_mediana_media"
   },
-  "fuera_vae": {
+  "med_vae": {
+   "texto": "0,017",
+   "origen": "e2c_justa/resumen.csv · VAE · d_banco_mediana_media"
+  },
+  "lejos_ae": {
    "texto": "7 %",
-   "origen": "e2c_justa/resumen.csv · VAE · fuera_media"
+   "origen": "e2c_justa/relojes.csv · AE · media de lejos_peor_vae"
   },
-  "dist_banco_vae": {
-   "texto": "0,030",
-   "origen": "e2c_justa/resumen.csv · VAE · d_banco_media"
-  },
-  "dist_banco_real": {
-   "texto": "0,020",
-   "origen": "e2c_justa/resumen.csv · Caritas reales · d_banco_media"
-  },
-  "r_pos_min": {
-   "texto": "0,91",
-   "origen": "e2c_justa/correlaciones.csv · por semilla, |r| máximo de cada posición; el menor"
-  },
-  "r_otros_max": {
-   "texto": "0,19",
-   "origen": "e2c_justa/correlaciones.csv · |r| máximo de los otros cinco parámetros"
-  },
-  "var_curvatura": {
-   "texto": "0,51",
-   "origen": "e2c_parametros/celdas.csv · curvatura_boca · media de explicada entre semillas"
+  "var_hora": {
+   "texto": "0,53",
+   "origen": "e2c_parametros/celdas.csv · media de explicada (seno y coseno de la hora)"
   },
   "var_azar": {
    "texto": "0,11",
    "origen": "e2c_parametros/celdas.csv · media de azar_media (parámetro mezclado)"
+  },
+  "r_hora_max": {
+   "texto": "0,51",
+   "origen": "e2c_justa/correlaciones.csv · |r| máximo (seno y coseno de la hora)"
   }
  }
 }

@@ -4,7 +4,7 @@ Generado desde `laminas.json`. Es un borrador: quien presenta cada lámina lo re
 
 ## 1. TP5 · Deep Learning · presenta Louis
 
-Tres partes: comprimir letras con un autoencoder, limpiar ruido con un DAE y generar caritas con un VAE. Todo implementado a mano en numpy.
+Tres partes: comprimir letras con un autoencoder, limpiar ruido con un DAE y generar relojes con un VAE. Todo implementado a mano en numpy.
 
 ## 2. El autoencoder son dos perceptrones multicapa en espejo · presenta Louis
 
@@ -66,30 +66,30 @@ Consecuencia: el nivel de ruido del entrenamiento se elige según el ruido que s
 
 Autoencoders diap. 74–89. L es la reconstrucción y R penaliza que la distribución de cada código se aleje de la normal estándar. El truco de reparametrización saca el sorteo afuera (ϵ) para poder hacer backpropagation. El encoder devuelve μ y s = log σ². Verificado con gradient check con ϵ fijo.
 
-## 17. Construimos 500 caritas a partir de 7 parámetros · presenta Canzo
+## 17. Construimos 500 relojes de agujas: lo único que cambia es la hora · presenta Canzo
 
-Caritas de 16 × 16. Parámetros: posición, curvatura y ancho de la boca, apertura y separación de los ojos, inclinación de las cejas. Lo construimos para poder juzgar si una muestra generada pertenece al conjunto.
+Relojes de 16 × 16. La esfera es fija; la hora, sorteada al azar, fija las dos agujas como en un reloj real (la de las horas avanza también con los minutos). Probamos variar también el tamaño y la posición de la esfera, pero el VAE gastaba el latente en eso y dejaba las agujas borrosas. Lo construimos para poder juzgar si una muestra generada es un reloj del conjunto.
 
 ## 18. El VAE aprende: la reconstrucción baja y la regularización se estabiliza · presenta Canzo
 
-Encoder 256–64–(μ y s de 2), decoder 2–64–256, λ = 1, Adam, 2000 épocas, 5 semillas (una línea por semilla). Línea punteada: el piso de L. L no puede llegar a 0: con datos en grises tiene un piso de 58,6 (la BCE de cada carita consigo misma). Empieza en 174. Fuente: results/e2b/curvas.csv.
+Encoder 256–64–(μ y s de 2), decoder 2–64–256, λ = 1, Adam, 2000 épocas, 5 semillas (una línea por semilla). Línea punteada: el piso de L. L no puede llegar a 0: con datos en grises tiene un piso de 48,4 (la BCE de cada carita consigo misma). Empieza en 174. Fuente: results/e2b/curvas.csv.
 
 ## 19. El VAE lleva los códigos a la normal estándar; el autoencoder los desparrama · presenta Canzo
 
-Misma arquitectura y mismos datos; cambia solo el latente. La línea punteada es ‖z‖ = 3. En el autoencoder solo el 19 % de los códigos cae adentro; en el VAE con λ = 1, todos. Qué codifica cada eje del VAE: Pearson ve un eje como posición horizontal y el otro como vertical (|r| ≥ 0,91); la relación lineal con los demás parámetros no pasa de 0,19. Pero la curvatura de la boca sí está codificada, en forma no lineal: una grilla de 8 × 8 sobre μ explica 0,51 de su varianza, contra 0,11 por azar (sonrisa en el borde, boca triste en el centro). Ancho de la boca, ojos y cejas quedan al nivel del azar. Fuente: results/e2c/corridas.csv y results/e2c_justa/correlaciones.csv, results/e2c_parametros/celdas.csv, 5 semillas.
+Misma arquitectura y mismos datos; cambia solo el latente. El color es la hora que marca cada reloj. La línea punteada es ‖z‖ = 3. En el autoencoder solo el 15 % de los códigos cae adentro; en el VAE con λ = 1, todos. Qué guarda el latente: la hora. Una grilla de 8 × 8 sobre μ explica 0,53 de la variación del ángulo de la hora, contra 0,11 por azar. No queda en un círculo ordenado: Pearson solo ve una parte (|r| ≤ 0,51). Fuente: results/e2c/corridas.csv, results/e2c_parametros/celdas.csv y results/e2c_justa/correlaciones.csv, 5 semillas.
 
 ## 20. λ intercambia nitidez por orden en el latente · presenta Bruno
 
-El decoder evaluado sobre la misma grilla del latente. J = L + λR (diap. 78, ec. 13). Con λ = 10 gana R: los códigos se pegan al prior, σ crece y el decoder recibe casi lo mismo para todos los datos. Con λ = 0,1 gana L. Números para decir: L pasa de 64,66 a 72,40 y R de 6,82 a 0,73 entre λ = 0,1 y λ = 10. Fuente: results/e2c/corridas.csv.
+El decoder evaluado sobre la misma grilla del latente. J = L + λR (diap. 78, ec. 13). Con λ = 10 gana R: todos los códigos quedan en el origen con σ = 1 (R = 0) y el decoder dibuja la esfera con una mancha gris. Con λ = 0,1 gana L. Números para decir: L pasa de 51,89 a 62,19 y R de 7,84 a 0,00 entre λ = 0,1 y λ = 10. Fuente: results/e2c/corridas.csv.
 
-## 21. Muestreando cada modelo donde viven sus códigos, el autoencoder genera más caritas inválidas · presenta Bruno
+## 21. Muestreando donde viven sus códigos, los dos modelos recorren las doce horas, pero el autoencoder falla más · presenta Bruno
 
-Grillas: cada modelo sobre el rango de sus propios códigos (z en el autoencoder, μ(x) en el VAE). La esquina del autoencoder decodifica manchas: su latente tiene zonas vacías. Muestreo: el VAE de N(0, I), su prior; el autoencoder de una normal con la media y la covarianza de sus códigos. Banco: 20.000 caritas nuevas del mismo generador. La muestra típica empata: la mediana de la distancia al banco es casi igual en los dos; la diferencia está en las muestras que fallan. Decisión D50. Fuente: results/e2c_justa/resumen.csv, 5 semillas.
+Grillas: cada modelo sobre el rango de sus propios códigos (z en el autoencoder, μ(x) en el VAE). La esquina del autoencoder decodifica manchas: su latente tiene zonas vacías. Muestreo: el VAE de N(0, I), su prior; el autoencoder de una normal con la media y la covarianza de sus códigos (D50). Banco: 20.000 relojes nuevos del mismo generador, sin los que repiten la imagen de uno de los 500. Los dos cubren las 12 horas y ninguno copia. Fuente: results/e2c_justa/relojes.csv y resumen.csv, 5 semillas.
 
-## 22. Las caritas del VAE no son copias, pero quedan más lejos del banco que las reales · presenta Bruno
+## 22. Los relojes del VAE no son copias, pero son más borrosos que los del autoencoder · presenta Bruno
 
-Se descarta el encoder y se decodifica z sorteado de N(0, I). Copia: la distancia de una generada a las 500 del dataset es la misma que la de una carita real nueva, así que no copian. Válida: contra un banco de 20.000 caritas nuevas, las generadas quedan más lejos que las reales. La distancia es la diferencia absoluta media por píxel, una métrica nuestra. Lectura posible, no medida: si el latente no guarda ojos ni cejas, el decoder los promedia, y eso podría explicar que las generadas queden más lejos del banco. Curvatura de la boca: 0,51 de varianza explicada, contra 0,11 por azar. Fuente: results/e2c_parametros/celdas.csv, results/e2c_justa/resumen.csv y results/elegidas/elegidas.csv.
+Se descarta el encoder y se decodifica z sorteado de N(0, I). Los juzgamos del conjunto: tienen esfera, marcas y dos agujas. Distancia típica: la mediana de la diferencia absoluta media por píxel al reloj más cercano de un banco de 20.000 relojes nuevos (métrica nuestra). Con N(0, I) para los dos, el autoencoder cubría 7,4 de las 12 horas (e2c); muestreado donde viven sus códigos, cubre las 12 como el VAE. Fuente: results/e2c_justa/resumen.csv, results/e2c/corridas.csv y results/elegidas/elegidas.csv.
 
-## 23. El VAE ordena el latente: genera menos caritas inválidas que el autoencoder, no mejores · presenta Bruno
+## 23. El VAE ordena el latente: sus relojes son más borrosos, pero no falla ninguno · presenta Bruno
 
 Cierre: la misma red de dos MLP en espejo sirve para tres tareas según cómo se la entrena. Para generar hay que pedirle una forma al latente, y eso es lo que agrega el término R.

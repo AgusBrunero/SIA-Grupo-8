@@ -215,7 +215,7 @@
   "titulo": "El VAE lleva los códigos a la normal estándar; el autoencoder los desparrama",
   "figura": "results/e2c/fig_latente_ae_vae.png",
   "lectura": "Desvío de los códigos: {{desvio_ae}} en el autoencoder y {{desvio_vae}} en el VAE. El prior tiene desvío uno.",
-  "notas": "Misma arquitectura y mismos datos; cambia solo el latente. El color es la hora que marca cada reloj. La línea punteada es ‖z‖ = 3. En el autoencoder solo el 15 % de los códigos cae adentro; en el VAE con λ = 1, todos. Fuente: results/e2c/corridas.csv, 5 semillas.",
+  "notas": "Misma arquitectura y mismos datos; cambia solo el latente. El color es la hora que marca cada reloj. La línea punteada es ‖z‖ = 3. En el autoencoder solo el 15 % de los códigos cae adentro; en el VAE con λ = 1, todos. Qué guarda el latente: la hora. Una grilla de 8 × 8 sobre μ explica {{var_hora}} de la variación del ángulo de la hora, contra {{var_azar}} por azar. No queda en un círculo ordenado: Pearson solo ve una parte (|r| ≤ {{r_hora_max}}). Fuente: results/e2c/corridas.csv, results/e2c_parametros/celdas.csv y results/e2c_justa/correlaciones.csv, 5 semillas.",
   "presenta": "Canzo"
  },
  {
@@ -232,25 +232,25 @@
   "tipo": "resultado",
   "modelo": "VAE",
   "item": "2c · Generación",
-  "titulo": "Muestreando cada modelo donde viven sus códigos, el autoencoder genera más caritas inválidas",
+  "titulo": "Muestreando donde viven sus códigos, los dos modelos recorren las doce horas, pero el autoencoder falla más",
   "figura": "results/e2c_justa/fig_grillas_propias.png",
-  "lectura": "Más lejos del banco que toda carita real: {{fuera_ae}} de las muestras del autoencoder y {{fuera_vae}} de las del VAE.",
-  "notas": "Grillas: cada modelo sobre el rango de sus propios códigos (z en el autoencoder, μ(x) en el VAE). La esquina del autoencoder decodifica manchas: su latente tiene zonas vacías. Muestreo: el VAE de N(0, I), su prior; el autoencoder de una normal con la media y la covarianza de sus códigos. Banco: 20.000 caritas nuevas del mismo generador. La muestra típica empata: la mediana de la distancia al banco es casi igual en los dos; la diferencia está en las muestras que fallan. Decisión D50. Fuente: results/e2c_justa/resumen.csv, 5 semillas.",
+  "lectura": "Más lejos del banco que la peor muestra del VAE: {{lejos_ae}} de las del autoencoder; del VAE, ninguna.",
+  "notas": "Grillas: cada modelo sobre el rango de sus propios códigos (z en el autoencoder, μ(x) en el VAE). La esquina del autoencoder decodifica manchas: su latente tiene zonas vacías. Muestreo: el VAE de N(0, I), su prior; el autoencoder de una normal con la media y la covarianza de sus códigos (D50). Banco: 20.000 relojes nuevos del mismo generador, sin los que repiten la imagen de uno de los 500. Los dos cubren las 12 horas y ninguno copia. Fuente: results/e2c_justa/relojes.csv y resumen.csv, 5 semillas.",
   "presenta": "Bruno"
  },
  {
   "tipo": "resultado",
   "modelo": "VAE",
   "item": "2c · Generación",
-  "titulo": "Los relojes generados son nuevos y el VAE recorre todas las horas",
+  "titulo": "Los relojes del VAE no son copias, pero son más borrosos que los del autoencoder",
   "figura": "results/elegidas/fig_relojes.png",
-  "lectura": "De las doce horas del reloj, entre las muestras aparecen {{horas_vae}} con el VAE y {{horas_ae}} con el autoencoder.",
-  "notas": "Se descarta el encoder y se decodifica z sorteado de N(0, I). Los juzgamos del conjunto: tienen esfera, marcas y dos agujas. Ninguna de las 4000 generadas es copia de una del dataset. Para medir variedad miramos la hora del reloj del dataset más cercano a cada muestra. Límite: las del VAE son más borrosas; su distancia por píxel al más cercano ({{dist_generada}}) es mayor que la del autoencoder y que la de los relojes reales entre sí ({{dist_real}}). Fuente: results/e2c/corridas.csv y results/elegidas/elegidas.csv.",
+  "lectura": "Distancia típica al banco de relojes nuevos: {{med_vae}} el VAE y {{med_ae}} el autoencoder.",
+  "notas": "Se descarta el encoder y se decodifica z sorteado de N(0, I). Los juzgamos del conjunto: tienen esfera, marcas y dos agujas. Distancia típica: la mediana de la diferencia absoluta media por píxel al reloj más cercano de un banco de 20.000 relojes nuevos (métrica nuestra). Con N(0, I) para los dos, el autoencoder cubría {{horas_ae}} de las 12 horas (e2c); muestreado donde viven sus códigos, cubre las 12 como el VAE. Fuente: results/e2c_justa/resumen.csv, results/e2c/corridas.csv y results/elegidas/elegidas.csv.",
   "presenta": "Bruno"
  },
  {
   "tipo": "cierre",
-  "titulo": "El VAE ordena el latente: genera menos caritas inválidas que el autoencoder, no mejores",
+  "titulo": "El VAE ordena el latente: sus relojes son más borrosos, pero no falla ninguno",
   "frases": [
    "El autoencoder comprime.",
    "El DAE limpia.",

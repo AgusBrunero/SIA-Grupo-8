@@ -245,38 +245,33 @@
  {
   "lamina": 17,
   "tipo": "resultado",
-  "texto": "Construimos 500 caritas a partir de 7 parámetros Imágenes en grises hechas en código: sabemos de qué depende cada una.",
+  "texto": "Construimos 500 relojes de agujas: lo único que cambia es la hora Imágenes en grises hechas en código: sabemos qué hora marca cada una.",
   "numeros": [
    {
-    "clave": "n_caritas",
+    "clave": "n_relojes",
     "texto": "500",
     "origen": "e2b/config.json · dataset.n"
-   },
-   {
-    "clave": "n_parametros",
-    "texto": "7",
-    "origen": "src/data/emojis.py · cantidad de parámetros"
    }
   ]
  },
  {
   "lamina": 18,
   "tipo": "resultado",
-  "texto": "El VAE aprende: la reconstrucción baja y la regularización se estabiliza L = 67 sobre un piso de 58,6; R queda en 3,6.",
+  "texto": "El VAE aprende: la reconstrucción baja y la regularización se estabiliza L = 54 sobre un piso de 48,4; R queda en 3,5.",
   "numeros": [
    {
     "clave": "L_final",
-    "texto": "67",
+    "texto": "54",
     "origen": "e2b/curvas.csv · última época · media de L entre semillas"
    },
    {
     "clave": "L_piso",
-    "texto": "58,6",
-    "origen": "src/data/emojis.py · BCE de las 500 caritas consigo mismas (igual que en RESULTADOS.md, e2b)"
+    "texto": "48,4",
+    "origen": "src/data/relojes.py · BCE de los 500 relojes consigo mismos (igual que en RESULTADOS.md, e2b)"
    },
    {
     "clave": "R_final",
-    "texto": "3,6",
+    "texto": "3,5",
     "origen": "e2b/curvas.csv · última época · media de R entre semillas"
    }
   ]
@@ -284,11 +279,11 @@
  {
   "lamina": 19,
   "tipo": "resultado",
-  "texto": "El VAE lleva los códigos a la normal estándar; el autoencoder los desparrama Desvío de los códigos: 9,6 en el autoencoder y 1,0 en el VAE. El prior tiene desvío uno.",
+  "texto": "El VAE lleva los códigos a la normal estándar; el autoencoder los desparrama Desvío de los códigos: 11,9 en el autoencoder y 1,0 en el VAE. El prior tiene desvío uno.",
   "numeros": [
    {
     "clave": "desvio_ae",
-    "texto": "9,6",
+    "texto": "11,9",
     "origen": "e2c/corridas.csv · AE · media de codigo_desvio"
    },
    {
@@ -301,47 +296,42 @@
  {
   "lamina": 20,
   "tipo": "resultado",
-  "texto": "λ intercambia nitidez por orden en el latente Con λ grande todas las caritas se parecen; con λ chico el modelo se acerca a un autoencoder.",
+  "texto": "λ intercambia nitidez por orden en el latente Con λ grande el VAE deja de usar el latente y dibuja siempre el mismo reloj; con λ chico se acerca a un autoencoder.",
   "numeros": []
  },
  {
   "lamina": 21,
   "tipo": "resultado",
-  "texto": "Muestreando cada modelo donde viven sus códigos, el autoencoder genera más caritas inválidas Más lejos del banco que toda carita real: 20 % de las muestras del autoencoder y 7 % de las del VAE.",
+  "texto": "Muestreando donde viven sus códigos, los dos modelos recorren las doce horas, pero el autoencoder falla más Más lejos del banco que la peor muestra del VAE: 7 % de las del autoencoder; del VAE, ninguna.",
   "numeros": [
    {
-    "clave": "fuera_ae",
-    "texto": "20 %",
-    "origen": "e2c_justa/resumen.csv · AE · fuera_media"
-   },
-   {
-    "clave": "fuera_vae",
+    "clave": "lejos_ae",
     "texto": "7 %",
-    "origen": "e2c_justa/resumen.csv · VAE · fuera_media"
+    "origen": "e2c_justa/relojes.csv · AE · media de lejos_peor_vae"
    }
   ]
  },
  {
   "lamina": 22,
   "tipo": "resultado",
-  "texto": "Las caritas del VAE no son copias, pero quedan más lejos del banco que las reales El latente guarda posición y curvatura de la boca, no ojos ni cejas. Distancia al banco: 0,030 contra 0,020.",
+  "texto": "Los relojes del VAE no son copias, pero son más borrosos que los del autoencoder Distancia típica al banco de relojes nuevos: 0,017 el VAE y 0,013 el autoencoder.",
   "numeros": [
    {
-    "clave": "dist_banco_vae",
-    "texto": "0,030",
-    "origen": "e2c_justa/resumen.csv · VAE · d_banco_media"
+    "clave": "med_vae",
+    "texto": "0,017",
+    "origen": "e2c_justa/resumen.csv · VAE · d_banco_mediana_media"
    },
    {
-    "clave": "dist_banco_real",
-    "texto": "0,020",
-    "origen": "e2c_justa/resumen.csv · Caritas reales · d_banco_media"
+    "clave": "med_ae",
+    "texto": "0,013",
+    "origen": "e2c_justa/resumen.csv · AE · d_banco_mediana_media"
    }
   ]
  },
  {
   "lamina": 23,
   "tipo": "cierre",
-  "texto": "El VAE ordena el latente: genera menos caritas inválidas que el autoencoder, no mejores El autoencoder comprime. El DAE limpia. El VAE genera.",
+  "texto": "El VAE ordena el latente: sus relojes son más borrosos, pero no falla ninguno El autoencoder comprime. El DAE limpia. El VAE genera.",
   "numeros": []
  }
 ]

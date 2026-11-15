@@ -160,6 +160,23 @@ def numeros() -> dict:
     # Piso de L: la BCE de los datos en grises consigo mismos (la misma cuenta que e2b escribe en RESULTADOS.md)
     poner('L_piso', num(bce(np.clip(relojes, 1e-12, 1 - 1e-12), relojes, 'media')[0], 1),
           'src/data/relojes.py · BCE de los 500 relojes consigo mismos (igual que en RESULTADOS.md, e2b)')
+
+    # Generación con muestreo justo (D50) y qué guarda el latente, sobre relojes
+    justa = leer('e2c_justa/resumen.csv').set_index('modelo')
+    assert (justa.loc[['AE', 'VAE'], 'semillas'] >= 5).all()
+    poner('med_ae', num(justa.loc['AE', 'd_banco_mediana_media'], 3), 'e2c_justa/resumen.csv · AE · d_banco_mediana_media')
+    poner('med_vae', num(justa.loc['VAE', 'd_banco_mediana_media'], 3), 'e2c_justa/resumen.csv · VAE · d_banco_mediana_media')
+    medidas = leer('e2c_justa/relojes.csv')
+    assert (medidas.groupby('modelo').size() >= 5).all() and (medidas.copias == 0).all()
+    assert (medidas[medidas.modelo == 'VAE'].lejos_peor_vae == 0).all()
+    poner('lejos_ae', f"{num(100 * medidas[medidas.modelo == 'AE'].lejos_peor_vae.mean(), 0)} %",
+          'e2c_justa/relojes.csv · AE · media de lejos_peor_vae')
+    celdas = leer('e2c_parametros/celdas.csv')
+    assert (celdas.groupby('parametro').size() >= 5).all()
+    poner('var_hora', num(celdas.explicada.mean()), 'e2c_parametros/celdas.csv · media de explicada (seno y coseno de la hora)')
+    poner('var_azar', num(celdas.azar_media.mean()), 'e2c_parametros/celdas.csv · media de azar_media (parámetro mezclado)')
+    correlaciones = leer('e2c_justa/correlaciones.csv')
+    poner('r_hora_max', num(correlaciones.r.abs().max()), 'e2c_justa/correlaciones.csv · |r| máximo (seno y coseno de la hora)')
     return m
 
 
