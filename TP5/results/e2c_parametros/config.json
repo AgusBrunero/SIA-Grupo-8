@@ -1,0 +1,8 @@
+{
+ "experimento": "e2c_parametros",
+ "descripcion": "Punto 5 de la iteracion final 2: que codifica el latente del VAE (lambda = 1). Scatter de mu coloreado por cada parametro, media por celda de una grilla de 8 x 8 sobre mu y fraccion de varianza explicada por las celdas, contra el azar (parametro mezclado).",
+ "config_base": "config/e2c_justa.json",
+ "n_celdas": 8,
+ "mezclas": 50,
+ "semilla_mezclas": 11
+}

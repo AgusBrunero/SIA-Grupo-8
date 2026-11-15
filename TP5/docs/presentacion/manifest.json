@@ -9,17 +9,29 @@
    "texto": "12",
    "origen": "e1a2/resumen.csv · E3 · total_px_media"
   },
-  "logro_gd": {
-   "texto": "4 de 10",
-   "origen": "e1a2/resumen.csv · E4 · logradas y semillas"
-  },
-  "logro_bce": {
-   "texto": "10 de 10",
-   "origen": "e1a2/resumen.csv · E9 · logradas y semillas"
+  "logro_e3": {
+   "texto": "0 de 10",
+   "origen": "e1a2/resumen.csv · E3 · logradas y semillas"
   },
   "px_bce": {
    "texto": "0",
    "origen": "e1a2/resumen.csv · E9 · total_px_media"
+  },
+  "max_logro_ec": {
+   "texto": "4 de 10",
+   "origen": "e1a2_optimizadores/mejor_eta.csv · error cuadrático · máximo de logradas"
+  },
+  "bce_llegan": {
+   "texto": "4 de 5",
+   "origen": "e1a2_optimizadores/mejor_eta.csv · entropía cruzada · optimizadores con logradas = semillas"
+  },
+  "logro_profunda": {
+   "texto": "0 de 10",
+   "origen": "e1a2_optimizadores/profunda.csv · 10000 épocas · logradas y semillas"
+  },
+  "logro_profunda_larga": {
+   "texto": "0 de 10",
+   "origen": "e1a2_optimizadores/profunda.csv · 40000 épocas · logradas y semillas"
   },
   "saturados": {
    "texto": "709 de 711",
@@ -49,6 +61,78 @@
    "texto": "2",
    "origen": "elegidas/elegidas.csv · 1a.4 · distancia"
   },
+  "pasos_nuevos": {
+   "texto": "6",
+   "origen": "e1a4_interpolacion/pasos.csv · pasos con distancia > 0"
+  },
+  "pasos_total": {
+   "texto": "41",
+   "origen": "e1a4_interpolacion/pasos.csv · cantidad de pasos"
+  },
+  "dist_minima_letras": {
+   "texto": "2",
+   "origen": "e1a4_grilla/minima.csv · distancia_minima"
+  },
+  "unicas_total": {
+   "texto": "526",
+   "origen": "e1a4_grilla/unicas.csv · salidas únicas que no son letras"
+  },
+  "unicas_2px": {
+   "texto": "472",
+   "origen": "e1a4_grilla/unicas.csv · con distancia ≥ 2"
+  },
+  "dist_candidata": {
+   "texto": "3",
+   "origen": "e1a4_grilla/unicas.csv · menor distancia de las elegidas en config/elegidas.json (letras_grilla)"
+  },
+  "p_005": {
+   "texto": "0,05",
+   "origen": "e1b/config.json · niveles"
+  },
+  "p_01": {
+   "texto": "0,1",
+   "origen": "e1b/config.json · niveles"
+  },
+  "p_03": {
+   "texto": "0,3",
+   "origen": "e1b/config.json · niveles"
+  },
+  "exacto_dae_01": {
+   "texto": "75 %",
+   "origen": "e1b/referencia.csv · p = 0,1 · dae_B_exactos_media (de e1b/resumen.csv)"
+  },
+  "exacto_ref_01": {
+   "texto": "98 %",
+   "origen": "e1b/referencia.csv · p = 0,1 · letra_cercana_media"
+  },
+  "exacto_dae_03": {
+   "texto": "10 %",
+   "origen": "e1b/referencia.csv · p = 0,3 · dae_B_exactos_media (de e1b/resumen.csv)"
+  },
+  "exacto_ref_03": {
+   "texto": "53 %",
+   "origen": "e1b/referencia.csv · p = 0,3 · letra_cercana_media"
+  },
+  "otra_01": {
+   "texto": "0,6 %",
+   "origen": "e1b/referencia.csv · p = 0,1 · mas_cerca_de_otra_media"
+  },
+  "exacto_dae_max_01": {
+   "texto": "90 %",
+   "origen": "e1b_replicas/resumen.csv · ×5 réplicas, 40000 épocas · p = 0,1 · exactos_media"
+  },
+  "hasta1_dae_01": {
+   "texto": "85 %",
+   "origen": "e1b_replicas/resumen.csv · ×1, 10000 épocas · p = 0,1 · hasta_1px_media"
+  },
+  "hasta1_dae_max_01": {
+   "texto": "94 %",
+   "origen": "e1b_replicas/resumen.csv · ×5 réplicas, 40000 épocas · p = 0,1 · hasta_1px_media"
+  },
+  "otra_03": {
+   "texto": "37 %",
+   "origen": "e1b/referencia.csv · p = 0,3 · mas_cerca_de_otra_media"
+  },
   "mal_A": {
    "texto": "2,6",
    "origen": "e1b/resumen.csv · A · entrenada y probada con p = 0,1 · mal_media"
@@ -68,14 +152,6 @@
   "salen_sin_ruido": {
    "texto": "7,0",
    "origen": "e1b/resumen.csv · A · p_entrenamiento 0 · p_prueba 0,05 · mal_media"
-  },
-  "hasta1_bajo": {
-   "texto": "85 %",
-   "origen": "e1b/resumen.csv · B · entrenada y probada con p = 0,1 · hasta_1px_media"
-  },
-  "hasta1_alto": {
-   "texto": "15 %",
-   "origen": "e1b/resumen.csv · B · entrenada con p = 0,1, probada con p = 0,3 · hasta_1px_media"
   },
   "n_caritas": {
    "texto": "500",
@@ -105,13 +181,41 @@
    "texto": "1,0",
    "origen": "e2c/corridas.csv · VAE λ = 1 · media de codigo_desvio"
   },
-  "dist_generada": {
-   "texto": "0,037",
-   "origen": "e2c/corridas.csv · VAE λ = 1 · media de distancia_vecino_media"
+  "L_piso": {
+   "texto": "58,6",
+   "origen": "src/data/emojis.py · BCE de las 500 caritas consigo mismas (igual que en RESULTADOS.md, e2b)"
   },
-  "dist_real": {
-   "texto": "0,035",
-   "origen": "src/data/emojis.py · distancia media de cada carita a la otra más cercana (igual que en RESULTADOS.md)"
+  "fuera_ae": {
+   "texto": "20 %",
+   "origen": "e2c_justa/resumen.csv · AE · fuera_media"
+  },
+  "fuera_vae": {
+   "texto": "7 %",
+   "origen": "e2c_justa/resumen.csv · VAE · fuera_media"
+  },
+  "dist_banco_vae": {
+   "texto": "0,030",
+   "origen": "e2c_justa/resumen.csv · VAE · d_banco_media"
+  },
+  "dist_banco_real": {
+   "texto": "0,020",
+   "origen": "e2c_justa/resumen.csv · Caritas reales · d_banco_media"
+  },
+  "r_pos_min": {
+   "texto": "0,91",
+   "origen": "e2c_justa/correlaciones.csv · por semilla, |r| máximo de cada posición; el menor"
+  },
+  "r_otros_max": {
+   "texto": "0,19",
+   "origen": "e2c_justa/correlaciones.csv · |r| máximo de los otros cinco parámetros"
+  },
+  "var_curvatura": {
+   "texto": "0,51",
+   "origen": "e2c_parametros/celdas.csv · curvatura_boca · media de explicada entre semillas"
+  },
+  "var_azar": {
+   "texto": "0,11",
+   "origen": "e2c_parametros/celdas.csv · media de azar_media (parámetro mezclado)"
   }
  }
 }

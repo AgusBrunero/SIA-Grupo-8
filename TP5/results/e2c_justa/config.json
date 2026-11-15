@@ -1,0 +1,28 @@
+{
+ "experimento": "e2c_justa",
+ "descripcion": "Punto 3 de la ultima iteracion de la presentacion: AE contra VAE (lambda = 1) en generacion, cada uno muestreado de donde viven sus codigos, y juzgado contra un banco de caritas nuevas del mismo generador. Mismo modelo, datos y optimizador que config/e2c.json.",
+ "dataset": {"n": 500, "semilla": 2026, "origen": "src/data/emojis.py, el mismo de e2b y e2c"},
+ "banco": {"n": 20000, "semilla": 2027, "uso": "caritas validas nuevas: la distancia de una muestra generada a la mas cercana del banco mide si es una carita"},
+ "referencia": {"n": 200, "semilla": 2028, "uso": "caritas reales que no estan entre las 500 ni en el banco: la misma medida, como referencia"},
+ "modelo": {
+  "capas_encoder": [256, 64, 2],
+  "capas_decoder": [2, 64, 256],
+  "activacion_oculta": "tanh",
+  "sosten": "La misma arquitectura base de e2b y e2c"
+ },
+ "lambda": 1.0,
+ "optimizador": {"nombre": "adam", "eta": 0.001, "beta1": 0.9, "beta2": 0.999, "epsilon": 1e-08},
+ "tamano_lote": 50,
+ "epocas": 2000,
+ "semillas": [0, 1, 2, 3, 4],
+ "semilla_figuras": 0,
+ "generacion": {
+  "n_muestras": 200,
+  "semilla": 7,
+  "n_grilla": 11,
+  "muestreo_vae": "z ~ N(0, I), el prior que la KL le impone a los codigos",
+  "muestreo_ae": "z ~ N(media, covarianza) de los 500 codigos del propio AE (decision D en docs/DECISIONES.md)"
+ },
+ "beta": 1.0,
+ "amplitud_inicial": 0.1
+}

@@ -1,0 +1,151 @@
+gd eta=0.003                 semilla   0  logro=False max_px=13  total_px=211  error=411.2307  1.8 s
+gd eta=0.003                 semilla   1  logro=True  max_px= 0  total_px=  0  error=3.2960  1.8 s
+gd eta=0.003                 semilla   2  logro=True  max_px= 0  total_px=  0  error=2.4390  1.8 s
+gd eta=0.003                 semilla   3  logro=False max_px=23  total_px=227  error=424.8638  1.8 s
+gd eta=0.003                 semilla   4  logro=True  max_px= 0  total_px=  0  error=3.3384  1.8 s
+gd eta=0.003                 semilla   5  logro=False max_px=19  total_px=260  error=515.1992  1.8 s
+gd eta=0.003                 semilla   6  logro=True  max_px= 0  total_px=  0  error=3.3768  1.8 s
+gd eta=0.003                 semilla   7  logro=False max_px=23  total_px=201  error=405.5204  1.8 s
+gd eta=0.003                 semilla   8  logro=False max_px=32  total_px=291  error=551.3746  1.8 s
+gd eta=0.003                 semilla   9  logro=True  max_px= 0  total_px=  0  error=2.5838  1.8 s
+gd eta=0.01                  semilla   0  logro=False max_px=25  total_px=423  error=2122.5191  1.7 s
+gd eta=0.01                  semilla   1  logro=False max_px=18  total_px=322  error=981.0676  1.8 s
+gd eta=0.01                  semilla   2  logro=False max_px=23  total_px=461  error=2660.1284  1.8 s
+gd eta=0.01                  semilla   3  logro=False max_px=21  total_px=299  error=934.7807  1.8 s
+gd eta=0.01                  semilla   4  logro=False max_px=22  total_px=447  error=2099.4331  1.9 s
+gd eta=0.01                  semilla   5  logro=False max_px=21  total_px=317  error=952.3553  1.9 s
+gd eta=0.01                  semilla   6  logro=False max_px=20  total_px=281  error=879.8279  1.8 s
+gd eta=0.01                  semilla   7  logro=False max_px=26  total_px=469  error=2372.3601  1.8 s
+gd eta=0.01                  semilla   8  logro=False max_px=20  total_px=326  error=844.1478  1.8 s
+gd eta=0.01                  semilla   9  logro=False max_px=20  total_px=325  error=1011.2338  1.8 s
+gd eta=0.03                  semilla   0  logro=False max_px=23  total_px=453  error=8393.4431  1.7 s
+gd eta=0.03                  semilla   1  logro=False max_px=24  total_px=475  error=7252.6720  1.7 s
+gd eta=0.03                  semilla   2  logro=False max_px=26  total_px=435  error=8344.0683  1.7 s
+gd eta=0.03                  semilla   3  logro=False max_px=26  total_px=433  error=8422.4061  1.9 s
+gd eta=0.03                  semilla   4  logro=False max_px=23  total_px=443  error=6982.7536  1.7 s
+gd eta=0.03                  semilla   5  logro=False max_px=27  total_px=423  error=8409.0962  2.1 s
+gd eta=0.03                  semilla   6  logro=False max_px=21  total_px=469  error=7517.9447  1.8 s
+gd eta=0.03                  semilla   7  logro=False max_px=20  total_px=445  error=8081.5592  1.8 s
+gd eta=0.03                  semilla   8  logro=False max_px=24  total_px=555  error=8903.6667  1.8 s
+gd eta=0.03                  semilla   9  logro=False max_px=23  total_px=449  error=7177.4777  1.7 s
+momentum eta=0.0003          semilla   0  logro=True  max_px= 1  total_px=  1  error=4.0757  2.0 s
+momentum eta=0.0003          semilla   1  logro=True  max_px= 0  total_px=  0  error=2.7223  1.9 s
+momentum eta=0.0003          semilla   2  logro=True  max_px= 0  total_px=  0  error=2.8007  1.9 s
+momentum eta=0.0003          semilla   3  logro=True  max_px= 1  total_px=  1  error=4.9368  1.8 s
+momentum eta=0.0003          semilla   4  logro=True  max_px= 0  total_px=  0  error=2.7667  1.8 s
+momentum eta=0.0003          semilla   5  logro=True  max_px= 0  total_px=  0  error=2.2509  1.8 s
+momentum eta=0.0003          semilla   6  logro=True  max_px= 0  total_px=  0  error=2.9372  1.8 s
+momentum eta=0.0003          semilla   7  logro=True  max_px= 0  total_px=  0  error=3.4507  1.8 s
+momentum eta=0.0003          semilla   8  logro=True  max_px= 0  total_px=  0  error=2.5036  1.8 s
+momentum eta=0.0003          semilla   9  logro=True  max_px= 0  total_px=  0  error=2.6903  1.8 s
+momentum eta=0.001           semilla   0  logro=False max_px=30  total_px=347  error=618.9846  1.8 s
+momentum eta=0.001           semilla   1  logro=True  max_px= 0  total_px=  0  error=0.8175  1.8 s
+momentum eta=0.001           semilla   2  logro=True  max_px= 0  total_px=  0  error=0.6785  1.8 s
+momentum eta=0.001           semilla   3  logro=False max_px=26  total_px=289  error=544.4342  2.0 s
+momentum eta=0.001           semilla   4  logro=True  max_px= 0  total_px=  0  error=0.6645  1.8 s
+momentum eta=0.001           semilla   5  logro=False max_px=24  total_px=274  error=520.3765  1.9 s
+momentum eta=0.001           semilla   6  logro=False max_px=28  total_px=305  error=582.8621  1.8 s
+momentum eta=0.001           semilla   7  logro=False max_px=23  total_px=248  error=477.2542  1.9 s
+momentum eta=0.001           semilla   8  logro=False max_px=28  total_px=247  error=461.4935  1.8 s
+momentum eta=0.001           semilla   9  logro=False max_px=34  total_px=363  error=665.6686  1.8 s
+momentum eta=0.003           semilla   0  logro=False max_px=28  total_px=337  error=611.0318  1.8 s
+momentum eta=0.003           semilla   1  logro=False max_px=25  total_px=317  error=608.6623  1.8 s
+momentum eta=0.003           semilla   2  logro=False max_px=33  total_px=363  error=665.6686  1.9 s
+momentum eta=0.003           semilla   3  logro=False max_px=34  total_px=363  error=665.6686  1.8 s
+momentum eta=0.003           semilla   4  logro=False max_px=34  total_px=363  error=665.6686  1.8 s
+momentum eta=0.003           semilla   5  logro=False max_px=25  total_px=339  error=609.4834  1.8 s
+momentum eta=0.003           semilla   6  logro=False max_px=33  total_px=363  error=665.6686  1.8 s
+momentum eta=0.003           semilla   7  logro=False max_px=28  total_px=294  error=533.9934  1.8 s
+momentum eta=0.003           semilla   8  logro=False max_px=29  total_px=324  error=602.7482  1.8 s
+momentum eta=0.003           semilla   9  logro=False max_px=29  total_px=333  error=608.5643  1.8 s
+eta_adaptativo eta=0.003     semilla   0  logro=False max_px=22  total_px=287  error=517.2705  1.8 s
+eta_adaptativo eta=0.003     semilla   1  logro=False max_px=34  total_px=363  error=665.6686  1.7 s
+eta_adaptativo eta=0.003     semilla   2  logro=False max_px=32  total_px=363  error=665.6686  1.7 s
+eta_adaptativo eta=0.003     semilla   3  logro=False max_px=32  total_px=363  error=665.6686  1.9 s
+eta_adaptativo eta=0.003     semilla   4  logro=False max_px=26  total_px=282  error=537.2256  1.8 s
+eta_adaptativo eta=0.003     semilla   5  logro=False max_px=29  total_px=347  error=627.5711  1.9 s
+eta_adaptativo eta=0.003     semilla   6  logro=False max_px=33  total_px=363  error=665.6686  1.8 s
+eta_adaptativo eta=0.003     semilla   7  logro=False max_px=24  total_px=243  error=459.3024  1.7 s
+eta_adaptativo eta=0.003     semilla   8  logro=False max_px=31  total_px=363  error=665.6687  2.1 s
+eta_adaptativo eta=0.003     semilla   9  logro=False max_px=32  total_px=369  error=713.2499  2.1 s
+eta_adaptativo eta=0.01      semilla   0  logro=False max_px=22  total_px=431  error=1064.1319  1.9 s
+eta_adaptativo eta=0.01      semilla   1  logro=False max_px=24  total_px=423  error=868.7847  2.1 s
+eta_adaptativo eta=0.01      semilla   2  logro=False max_px=22  total_px=403  error=882.5379  1.8 s
+eta_adaptativo eta=0.01      semilla   3  logro=False max_px=33  total_px=363  error=665.6685  1.8 s
+eta_adaptativo eta=0.01      semilla   4  logro=False max_px=14  total_px=228  error=429.7046  1.8 s
+eta_adaptativo eta=0.01      semilla   5  logro=False max_px=21  total_px=413  error=873.7134  1.8 s
+eta_adaptativo eta=0.01      semilla   6  logro=False max_px=25  total_px=349  error=630.4549  2.1 s
+eta_adaptativo eta=0.01      semilla   7  logro=False max_px=26  total_px=433  error=896.6271  1.8 s
+eta_adaptativo eta=0.01      semilla   8  logro=False max_px=28  total_px=427  error=894.1117  1.7 s
+eta_adaptativo eta=0.01      semilla   9  logro=False max_px=30  total_px=401  error=907.6530  1.7 s
+eta_adaptativo eta=0.03      semilla   0  logro=False max_px=24  total_px=431  error=875.4498  1.7 s
+eta_adaptativo eta=0.03      semilla   1  logro=False max_px=23  total_px=413  error=873.0312  1.7 s
+eta_adaptativo eta=0.03      semilla   2  logro=False max_px=23  total_px=439  error=890.7440  1.8 s
+eta_adaptativo eta=0.03      semilla   3  logro=False max_px=23  total_px=356  error=779.0015  1.8 s
+eta_adaptativo eta=0.03      semilla   4  logro=False max_px=28  total_px=423  error=902.5194  1.7 s
+eta_adaptativo eta=0.03      semilla   5  logro=False max_px=30  total_px=423  error=900.6018  1.7 s
+eta_adaptativo eta=0.03      semilla   6  logro=False max_px=31  total_px=363  error=665.6689  1.7 s
+eta_adaptativo eta=0.03      semilla   7  logro=False max_px=27  total_px=415  error=906.7539  1.7 s
+eta_adaptativo eta=0.03      semilla   8  logro=False max_px=33  total_px=365  error=665.6686  1.7 s
+eta_adaptativo eta=0.03      semilla   9  logro=False max_px=34  total_px=363  error=665.6686  1.7 s
+rmsprop eta=0.003            semilla   0  logro=True  max_px= 0  total_px=  0  error=0.1121  1.9 s
+rmsprop eta=0.003            semilla   1  logro=True  max_px= 0  total_px=  0  error=0.0175  2.0 s
+rmsprop eta=0.003            semilla   2  logro=True  max_px= 0  total_px=  0  error=0.1675  1.9 s
+rmsprop eta=0.003            semilla   3  logro=True  max_px= 0  total_px=  0  error=0.1859  2.2 s
+rmsprop eta=0.003            semilla   4  logro=True  max_px= 0  total_px=  0  error=0.1734  2.0 s
+rmsprop eta=0.003            semilla   5  logro=True  max_px= 0  total_px=  0  error=0.0502  2.0 s
+rmsprop eta=0.003            semilla   6  logro=True  max_px= 0  total_px=  0  error=0.0865  1.9 s
+rmsprop eta=0.003            semilla   7  logro=True  max_px= 0  total_px=  0  error=0.1391  2.0 s
+rmsprop eta=0.003            semilla   8  logro=True  max_px= 0  total_px=  0  error=0.1017  2.1 s
+rmsprop eta=0.003            semilla   9  logro=True  max_px= 0  total_px=  0  error=0.0619  1.9 s
+rmsprop eta=0.01             semilla   0  logro=True  max_px= 0  total_px=  0  error=0.0064  2.0 s
+rmsprop eta=0.01             semilla   1  logro=True  max_px= 0  total_px=  0  error=0.0050  1.9 s
+rmsprop eta=0.01             semilla   2  logro=True  max_px= 0  total_px=  0  error=0.0036  1.9 s
+rmsprop eta=0.01             semilla   3  logro=True  max_px= 0  total_px=  0  error=0.0581  1.9 s
+rmsprop eta=0.01             semilla   4  logro=True  max_px= 0  total_px=  0  error=0.0074  1.9 s
+rmsprop eta=0.01             semilla   5  logro=True  max_px= 0  total_px=  0  error=0.0095  1.9 s
+rmsprop eta=0.01             semilla   6  logro=True  max_px= 0  total_px=  0  error=0.0040  1.9 s
+rmsprop eta=0.01             semilla   7  logro=False max_px= 8  total_px=  8  error=21.8311  1.9 s
+rmsprop eta=0.01             semilla   8  logro=False max_px= 2  total_px=  3  error=20.2969  1.9 s
+rmsprop eta=0.01             semilla   9  logro=True  max_px= 0  total_px=  0  error=0.0342  1.9 s
+rmsprop eta=0.03             semilla   0  logro=False max_px=10  total_px= 24  error=131.3932  1.9 s
+rmsprop eta=0.03             semilla   1  logro=True  max_px= 0  total_px=  0  error=0.1726  1.9 s
+rmsprop eta=0.03             semilla   2  logro=True  max_px= 0  total_px=  0  error=0.0185  1.9 s
+rmsprop eta=0.03             semilla   3  logro=False max_px= 2  total_px=  5  error=20.1126  1.9 s
+rmsprop eta=0.03             semilla   4  logro=True  max_px= 0  total_px=  0  error=0.0396  1.9 s
+rmsprop eta=0.03             semilla   5  logro=True  max_px= 0  total_px=  0  error=0.5026  1.9 s
+rmsprop eta=0.03             semilla   6  logro=True  max_px= 0  total_px=  0  error=0.3607  1.9 s
+rmsprop eta=0.03             semilla   7  logro=True  max_px= 0  total_px=  0  error=0.1676  1.9 s
+rmsprop eta=0.03             semilla   8  logro=True  max_px= 0  total_px=  0  error=0.1858  1.9 s
+rmsprop eta=0.03             semilla   9  logro=True  max_px= 0  total_px=  0  error=0.0822  1.9 s
+adam eta=0.0003              semilla   0  logro=True  max_px= 0  total_px=  0  error=13.1215  2.0 s
+adam eta=0.0003              semilla   1  logro=True  max_px= 0  total_px=  0  error=16.5888  2.0 s
+adam eta=0.0003              semilla   2  logro=True  max_px= 0  total_px=  0  error=13.3926  2.0 s
+adam eta=0.0003              semilla   3  logro=True  max_px= 0  total_px=  0  error=10.4201  2.0 s
+adam eta=0.0003              semilla   4  logro=True  max_px= 0  total_px=  0  error=14.8454  2.0 s
+adam eta=0.0003              semilla   5  logro=True  max_px= 0  total_px=  0  error=19.3969  2.0 s
+adam eta=0.0003              semilla   6  logro=True  max_px= 0  total_px=  0  error=15.3285  2.1 s
+adam eta=0.0003              semilla   7  logro=True  max_px= 0  total_px=  0  error=15.2282  2.0 s
+adam eta=0.0003              semilla   8  logro=True  max_px= 0  total_px=  0  error=13.0286  2.0 s
+adam eta=0.0003              semilla   9  logro=True  max_px= 0  total_px=  0  error=14.7284  2.0 s
+adam eta=0.001               semilla   0  logro=True  max_px= 0  total_px=  0  error=0.7249  2.0 s
+adam eta=0.001               semilla   1  logro=True  max_px= 0  total_px=  0  error=0.3870  2.0 s
+adam eta=0.001               semilla   2  logro=True  max_px= 0  total_px=  0  error=0.5048  2.0 s
+adam eta=0.001               semilla   3  logro=True  max_px= 0  total_px=  0  error=0.3058  2.0 s
+adam eta=0.001               semilla   4  logro=True  max_px= 0  total_px=  0  error=0.3574  2.0 s
+adam eta=0.001               semilla   5  logro=True  max_px= 0  total_px=  0  error=0.7378  2.0 s
+adam eta=0.001               semilla   6  logro=True  max_px= 0  total_px=  0  error=0.6069  2.1 s
+adam eta=0.001               semilla   7  logro=True  max_px= 0  total_px=  0  error=1.1998  2.0 s
+adam eta=0.001               semilla   8  logro=True  max_px= 0  total_px=  0  error=0.7447  2.1 s
+adam eta=0.001               semilla   9  logro=True  max_px= 0  total_px=  0  error=0.5364  2.0 s
+adam eta=0.003               semilla   0  logro=True  max_px= 0  total_px=  0  error=0.1524  2.0 s
+adam eta=0.003               semilla   1  logro=True  max_px= 0  total_px=  0  error=0.0749  2.0 s
+adam eta=0.003               semilla   2  logro=True  max_px= 0  total_px=  0  error=0.2283  2.0 s
+adam eta=0.003               semilla   3  logro=True  max_px= 0  total_px=  0  error=0.1122  2.0 s
+adam eta=0.003               semilla   4  logro=True  max_px= 0  total_px=  0  error=0.0558  2.0 s
+adam eta=0.003               semilla   5  logro=True  max_px= 0  total_px=  0  error=0.1575  2.0 s
+adam eta=0.003               semilla   6  logro=True  max_px= 0  total_px=  0  error=0.0676  2.0 s
+adam eta=0.003               semilla   7  logro=True  max_px= 0  total_px=  0  error=0.0795  2.0 s
+adam eta=0.003               semilla   8  logro=True  max_px= 0  total_px=  0  error=0.0683  2.0 s
+adam eta=0.003               semilla   9  logro=True  max_px= 0  total_px=  0  error=0.0517  2.0 s
+150 corridas en 281 s → /Users/brunoenzobaumgart/Desktop/itba/sia/tps/TP5/results/e1a2_opt_bce

@@ -1,0 +1,73 @@
+{
+ "experimento": "e1a2_opt_borde_ec",
+ "descripcion": "Punto 2a de la iteracion final 2: un eta mas alla del borde de la grilla en los casos de ec donde el mejor eta quedo en el borde. Mismo modelo y semillas que config/e1a2_opt_ec.json. Corre con experiments.e1a2_escalera.",
+ "perdida": "error_cuadratico",
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 10000,
+ "curva_cada": 20,
+ "codificacion": "01",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "id": "momentum eta=0.01",
+   "respecto_de": "E5",
+   "cambia": "error cuadrático; eta = 0.01 (mas alla del borde de la grilla de config/e1a2_opt_ec.json)",
+   "sosten": "Clase 12.1 diap. 5",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.01,
+    "alfa": 0.9
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "eta_adaptativo eta=0.1",
+   "respecto_de": "E6",
+   "cambia": "error cuadrático; eta = 0.1 (mas alla del borde de la grilla de config/e1a2_opt_ec.json)",
+   "sosten": "Clase 12.1 diap. 6-7",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.1
+   },
+   "eta_adaptativo": {
+    "a": 0.002,
+    "b": 0.5,
+    "k": 5,
+    "k_prima": 3
+   },
+   "tamano_lote": 32
+  }
+ ]
+}

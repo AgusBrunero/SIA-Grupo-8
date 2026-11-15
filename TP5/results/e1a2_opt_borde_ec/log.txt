@@ -1,0 +1,21 @@
+momentum eta=0.01            semilla   0  logro=False max_px= 2  total_px= 17  error=8.5155  1.6 s
+momentum eta=0.01            semilla   1  logro=False max_px=27  total_px=303  error=100.9126  1.6 s
+momentum eta=0.01            semilla   2  logro=False max_px=14  total_px=205  error=72.0534  1.5 s
+momentum eta=0.01            semilla   3  logro=False max_px=24  total_px=238  error=89.5921  1.7 s
+momentum eta=0.01            semilla   4  logro=False max_px=10  total_px=178  error=64.8724  1.5 s
+momentum eta=0.01            semilla   5  logro=False max_px=25  total_px=258  error=84.1404  1.5 s
+momentum eta=0.01            semilla   6  logro=False max_px=30  total_px=341  error=122.8505  1.5 s
+momentum eta=0.01            semilla   7  logro=False max_px=24  total_px=251  error=88.8134  1.5 s
+momentum eta=0.01            semilla   8  logro=False max_px= 2  total_px= 14  error=7.0190  1.5 s
+momentum eta=0.01            semilla   9  logro=False max_px=20  total_px=227  error=77.2574  1.5 s
+eta_adaptativo eta=0.1       semilla   0  logro=False max_px=10  total_px=129  error=45.8488  1.4 s
+eta_adaptativo eta=0.1       semilla   1  logro=False max_px=32  total_px=362  error=158.3742  1.4 s
+eta_adaptativo eta=0.1       semilla   2  logro=False max_px= 9  total_px= 64  error=28.7316  1.6 s
+eta_adaptativo eta=0.1       semilla   3  logro=False max_px= 4  total_px= 30  error=17.1412  1.5 s
+eta_adaptativo eta=0.1       semilla   4  logro=False max_px=14  total_px= 89  error=46.8304  1.4 s
+eta_adaptativo eta=0.1       semilla   5  logro=False max_px=32  total_px=359  error=137.7655  1.5 s
+eta_adaptativo eta=0.1       semilla   6  logro=False max_px=13  total_px=203  error=88.3610  1.6 s
+eta_adaptativo eta=0.1       semilla   7  logro=False max_px=18  total_px=104  error=41.7711  1.5 s
+eta_adaptativo eta=0.1       semilla   8  logro=False max_px=32  total_px=363  error=119.2493  1.5 s
+eta_adaptativo eta=0.1       semilla   9  logro=False max_px=13  total_px= 57  error=23.3866  1.5 s
+20 corridas en 30 s → /Users/brunoenzobaumgart/Desktop/itba/sia/tps/TP5/results/e1a2_opt_borde_ec

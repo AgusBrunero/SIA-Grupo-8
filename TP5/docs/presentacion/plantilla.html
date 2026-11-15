@@ -31,6 +31,7 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #dddcd7; fon
 .fig img { max-width: 100%; max-height: 100%; display: block; }
 .lectura { margin: 20px 0 0; font-size: 31px; line-height: 1.32; color: var(--ink); max-width: 1320px; }
 .pagina { position: absolute; right: 44px; bottom: 26px; font-size: 17px; color: var(--ink-3); }
+.pagina .presenta { color: var(--color); font-weight: 600; }
 /* Teoría: esquema arriba, fórmulas abajo */
 .slide.teoria .fig { flex-direction: column; justify-content: flex-start; gap: 34px; padding-top: 26px; }
 .slide.teoria .fig img { max-height: 190px; }
@@ -49,6 +50,16 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #dddcd7; fon
 /* Notas del orador: ocultas salvo con la tecla N */
 .notas { display: none; position: absolute; left: 22px; right: 0; bottom: 0; background: rgba(11, 11, 11, .92); color: #fff; font-size: 21px; line-height: 1.4; padding: 18px 44px 20px 74px; }
 body.con-notas .slide.on .notas { display: block; }
+/* Impresión y PDF: todas las láminas, una por página de 1600 × 900, sin notas */
+@page { size: 1600px 900px; margin: 0; }
+@media print {
+  html, body { height: auto; overflow: visible; background: var(--bg); }
+  #stage { position: static; transform: none !important; width: 1600px; height: auto; overflow: visible; }
+  .slide { position: relative; display: grid !important; width: 1600px; height: 900px; break-after: page; overflow: hidden; }
+  .slide:last-child { break-after: auto; }
+  .notas { display: none !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
 </style>
 </head>
 <body>

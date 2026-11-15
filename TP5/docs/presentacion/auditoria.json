@@ -14,7 +14,7 @@
  {
   "lamina": 3,
   "tipo": "resultado",
-  "texto": "Con latente lineal y una capa oculta, la red representa las letras en dos dimensiones De 210 a 12 píxeles incorrectos en total, cambiando solo la arquitectura.",
+  "texto": "Cambiar solo la arquitectura baja los errores de 210 a 12, pero no alcanza el objetivo Objetivo: a lo sumo un píxel incorrecto por letra. Con latente lineal lo logran 0 de 10 semillas.",
   "numeros": [
    {
     "clave": "px_base",
@@ -25,18 +25,28 @@
     "clave": "px_latente_lineal",
     "texto": "12",
     "origen": "e1a2/resumen.csv · E3 · total_px_media"
+   },
+   {
+    "clave": "logro_e3",
+    "texto": "0 de 10",
+    "origen": "e1a2/resumen.csv · E3 · logradas y semillas"
    }
   ]
  },
  {
   "lamina": 4,
   "tipo": "resultado",
-  "texto": "Ningún optimizador alcanza un píxel de error con error cuadrático El que más veces llega es el descenso por gradiente: 4 de 10 semillas.",
+  "texto": "Con entropía cruzada, todos los optimizadores salvo η adaptativo aprenden las 32 letras en todas las semillas Con error cuadrático, ninguno pasa de 4 de 10. Cada uno usa su mejor η.",
   "numeros": [
    {
-    "clave": "logro_gd",
+    "clave": "n_letras",
+    "texto": "32",
+    "origen": "docs/tp5/font.h · cantidad de patrones"
+   },
+   {
+    "clave": "max_logro_ec",
     "texto": "4 de 10",
-    "origen": "e1a2/resumen.csv · E4 · logradas y semillas"
+    "origen": "e1a2_optimizadores/mejor_eta.csv · error cuadrático · máximo de logradas"
    }
   ]
  },
@@ -55,28 +65,6 @@
  {
   "lamina": 6,
   "tipo": "resultado",
-  "texto": "Con entropía cruzada la red aprende las 32 letras sin errores 10 de 10 semillas, con 0 píxeles incorrectos. Se aprende el dataset completo.",
-  "numeros": [
-   {
-    "clave": "n_letras",
-    "texto": "32",
-    "origen": "docs/tp5/font.h · cantidad de patrones"
-   },
-   {
-    "clave": "logro_bce",
-    "texto": "10 de 10",
-    "origen": "e1a2/resumen.csv · E9 · logradas y semillas"
-   },
-   {
-    "clave": "px_bce",
-    "texto": "0",
-    "origen": "e1a2/resumen.csv · E9 · total_px_media"
-   }
-  ]
- },
- {
-  "lamina": 7,
-  "tipo": "resultado",
   "texto": "El latente ubica las letras, pero su forma cambia con la semilla Dos entrenamientos de la misma red. La correlación entre sus distancias entre letras es 0,47.",
   "numeros": [
    {
@@ -87,7 +75,7 @@
   ]
  },
  {
-  "lamina": 8,
+  "lamina": 7,
   "tipo": "resultado",
   "texto": "Una proyección lineal a dos dimensiones deja 230 píxeles mal Dos componentes principales explican el 27 % de la varianza. El autoencoder reconstruye con 0 errores.",
   "numeros": [
@@ -109,43 +97,54 @@
   ]
  },
  {
-  "lamina": 9,
+  "lamina": 8,
   "tipo": "resultado",
-  "texto": "Entre la “o” y la “e” la red genera una letra que no está en el dataset Es un punto intermedio del latente, a 2 píxeles de la “o”, la letra más cercana.",
+  "texto": "En el latente del autoencoder aparecen formas que no están en el dataset, a 3 píxeles o más de toda letra Elegidas entre las 472 salidas de una grilla del latente que no son letras.",
   "numeros": [
    {
-    "clave": "letra_dist",
-    "texto": "2",
-    "origen": "elegidas/elegidas.csv · 1a.4 · distancia"
+    "clave": "dist_candidata",
+    "texto": "3",
+    "origen": "e1a4_grilla/unicas.csv · menor distancia de las elegidas en config/elegidas.json (letras_grilla)"
+   },
+   {
+    "clave": "unicas_2px",
+    "texto": "472",
+    "origen": "e1a4_grilla/unicas.csv · con distancia ≥ 2"
+   }
+  ]
+ },
+ {
+  "lamina": 9,
+  "tipo": "cierre",
+  "texto": "Dos números alcanzan para guardar cada letra La entropía cruzada destraba el aprendizaje: 4 de 5 optimizadores aprenden todas las letras. El latente sirve para reconstruir, pero no está ordenado para generar.",
+  "numeros": [
+   {
+    "clave": "bce_llegan",
+    "texto": "4 de 5",
+    "origen": "e1a2_optimizadores/mejor_eta.csv · entropía cruzada · optimizadores con logradas = semillas"
    }
   ]
  },
  {
   "lamina": 10,
-  "tipo": "cierre",
-  "texto": "Dos números alcanzan para guardar cada letra La función de costo pesó más que el optimizador. El latente sirve para reconstruir, pero no está ordenado para generar.",
-  "numeros": []
- },
- {
-  "lamina": 11,
   "tipo": "teoria",
   "texto": "El DAE recibe la letra con ruido y tiene que devolverla limpia Entrada X̃: cada píxel de X se invierte con probabilidad p Salida esperada: X, la letra sin ruido",
   "numeros": []
  },
  {
-  "lamina": 12,
+  "lamina": 11,
   "tipo": "resultado",
-  "texto": "Un cuello de botella de diez neuronas saca más ruido que uno de dos o que ninguno Con ruido medio: 0,7 incorrectos por letra, contra 2,6 (dos neuronas) y 1,7 (sin cuello).",
+  "texto": "Entre las tres arquitecturas, la del cuello de botella intermedio (B) saca más ruido Con p = 0,1 y entrenamiento corto: B deja 0,7 píxeles incorrectos por letra; la mejor de las otras, 1,7.",
   "numeros": [
+   {
+    "clave": "p_01",
+    "texto": "0,1",
+    "origen": "e1b/config.json · niveles"
+   },
    {
     "clave": "mal_B",
     "texto": "0,7",
     "origen": "e1b/resumen.csv · B · entrenada y probada con p = 0,1 · mal_media"
-   },
-   {
-    "clave": "mal_A",
-    "texto": "2,6",
-    "origen": "e1b/resumen.csv · A · entrenada y probada con p = 0,1 · mal_media"
    },
    {
     "clave": "mal_C",
@@ -155,10 +154,15 @@
   ]
  },
  {
-  "lamina": 13,
+  "lamina": 12,
   "tipo": "resultado",
-  "texto": "Sin entrenar con ruido, el autoencoder lo empeora Con ruido bajo entran 1,75 píxeles alterados por letra y salen 7,0 incorrectos.",
+  "texto": "Sin entrenar con ruido, el autoencoder lo empeora Con p = 0,05 entran 1,75 píxeles alterados por letra y salen 7,0 incorrectos.",
   "numeros": [
+   {
+    "clave": "p_005",
+    "texto": "0,05",
+    "origen": "e1b/config.json · niveles"
+   },
    {
     "clave": "entran_bajo",
     "texto": "1,75",
@@ -172,27 +176,42 @@
   ]
  },
  {
-  "lamina": 14,
+  "lamina": 13,
   "tipo": "resultado",
-  "texto": "El DAE corrige casi todo con ruido bajo y cae con ruido alto Reconstrucciones con un píxel de error o menos: 85 % con ruido bajo y 15 % con ruido alto.",
+  "texto": "Con más entrenamiento el DAE mejora, pero no alcanza a la letra más cercana Con p = 0,1, exactas: 90 % con el entrenamiento más largo; 98 % la letra más cercana.",
   "numeros": [
    {
-    "clave": "hasta1_bajo",
-    "texto": "85 %",
-    "origen": "e1b/resumen.csv · B · entrenada y probada con p = 0,1 · hasta_1px_media"
+    "clave": "p_01",
+    "texto": "0,1",
+    "origen": "e1b/config.json · niveles"
    },
    {
-    "clave": "hasta1_alto",
-    "texto": "15 %",
-    "origen": "e1b/resumen.csv · B · entrenada con p = 0,1, probada con p = 0,3 · hasta_1px_media"
+    "clave": "exacto_dae_max_01",
+    "texto": "90 %",
+    "origen": "e1b_replicas/resumen.csv · ×5 réplicas, 40000 épocas · p = 0,1 · exactos_media"
+   },
+   {
+    "clave": "exacto_ref_01",
+    "texto": "98 %",
+    "origen": "e1b/referencia.csv · p = 0,1 · letra_cercana_media"
    }
   ]
  },
  {
-  "lamina": 15,
+  "lamina": 14,
   "tipo": "resultado",
-  "texto": "Los errores son confusiones entre letras parecidas La más frecuente en la arquitectura elegida: “|” por “l”, que difieren en 2 píxeles.",
+  "texto": "Los errores son confusiones entre letras parecidas Con el DAE de entrenamiento corto (75 % exactas con p = 0,1), la más frecuente es “|” por “l”: difieren en 2 píxeles.",
   "numeros": [
+   {
+    "clave": "exacto_dae_01",
+    "texto": "75 %",
+    "origen": "e1b/referencia.csv · p = 0,1 · dae_B_exactos_media (de e1b/resumen.csv)"
+   },
+   {
+    "clave": "p_01",
+    "texto": "0,1",
+    "origen": "e1b/config.json · niveles"
+   },
    {
     "clave": "dist_l_barra",
     "texto": "2",
@@ -201,19 +220,30 @@
   ]
  },
  {
-  "lamina": 16,
+  "lamina": 15,
   "tipo": "cierre",
-  "texto": "Para limpiar ruido hay que entrenar con ruido y dejar un cuello de botella intermedio Demasiado ruido al entrenar arruina las letras limpias. Con mucho ruido, una letra se confunde con otra parecida.",
-  "numeros": []
+  "texto": "Entrenar con ruido limpia las letras, pero elegir la letra más cercana sigue ganando Demasiado ruido al entrenar arruina las letras limpias. p = 0,3: 37 % de las entradas se parecen más a otra letra.",
+  "numeros": [
+   {
+    "clave": "p_03",
+    "texto": "0,3",
+    "origen": "e1b/config.json · niveles"
+   },
+   {
+    "clave": "otra_03",
+    "texto": "37 %",
+    "origen": "e1b/referencia.csv · p = 0,3 · mas_cerca_de_otra_media"
+   }
+  ]
  },
  {
-  "lamina": 17,
+  "lamina": 16,
   "tipo": "teoria",
   "texto": "El VAE aprende una distribución por dato y samplea de ella ϵ ~ N(0, 1)        se supone p(z) = N(0, I) J = L + λR        R = KL(q‖p) = ½ Σ (σ² + μ² − 1 − log σ²)",
   "numeros": []
  },
  {
-  "lamina": 18,
+  "lamina": 17,
   "tipo": "resultado",
   "texto": "Construimos 500 caritas a partir de 7 parámetros Imágenes en grises hechas en código: sabemos de qué depende cada una.",
   "numeros": [
@@ -230,19 +260,19 @@
   ]
  },
  {
-  "lamina": 19,
+  "lamina": 18,
   "tipo": "resultado",
-  "texto": "El VAE aprende: la reconstrucción baja y la regularización se estabiliza L baja de 174 a 67; R queda en 3,6.",
+  "texto": "El VAE aprende: la reconstrucción baja y la regularización se estabiliza L = 67 sobre un piso de 58,6; R queda en 3,6.",
   "numeros": [
-   {
-    "clave": "L_inicial",
-    "texto": "174",
-    "origen": "e2b/curvas.csv · época 1 · media de L entre semillas"
-   },
    {
     "clave": "L_final",
     "texto": "67",
     "origen": "e2b/curvas.csv · última época · media de L entre semillas"
+   },
+   {
+    "clave": "L_piso",
+    "texto": "58,6",
+    "origen": "src/data/emojis.py · BCE de las 500 caritas consigo mismas (igual que en RESULTADOS.md, e2b)"
    },
    {
     "clave": "R_final",
@@ -252,7 +282,7 @@
   ]
  },
  {
-  "lamina": 20,
+  "lamina": 19,
   "tipo": "resultado",
   "texto": "El VAE lleva los códigos a la normal estándar; el autoencoder los desparrama Desvío de los códigos: 9,6 en el autoencoder y 1,0 en el VAE. El prior tiene desvío uno.",
   "numeros": [
@@ -269,32 +299,49 @@
   ]
  },
  {
-  "lamina": 21,
+  "lamina": 20,
   "tipo": "resultado",
   "texto": "λ intercambia nitidez por orden en el latente Con λ grande todas las caritas se parecen; con λ chico el modelo se acerca a un autoencoder.",
   "numeros": []
  },
  {
-  "lamina": 22,
+  "lamina": 21,
   "tipo": "resultado",
-  "texto": "Las caritas generadas son nuevas y están tan cerca del dataset como las reales Distancia por píxel a la carita más cercana: 0,037; entre caritas reales, 0,035.",
+  "texto": "Muestreando cada modelo donde viven sus códigos, el autoencoder genera más caritas inválidas Más lejos del banco que toda carita real: 20 % de las muestras del autoencoder y 7 % de las del VAE.",
   "numeros": [
    {
-    "clave": "dist_generada",
-    "texto": "0,037",
-    "origen": "e2c/corridas.csv · VAE λ = 1 · media de distancia_vecino_media"
+    "clave": "fuera_ae",
+    "texto": "20 %",
+    "origen": "e2c_justa/resumen.csv · AE · fuera_media"
    },
    {
-    "clave": "dist_real",
-    "texto": "0,035",
-    "origen": "src/data/emojis.py · distancia media de cada carita a la otra más cercana (igual que en RESULTADOS.md)"
+    "clave": "fuera_vae",
+    "texto": "7 %",
+    "origen": "e2c_justa/resumen.csv · VAE · fuera_media"
+   }
+  ]
+ },
+ {
+  "lamina": 22,
+  "tipo": "resultado",
+  "texto": "Las caritas del VAE no son copias, pero quedan más lejos del banco que las reales El latente guarda posición y curvatura de la boca, no ojos ni cejas. Distancia al banco: 0,030 contra 0,020.",
+  "numeros": [
+   {
+    "clave": "dist_banco_vae",
+    "texto": "0,030",
+    "origen": "e2c_justa/resumen.csv · VAE · d_banco_media"
+   },
+   {
+    "clave": "dist_banco_real",
+    "texto": "0,020",
+    "origen": "e2c_justa/resumen.csv · Caritas reales · d_banco_media"
    }
   ]
  },
  {
   "lamina": 23,
   "tipo": "cierre",
-  "texto": "El VAE ordena el latente, y por eso permite generar El autoencoder comprime. El DAE limpia. El VAE genera.",
+  "texto": "El VAE ordena el latente: genera menos caritas inválidas que el autoencoder, no mejores El autoencoder comprime. El DAE limpia. El VAE genera.",
   "numeros": []
  }
 ]

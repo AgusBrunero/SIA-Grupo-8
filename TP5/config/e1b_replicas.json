@@ -1,0 +1,14 @@
+{
+ "experimento": "e1b_replicas",
+ "descripcion": "Punto 1 de la iteracion final 2: DAE B entrenado con p = 0,1, con 1 o 5 replicas ruidosas de cada letra por epoca (data augmentation, Clase 13) y con las epocas actuales o 4 veces mas. Misma evaluacion que results/e1b/referencia.csv.",
+ "origen_del_modelo": "config/e1b.json, arquitectura B y receta E9",
+ "config_base": "config/e1b.json",
+ "arquitectura": "B",
+ "p_entrenamiento": 0.1,
+ "variantes": [
+  {"id": "x1, 10000 epocas", "replicas": 1, "epocas": 10000},
+  {"id": "x1, 40000 epocas", "replicas": 1, "epocas": 40000},
+  {"id": "x5, 10000 epocas", "replicas": 5, "epocas": 10000},
+  {"id": "x5, 40000 epocas", "replicas": 5, "epocas": 40000}
+ ]
+}

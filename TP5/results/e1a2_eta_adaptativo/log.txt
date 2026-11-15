@@ -1,0 +1,7 @@
+                 escalon  semilla  total_pixeles  ocultas_saturadas  pixeles_mal  pixeles_mal_saturados  eta_final  eta_max  eta_min
+eta_adaptativo eta=0.003        0            287             0.7562          287                      0      0.005   0.0151   0.0011
+eta_adaptativo eta=0.003        1            363             0.6445          363                      0      0.003   0.0130   0.0015
+            gd eta=0.003        0            211             0.7648          211                      0      0.003   0.0030   0.0030
+            gd eta=0.003        1              0             0.5766            0                      0      0.003   0.0030   0.0030
+          adam eta=0.001        0              0             0.4938            0                      0      0.001   0.0010   0.0010
+          adam eta=0.001        1              0             0.5164            0                      0      0.001   0.0010   0.0010

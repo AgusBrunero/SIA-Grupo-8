@@ -1,0 +1,41 @@
+gd eta=0.001                 semilla   0  logro=True  max_px= 0  total_px=  0  error=13.3095  1.8 s
+gd eta=0.001                 semilla   1  logro=True  max_px= 0  total_px=  0  error=9.9151  1.8 s
+gd eta=0.001                 semilla   2  logro=True  max_px= 0  total_px=  0  error=9.8957  1.8 s
+gd eta=0.001                 semilla   3  logro=True  max_px= 0  total_px=  0  error=9.6335  1.8 s
+gd eta=0.001                 semilla   4  logro=True  max_px= 0  total_px=  0  error=11.8175  1.8 s
+gd eta=0.001                 semilla   5  logro=True  max_px= 0  total_px=  0  error=8.8516  2.0 s
+gd eta=0.001                 semilla   6  logro=True  max_px= 0  total_px=  0  error=10.5844  1.8 s
+gd eta=0.001                 semilla   7  logro=True  max_px= 0  total_px=  0  error=13.8502  1.9 s
+gd eta=0.001                 semilla   8  logro=True  max_px= 0  total_px=  0  error=12.4387  2.0 s
+gd eta=0.001                 semilla   9  logro=True  max_px= 0  total_px=  0  error=8.0611  1.8 s
+eta_adaptativo eta=0.001     semilla   0  logro=False max_px=28  total_px=391  error=840.7874  1.8 s
+eta_adaptativo eta=0.001     semilla   1  logro=False max_px=31  total_px=363  error=713.5389  1.9 s
+eta_adaptativo eta=0.001     semilla   2  logro=False max_px=25  total_px=319  error=577.5835  1.8 s
+eta_adaptativo eta=0.001     semilla   3  logro=False max_px=22  total_px=315  error=606.9351  1.8 s
+eta_adaptativo eta=0.001     semilla   4  logro=False max_px=33  total_px=363  error=665.6685  1.9 s
+eta_adaptativo eta=0.001     semilla   5  logro=False max_px=34  total_px=363  error=713.8334  2.3 s
+eta_adaptativo eta=0.001     semilla   6  logro=False max_px=25  total_px=340  error=698.4527  1.8 s
+eta_adaptativo eta=0.001     semilla   7  logro=False max_px=25  total_px=310  error=560.7111  1.8 s
+eta_adaptativo eta=0.001     semilla   8  logro=False max_px=29  total_px=342  error=837.8540  1.9 s
+eta_adaptativo eta=0.001     semilla   9  logro=False max_px=32  total_px=232  error=454.3800  1.8 s
+momentum eta=0.0001          semilla   0  logro=True  max_px= 0  total_px=  0  error=18.6966  2.1 s
+momentum eta=0.0001          semilla   1  logro=True  max_px= 0  total_px=  0  error=8.7887  1.8 s
+momentum eta=0.0001          semilla   2  logro=True  max_px= 0  total_px=  0  error=9.2945  1.8 s
+momentum eta=0.0001          semilla   3  logro=True  max_px= 0  total_px=  0  error=10.7486  1.8 s
+momentum eta=0.0001          semilla   4  logro=True  max_px= 1  total_px=  2  error=10.9930  1.9 s
+momentum eta=0.0001          semilla   5  logro=True  max_px= 0  total_px=  0  error=7.8827  1.8 s
+momentum eta=0.0001          semilla   6  logro=True  max_px= 0  total_px=  0  error=10.6159  1.8 s
+momentum eta=0.0001          semilla   7  logro=True  max_px= 0  total_px=  0  error=15.0641  1.8 s
+momentum eta=0.0001          semilla   8  logro=True  max_px= 0  total_px=  0  error=9.1561  1.8 s
+momentum eta=0.0001          semilla   9  logro=True  max_px= 0  total_px=  0  error=8.6854  1.9 s
+rmsprop eta=0.001            semilla   0  logro=True  max_px= 0  total_px=  0  error=0.1421  1.9 s
+rmsprop eta=0.001            semilla   1  logro=True  max_px= 0  total_px=  0  error=0.2059  1.9 s
+rmsprop eta=0.001            semilla   2  logro=True  max_px= 0  total_px=  0  error=0.4810  1.9 s
+rmsprop eta=0.001            semilla   3  logro=True  max_px= 0  total_px=  0  error=0.1518  1.9 s
+rmsprop eta=0.001            semilla   4  logro=True  max_px= 0  total_px=  0  error=0.0702  1.9 s
+rmsprop eta=0.001            semilla   5  logro=True  max_px= 0  total_px=  0  error=0.0511  1.9 s
+rmsprop eta=0.001            semilla   6  logro=True  max_px= 0  total_px=  0  error=0.1117  1.9 s
+rmsprop eta=0.001            semilla   7  logro=True  max_px= 0  total_px=  0  error=0.1331  1.9 s
+rmsprop eta=0.001            semilla   8  logro=True  max_px= 0  total_px=  0  error=0.3767  2.0 s
+rmsprop eta=0.001            semilla   9  logro=True  max_px= 0  total_px=  0  error=0.0919  1.9 s
+40 corridas en 75 s → /Users/brunoenzobaumgart/Desktop/itba/sia/tps/TP5/results/e1a2_opt_borde_bce

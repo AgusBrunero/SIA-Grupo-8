@@ -4,7 +4,8 @@
   "titulo": "TP5 · Deep Learning",
   "subtitulo": "Autoencoder, Denoising Autoencoder y Autoencoder Variacional",
   "pie": "Grupo 8 · Sistemas de Inteligencia Artificial · ITBA",
-  "notas": "Tres partes: comprimir letras con un autoencoder, limpiar ruido con un DAE y generar caritas con un VAE. Todo implementado a mano en numpy."
+  "notas": "Tres partes: comprimir letras con un autoencoder, limpiar ruido con un DAE y generar caritas con un VAE. Todo implementado a mano en numpy.",
+  "presenta": "Louis"
  },
  {
   "tipo": "teoria",
@@ -20,25 +21,28 @@
   "formulas_tex": [
    "Z = f(X) \\qquad X' = g(Z)",
    "\\text{Se entrena como un MLP, con salida esperada } X: \\quad L = \\lVert X - X' \\rVert^2"
-  ]
+  ],
+  "presenta": "Louis"
  },
  {
   "tipo": "resultado",
   "modelo": "AE",
   "item": "1a.1 · Arquitectura",
-  "titulo": "Con latente lineal y una capa oculta, la red representa las letras en dos dimensiones",
+  "titulo": "Cambiar solo la arquitectura baja los errores de {{px_base}} a {{px_latente_lineal}}, pero no alcanza el objetivo",
   "figura": "docs/presentacion/figuras/arquitecturas.png",
-  "lectura": "De {{px_base}} a {{px_latente_lineal}} píxeles incorrectos en total, cambiando solo la arquitectura.",
-  "notas": "Arquitectura final: 35–20–2–20–35, ocultas tanh, latente identidad, salida logística. El cambio que más pesa es sacar la logística del latente: con logística los códigos quedan encerrados entre 0 y 1. Entre latente lineal y ocultas tanh la cantidad de píxeles empata (la diferencia es menor que el desvío). Fuente: results/e1a2/resumen.csv."
+  "lectura": "Objetivo: a lo sumo un píxel incorrecto por letra. Con latente lineal lo logran {{logro_e3}} semillas.",
+  "notas": "Cada barra agrega un cambio: una capa oculta de 20 y después latente identidad (error cuadrático, descenso por gradiente). El cambio que más pesa es sacar la logística del latente: con logística los códigos quedan encerrados entre 0 y 1. Sin capa oculta (35-2-35) quedan {{px_base}} píxeles mal, cerca de los {{pca_px}} de PCA. La cátedra muestra que un autoencoder lineal equivale a PCA (Autoencoders diap. 7–16); el nuestro tiene activación logística, así que es una comparación y no la misma cosa. Fuente: results/e1a2/resumen.csv y results/e1a3_e1a4/pca.csv.",
+  "presenta": "Louis"
  },
  {
   "tipo": "resultado",
   "modelo": "AE",
   "item": "1a.2 · Optimización",
-  "titulo": "Ningún optimizador alcanza un píxel de error con error cuadrático",
-  "figura": "docs/presentacion/figuras/optimizadores.png",
-  "lectura": "El que más veces llega es el descenso por gradiente: {{logro_gd}} semillas.",
-  "notas": "Mismo modelo, cambia solo el optimizador (Clase 12.1). Momentum, η adaptativo, RMSProp y Adam no mejoran al descenso por gradiente. Powell (scipy) no usa el gradiente y con 177 pesos se detiene lejos del mínimo. Fuente: results/e1a2/resumen.csv, 10 semillas por barra."
+  "titulo": "Con entropía cruzada, todos los optimizadores salvo η adaptativo aprenden las {{n_letras}} letras en todas las semillas",
+  "figura": "docs/presentacion/figuras/optimizador_costo.png",
+  "lectura": "Con error cuadrático, ninguno pasa de {{max_logro_ec}}. Cada uno usa su mejor η.",
+  "notas": "Mismo modelo 35-20-2-20-35; cambian el optimizador, su η y la función de costo (Clase 12.1 diap. 5–13; Autoencoders diap. 51). 10 semillas por barra. Mejores η, error cuadrático: GD 0,01; momentum 0,003; η adaptativo 0,03; RMSProp 0,01; Adam 0,001. Entropía cruzada: GD 0,001; momentum 0,0001; RMSProp 0,001; Adam, los tres valores llegan. Donde el mejor η quedaba en el borde se probó un valor más; solo η adaptativo con entropía cruzada sigue sin llegar con ningún η. Por qué: sube η de a 0,002 hasta 0,009–0,015, donde GD con η fijo tampoco llega; el error salta y queda en una meseta. No diverge ni η se va a 0. Powell (scipy, red 35-2-35) no llega en ninguna semilla. Control: una red más profunda (35-30-20-10-2-10-20-30-35) con Adam y error cuadrático, batch completo, llega en {{logro_profunda}} semillas con 10.000 épocas y en {{logro_profunda_larga}} con 40.000. Fuente: results/e1a2_optimizadores/ y results/e1a2_eta_adaptativo/.",
+  "presenta": "Gago"
  },
  {
   "tipo": "teoria",
@@ -55,16 +59,8 @@
   "formulas_tex": [
    "\\text{Error cuadrático:}\\quad \\delta = (\\zeta - O)\\,\\theta'(h)",
    "\\text{Entropía cruzada:}\\quad \\delta \\propto (\\zeta - O)"
-  ]
- },
- {
-  "tipo": "resultado",
-  "modelo": "AE",
-  "item": "1a.2 · Optimización",
-  "titulo": "Con entropía cruzada la red aprende las {{n_letras}} letras sin errores",
-  "figura": "docs/presentacion/figuras/entropia_cruzada.png",
-  "lectura": "{{logro_bce}} semillas, con {{px_bce}} píxeles incorrectos. Se aprende el dataset completo.",
-  "notas": "Mismo modelo y Adam; cambia solo la función de costo. Declarar: la diapositiva del autoencoder usa el error cuadrático; la entropía cruzada es de la cátedra (diap. 51 y Colab del VAE). Fuente: results/e1a2/resumen.csv."
+  ],
+  "presenta": "Gago"
  },
  {
   "tipo": "resultado",
@@ -73,7 +69,8 @@
   "titulo": "El latente ubica las letras, pero su forma cambia con la semilla",
   "figura": "docs/presentacion/figuras/latente_dos_semillas.png",
   "lectura": "Dos entrenamientos de la misma red. La correlación entre sus distancias entre letras es {{corr_semillas}}.",
-  "notas": "Cada punto es el código Z de una letra. Las dos redes reconstruyen sin errores, pero ubican las letras distinto: la función de costo no le pide ninguna forma al latente. La correlación es de Pearson entre las 496 distancias entre pares de letras en un latente y en el otro. Con 5 semillas va de 0,14 a 0,70. Fuente: results/e1a3_e1a4/estabilidad.csv."
+  "notas": "Cada punto es el código Z de una letra. Las dos redes reconstruyen sin errores, pero ubican las letras distinto: la función de costo no le pide ninguna forma al latente. La correlación es de Pearson entre las 496 distancias entre pares de letras en un latente y en el otro. Con 5 semillas va de 0,14 a 0,70. Fuente: results/e1a3_e1a4/estabilidad.csv.",
+  "presenta": "Gago"
  },
  {
   "tipo": "resultado",
@@ -82,26 +79,29 @@
   "titulo": "Una proyección lineal a dos dimensiones deja {{pca_px}} píxeles mal",
   "figura": "results/e1a3_e1a4/fig_latente_pca.png",
   "lectura": "Dos componentes principales explican el {{pca_var}} de la varianza. El autoencoder reconstruye con {{px_bce}} errores.",
-  "notas": "Línea base: PCA con 2 componentes (calculado con SVD, sin librerías). El autoencoder es una reducción de dimensión no lineal y por eso entra lo que PCA no. Fuente: results/e1a3_e1a4/pca.csv."
+  "notas": "Línea base: PCA con 2 componentes (calculado con SVD, sin librerías). El autoencoder es una reducción de dimensión no lineal y por eso entra lo que PCA no. Fuente: results/e1a3_e1a4/pca.csv.",
+  "presenta": "Gago"
  },
  {
   "tipo": "resultado",
   "modelo": "AE",
   "item": "1a.4 · Generación",
-  "titulo": "Entre la “o” y la “e” la red genera una letra que no está en el dataset",
-  "figura": "results/elegidas/fig_letra.png",
-  "lectura": "Es un punto intermedio del latente, a {{letra_dist}} píxeles de la “o”, la letra más cercana.",
-  "notas": "Autoencoders diap. 33–34: moverse en el latente y decodificar un z que no es el código de ninguna letra. En una grilla de 100 puntos, entre 60 y 73 muestras no son letras del dataset, pero no todas se leen como una letra: el latente del autoencoder tiene zonas que no decodifican bien, y eso motiva el VAE. Fuente: results/elegidas/elegidas.csv."
+  "titulo": "En el latente del autoencoder aparecen formas que no están en el dataset, a {{dist_candidata}} píxeles o más de toda letra",
+  "figura": "docs/presentacion/figuras/letras_nuevas.png",
+  "lectura": "Elegidas entre las {{unicas_2px}} salidas de una grilla del latente que no son letras.",
+  "notas": "Autoencoders diap. 33–34: moverse en el latente y decodificar un z que no es el código de ninguna letra. Criterio: {{dist_minima_letras}} píxeles es la distancia mínima entre dos letras distintas del propio dataset (“l” y “|”), así que a 3 píxeles o más ya no es la misma letra con ruido. Una grilla de 50 × 50 sobre el latente da {{unicas_total}} salidas que no son letras; {{unicas_2px}} quedan a 2 píxeles o más. Elegimos las que se leen como un glifo y salen de una región amplia del latente: una “S” (a 6 píxeles de la “g”), una “o” con un punto y una “u” con un punto. Caen en el borde del latente, lejos de las letras. Entre la “o” y la “e”, en cambio, ningún paso pasa de 2 píxeles. Fuente: results/e1a4_grilla/unicas.csv y config/elegidas.json.",
+  "presenta": "Gago"
  },
  {
   "tipo": "cierre",
   "modelo": "AE",
   "titulo": "Dos números alcanzan para guardar cada letra",
   "frases": [
-   "La función de costo pesó más que el optimizador.",
+   "La entropía cruzada destraba el aprendizaje: {{bce_llegan}} optimizadores aprenden todas las letras.",
    "El latente sirve para reconstruir, pero no está ordenado para generar."
   ],
-  "notas": "Consecuencia: antes de probar optimizadores más sofisticados conviene mirar si el gradiente está llegando. Y un autoencoder común comprime bien, pero no es un generador confiable."
+  "notas": "Consecuencia: antes de probar optimizadores más sofisticados conviene mirar si el gradiente está llegando. Y un autoencoder común comprime bien, pero no es un generador confiable.",
+  "presenta": "Gago"
  },
  {
   "tipo": "teoria",
@@ -117,16 +117,18 @@
   "formulas_tex": [
    "\\text{Entrada } \\tilde X: \\text{ cada píxel de } X \\text{ se invierte con probabilidad } p",
    "\\text{Salida esperada: } X, \\text{ la letra sin ruido}"
-  ]
+  ],
+  "presenta": "Agus"
  },
  {
   "tipo": "resultado",
   "modelo": "DAE",
   "item": "1b.1 · Arquitectura",
-  "titulo": "Un cuello de botella de diez neuronas saca más ruido que uno de dos o que ninguno",
+  "titulo": "Entre las tres arquitecturas, la del cuello de botella intermedio (B) saca más ruido",
   "figura": "results/e1b/fig_pixeles_mal.png",
-  "lectura": "Con ruido medio: {{mal_B}} incorrectos por letra, contra {{mal_A}} (dos neuronas) y {{mal_C}} (sin cuello).",
-  "notas": "Tres arquitecturas: A con latente de 2, B con latente de 10 (la elegida), C sin cuello de botella (35–50–35). Filas: ruido de entrenamiento; columnas: ruido de prueba. B gana en los cuatro niveles de prueba por más que el desvío. El latente de 2 no tiene lugar para la letra más la tolerancia al ruido; sin cuello de botella no hay restricción que obligue a descartar el ruido. Los tres números son con entrenamiento y prueba en p = 0,1. Fuente: results/e1b/resumen.csv, 5 semillas."
+  "lectura": "Con p = {{p_01}} y entrenamiento corto: B deja {{mal_B}} píxeles incorrectos por letra; la mejor de las otras, {{mal_C}}.",
+  "notas": "Tres arquitecturas: A con latente de 2, B con latente de 10 (la elegida), C sin cuello de botella (35–50–35). Filas: ruido de entrenamiento; columnas: ruido de prueba. B gana en los cuatro niveles de prueba por más que el desvío. El latente de 2 no tiene lugar para la letra más la tolerancia al ruido; sin cuello de botella no hay restricción que obligue a descartar el ruido. A (latente de 2) deja {{mal_A}}. No probamos una red profunda sin cuello de botella (35-20-50-20-35): C cambia a la vez la profundidad y el cuello, por eso el título dice \"entre las tres\". Las tres con el entrenamiento corto (10.000 épocas, una réplica por letra): con p = 0,1, B reconstruye exactas el {{exacto_dae_01}}; con el entrenamiento largo llega al {{exacto_dae_max_01}} (lámina 13). Fuente: results/e1b/resumen.csv, 5 semillas.",
+  "presenta": "Agus"
  },
  {
   "tipo": "resultado",
@@ -134,17 +136,19 @@
   "item": "1b.2 · Niveles de ruido",
   "titulo": "Sin entrenar con ruido, el autoencoder lo empeora",
   "figura": "docs/presentacion/figuras/ruido.png",
-  "lectura": "Con ruido bajo entran {{entran_bajo}} píxeles alterados por letra y salen {{salen_sin_ruido}} incorrectos.",
-  "notas": "Línea punteada: los píxeles alterados que trae la entrada (35·p). Por encima de esa línea, la red empeora la letra. El autoencoder de 1a queda siempre por encima; el DAE, por debajo. Fuente: results/e1b/resumen.csv."
+  "lectura": "Con p = {{p_005}} entran {{entran_bajo}} píxeles alterados por letra y salen {{salen_sin_ruido}} incorrectos.",
+  "notas": "El DAE es el del entrenamiento corto ({{exacto_dae_01}} exactas con p = 0,1). Línea punteada: los píxeles alterados que trae la entrada (35·p). Por encima de esa línea, la red empeora la letra. El autoencoder de 1a queda siempre por encima; el DAE, por debajo. Fuente: results/e1b/resumen.csv.",
+  "presenta": "Agus"
  },
  {
   "tipo": "resultado",
   "modelo": "DAE",
   "item": "1b.2 · Niveles de ruido",
-  "titulo": "El DAE corrige casi todo con ruido bajo y cae con ruido alto",
-  "figura": "results/e1b/fig_hasta_1px.png",
-  "lectura": "Reconstrucciones con un píxel de error o menos: {{hasta1_bajo}} con ruido bajo y {{hasta1_alto}} con ruido alto.",
-  "notas": "Arquitectura B entrenada con p = 0,1: probada con p = 0,1 y con p = 0,3. Entrenar con demasiado ruido (p = 0,3) arruina también las letras limpias. Conviene un nivel de entrenamiento moderado. Fuente: results/e1b/resumen.csv."
+  "titulo": "Con más entrenamiento el DAE mejora, pero no alcanza a la letra más cercana",
+  "figura": "docs/presentacion/figuras/dae_entrenamiento.png",
+  "lectura": "Con p = {{p_01}}, exactas: {{exacto_dae_max_01}} con el entrenamiento más largo; {{exacto_ref_01}} la letra más cercana.",
+  "notas": "Arquitectura B entrenada con p = 0,1. Con el entrenamiento actual reconstruye exactas el {{exacto_dae_01}}. Se probaron 1 o 5 réplicas ruidosas de cada letra por época (data augmentation, Clase 13) y 10.000 o 40.000 épocas. Declarar: con 5 réplicas también hay 5 veces más actualizaciones por época. Línea punteada: devolver la letra del dataset más cercana a la entrada ruidosa, con el mismo ruido. Con p = {{p_03}}: DAE actual {{exacto_dae_03}}, letra más cercana {{exacto_ref_03}}. Con a lo sumo un píxel incorrecto, con p = 0,1: {{hasta1_dae_01}} el entrenamiento corto, {{hasta1_dae_max_01}} el largo y {{exacto_ref_01}} la letra más cercana. Fuente: results/e1b_replicas/resumen.csv y results/e1b/referencia.csv.",
+  "presenta": "Agus"
  },
  {
   "tipo": "resultado",
@@ -152,18 +156,20 @@
   "item": "1b.2 · Niveles de ruido",
   "titulo": "Los errores son confusiones entre letras parecidas",
   "figura": "docs/presentacion/figuras/confusiones.png",
-  "lectura": "La más frecuente en la arquitectura elegida: “|” por “l”, que difieren en {{dist_l_barra}} píxeles.",
-  "notas": "A cada salida se le asigna la letra del dataset más cercana. Con ruido, la entrada corrompida de una letra puede quedar más cerca de otra letra que de la original, y ahí ningún modelo la recupera. Fuente: results/e1b/confusion.csv."
+  "lectura": "Con el DAE de entrenamiento corto ({{exacto_dae_01}} exactas con p = {{p_01}}), la más frecuente es “|” por “l”: difieren en {{dist_l_barra}} píxeles.",
+  "notas": "El DAE es el del entrenamiento corto ({{exacto_dae_01}} exactas con p = 0,1). A cada salida se le asigna la letra del dataset más cercana. Con p = {{p_01}}, solo el {{otra_01}} de las entradas queda más cerca de otra letra: casi todas estas confusiones son errores del modelo y se podrían evitar. Con p = {{p_03}}, ya es el {{otra_03}}. Fuente: results/e1b/confusion.csv y referencia.csv.",
+  "presenta": "Agus"
  },
  {
   "tipo": "cierre",
   "modelo": "DAE",
-  "titulo": "Para limpiar ruido hay que entrenar con ruido y dejar un cuello de botella intermedio",
+  "titulo": "Entrenar con ruido limpia las letras, pero elegir la letra más cercana sigue ganando",
   "frases": [
    "Demasiado ruido al entrenar arruina las letras limpias.",
-   "Con mucho ruido, una letra se confunde con otra parecida."
+   "p = {{p_03}}: {{otra_03}} de las entradas se parecen más a otra letra."
   ],
-  "notas": "Consecuencia: el nivel de ruido del entrenamiento se elige según el ruido que se espera en uso, y hay un límite que no depende del modelo."
+  "notas": "Consecuencia: el nivel de ruido del entrenamiento se elige según el ruido que se espera en uso. Entre las tres arquitecturas probadas, la del cuello de botella intermedio sacó más ruido. Con p = {{p_01}}, el DAE con el entrenamiento más largo llega a {{exacto_dae_max_01}} y la letra más cercana a {{exacto_ref_01}}. El límite de las letras parecidas pesa recién con p = {{p_03}}.",
+  "presenta": "Agus"
  },
  {
   "tipo": "teoria",
@@ -179,7 +185,8 @@
   "formulas_tex": [
    "\\epsilon \\sim \\mathcal N(0, 1) \\qquad \\text{se supone } p(z) = \\mathcal N(0, I)",
    "J = L + \\lambda R \\qquad R = KL(q\\,\\|\\,p) = \\tfrac12 \\sum_k \\left(\\sigma_k^2 + \\mu_k^2 - 1 - \\log \\sigma_k^2\\right)"
-  ]
+  ],
+  "presenta": "Canzo"
  },
  {
   "tipo": "resultado",
@@ -188,16 +195,18 @@
   "titulo": "Construimos {{n_caritas}} caritas a partir de {{n_parametros}} parámetros",
   "figura": "results/e2b/fig_dataset.png",
   "lectura": "Imágenes en grises hechas en código: sabemos de qué depende cada una.",
-  "notas": "Caritas de 16 × 16. Parámetros: posición, curvatura y ancho de la boca, apertura y separación de los ojos, inclinación de las cejas. Lo construimos para poder juzgar si una muestra generada pertenece al conjunto."
+  "notas": "Caritas de 16 × 16. Parámetros: posición, curvatura y ancho de la boca, apertura y separación de los ojos, inclinación de las cejas. Lo construimos para poder juzgar si una muestra generada pertenece al conjunto.",
+  "presenta": "Canzo"
  },
  {
   "tipo": "resultado",
   "modelo": "VAE",
   "item": "2b · Esquema variacional",
   "titulo": "El VAE aprende: la reconstrucción baja y la regularización se estabiliza",
-  "figura": "results/e2b/fig_curvas.png",
-  "lectura": "L baja de {{L_inicial}} a {{L_final}}; R queda en {{R_final}}.",
-  "notas": "Encoder 256–64–(μ y s de 2), decoder 2–64–256, λ = 1, Adam, 2000 épocas, 5 semillas (una línea por semilla). L no puede llegar a 0: con datos en grises tiene un piso de 58,55. Fuente: results/e2b/curvas.csv."
+  "figura": "docs/presentacion/figuras/curvas_vae.png",
+  "lectura": "L = {{L_final}} sobre un piso de {{L_piso}}; R queda en {{R_final}}.",
+  "notas": "Encoder 256–64–(μ y s de 2), decoder 2–64–256, λ = 1, Adam, 2000 épocas, 5 semillas (una línea por semilla). Línea punteada: el piso de L. L no puede llegar a 0: con datos en grises tiene un piso de {{L_piso}} (la BCE de cada carita consigo misma). Empieza en {{L_inicial}}. Fuente: results/e2b/curvas.csv.",
+  "presenta": "Canzo"
  },
  {
   "tipo": "resultado",
@@ -206,7 +215,8 @@
   "titulo": "El VAE lleva los códigos a la normal estándar; el autoencoder los desparrama",
   "figura": "results/e2c/fig_latente_ae_vae.png",
   "lectura": "Desvío de los códigos: {{desvio_ae}} en el autoencoder y {{desvio_vae}} en el VAE. El prior tiene desvío uno.",
-  "notas": "Misma arquitectura y mismos datos; cambia solo el latente. La línea punteada es ‖z‖ = 3. En el autoencoder solo el 19 % de los códigos cae adentro; en el VAE con λ = 1, todos. Límite a declarar: en la distancia de una muestra generada al dataset, autoencoder y VAE empatan según nuestra regla; lo que cambia es dónde quedan los códigos y que el autoencoder depende de la semilla. Fuente: results/e2c/corridas.csv, 5 semillas."
+  "notas": "Misma arquitectura y mismos datos; cambia solo el latente. La línea punteada es ‖z‖ = 3. En el autoencoder solo el 19 % de los códigos cae adentro; en el VAE con λ = 1, todos. Qué codifica cada eje del VAE: Pearson ve un eje como posición horizontal y el otro como vertical (|r| ≥ {{r_pos_min}}); la relación lineal con los demás parámetros no pasa de {{r_otros_max}}. Pero la curvatura de la boca sí está codificada, en forma no lineal: una grilla de 8 × 8 sobre μ explica {{var_curvatura}} de su varianza, contra {{var_azar}} por azar (sonrisa en el borde, boca triste en el centro). Ancho de la boca, ojos y cejas quedan al nivel del azar. Fuente: results/e2c/corridas.csv y results/e2c_justa/correlaciones.csv, results/e2c_parametros/celdas.csv, 5 semillas.",
+  "presenta": "Canzo"
  },
  {
   "tipo": "resultado",
@@ -215,25 +225,38 @@
   "titulo": "λ intercambia nitidez por orden en el latente",
   "figura": "results/e2c/fig_grilla_lambdas.png",
   "lectura": "Con λ grande todas las caritas se parecen; con λ chico el modelo se acerca a un autoencoder.",
-  "notas": "El decoder evaluado sobre la misma grilla del latente. J = L + λR (diap. 78, ec. 13). Con λ = 10 gana R: los códigos se pegan al prior, σ crece y el decoder recibe casi lo mismo para todos los datos. Con λ = 0,1 gana L. Números para decir: L pasa de 64,66 a 72,40 y R de 6,82 a 0,73 entre λ = 0,1 y λ = 10. Fuente: results/e2c/corridas.csv."
+  "notas": "El decoder evaluado sobre la misma grilla del latente. J = L + λR (diap. 78, ec. 13). Con λ = 10 gana R: los códigos se pegan al prior, σ crece y el decoder recibe casi lo mismo para todos los datos. Con λ = 0,1 gana L. Números para decir: L pasa de 64,66 a 72,40 y R de 6,82 a 0,73 entre λ = 0,1 y λ = 10. Fuente: results/e2c/corridas.csv.",
+  "presenta": "Bruno"
  },
  {
   "tipo": "resultado",
   "modelo": "VAE",
   "item": "2c · Generación",
-  "titulo": "Las caritas generadas son nuevas y están tan cerca del dataset como las reales",
+  "titulo": "Muestreando cada modelo donde viven sus códigos, el autoencoder genera más caritas inválidas",
+  "figura": "results/e2c_justa/fig_grillas_propias.png",
+  "lectura": "Más lejos del banco que toda carita real: {{fuera_ae}} de las muestras del autoencoder y {{fuera_vae}} de las del VAE.",
+  "notas": "Grillas: cada modelo sobre el rango de sus propios códigos (z en el autoencoder, μ(x) en el VAE). La esquina del autoencoder decodifica manchas: su latente tiene zonas vacías. Muestreo: el VAE de N(0, I), su prior; el autoencoder de una normal con la media y la covarianza de sus códigos. Banco: 20.000 caritas nuevas del mismo generador. La muestra típica empata: la mediana de la distancia al banco es casi igual en los dos; la diferencia está en las muestras que fallan. Decisión D50. Fuente: results/e2c_justa/resumen.csv, 5 semillas.",
+  "presenta": "Bruno"
+ },
+ {
+  "tipo": "resultado",
+  "modelo": "VAE",
+  "item": "2c · Generación",
+  "titulo": "Las caritas del VAE no son copias, pero quedan más lejos del banco que las reales",
   "figura": "results/elegidas/fig_caritas.png",
-  "lectura": "Distancia por píxel a la carita más cercana: {{dist_generada}}; entre caritas reales, {{dist_real}}.",
-  "notas": "Se descarta el encoder y se decodifica z sorteado de N(0, I). Las juzgamos del conjunto: tienen contorno, ojos y boca. Ninguna de las 4000 generadas es copia de una del dataset. La distancia es la diferencia absoluta media por píxel, una métrica nuestra. Fuente: results/e2c/corridas.csv y results/elegidas/elegidas.csv."
+  "lectura": "El latente guarda posición y curvatura de la boca, no ojos ni cejas. Distancia al banco: {{dist_banco_vae}} contra {{dist_banco_real}}.",
+  "notas": "Se descarta el encoder y se decodifica z sorteado de N(0, I). Copia: la distancia de una generada a las 500 del dataset es la misma que la de una carita real nueva, así que no copian. Válida: contra un banco de 20.000 caritas nuevas, las generadas quedan más lejos que las reales. La distancia es la diferencia absoluta media por píxel, una métrica nuestra. Lectura posible, no medida: si el latente no guarda ojos ni cejas, el decoder los promedia, y eso podría explicar que las generadas queden más lejos del banco. Curvatura de la boca: {{var_curvatura}} de varianza explicada, contra {{var_azar}} por azar. Fuente: results/e2c_parametros/celdas.csv, results/e2c_justa/resumen.csv y results/elegidas/elegidas.csv.",
+  "presenta": "Bruno"
  },
  {
   "tipo": "cierre",
-  "titulo": "El VAE ordena el latente, y por eso permite generar",
+  "titulo": "El VAE ordena el latente: genera menos caritas inválidas que el autoencoder, no mejores",
   "frases": [
    "El autoencoder comprime.",
    "El DAE limpia.",
    "El VAE genera."
   ],
-  "notas": "Cierre: la misma red de dos MLP en espejo sirve para tres tareas según cómo se la entrena. Para generar hay que pedirle una forma al latente, y eso es lo que agrega el término R."
+  "notas": "Cierre: la misma red de dos MLP en espejo sirve para tres tareas según cómo se la entrena. Para generar hay que pedirle una forma al latente, y eso es lo que agrega el término R.",
+  "presenta": "Bruno"
  }
 ]

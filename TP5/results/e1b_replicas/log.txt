@@ -1,0 +1,41 @@
+x1, 10000 epocas   semilla 0  2.2 s  exactos con p = 0,1: 0.780
+x1, 10000 epocas   semilla 1  2.2 s  exactos con p = 0,1: 0.709
+x1, 10000 epocas   semilla 2  2.2 s  exactos con p = 0,1: 0.744
+x1, 10000 epocas   semilla 3  2.2 s  exactos con p = 0,1: 0.730
+x1, 10000 epocas   semilla 4  2.2 s  exactos con p = 0,1: 0.789
+x1, 40000 epocas   semilla 0  8.6 s  exactos con p = 0,1: 0.864
+x1, 40000 epocas   semilla 1  9.0 s  exactos con p = 0,1: 0.856
+x1, 40000 epocas   semilla 2  10.8 s  exactos con p = 0,1: 0.845
+x1, 40000 epocas   semilla 3  8.9 s  exactos con p = 0,1: 0.836
+x1, 40000 epocas   semilla 4  9.0 s  exactos con p = 0,1: 0.866
+x5, 10000 epocas   semilla 0  10.3 s  exactos con p = 0,1: 0.883
+x5, 10000 epocas   semilla 1  9.8 s  exactos con p = 0,1: 0.852
+x5, 10000 epocas   semilla 2  9.4 s  exactos con p = 0,1: 0.872
+x5, 10000 epocas   semilla 3  9.4 s  exactos con p = 0,1: 0.884
+x5, 10000 epocas   semilla 4  9.8 s  exactos con p = 0,1: 0.856
+x5, 40000 epocas   semilla 0  38.3 s  exactos con p = 0,1: 0.903
+x5, 40000 epocas   semilla 1  37.7 s  exactos con p = 0,1: 0.908
+x5, 40000 epocas   semilla 2  37.2 s  exactos con p = 0,1: 0.891
+x5, 40000 epocas   semilla 3  37.0 s  exactos con p = 0,1: 0.908
+x5, 40000 epocas   semilla 4  37.3 s  exactos con p = 0,1: 0.908
+        variante  p_prueba  exactos_media  exactos_desvio  hasta_1px_media  letra_cercana_media  segundos_media
+x1, 10000 epocas      0.00         0.9688          0.0383           1.0000               1.0000          2.1866
+x1, 10000 epocas      0.05         0.9094          0.0307           0.9691               0.9946          2.1866
+x1, 10000 epocas      0.10         0.7503          0.0336           0.8519               0.9818          2.1866
+x1, 10000 epocas      0.20         0.3316          0.0148           0.4491               0.8534          2.1866
+x1, 10000 epocas      0.30         0.0966          0.0161           0.1544               0.5328          2.1866
+x1, 40000 epocas      0.00         1.0000          0.0000           1.0000               1.0000          9.2778
+x1, 40000 epocas      0.05         0.9694          0.0021           0.9850               0.9946          9.2778
+x1, 40000 epocas      0.10         0.8534          0.0127           0.9066               0.9818          9.2778
+x1, 40000 epocas      0.20         0.4322          0.0172           0.5253               0.8534          9.2778
+x1, 40000 epocas      0.30         0.1362          0.0159           0.1900               0.5328          9.2778
+x5, 10000 epocas      0.00         1.0000          0.0000           1.0000               1.0000          9.7491
+x5, 10000 epocas      0.05         0.9691          0.0060           0.9819               0.9946          9.7491
+x5, 10000 epocas      0.10         0.8694          0.0150           0.9153               0.9818          9.7491
+x5, 10000 epocas      0.20         0.4531          0.0231           0.5369               0.8534          9.7491
+x5, 10000 epocas      0.30         0.1362          0.0100           0.1869               0.5328          9.7491
+x5, 40000 epocas      0.00         1.0000          0.0000           1.0000               1.0000         37.5194
+x5, 40000 epocas      0.05         0.9794          0.0046           0.9872               0.9946         37.5194
+x5, 40000 epocas      0.10         0.9034          0.0074           0.9375               0.9818         37.5194
+x5, 40000 epocas      0.20         0.5184          0.0195           0.6034               0.8534         37.5194
+x5, 40000 epocas      0.30         0.1744          0.0164           0.2294               0.5328         37.5194

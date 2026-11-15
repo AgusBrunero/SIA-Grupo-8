@@ -1,0 +1,11 @@
+adam profunda 40000          semilla   0  logro=False max_px= 9  total_px= 20  error=10.0698  12.4 s
+adam profunda 40000          semilla   1  logro=False max_px=10  total_px= 49  error=24.1533  12.3 s
+adam profunda 40000          semilla   2  logro=False max_px= 8  total_px= 58  error=29.5372  12.3 s
+adam profunda 40000          semilla   3  logro=False max_px=10  total_px= 34  error=17.4005  12.3 s
+adam profunda 40000          semilla   4  logro=False max_px= 5  total_px= 26  error=12.3992  12.5 s
+adam profunda 40000          semilla   5  logro=False max_px= 8  total_px= 37  error=18.6516  12.2 s
+adam profunda 40000          semilla   6  logro=False max_px= 7  total_px= 70  error=34.9150  12.1 s
+adam profunda 40000          semilla   7  logro=False max_px= 9  total_px= 83  error=41.9864  12.2 s
+adam profunda 40000          semilla   8  logro=False max_px=10  total_px= 36  error=17.4613  12.3 s
+adam profunda 40000          semilla   9  logro=False max_px= 5  total_px= 24  error=12.2174  12.3 s
+10 corridas en 123 s → /Users/brunoenzobaumgart/Desktop/itba/sia/tps/TP5/results/e1a2_profunda_larga

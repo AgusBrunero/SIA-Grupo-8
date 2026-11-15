@@ -91,8 +91,11 @@ def seccion(n: int, lamina: dict, numeros: dict) -> str:
         return html.escape(resolver(texto, numeros))
 
     tipo, modelo = lamina['tipo'], lamina.get('modelo', '')
-    notas = f'<aside class="notas">{t(lamina["notas"])}</aside>' if lamina.get('notas') else ''
-    pagina = f'<div class="pagina">{n}</div>'
+    presenta = lamina.get('presenta', '')
+    prefijo = f'<b>Presenta {html.escape(presenta)}.</b> ' if presenta else ''
+    notas = f'<aside class="notas">{prefijo}{t(lamina["notas"])}</aside>' if lamina.get('notas') else ''
+    quien = f'<span class="presenta">{html.escape(presenta)}</span> · ' if presenta else ''
+    pagina = f'<div class="pagina">{quien}{n}</div>'
     if tipo == 'portada':
         cuerpo = (f'<div><h1>{t(lamina["titulo"])}</h1><p class="sub">{t(lamina["subtitulo"])}</p>'
                   '<div class="barras"><i style="background:var(--AE)"></i><i style="background:var(--DAE)"></i>'
@@ -115,7 +118,8 @@ def guion(laminas: list[dict], numeros: dict) -> str:
     lineas = ['# TP5 · Borrador del guion', '',
               'Generado desde `laminas.json`. Es un borrador: quien presenta cada lámina lo reescribe con sus palabras.', '']
     for n, lamina in enumerate(laminas, start=1):
-        lineas += [f'## {n}. {resolver(lamina["titulo"], numeros)}', '', resolver(lamina.get('notas', ''), numeros), '']
+        quien = f' · presenta {lamina["presenta"]}' if lamina.get('presenta') else ''
+        lineas += [f'## {n}. {resolver(lamina["titulo"], numeros)}{quien}', '', resolver(lamina.get('notas', ''), numeros), '']
     return '\n'.join(lineas)
 
 

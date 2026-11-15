@@ -1,0 +1,373 @@
+{
+ "experimento": "e1a2_opt_bce",
+ "descripcion": "Punto 2 de la ultima iteracion de la presentacion: comparacion justa de optimizadores con entropía cruzada. Modelo de E4 (35-20-2-20-35, ocultas tanh, latente identidad, salida logistica); cada optimizador con 3 valores de eta (el de config/e1a2.json x 1/3, 1 y 3) y 10 semillas. Corre con experiments.e1a2_escalera.",
+ "perdida": "bce",
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 10000,
+ "curva_cada": 20,
+ "codificacion": "01",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "id": "gd eta=0.003",
+   "respecto_de": "E4",
+   "cambia": "entropía cruzada; eta = 0.003 (valor de E4 x 1/3, 1 o 3)",
+   "sosten": "Clase 10.2 diap. 23; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.003
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "gd eta=0.01",
+   "respecto_de": "E4",
+   "cambia": "entropía cruzada; eta = 0.01 (valor de E4 x 1/3, 1 o 3)",
+   "sosten": "Clase 10.2 diap. 23; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "gd eta=0.03",
+   "respecto_de": "E4",
+   "cambia": "entropía cruzada; eta = 0.03 (valor de E4 x 1/3, 1 o 3)",
+   "sosten": "Clase 10.2 diap. 23; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.03
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "momentum eta=0.0003",
+   "respecto_de": "E5",
+   "cambia": "entropía cruzada; eta = 0.0003 (valor de E5 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 5; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.0003,
+    "alfa": 0.9
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "momentum eta=0.001",
+   "respecto_de": "E5",
+   "cambia": "entropía cruzada; eta = 0.001 (valor de E5 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 5; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.001,
+    "alfa": 0.9
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "momentum eta=0.003",
+   "respecto_de": "E5",
+   "cambia": "entropía cruzada; eta = 0.003 (valor de E5 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 5; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.003,
+    "alfa": 0.9
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "eta_adaptativo eta=0.003",
+   "respecto_de": "E6",
+   "cambia": "entropía cruzada; eta = 0.003 (valor de E6 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 6-7; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.003
+   },
+   "eta_adaptativo": {
+    "a": 0.002,
+    "b": 0.5,
+    "k": 5,
+    "k_prima": 3
+   },
+   "tamano_lote": 32
+  },
+  {
+   "id": "eta_adaptativo eta=0.01",
+   "respecto_de": "E6",
+   "cambia": "entropía cruzada; eta = 0.01 (valor de E6 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 6-7; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": {
+    "a": 0.002,
+    "b": 0.5,
+    "k": 5,
+    "k_prima": 3
+   },
+   "tamano_lote": 32
+  },
+  {
+   "id": "eta_adaptativo eta=0.03",
+   "respecto_de": "E6",
+   "cambia": "entropía cruzada; eta = 0.03 (valor de E6 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 6-7; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.03
+   },
+   "eta_adaptativo": {
+    "a": 0.002,
+    "b": 0.5,
+    "k": 5,
+    "k_prima": 3
+   },
+   "tamano_lote": 32
+  },
+  {
+   "id": "rmsprop eta=0.003",
+   "respecto_de": "E7",
+   "cambia": "entropía cruzada; eta = 0.003 (valor de E7 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 8; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "rmsprop",
+    "eta": 0.003,
+    "gamma": 0.9,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "rmsprop eta=0.01",
+   "respecto_de": "E7",
+   "cambia": "entropía cruzada; eta = 0.01 (valor de E7 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 8; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "rmsprop",
+    "eta": 0.01,
+    "gamma": 0.9,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "rmsprop eta=0.03",
+   "respecto_de": "E7",
+   "cambia": "entropía cruzada; eta = 0.03 (valor de E7 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 8; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "rmsprop",
+    "eta": 0.03,
+    "gamma": 0.9,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "adam eta=0.0003",
+   "respecto_de": "E8",
+   "cambia": "entropía cruzada; eta = 0.0003 (valor de E8 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 11-13; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.0003,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "adam eta=0.001",
+   "respecto_de": "E8",
+   "cambia": "entropía cruzada; eta = 0.001 (valor de E8 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 11-13; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "adam eta=0.003",
+   "respecto_de": "E8",
+   "cambia": "entropía cruzada; eta = 0.003 (valor de E8 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 11-13; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.003,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  }
+ ]
+}

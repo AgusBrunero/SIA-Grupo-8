@@ -1,0 +1,14 @@
+semilla 0 lista
+semilla 1 lista
+semilla 2 lista
+semilla 3 lista
+semilla 4 lista
+                   explicada_media  explicada_desvio  azar_media  azar_max
+parametro                                                                 
+centro_x                     0.949             0.005       0.112     0.168
+centro_y                     0.955             0.002       0.112     0.157
+curvatura_boca               0.506             0.027       0.110     0.177
+ancho_boca                   0.140             0.018       0.111     0.161
+apertura_ojos                0.135             0.005       0.111     0.181
+separacion_ojos              0.144             0.013       0.109     0.160
+inclinacion_cejas            0.110             0.015       0.110     0.160

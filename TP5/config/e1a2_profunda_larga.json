@@ -1,0 +1,51 @@
+{
+ "experimento": "e1a2_profunda_larga",
+ "descripcion": "Punto 4 de la iteracion final 2: el control de la red profunda (35-30-20-10-2-10-20-30-35, error cuadratico, Adam eta = 0.001) con 40.000 epocas (4 veces las 10.000 actuales) y batch completo (lote de 32 sobre los 32 patrones), 10 semillas.",
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 40000,
+ "curva_cada": 20,
+ "codificacion": "01",
+ "perdida": "error_cuadratico",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "id": "adam profunda 40000",
+   "respecto_de": "E8",
+   "cambia": "Como e1a2_profunda, con 40.000 epocas; lote 32 = batch completo",
+   "sosten": "Clase 12.1 diap. 11-13; Autoencoders diap. 5-6 (encoder y decoder con varias capas ocultas)",
+   "capas_encoder": [
+    35,
+    30,
+    20,
+    10,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  }
+ ]
+}

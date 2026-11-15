@@ -1,0 +1,51 @@
+{
+ "experimento": "e1a2_profunda",
+ "descripcion": "Punto 2, control extra: error cuadratico + Adam en una red mas profunda (35-30-20-10-2-10-20-30-35), 10 semillas. Corre con experiments.e1a2_escalera.",
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 10000,
+ "curva_cada": 20,
+ "codificacion": "01",
+ "perdida": "error_cuadratico",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "id": "adam profunda",
+   "respecto_de": "E8",
+   "cambia": "Arquitectura: 35-30-20-10-2-10-20-30-35; Adam con eta = 0.001, el mejor de Adam con error cuadratico en results/e1a2_optimizadores/mejor_eta.csv (empata con 0.0003 y 0.003)",
+   "sosten": "Clase 12.1 diap. 11-13; Autoencoders diap. 5-6 (encoder y decoder con varias capas ocultas)",
+   "capas_encoder": [
+    35,
+    30,
+    20,
+    10,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  }
+ ]
+}

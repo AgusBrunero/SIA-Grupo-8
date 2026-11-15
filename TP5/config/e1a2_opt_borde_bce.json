@@ -1,0 +1,117 @@
+{
+ "experimento": "e1a2_opt_borde_bce",
+ "descripcion": "Punto 2a de la iteracion final 2: un eta mas alla del borde de la grilla en los casos de bce donde el mejor eta quedo en el borde. Mismo modelo y semillas que config/e1a2_opt_bce.json. Corre con experiments.e1a2_escalera.",
+ "perdida": "bce",
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 10000,
+ "curva_cada": 20,
+ "codificacion": "01",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "id": "gd eta=0.001",
+   "respecto_de": "E4",
+   "cambia": "entropía cruzada; eta = 0.001 (mas alla del borde de la grilla de config/e1a2_opt_bce.json)",
+   "sosten": "Clase 10.2 diap. 23; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.001
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "eta_adaptativo eta=0.001",
+   "respecto_de": "E6",
+   "cambia": "entropía cruzada; eta = 0.001 (mas alla del borde de la grilla de config/e1a2_opt_bce.json)",
+   "sosten": "Clase 12.1 diap. 6-7; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.001
+   },
+   "eta_adaptativo": {
+    "a": 0.002,
+    "b": 0.5,
+    "k": 5,
+    "k_prima": 3
+   },
+   "tamano_lote": 32
+  },
+  {
+   "id": "momentum eta=0.0001",
+   "respecto_de": "E5",
+   "cambia": "entropía cruzada; eta = 0.0001 (mas alla del borde de la grilla de config/e1a2_opt_bce.json)",
+   "sosten": "Clase 12.1 diap. 5; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.0001,
+    "alfa": 0.9
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "rmsprop eta=0.001",
+   "respecto_de": "E7",
+   "cambia": "entropía cruzada; eta = 0.001 (mas alla del borde de la grilla de config/e1a2_opt_bce.json)",
+   "sosten": "Clase 12.1 diap. 8; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "identidad",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "rmsprop",
+    "eta": 0.001,
+    "gamma": 0.9,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  }
+ ]
+}
