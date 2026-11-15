@@ -302,19 +302,24 @@
  {
   "lamina": 21,
   "tipo": "resultado",
-  "texto": "Muestreando donde viven sus códigos, los dos modelos recorren las doce horas, pero el autoencoder falla más Más lejos del banco que la peor muestra del VAE: 7 % de las del autoencoder; del VAE, ninguna.",
+  "texto": "Muestreando donde viven sus códigos, los dos modelos recorren las doce horas, pero el autoencoder falla más Fallan (peor que con un reloj real): 12,2 % de las muestras del autoencoder y 1,4 % del VAE.",
   "numeros": [
    {
-    "clave": "lejos_ae",
-    "texto": "7 %",
-    "origen": "e2c_justa/relojes.csv · AE · media de lejos_peor_vae"
+    "clave": "falla_ae",
+    "texto": "12,2 %",
+    "origen": "e2c_justa/fallas.csv · AE · umbral p99 · media de fallan"
+   },
+   {
+    "clave": "falla_vae",
+    "texto": "1,4 %",
+    "origen": "e2c_justa/fallas.csv · VAE · umbral p99 · media de fallan"
    }
   ]
  },
  {
   "lamina": 22,
   "tipo": "resultado",
-  "texto": "Los relojes del VAE no son copias, pero son más borrosos que los del autoencoder Distancia típica al banco de relojes nuevos: 0,017 el VAE y 0,013 el autoencoder.",
+  "texto": "Los relojes del VAE no son copias, pero son más borrosos: distancia típica al banco 0,017, contra 0,013 del autoencoder Dos muestras del VAE, cada una junto al reloj del dataset más cercano.",
   "numeros": [
    {
     "clave": "med_vae",
@@ -331,7 +336,7 @@
  {
   "lamina": 23,
   "tipo": "cierre",
-  "texto": "El VAE ordena el latente: sus relojes son más borrosos, pero no falla ninguno El autoencoder comprime. El DAE limpia. El VAE genera.",
+  "texto": "El VAE ordena el latente: sus relojes son más borrosos, pero falla menos que el autoencoder El autoencoder comprime. El DAE limpia. El VAE genera.",
   "numeros": []
  }
 ]

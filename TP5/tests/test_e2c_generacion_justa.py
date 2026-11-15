@@ -64,3 +64,16 @@ class ResumenTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class FallasTests(unittest.TestCase):
+    def test_el_umbral_sale_de_las_reconstrucciones_y_no_de_las_muestras(self) -> None:
+        from experiments.e2c_generacion_justa import fallas
+        config = {'generacion': {'n_muestras': 4}, 'semillas': [0]}
+        # Reconstrucciones a distancia 0,01 a 0,02; muestras generadas a 0,005, 0,015, 0,03 y 0,05
+        rec = pd.DataFrame({'modelo': 'AE', 'semilla': 0, 'd_banco': np.linspace(0.01, 0.02, 101)})
+        tabla = pd.DataFrame({'modelo': 'AE', 'semilla': 0, 'd_banco': [0.005, 0.015, 0.03, 0.05]})
+        f = fallas(tabla, rec, config).set_index('umbral')
+        self.assertAlmostEqual(f.loc['max', 'fallan'], 0.5)       # 0,03 y 0,05 superan el máximo (0,02)
+        self.assertAlmostEqual(f.loc['p95', 'fallan'], 0.5)
+        self.assertAlmostEqual(f.loc['max', 'valor_umbral'], 0.02)

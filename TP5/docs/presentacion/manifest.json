@@ -209,9 +209,29 @@
    "texto": "0,017",
    "origen": "e2c_justa/resumen.csv · VAE · d_banco_mediana_media"
   },
-  "lejos_ae": {
-   "texto": "7 %",
-   "origen": "e2c_justa/relojes.csv · AE · media de lejos_peor_vae"
+  "falla_ae": {
+   "texto": "12,2 %",
+   "origen": "e2c_justa/fallas.csv · AE · umbral p99 · media de fallan"
+  },
+  "falla_vae": {
+   "texto": "1,4 %",
+   "origen": "e2c_justa/fallas.csv · VAE · umbral p99 · media de fallan"
+  },
+  "falla95_ae": {
+   "texto": "18,2 %",
+   "origen": "e2c_justa/fallas.csv · AE · umbral p95 · media de fallan"
+  },
+  "falla95_vae": {
+   "texto": "6,9 %",
+   "origen": "e2c_justa/fallas.csv · VAE · umbral p95 · media de fallan"
+  },
+  "fallamax_ae": {
+   "texto": "10,0 %",
+   "origen": "e2c_justa/fallas.csv · AE · umbral max · media de fallan"
+  },
+  "fallamax_vae": {
+   "texto": "0,3 %",
+   "origen": "e2c_justa/fallas.csv · VAE · umbral max · media de fallan"
   },
   "var_hora": {
    "texto": "0,53",

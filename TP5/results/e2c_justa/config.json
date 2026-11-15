@@ -56,5 +56,10 @@
   "muestreo_ae": "z ~ N(media, covarianza) de los 500 codigos del propio AE (decision D en docs/DECISIONES.md)"
  },
  "beta": 1.0,
- "amplitud_inicial": 0.1
+ "amplitud_inicial": 0.1,
+ "reconstruccion": {
+  "n": 500,
+  "semilla": 2029,
+  "uso": "relojes reales nuevos que cada modelo reconstruye (encoder, decoder; en el VAE con mu): su distancia al banco da el umbral de falla"
+ }
 }

@@ -168,9 +168,14 @@ def numeros() -> dict:
     poner('med_vae', num(justa.loc['VAE', 'd_banco_mediana_media'], 3), 'e2c_justa/resumen.csv · VAE · d_banco_mediana_media')
     medidas = leer('e2c_justa/relojes.csv')
     assert (medidas.groupby('modelo').size() >= 5).all() and (medidas.copias == 0).all()
-    assert (medidas[medidas.modelo == 'VAE'].lejos_peor_vae == 0).all()
-    poner('lejos_ae', f"{num(100 * medidas[medidas.modelo == 'AE'].lejos_peor_vae.mean(), 0)} %",
-          'e2c_justa/relojes.csv · AE · media de lejos_peor_vae')
+    # Fallas: muestras más lejos del banco que un umbral de las reconstrucciones de relojes reales del mismo modelo
+    fallas = leer('e2c_justa/fallas.csv')
+    assert (fallas.groupby(['modelo', 'umbral']).size() >= 5).all()
+    for umbral, prefijo in (('p99', 'falla'), ('p95', 'falla95'), ('max', 'fallamax')):
+        for modelo in ('AE', 'VAE'):
+            valor = fallas[(fallas.modelo == modelo) & (fallas.umbral == umbral)].fallan.mean()
+            poner(f'{prefijo}_{modelo.lower()}', f'{num(100 * valor, 1)} %',
+                  f'e2c_justa/fallas.csv · {modelo} · umbral {umbral} · media de fallan')
     celdas = leer('e2c_parametros/celdas.csv')
     assert (celdas.groupby('parametro').size() >= 5).all()
     poner('var_hora', num(celdas.explicada.mean()), 'e2c_parametros/celdas.csv · media de explicada (seno y coseno de la hora)')

@@ -9,6 +9,11 @@ VAE semilla 1: d_banco 0.0168  d_500 0.0177
 VAE semilla 2: d_banco 0.0166  d_500 0.0176
 VAE semilla 3: d_banco 0.0163  d_500 0.0173
 VAE semilla 4: d_banco 0.0163  d_500 0.0176
+       horas_cubiertas      copias      lejos_peor_vae       
+                  mean  std   mean  std           mean    std
+modelo                                                       
+AE                12.0  0.0    0.0  0.0          0.069  0.026
+VAE               12.0  0.0    0.0  0.0          0.000  0.000
                                   0         1               2
 modelo                           AE       VAE  Relojes reales
 semillas                        5.0       5.0             NaN

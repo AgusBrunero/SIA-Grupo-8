@@ -72,7 +72,7 @@ Relojes de 16 × 16. La esfera es fija; la hora, sorteada al azar, fija las dos 
 
 ## 18. El VAE aprende: la reconstrucción baja y la regularización se estabiliza · presenta Canzo
 
-Encoder 256–64–(μ y s de 2), decoder 2–64–256, λ = 1, Adam, 2000 épocas, 5 semillas (una línea por semilla). Línea punteada: el piso de L. L no puede llegar a 0: con datos en grises tiene un piso de 48,4 (la BCE de cada carita consigo misma). Empieza en 174. Fuente: results/e2b/curvas.csv.
+Encoder 256–64–(μ y s de 2), decoder 2–64–256, λ = 1, Adam, 2000 épocas, 5 semillas (una línea por semilla). Línea punteada: el piso de L. L no puede llegar a 0: con datos en grises tiene un piso de 48,4 (la BCE de cada reloj consigo mismo). Empieza en 174. Fuente: results/e2b/curvas.csv.
 
 ## 19. El VAE lleva los códigos a la normal estándar; el autoencoder los desparrama · presenta Canzo
 
@@ -84,12 +84,12 @@ El decoder evaluado sobre la misma grilla del latente. J = L + λR (diap. 78, ec
 
 ## 21. Muestreando donde viven sus códigos, los dos modelos recorren las doce horas, pero el autoencoder falla más · presenta Bruno
 
-Grillas: cada modelo sobre el rango de sus propios códigos (z en el autoencoder, μ(x) en el VAE). La esquina del autoencoder decodifica manchas: su latente tiene zonas vacías. Muestreo: el VAE de N(0, I), su prior; el autoencoder de una normal con la media y la covarianza de sus códigos (D50). Banco: 20.000 relojes nuevos del mismo generador, sin los que repiten la imagen de uno de los 500. Los dos cubren las 12 horas y ninguno copia. Fuente: results/e2c_justa/relojes.csv y resumen.csv, 5 semillas.
+Grillas: cada modelo sobre el rango de sus propios códigos (z en el autoencoder, μ(x) en el VAE). La esquina del autoencoder decodifica manchas: su latente tiene zonas vacías. Muestreo: el VAE de N(0, I), su prior; el autoencoder de una normal con la media y la covarianza de sus códigos (D50). Falla: cada modelo reconstruye 500 relojes reales nuevos; una muestra generada falla si queda más lejos de un banco de 20.000 relojes nuevos que el percentil 99 de esas reconstrucciones. El umbral no sale de las muestras que se juzgan. Con el percentil 95: 18,2 % contra 6,9 %; con el máximo: 10,0 % contra 0,3 %. Los dos cubren las 12 horas y ninguno copia. Fuente: results/e2c_justa/fallas.csv y relojes.csv, 5 semillas.
 
-## 22. Los relojes del VAE no son copias, pero son más borrosos que los del autoencoder · presenta Bruno
+## 22. Los relojes del VAE no son copias, pero son más borrosos: distancia típica al banco 0,017, contra 0,013 del autoencoder · presenta Bruno
 
 Se descarta el encoder y se decodifica z sorteado de N(0, I). Los juzgamos del conjunto: tienen esfera, marcas y dos agujas. Distancia típica: la mediana de la diferencia absoluta media por píxel al reloj más cercano de un banco de 20.000 relojes nuevos (métrica nuestra). Con N(0, I) para los dos, el autoencoder cubría 7,4 de las 12 horas (e2c); muestreado donde viven sus códigos, cubre las 12 como el VAE. Fuente: results/e2c_justa/resumen.csv, results/e2c/corridas.csv y results/elegidas/elegidas.csv.
 
-## 23. El VAE ordena el latente: sus relojes son más borrosos, pero no falla ninguno · presenta Bruno
+## 23. El VAE ordena el latente: sus relojes son más borrosos, pero falla menos que el autoencoder · presenta Bruno
 
 Cierre: la misma red de dos MLP en espejo sirve para tres tareas según cómo se la entrena. Para generar hay que pedirle una forma al latente, y eso es lo que agrega el término R.

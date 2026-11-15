@@ -102,6 +102,8 @@ Tomadas por el grupo a partir de las recomendaciones de la sesión 0. D3 y D4 se
 
 | D55 | Generación justa y latente sobre relojes (2026-11-15) | `e2c_justa` y `e2c_parametros` se corren sobre los relojes de D37. Del banco y de la referencia se sacan los relojes con imagen idéntica a uno de los 500 (dos horas a menos de un minuto dan la misma imagen de 16 × 16). La hora se analiza como ángulo (seno y coseno), porque es cíclica. Medidas de generación: horas cubiertas con muestreo justo, copias exactas, mediana de la distancia al banco y % de muestras más lejos que la peor muestra del VAE. Reemplaza al umbral "más lejos que el real más lejano" de D51, que con relojes no discrimina (el banco es tan denso que los reales quedan a ≈ 0) | D50, D51; Autoencoders diap. 33–37 |
 
+| D56 | Cuándo falla una muestra generada (lámina 21) | Cada modelo y semilla reconstruye 500 relojes reales nuevos (semilla 2029; en el VAE, con μ). Una muestra generada falla si queda más lejos del banco que el percentil 99 de esas reconstrucciones: peor que lo que ese modelo hace con un reloj real. El umbral no sale de las muestras que se juzgan. Se informan también el percentil 95 y el máximo (`results/e2c_justa/fallas.csv`). Reemplaza "más lejos que la peor muestra del VAE" (D55), que hacía que el VAE no fallara nunca por construcción | D50, D55 |
+
 ## Pendientes de decisión
 
 | # | Tema | Qué falta |

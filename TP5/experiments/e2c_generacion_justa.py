@@ -211,6 +211,22 @@ def por_semilla_relojes(tabla: pd.DataFrame, config: dict) -> pd.DataFrame:
     return medidas.assign(peor_vae=peor)
 
 
+def fallas(tabla: pd.DataFrame, reconstrucciones: pd.DataFrame, config: dict) -> pd.DataFrame:
+    """Fracción de muestras generadas que "fallan": quedan más lejos del banco que un umbral sacado de
+    las reconstrucciones de relojes reales nuevos del mismo modelo y semilla (percentil 95, 99 o máximo).
+    El umbral no depende de las muestras que se juzgan."""
+    filas = []
+    for (modelo, semilla), rec in reconstrucciones.groupby(['modelo', 'semilla']):
+        generadas = tabla[(tabla.modelo == modelo) & (tabla.semilla == semilla)].d_banco
+        assert len(generadas) == config['generacion']['n_muestras']
+        for nombre, umbral in (('p95', rec.d_banco.quantile(0.95)), ('p99', rec.d_banco.quantile(0.99)), ('max', rec.d_banco.max())):
+            filas.append({'modelo': modelo, 'semilla': semilla, 'umbral': nombre, 'valor_umbral': float(umbral),
+                          'reconstrucciones': len(rec), 'fallan': float((generadas > umbral).mean())})
+    tabla_fallas = pd.DataFrame(filas)
+    assert (tabla_fallas.groupby(['modelo', 'umbral']).size() == len(config['semillas'])).all()
+    return tabla_fallas
+
+
 def analizar(config: dict, salida) -> None:
     """Tablas y figuras de (b) y (c) a partir de los CSV, sin reentrenar."""
     tabla = pd.read_csv(salida / 'distancias.csv')
@@ -218,6 +234,8 @@ def analizar(config: dict, salida) -> None:
     resumen = resumir(tabla, config)
     resumen.to_csv(salida / 'resumen.csv', index=False)
     relojes = por_semilla_relojes(tabla, config)
+    if (salida / 'reconstrucciones.csv').exists():
+        fallas(tabla, pd.read_csv(salida / 'reconstrucciones.csv'), config).to_csv(salida / 'fallas.csv', index=False)
     relojes.to_csv(salida / 'relojes.csv', index=False)
     print(relojes.groupby('modelo')[['horas_cubiertas', 'copias', 'lejos_peor_vae']].agg(['mean', 'std']).round(3).to_string())
     figura_distancias(tabla, float(resumen.umbral_max_reales.iloc[0]), salida / 'fig_distancias.png')
@@ -238,6 +256,12 @@ def main(ruta_config: str, modo: str = 'todo') -> None:
     relojes = generar_relojes(config['dataset']['n'], config['dataset']['semilla'])
     X = relojes.X
     banco, referencia = banco_sin_repetidas(config, X)
+    # Relojes reales nuevos para reconstruir: miden qué tan lejos del banco queda lo que cada modelo
+    # hace con un reloj real (umbral de falla que no sale de las muestras que se juzgan)
+    rec = config['reconstruccion']
+    reales = generar_relojes(rec['n'], rec['semilla']).X
+    reales = reales[vecino_por_pixel(reales, X)[1] > 0]
+    reconstrucciones, imagenes = [], {}
     gen = config['generacion']
 
     partes, guardados, mus = [], {}, {}
@@ -251,12 +275,18 @@ def main(ruta_config: str, modo: str = 'todo') -> None:
             partes.append(d.assign(modelo=modelo, semilla=semilla, muestra=np.arange(1, len(z) + 1), z1=z[:, 0], z2=z[:, 1]))
             if modelo == 'VAE':
                 mus[semilla] = Z
+            _, d_rec = vecino_por_pixel(m.decodificar(m.codificar(reales)), banco)
+            reconstrucciones.append(pd.DataFrame({'modelo': modelo, 'semilla': semilla, 'd_banco': d_rec}))
             if semilla == config['semilla_figuras']:
                 guardados[modelo] = {'Z': Z, 'decodificar': m.decodificar}
+                imagenes[modelo] = m.decodificar(z)
             print(f'{modelo} semilla {semilla}: d_banco {d.d_banco.mean():.4f}  d_500 {d.d_500.mean():.4f}', flush=True)
     partes.append(distancias(referencia, banco, X).assign(modelo=REALES, semilla=np.nan,
                                                           muestra=np.arange(1, len(referencia) + 1)))
     pd.concat(partes, ignore_index=True).to_csv(salida / 'distancias.csv', index=False)
+    pd.concat(reconstrucciones, ignore_index=True).to_csv(salida / 'reconstrucciones.csv', index=False)
+    # Muestras generadas de la semilla de figuras (para mostrar relojes del AE y del VAE)
+    np.savez_compressed(salida / 'generadas_semilla_figuras.npz', **imagenes)
     correlaciones(mus, relojes.parametros).to_csv(salida / 'correlaciones.csv', index=False)
     figura_grillas(guardados, gen['n_grilla'], salida / 'fig_grillas_propias.png')
     analizar(config, salida)

@@ -205,7 +205,7 @@
   "titulo": "El VAE aprende: la reconstrucción baja y la regularización se estabiliza",
   "figura": "docs/presentacion/figuras/curvas_vae.png",
   "lectura": "L = {{L_final}} sobre un piso de {{L_piso}}; R queda en {{R_final}}.",
-  "notas": "Encoder 256–64–(μ y s de 2), decoder 2–64–256, λ = 1, Adam, 2000 épocas, 5 semillas (una línea por semilla). Línea punteada: el piso de L. L no puede llegar a 0: con datos en grises tiene un piso de {{L_piso}} (la BCE de cada carita consigo misma). Empieza en {{L_inicial}}. Fuente: results/e2b/curvas.csv.",
+  "notas": "Encoder 256–64–(μ y s de 2), decoder 2–64–256, λ = 1, Adam, 2000 épocas, 5 semillas (una línea por semilla). Línea punteada: el piso de L. L no puede llegar a 0: con datos en grises tiene un piso de {{L_piso}} (la BCE de cada reloj consigo mismo). Empieza en {{L_inicial}}. Fuente: results/e2b/curvas.csv.",
   "presenta": "Canzo"
  },
  {
@@ -234,23 +234,23 @@
   "item": "2c · Generación",
   "titulo": "Muestreando donde viven sus códigos, los dos modelos recorren las doce horas, pero el autoencoder falla más",
   "figura": "results/e2c_justa/fig_grillas_propias.png",
-  "lectura": "Más lejos del banco que la peor muestra del VAE: {{lejos_ae}} de las del autoencoder; del VAE, ninguna.",
-  "notas": "Grillas: cada modelo sobre el rango de sus propios códigos (z en el autoencoder, μ(x) en el VAE). La esquina del autoencoder decodifica manchas: su latente tiene zonas vacías. Muestreo: el VAE de N(0, I), su prior; el autoencoder de una normal con la media y la covarianza de sus códigos (D50). Banco: 20.000 relojes nuevos del mismo generador, sin los que repiten la imagen de uno de los 500. Los dos cubren las 12 horas y ninguno copia. Fuente: results/e2c_justa/relojes.csv y resumen.csv, 5 semillas.",
+  "lectura": "Fallan (peor que con un reloj real): {{falla_ae}} de las muestras del autoencoder y {{falla_vae}} del VAE.",
+  "notas": "Grillas: cada modelo sobre el rango de sus propios códigos (z en el autoencoder, μ(x) en el VAE). La esquina del autoencoder decodifica manchas: su latente tiene zonas vacías. Muestreo: el VAE de N(0, I), su prior; el autoencoder de una normal con la media y la covarianza de sus códigos (D50). Falla: cada modelo reconstruye 500 relojes reales nuevos; una muestra generada falla si queda más lejos de un banco de 20.000 relojes nuevos que el percentil 99 de esas reconstrucciones. El umbral no sale de las muestras que se juzgan. Con el percentil 95: {{falla95_ae}} contra {{falla95_vae}}; con el máximo: {{fallamax_ae}} contra {{fallamax_vae}}. Los dos cubren las 12 horas y ninguno copia. Fuente: results/e2c_justa/fallas.csv y relojes.csv, 5 semillas.",
   "presenta": "Bruno"
  },
  {
   "tipo": "resultado",
   "modelo": "VAE",
   "item": "2c · Generación",
-  "titulo": "Los relojes del VAE no son copias, pero son más borrosos que los del autoencoder",
+  "titulo": "Los relojes del VAE no son copias, pero son más borrosos: distancia típica al banco {{med_vae}}, contra {{med_ae}} del autoencoder",
   "figura": "results/elegidas/fig_relojes.png",
-  "lectura": "Distancia típica al banco de relojes nuevos: {{med_vae}} el VAE y {{med_ae}} el autoencoder.",
+  "lectura": "Dos muestras del VAE, cada una junto al reloj del dataset más cercano.",
   "notas": "Se descarta el encoder y se decodifica z sorteado de N(0, I). Los juzgamos del conjunto: tienen esfera, marcas y dos agujas. Distancia típica: la mediana de la diferencia absoluta media por píxel al reloj más cercano de un banco de 20.000 relojes nuevos (métrica nuestra). Con N(0, I) para los dos, el autoencoder cubría {{horas_ae}} de las 12 horas (e2c); muestreado donde viven sus códigos, cubre las 12 como el VAE. Fuente: results/e2c_justa/resumen.csv, results/e2c/corridas.csv y results/elegidas/elegidas.csv.",
   "presenta": "Bruno"
  },
  {
   "tipo": "cierre",
-  "titulo": "El VAE ordena el latente: sus relojes son más borrosos, pero no falla ninguno",
+  "titulo": "El VAE ordena el latente: sus relojes son más borrosos, pero falla menos que el autoencoder",
   "frases": [
    "El autoencoder comprime.",
    "El DAE limpia.",
