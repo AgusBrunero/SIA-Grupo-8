@@ -4,11 +4,12 @@ iteración de la presentación).
 Preguntas:
   (a) ¿Qué decodifica cada modelo sobre su propio latente? Grilla de 11 × 11 que cubre, en
       cada modelo, del mínimo al máximo de sus propios códigos (z en el AE, μ(x) en el VAE).
-  (b) Una muestra generada, ¿es una carita? ¿Es una copia? Se compara cada muestra con un
-      banco de 20.000 caritas nuevas del mismo generador de 7 parámetros (otra semilla,
-      ninguna igual a las 500) y con las 500 de entrenamiento. Referencia: la misma medida
-      para 200 caritas reales que no están entre las 500 ni en el banco.
-  (c) ¿Qué codifica cada eje del VAE? Correlación de Pearson de μ₁ y μ₂ con los 7 parámetros.
+  (b) Una muestra generada, ¿es un reloj? ¿Es una copia? Se compara cada muestra con un
+      banco de 20.000 relojes nuevos del mismo generador (otra semilla, ninguno igual a los
+      500) y con los 500 de entrenamiento. Referencia: la misma medida para 200 relojes reales
+      que no están entre los 500 ni en el banco.
+  (c) ¿Qué codifica cada eje del VAE? Correlación de Pearson de μ₁ y μ₂ con el seno y el coseno
+      del ángulo de la hora (la hora es cíclica: las 12:00 y las 11:59 son casi la misma imagen).
 
 Muestreo (decisión en docs/DECISIONES.md): el VAE decodifica z ~ N(0, I), su prior; el AE
 decodifica z ~ N(media, covarianza) de sus propios 500 códigos. Cada modelo se muestrea de
@@ -34,12 +35,17 @@ import pandas as pd
 
 from experiments.comun import COLOR, RAIZ, RAMPA_AE, TINTA, TINTA_SECUNDARIA, aplicar_estilo
 from experiments.e2c_latente_generacion import entrenar_ae, entrenar_vae_modelo, mosaico
-from src.data.emojis import PARAMETROS, generar_caritas
+from src.data.relojes import generar_relojes
 from src.modelos.generacion import grilla_latente, vecino_por_pixel
 
-ROTULOS = {'centro_x': 'Posición\nhorizontal', 'centro_y': 'Posición\nvertical', 'curvatura_boca': 'Curvatura\nde la boca',
-           'ancho_boca': 'Ancho de\nla boca', 'apertura_ojos': 'Apertura de\nlos ojos',
-           'separacion_ojos': 'Separación\nde los ojos', 'inclinacion_cejas': 'Inclinación\nde las cejas'}
+ROTULOS = {'hora_seno': 'Hora: seno\ndel ángulo', 'hora_coseno': 'Hora: coseno\ndel ángulo'}
+REALES = 'Relojes reales'
+
+
+def factores(parametros: np.ndarray) -> dict[str, np.ndarray]:
+    """La hora (columna 0, en [0, 12)) como ángulo: seno y coseno, para que las 12:00 y las 11:59 queden juntas."""
+    angulo = 2 * np.pi * parametros[:, 0] / 12.0
+    return {'hora_seno': np.sin(angulo), 'hora_coseno': np.cos(angulo)}
 
 
 def muestrear(modelo: str, Z: np.ndarray, n: int, rng: np.random.Generator) -> np.ndarray:
@@ -50,14 +56,19 @@ def muestrear(modelo: str, Z: np.ndarray, n: int, rng: np.random.Generator) -> n
 
 
 def banco_sin_repetidas(config: dict, X: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
-    banco = generar_caritas(config['banco']['n'], config['banco']['semilla']).X
-    referencia = generar_caritas(config['referencia']['n'], config['referencia']['semilla']).X
-    for nuevas in (banco, referencia):
-        # Ninguna carita nueva es igual a una de las 500 de entrenamiento
-        _, d = vecino_por_pixel(nuevas, X)
-        assert (d > 0).all()
-    _, d = vecino_por_pixel(referencia, banco)
-    assert (d > 0).all()
+    """Banco y referencia sin imágenes idénticas a una de las 500 (ni la referencia idéntica al banco).
+
+    Con relojes de 16 × 16, dos horas a menos de un minuto pueden dar la misma imagen: esas se
+    sacan, para que "copia" quiera decir lo mismo que antes (idéntica a una de las 500).
+    """
+    banco = generar_relojes(config['banco']['n'], config['banco']['semilla']).X
+    referencia = generar_relojes(config['referencia']['n'], config['referencia']['semilla']).X
+    _, d = vecino_por_pixel(banco, X)
+    banco = banco[d > 0]
+    _, d_500 = vecino_por_pixel(referencia, X)
+    _, d_banco = vecino_por_pixel(referencia, banco)
+    referencia = referencia[(d_500 > 0) & (d_banco > 0)]
+    print(f'banco: {len(banco)} relojes; referencia: {len(referencia)} (sin imágenes idénticas a las 500)', flush=True)
     return banco, referencia
 
 
@@ -68,12 +79,13 @@ def distancias(imagenes: np.ndarray, banco: np.ndarray, X: np.ndarray) -> pd.Dat
 
 
 def resumir(tabla: pd.DataFrame, config: dict) -> pd.DataFrame:
-    generadas = tabla[tabla.modelo != 'Caritas reales']
+    generadas = tabla[tabla.modelo != REALES]
     # Conteo: n_muestras por (modelo, semilla); la referencia, una sola vez
     assert (generadas.groupby(['modelo', 'semilla']).size() == config['generacion']['n_muestras']).all()
-    assert (tabla.modelo == 'Caritas reales').sum() == config['referencia']['n']
-    real = tabla[tabla.modelo == 'Caritas reales']
-    # Umbral sin elegir a mano: la carita real (fuera de las 500) más lejana del banco
+    # La referencia puede tener menos que config['referencia']['n']: se sacan las idénticas a las 500
+    assert 0 < (tabla.modelo == REALES).sum() <= config['referencia']['n']
+    real = tabla[tabla.modelo == REALES]
+    # Umbral sin elegir a mano: el reloj real (fuera de los 500) más lejano del banco
     umbral = float(real.d_banco.max())
     por_semilla = generadas.groupby(['modelo', 'semilla']).agg(
         d_banco=('d_banco', 'mean'), d_500=('d_500', 'mean'),
@@ -87,8 +99,8 @@ def resumir(tabla: pd.DataFrame, config: dict) -> pd.DataFrame:
                       'd_banco_mediana_media': g.d_banco_med.mean(), 'd_banco_mediana_desvio': g.d_banco_med.std(),
                       'd_500_mediana_media': g.d_500_med.mean(), 'd_500_mediana_desvio': g.d_500_med.std(),
                       'fuera_media': g.fuera.mean(), 'fuera_desvio': g.fuera.std()})
-    # Las caritas reales son una sola muestra de 200: el "desvío" es entre caritas, no entre semillas
-    filas.append({'modelo': 'Caritas reales', 'semillas': np.nan, 'muestras': len(real),
+    # Los relojes reales son una sola muestra de 200: el "desvío" es entre relojes, no entre semillas
+    filas.append({'modelo': REALES, 'semillas': np.nan, 'muestras': len(real),
                   'd_banco_media': real.d_banco.mean(), 'd_banco_desvio': np.nan,
                   'd_500_media': real.d_500.mean(), 'd_500_desvio': np.nan,
                   'd_banco_mediana_media': real.d_banco.median(), 'd_banco_mediana_desvio': np.nan,
@@ -107,9 +119,9 @@ def correlaciones(mus: dict[int, np.ndarray], parametros: np.ndarray) -> pd.Data
     filas = []
     for semilla, mu in mus.items():
         for k in range(mu.shape[1]):
-            for j, nombre in enumerate(PARAMETROS):
+            for nombre, valores in factores(parametros).items():
                 filas.append({'semilla': semilla, 'eje': f'z{k + 1}', 'parametro': nombre,
-                              'r': float(np.corrcoef(mu[:, k], parametros[:, j])[0, 1])})
+                              'r': float(np.corrcoef(mu[:, k], valores)[0, 1])})
     tabla = pd.DataFrame(filas)
     assert (tabla.groupby(['eje', 'parametro']).size() == len(mus)).all()
     return tabla
@@ -138,10 +150,10 @@ def figura_grillas(guardados: dict, n: int, ruta) -> None:
 
 
 def figura_distancias(tabla: pd.DataFrame, umbral: float, ruta) -> None:
-    colores = {'AE': COLOR['AE'], 'VAE': COLOR['VAE'], 'Caritas reales': TINTA_SECUNDARIA}
+    colores = {'AE': COLOR['AE'], 'VAE': COLOR['VAE'], REALES: TINTA_SECUNDARIA}
     fig, ejes = plt.subplots(1, 2, figsize=(12, 4.0), sharey=True)
-    for ax, (columna, nombre) in zip(ejes, (('d_banco', 'a la más cercana del banco\nde 20.000 caritas nuevas (¿es una carita?)'),
-                                            ('d_500', 'a la más cercana de las\n500 de entrenamiento (¿es una copia?)'))):
+    for ax, (columna, nombre) in zip(ejes, (('d_banco', 'a la más cercana del banco\nde 20.000 relojes nuevos (¿es un reloj?)'),
+                                            ('d_500', 'al más cercano de los\n500 de entrenamiento (¿es una copia?)'))):
         bordes = np.geomspace(tabla[columna].min() * 0.98, tabla[columna].max() * 1.02, 50)
         ax.set_xscale('log')
         for modelo, color in colores.items():
@@ -151,7 +163,7 @@ def figura_distancias(tabla: pd.DataFrame, umbral: float, ruta) -> None:
         ax.xaxis.set_minor_formatter(plt.NullFormatter())
         ax.set_xticks([0.01, 0.02, 0.05, 0.1, 0.2, 0.5], ['0,01', '0,02', '0,05', '0,1', '0,2', '0,5'])
         ax.set_xlabel(f'Distancia media por píxel {nombre}\n(escala log)')
-    ejes[0].axvline(umbral, color=TINTA, linestyle=':', linewidth=1.2, label='La carita real más lejana del banco')
+    ejes[0].axvline(umbral, color=TINTA, linestyle=':', linewidth=1.2, label='El reloj real más lejano del banco')
     ejes[0].set_ylabel('Densidad')
     ejes[0].legend(fontsize=9)
     fig.tight_layout()
@@ -162,8 +174,8 @@ def figura_distancias(tabla: pd.DataFrame, umbral: float, ruta) -> None:
 def figura_correlaciones(tabla: pd.DataFrame, ruta) -> None:
     """|r| por semilla y eje: el orden de los ejes cambia entre semillas, por eso no se promedia."""
     matriz = (tabla.assign(abs_r=tabla.r.abs()).pivot_table(index=['semilla', 'eje'], columns='parametro', values='abs_r')
-              [list(PARAMETROS)])
-    fig, ax = plt.subplots(figsize=(10, 5.2))
+              [list(ROTULOS)])
+    fig, ax = plt.subplots(figsize=(6, 5.2))
     imagen = ax.imshow(matriz.to_numpy(), cmap=plt.matplotlib.colors.LinearSegmentedColormap.from_list('vae', ['#ffffff', COLOR['VAE']]),
                        vmin=0, vmax=1, aspect='auto')
     for i in range(matriz.shape[0]):
@@ -175,9 +187,28 @@ def figura_correlaciones(tabla: pd.DataFrame, ruta) -> None:
     for borde in range(2, matriz.shape[0], 2):
         ax.axhline(borde - 0.5, color='white', linewidth=3)
     ax.grid(visible=False)
-    fig.colorbar(imagen, ax=ax, fraction=0.03, pad=0.02).set_label('|r| de Pearson entre μₖ(x)\ny el parámetro, sobre las 500 caritas')
+    fig.colorbar(imagen, ax=ax, fraction=0.03, pad=0.02).set_label('|r| de Pearson entre μₖ(x)\ny la hora, sobre los 500 relojes')
     fig.savefig(ruta)
     plt.close(fig)
+
+
+def por_semilla_relojes(tabla: pd.DataFrame, config: dict) -> pd.DataFrame:
+    """Medidas propias de los relojes, por modelo y semilla:
+      horas_cubiertas   cuántas de las 12 horas aparecen entre las muestras (la hora entera del
+                        reloj de las 500 más cercano a cada muestra; la medida de e2c, con muestreo justo)
+      peor_vae          la distancia al banco de la peor muestra del VAE (todas las semillas)
+      lejos_peor_vae    fracción de muestras más lejos del banco que la peor muestra del VAE
+    El umbral "más lejos que el reloj real más lejano" no sirve con relojes: el banco es tan denso
+    que los relojes reales quedan a ≈ 0 de él, y todas las muestras generadas lo superan."""
+    horas = generar_relojes(config['dataset']['n'], config['dataset']['semilla']).parametros[:, 0]
+    generadas = tabla[tabla.modelo != REALES].copy()
+    generadas['hora'] = np.floor(horas[generadas.vecino_500.astype(int)]).astype(int)
+    peor = float(generadas[generadas.modelo == 'VAE'].d_banco.max())
+    medidas = generadas.groupby(['modelo', 'semilla']).agg(
+        horas_cubiertas=('hora', 'nunique'), copias=('d_500', lambda d: int((d == 0).sum())),
+        lejos_peor_vae=('d_banco', lambda d: float((d > peor).mean()))).reset_index()
+    assert (medidas.groupby('modelo').size() == len(config['semillas'])).all()
+    return medidas.assign(peor_vae=peor)
 
 
 def analizar(config: dict, salida) -> None:
@@ -186,6 +217,9 @@ def analizar(config: dict, salida) -> None:
     corr = pd.read_csv(salida / 'correlaciones.csv')
     resumen = resumir(tabla, config)
     resumen.to_csv(salida / 'resumen.csv', index=False)
+    relojes = por_semilla_relojes(tabla, config)
+    relojes.to_csv(salida / 'relojes.csv', index=False)
+    print(relojes.groupby('modelo')[['horas_cubiertas', 'copias', 'lejos_peor_vae']].agg(['mean', 'std']).round(3).to_string())
     figura_distancias(tabla, float(resumen.umbral_max_reales.iloc[0]), salida / 'fig_distancias.png')
     figura_correlaciones(corr, salida / 'fig_correlaciones.png')
     print(resumen.T.to_string())
@@ -201,8 +235,8 @@ def main(ruta_config: str, modo: str = 'todo') -> None:
         analizar(config, salida)
         return
     shutil.copyfile(ruta_config, salida / 'config.json')
-    caritas = generar_caritas(config['dataset']['n'], config['dataset']['semilla'])
-    X = caritas.X
+    relojes = generar_relojes(config['dataset']['n'], config['dataset']['semilla'])
+    X = relojes.X
     banco, referencia = banco_sin_repetidas(config, X)
     gen = config['generacion']
 
@@ -220,10 +254,10 @@ def main(ruta_config: str, modo: str = 'todo') -> None:
             if semilla == config['semilla_figuras']:
                 guardados[modelo] = {'Z': Z, 'decodificar': m.decodificar}
             print(f'{modelo} semilla {semilla}: d_banco {d.d_banco.mean():.4f}  d_500 {d.d_500.mean():.4f}', flush=True)
-    partes.append(distancias(referencia, banco, X).assign(modelo='Caritas reales', semilla=np.nan,
+    partes.append(distancias(referencia, banco, X).assign(modelo=REALES, semilla=np.nan,
                                                           muestra=np.arange(1, len(referencia) + 1)))
     pd.concat(partes, ignore_index=True).to_csv(salida / 'distancias.csv', index=False)
-    correlaciones(mus, caritas.parametros).to_csv(salida / 'correlaciones.csv', index=False)
+    correlaciones(mus, relojes.parametros).to_csv(salida / 'correlaciones.csv', index=False)
     figura_grillas(guardados, gen['n_grilla'], salida / 'fig_grillas_propias.png')
     analizar(config, salida)
 

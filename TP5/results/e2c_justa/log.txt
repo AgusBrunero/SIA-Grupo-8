@@ -1,86 +1,37 @@
-AE semilla 0: d_banco 0.0554  d_500 0.0615
-AE semilla 1: d_banco 0.0699  d_500 0.0769
-AE semilla 2: d_banco 0.0610  d_500 0.0678
-AE semilla 3: d_banco 0.0599  d_500 0.0664
-AE semilla 4: d_banco 0.0551  d_500 0.0615
-VAE semilla 0: d_banco 0.0295  d_500 0.0368
-VAE semilla 1: d_banco 0.0298  d_500 0.0373
-VAE semilla 2: d_banco 0.0302  d_500 0.0375
-VAE semilla 3: d_banco 0.0293  d_500 0.0362
-VAE semilla 4: d_banco 0.0296  d_500 0.0362
-        modelo  semillas  muestras  d_banco_media  d_banco_desvio  d_500_media  d_500_desvio  fuera_media  fuera_desvio  umbral_p95_reales d_banco_ae_vs_vae d_500_ae_vs_vae fuera_ae_vs_vae
-            AE       5.0      1000       0.060251        0.006002     0.066814      0.006335        0.873      0.027973           0.025647         VAE menor       VAE menor        AE menor
-           VAE       5.0      1000       0.029685        0.000355     0.036802      0.000615        0.950      0.016583           0.025647         VAE menor       VAE menor        AE menor
-Caritas reales       NaN       200       0.019584        0.003968     0.035554      0.007905        0.050           NaN           0.025647         VAE menor       VAE menor        AE menor
-                       mean   std
-eje parametro                    
-z1  ancho_boca         0.05  0.02
-    apertura_ojos      0.04  0.01
-    centro_x           0.26  0.37
-    centro_y           0.84  0.27
-    curvatura_boca     0.12  0.01
-    inclinacion_cejas  0.02  0.03
-    separacion_ojos    0.01  0.01
-z2  ancho_boca         0.04  0.02
-    apertura_ojos      0.02  0.00
-    centro_x           0.83  0.29
-    centro_y           0.25  0.37
-    curvatura_boca     0.17  0.01
-    inclinacion_cejas  0.07  0.03
-    separacion_ojos    0.02  0.01
-                                   0          1               2
-modelo                            AE        VAE  Caritas reales
-semillas                         5.0        5.0             NaN
-muestras                        1000       1000             200
-d_banco_media               0.060251   0.029685        0.019584
-d_banco_desvio              0.006002   0.000355             NaN
-d_500_media                 0.066814   0.036802        0.035554
-d_500_desvio                0.006335   0.000615             NaN
-d_banco_mediana_media       0.029085   0.029699        0.019531
-d_banco_mediana_desvio      0.000204   0.000413             NaN
-d_500_mediana_media         0.036238   0.036871        0.034058
-d_500_mediana_desvio        0.000595   0.000643             NaN
-fuera_media                    0.873       0.95            0.05
-fuera_desvio                0.027973   0.016583             NaN
-umbral_p95_reales           0.025647   0.025647        0.025647
-d_banco_ae_vs_vae          VAE menor  VAE menor       VAE menor
-d_500_ae_vs_vae            VAE menor  VAE menor       VAE menor
-d_banco_mediana_ae_vs_vae   AE menor   AE menor        AE menor
-d_500_mediana_ae_vs_vae      empatan    empatan         empatan
-fuera_ae_vs_vae             AE menor   AE menor        AE menor
-                       mean   std
-eje parametro                    
-z1  ancho_boca         0.05  0.02
-    apertura_ojos      0.04  0.01
-    centro_x           0.26  0.37
-    centro_y           0.84  0.27
-    curvatura_boca     0.12  0.01
-    inclinacion_cejas  0.02  0.03
-    separacion_ojos    0.01  0.01
-z2  ancho_boca         0.04  0.02
-    apertura_ojos      0.02  0.00
-    centro_x           0.83  0.29
-    centro_y           0.25  0.37
-    curvatura_boca     0.17  0.01
-    inclinacion_cejas  0.07  0.03
-    separacion_ojos    0.02  0.01
-                                   0          1               2
-modelo                            AE        VAE  Caritas reales
-semillas                         5.0        5.0             NaN
-muestras                        1000       1000             200
-d_banco_media               0.060251   0.029685        0.019584
-d_banco_desvio              0.006002   0.000355             NaN
-d_500_media                 0.066814   0.036802        0.035554
-d_500_desvio                0.006335   0.000615             NaN
-d_banco_mediana_media       0.029085   0.029699        0.019531
-d_banco_mediana_desvio      0.000204   0.000413             NaN
-d_500_mediana_media         0.036238   0.036871        0.034058
-d_500_mediana_desvio        0.000595   0.000643             NaN
-fuera_media                    0.196      0.072             0.0
-fuera_desvio                0.011402   0.029496             NaN
-umbral_max_reales           0.033447   0.033447        0.033447
-d_banco_ae_vs_vae          VAE menor  VAE menor       VAE menor
-d_500_ae_vs_vae            VAE menor  VAE menor       VAE menor
-d_banco_mediana_ae_vs_vae   AE menor   AE menor        AE menor
-d_500_mediana_ae_vs_vae      empatan    empatan         empatan
-fuera_ae_vs_vae            VAE menor  VAE menor       VAE menor
+banco: 19401 relojes; referencia: 70 (sin imágenes idénticas a las 500)
+AE semilla 0: d_banco 0.0198  d_500 0.0208
+AE semilla 1: d_banco 0.0208  d_500 0.0218
+AE semilla 2: d_banco 0.0443  d_500 0.0455
+AE semilla 3: d_banco 0.0151  d_500 0.0162
+AE semilla 4: d_banco 0.0144  d_500 0.0155
+VAE semilla 0: d_banco 0.0179  d_500 0.0187
+VAE semilla 1: d_banco 0.0168  d_500 0.0177
+VAE semilla 2: d_banco 0.0166  d_500 0.0176
+VAE semilla 3: d_banco 0.0163  d_500 0.0173
+VAE semilla 4: d_banco 0.0163  d_500 0.0176
+                                  0         1               2
+modelo                           AE       VAE  Relojes reales
+semillas                        5.0       5.0             NaN
+muestras                       1000      1000              70
+d_banco_media              0.022857  0.016788        0.000391
+d_banco_desvio             0.012326  0.000637             NaN
+d_500_media                0.023959  0.017777        0.005385
+d_500_desvio               0.012362  0.000545             NaN
+d_banco_mediana_media       0.01298  0.016874        0.000244
+d_banco_mediana_desvio     0.000553  0.000472             NaN
+d_500_mediana_media        0.014202  0.017793        0.003418
+d_500_mediana_desvio       0.000572  0.000438             NaN
+fuera_media                     1.0       1.0             0.0
+fuera_desvio                    0.0       0.0             NaN
+umbral_max_reales          0.001221  0.001221        0.001221
+d_banco_ae_vs_vae           empatan   empatan         empatan
+d_500_ae_vs_vae             empatan   empatan         empatan
+d_banco_mediana_ae_vs_vae  AE menor  AE menor        AE menor
+d_500_mediana_ae_vs_vae    AE menor  AE menor        AE menor
+fuera_ae_vs_vae             empatan   empatan         empatan
+                 mean   std
+eje parametro              
+z1  hora_coseno  0.30  0.20
+    hora_seno    0.24  0.21
+z2  hora_coseno  0.24  0.13
+    hora_seno    0.34  0.18
