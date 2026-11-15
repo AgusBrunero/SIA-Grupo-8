@@ -1,16 +1,16 @@
-{'semilla': 0, 'L_con_z_igual_mu': 65.663, 'R': 3.618, 'error_absoluto_por_pixel': 0.044, 'mu_media': 0.004, 'mu_desvio': 1.02, 'sigma_media': 0.18, 'segundos': 12.82}
-{'semilla': 1, 'L_con_z_igual_mu': 65.687, 'R': 3.644, 'error_absoluto_por_pixel': 0.043, 'mu_media': -0.013, 'mu_desvio': 1.02, 'sigma_media': 0.18, 'segundos': 13.558}
-{'semilla': 2, 'L_con_z_igual_mu': 65.682, 'R': 3.545, 'error_absoluto_por_pixel': 0.044, 'mu_media': 0.012, 'mu_desvio': 1.018, 'sigma_media': 0.188, 'segundos': 12.937}
-{'semilla': 3, 'L_con_z_igual_mu': 65.597, 'R': 3.603, 'error_absoluto_por_pixel': 0.043, 'mu_media': -0.0, 'mu_desvio': 1.014, 'sigma_media': 0.183, 'segundos': 13.071}
-{'semilla': 4, 'L_con_z_igual_mu': 65.606, 'R': 3.675, 'error_absoluto_por_pixel': 0.044, 'mu_media': -0.001, 'mu_desvio': 1.021, 'sigma_media': 0.177, 'segundos': 13.372}
-## 2a y 2b · Dataset de caritas y entrenamiento del VAE (e2b)
+{'semilla': 0, 'L_con_z_igual_mu': 53.761, 'R': 3.336, 'error_absoluto_por_pixel': 0.021, 'mu_media': -0.004, 'mu_desvio': 1.022, 'sigma_media': 0.215, 'segundos': 51.81}
+{'semilla': 1, 'L_con_z_igual_mu': 53.555, 'R': 3.519, 'error_absoluto_por_pixel': 0.02, 'mu_media': -0.022, 'mu_desvio': 1.038, 'sigma_media': 0.198, 'segundos': 51.808}
+{'semilla': 2, 'L_con_z_igual_mu': 52.991, 'R': 3.565, 'error_absoluto_por_pixel': 0.018, 'mu_media': 0.0, 'mu_desvio': 1.021, 'sigma_media': 0.195, 'segundos': 52.103}
+{'semilla': 3, 'L_con_z_igual_mu': 53.437, 'R': 3.515, 'error_absoluto_por_pixel': 0.02, 'mu_media': 0.042, 'mu_desvio': 1.017, 'sigma_media': 0.198, 'segundos': 52.142}
+{'semilla': 4, 'L_con_z_igual_mu': 53.367, 'R': 3.589, 'error_absoluto_por_pixel': 0.019, 'mu_media': 0.01, 'mu_desvio': 1.036, 'sigma_media': 0.2, 'segundos': 52.204}
+## 2a y 2b · Dataset de relojes y entrenamiento del VAE (e2b)
 
 Datos en `results/e2b/`. Figuras: `fig_dataset.png`, `fig_curvas.png`, `fig_reconstrucciones.png`.
 
 ### 2a · Dataset
 
-- 500 caritas de 16 × 16 (256 píxeles) en grises en [0, 1], construidas en código (`src/data/emojis.py`) con la semilla 2026 a partir de 7 parámetros continuos: centro_x, centro_y, curvatura_boca, ancho_boca, apertura_ojos, separacion_ojos, inclinacion_cejas.
-- Valor medio de un píxel: 0,219. El 44,1 % de los píxeles es gris (ni 0 ni 1). No hay caritas repetidas (500 distintas de 500).
+- 500 relojes de agujas de 16 × 16 (256 píxeles) en grises en [0, 1], construidos en código (`src/data/relojes.py`) con la semilla 2026. La esfera es fija; lo único que cambia es la hora, sorteada uniforme entre las 12:00 y las 11:59, que fija el ángulo de las dos agujas como en un reloj real.
+- Valor medio de un píxel: 0,182. El 36,1 % de los píxeles es gris (ni 0 ni 1). Imágenes distintas: 494 de 500 (las repetidas son relojes que marcan el mismo minuto; lo verifica `tests/test_relojes.py`).
 
 ### 2b · Entrenamiento
 
@@ -19,15 +19,15 @@ Datos en `results/e2b/`. Figuras: `fig_dataset.png`, `fig_curvas.png`, `fig_reco
 
 | Época | L (media ± desvío entre semillas) | R (media ± desvío entre semillas) |
 |---|---|---|
-| 1 | 174,33 ± 1,02 | 0,19 ± 0,09 |
-| 10 | 89,68 ± 0,34 | 3,91 ± 0,11 |
-| 100 | 70,81 ± 0,18 | 3,10 ± 0,02 |
-| 1000 | 67,22 ± 0,05 | 3,42 ± 0,02 |
-| 2000 | 66,66 ± 0,07 | 3,61 ± 0,05 |
+| 1 | 173,83 ± 1,22 | 0,19 ± 0,12 |
+| 10 | 65,15 ± 0,15 | 5,00 ± 0,13 |
+| 100 | 61,68 ± 0,50 | 0,72 ± 0,29 |
+| 1000 | 56,41 ± 0,45 | 2,64 ± 0,17 |
+| 2000 | 54,37 ± 0,20 | 3,50 ± 0,08 |
 
-- En el último 10 % de las épocas, L cambia -0,10 ± 0,10 (media ± desvío entre semillas del valor final menos el inicial del tramo).
-- Piso de L para estos datos: 58,55. Con datos en grises la BCE no llega a 0 ni con una salida idéntica al dato (vale la entropía de los píxeles grises).
-- Al terminar, decodificando z = μ(x) sin ruido: L = 65,65 ± 0,04; error absoluto por píxel = 0,044 ± 0,000; R = 3,62 ± 0,05.
-- Códigos de los 500 patrones: desvío de μ = 1,02 ± 0,00 (el prior tiene desvío 1); σ media = 0,182 ± 0,004.
-- Tiempo por corrida: 13,2 ± 0,3 s.
+- En el último 10 % de las épocas, L cambia -0,22 ± 0,12 (media ± desvío entre semillas del valor final menos el inicial del tramo).
+- Piso de L para estos datos: 48,45. Con datos en grises la BCE no llega a 0 ni con una salida idéntica al dato (vale la entropía de los píxeles grises).
+- Al terminar, decodificando z = μ(x) sin ruido: L = 53,42 ± 0,28; error absoluto por píxel = 0,020 ± 0,001; R = 3,50 ± 0,10.
+- Códigos de los 500 patrones: desvío de μ = 1,03 ± 0,01 (el prior tiene desvío 1); σ media = 0,201 ± 0,008.
+- Tiempo por corrida: 52,0 ± 0,2 s.
 

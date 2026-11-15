@@ -1,4 +1,4 @@
 item                  identificador         z1         z2 mas_cercano  distancia                              unidad
 1a.4         o→e, semilla 0, paso 3 -11.431105 -11.296427           o   2.000000                   píxeles distintos
-  2c candidata 14, λ = 1, semilla 0  -2.516760  -0.538693         389   0.034442 diferencia absoluta media por píxel
-  2c candidata 39, λ = 1, semilla 0  -0.327213  -0.368576         307   0.033462 diferencia absoluta media por píxel
+  2c candidata 14, λ = 1, semilla 0  -2.516760  -0.538693          33   0.013022 diferencia absoluta media por píxel
+  2c candidata 36, λ = 1, semilla 0   0.646903  -1.992420         465   0.019026 diferencia absoluta media por píxel
