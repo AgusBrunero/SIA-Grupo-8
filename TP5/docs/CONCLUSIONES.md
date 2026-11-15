@@ -90,38 +90,39 @@ En los cuatro niveles la diferencia a favor de B supera el desvío. Además, A e
 
 ## 2a · Conjunto de datos nuevo
 
-**Conclusión.** Construimos el dataset en código: 500 caritas de 16 × 16 en grises, definidas por 7 parámetros continuos. Lo construimos nosotros para conocer de qué depende cada imagen y poder juzgar si una muestra generada pertenece al conjunto.
+**Conclusión.** Construimos el dataset en código: 500 relojes de agujas de 16 × 16 en grises. La esfera es siempre la misma y lo único que cambia es la hora, que fija las dos agujas como en un reloj real. Lo construimos nosotros para saber qué hora marca cada imagen y poder juzgar si una muestra generada es un reloj del conjunto.
 
-**Evidencia.** 500 caritas distintas de 500; el 44,1 % de los píxeles es gris.
+**Evidencia.** 494 de 500 imágenes distintas (las repetidas marcan el mismo minuto); el 36,1 % de los píxeles es gris.
 
 **Teoría.** Datos en [0, 1] con salida logística y BCE, como el Colab del VAE de la cátedra (Autoencoders diap. 90).
 
-**Límite.** Es un dataset sintético y chico; las caritas se parecen mucho entre sí por construcción.
+**Límite.** Es un dataset sintético y chico, con un solo factor (la hora). Probamos variar también el tamaño y la posición de la esfera, y en una corrida de prueba el VAE usó el latente para eso y dejó las agujas borrosas; por eso quedaron fijos (`DESVIOS.md`).
 
 ## 2b · Esquema variacional y el problema del latente
 
-**Conclusión.** El VAE resuelve el problema del latente: sus códigos ocupan la zona de la normal estándar, que es de donde después se samplea para generar. El AE con la misma arquitectura deja los códigos desparramados en una zona que depende de la semilla. El precio es una reconstrucción un poco peor, y λ regula ese intercambio.
+**Conclusión.** El VAE resuelve el problema del latente: sus códigos ocupan la zona de la normal estándar, que es de donde después se samplea para generar. El AE con la misma arquitectura deja los códigos desparramados en una zona que depende de la semilla. El precio es una reconstrucción un poco peor, y λ regula ese intercambio; con λ = 10 el VAE deja de usar el latente.
 
 **Evidencia** (misma arquitectura, mismos datos, 5 semillas).
-- Desvío de los códigos: AE 9,55 ± 1,20; VAE con λ = 1: 1,02 ± 0,00. El prior tiene desvío 1.
-- Códigos a menos de 3 del origen: AE 0,19 ± 0,05; VAE con λ = 1: 1,00 ± 0,00.
-- Reconstrucción L: AE 63,97 ± 0,07; VAE con λ = 1: 65,65 ± 0,04. La diferencia supera el desvío: el VAE reconstruye peor.
-- Efecto de λ: con λ = 0,1, R = 6,82 ± 0,16 y L = 64,66 ± 0,11; con λ = 10, R = 0,73 ± 0,04 y L = 72,40 ± 0,21, con σ media 0,696 ± 0,010 y caritas generadas casi iguales entre sí.
-- El VAE aprende: L baja de 174,33 ± 1,02 a 66,66 ± 0,07, con un piso de 58,55 para estos datos.
+- Desvío de los códigos: AE 11,89 ± 1,44; VAE con λ = 1: 1,03 ± 0,01. El prior tiene desvío 1.
+- Códigos a menos de 3 del origen: AE 0,15 ± 0,05; VAE con λ = 1: 1,00 ± 0,00.
+- Reconstrucción L: AE 50,92 ± 0,32; VAE con λ = 1: 53,42 ± 0,28. La diferencia supera el desvío: el VAE reconstruye peor.
+- Efecto de λ: con λ = 0,1, R = 7,84 ± 0,17 y L = 51,89 ± 0,29; con λ = 10, R = 0,00 ± 0,00 y L = 62,19 ± 0,00, con σ media 1,000 ± 0,000: todos los relojes reciben el mismo código y el decoder dibuja siempre la esfera con una mancha en el centro.
+- El VAE aprende: L baja de 173,83 ± 1,22 a 54,37 ± 0,20, con un piso de 48,45 para estos datos.
 
-**Teoría.** Autoencoders diap. 74–78: se supone p(z) = N(0, I) y se agrega a la reconstrucción el término R = KL(q‖p), que penaliza que la distribución de cada código se aleje de la normal estándar; J = L + λR (ec. 13). Diap. 80–89: el truco de reparametrización z = μ + σ·ϵ permite hacer backpropagation a través del muestreo. Con λ grande gana R: los códigos se pegan al prior, σ crece y el decoder recibe casi lo mismo para todos los datos, por eso las salidas se parecen. Con λ chico gana L y el modelo se acerca a un AE.
+**Teoría.** Autoencoders diap. 74–78: se supone p(z) = N(0, I) y se agrega a la reconstrucción el término R = KL(q‖p), que penaliza que la distribución de cada código se aleje de la normal estándar; J = L + λR (ec. 13). Diap. 80–89: el truco de reparametrización z = μ + σ·ϵ permite hacer backpropagation a través del muestreo. Con λ grande gana R: los códigos se pegan al prior, σ crece y el decoder recibe lo mismo para todos los datos. Con λ chico gana L y el modelo se acerca a un AE.
 
-**Límite.** En la distancia de una muestra generada a la imagen más cercana del dataset, el AE (0,056 ± 0,020) y el VAE con λ = 1 (0,037 ± 0,000) empatan según nuestra regla: la diferencia no supera el desvío del AE. La diferencia que sí medimos está en dónde quedan los códigos y en que el AE cambia mucho de una semilla a otra. Con 2 dimensiones de latente para 7 parámetros, la boca sale borrosa.
+**Límite.** En la grilla del latente las agujas giran de forma continua, pero la de los minutos sale más borrosa que la de las horas: con 2 dimensiones, el VAE ordena mejor la hora que los minutos.
 
 ## 2c · Generar una muestra nueva
 
-**Conclusión.** Decodificando z sorteados de N(0, I) con el VAE (λ = 1) se obtienen caritas nuevas que juzgamos del conjunto: tienen contorno, ojos y boca, y están tan cerca del dataset como las caritas reales entre sí, sin ser copia de ninguna. Mostramos las candidatas 14 y 39.
+**Conclusión.** Decodificando z sorteados de N(0, I) con el VAE (λ = 1) se obtienen relojes nuevos que juzgamos del conjunto: tienen esfera, marcas y dos agujas, y no son copia de ningún reloj del dataset. A diferencia del AE, las muestras del VAE recorren todas las horas. Mostramos las candidatas 14 y 36.
 
 **Evidencia.**
-- Distancia de una generada a la imagen más cercana del dataset: 0,037 ± 0,000. Entre caritas reales, la distancia a la otra más cercana es 0,035 en promedio.
+- Horas del reloj (de 12) en las que cae el más cercano de alguna de las 200 muestras: VAE con λ = 1, 12,0 ± 0,0; AE, 7,4 ± 1,5. Con z ~ N(0, I) el AE solo visita la zona de su latente cercana al origen.
+- Distancia de una generada al reloj más cercano del dataset: VAE con λ = 1, 0,018 ± 0,000; AE, 0,013 ± 0,001. Entre relojes reales, la distancia al otro más cercano es 0,006 en promedio.
 - Ninguna de las 4000 muestras generadas es idéntica a una imagen del dataset.
-- Las elegidas, con su vecina del dataset: `results/elegidas/fig_caritas.png` y `elegidas.csv`.
+- Las elegidas, con su vecino del dataset y la hora que marca: `results/elegidas/fig_relojes.png` y `elegidas.csv`.
 
 **Teoría.** Autoencoders diap. 34 y 74: se descarta el encoder y se decodifica un z sorteado del prior; funciona porque el entrenamiento llevó los códigos a esa zona (2b).
 
-**Límite.** "Pertenece al conjunto" es un juicio nuestro, como pide la consigna; la distancia por píxel es una métrica propia, no de la cátedra.
+**Límite.** Las muestras del VAE son más borrosas que los relojes reales (su distancia al más cercano es mayor que la del AE, y la diferencia supera el desvío). "Pertenece al conjunto" es un juicio nuestro, como pide la consigna; la distancia por píxel y las horas cubiertas son métricas propias, no de la cátedra.

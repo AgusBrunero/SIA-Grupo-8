@@ -93,7 +93,7 @@ TP5/
   CLAUDE.md
   config/            un .json por experimento; nada hardcodeado
   src/
-    data/            font.py, ruido.py, emojis.py
+    data/            font.py, ruido.py, relojes.py
     nn/              activaciones.py, perdidas.py, mlp.py, optimizadores.py, scipy_adapter.py
     modelos/         autoencoder.py, dae.py, vae.py
   experiments/       un script por ítem de la consigna (e1a2_*.py, e1b2_*.py, e2b_*.py…)
