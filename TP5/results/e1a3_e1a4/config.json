@@ -1,8 +1,14 @@
 {
  "experimento": "e1a3_e1a4",
- "descripcion": "Consigna 1a.3 y 1a.4. Latente 2D y generacion con el escalon E9 de e1a2 (configuracion elegida por el grupo).",
- "origen_del_modelo": "escalon E9 de config/e1a2.json",
- "semillas": [0, 1, 2, 3, 4],
+ "descripcion": "Consigna 1a.3 y 1a.4. Latente 2D y generacion con la arquitectura elegida en e1a2_arquitecturas (T3, latente tanh; D57).",
+ "origen_del_modelo": "results/e1a2_arquitecturas/eleccion.csv: T3 35-30-15-2-15-30-35, latente tanh, BCE, Adam eta = 0.003 (D57). Antes: escalon E9 de config/e1a2.json (latente identidad)",
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
  "epocas": 10000,
  "codificacion": "01",
  "reduccion": "suma",
@@ -11,16 +17,17 @@
  "modelo": {
   "capas_encoder": [
    35,
-   20,
+   30,
+   15,
    2
   ],
   "activacion_oculta": "tanh",
-  "activacion_latente": "identidad",
+  "activacion_latente": "tanh",
   "activacion_salida": "logistica",
   "perdida": "bce",
   "optimizador": {
    "nombre": "adam",
-   "eta": 0.001,
+   "eta": 0.003,
    "beta1": 0.9,
    "beta2": 0.999,
    "epsilon": 1e-08
