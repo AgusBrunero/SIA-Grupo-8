@@ -6,8 +6,8 @@
       Se muestran todas las candidatas con su distancia de Hamming a la letra más cercana;
       cuál es "una letra nueva" lo decide el grupo (decisión D1).
 
-Modelo: el escalón E9 de e1a2 (35–20–2–20–35, tanh, latente identidad, salida logística,
-BCE, Adam), con las semillas del config.
+Modelo: la arquitectura elegida en e1a2_arquitecturas (D57: 35–30–15–2–15–30–35, ocultas y
+latente tanh, salida logística, BCE, Adam), con las semillas del config.
 
 Sostén: Autoencoders diap. 32–33 (latente 2D y concept vector), diap. 34 (algoritmo del
 Generative Autoencoder), diap. 7–16 (AE lineal y PCA).
@@ -39,7 +39,7 @@ from src.nn.optimizadores import crear
 
 
 def entrenar_modelo(config: dict, semilla: int, X: np.ndarray):
-    """Igual que una corrida del escalón E9 de e1a2 con la misma semilla."""
+    """Igual que una corrida de la arquitectura elegida en e1a2_arquitecturas con la misma semilla."""
     modelo = config['modelo']
     ae = construir(config, modelo, semilla)
     hiper = dict(modelo['optimizador'])
@@ -170,7 +170,7 @@ def texto(config, entrenamiento, pca_resumen, estabilidad, grilla, interpolacion
     p = pca_resumen.iloc[0]
     return f"""## 1a.3 y 1a.4 · Espacio latente y generación (e1a3_e1a4)
 
-Modelo: escalón E9 de e1a2, {config['epocas']} épocas, semillas {', '.join(map(str, semillas))}. Datos en `results/e1a3_e1a4/`.
+Modelo: arquitectura elegida en e1a2_arquitecturas (D57: 35–30–15–2–15–30–35, latente tanh, BCE, Adam η = 0,003), {config['epocas']} épocas, semillas {', '.join(map(str, semillas))}. Datos en `results/e1a3_e1a4/`.
 
 ### Entrenamiento
 

@@ -4,7 +4,7 @@ Preguntas:
   (a) ¿Cuál es la distancia de Hamming mínima entre dos letras distintas del dataset? Es la
       escala con la que se juzga si una salida es "otra letra" o "la misma con ruido".
   (b) Recorriendo una grilla de 50 × 50 sobre el rectángulo que cubre los códigos del modelo
-      elegido (E9, semilla 0; decisión D45), ¿qué salidas distintas que no son letras del
+      elegido (T3 con latente tanh, D57; semilla 0), ¿qué salidas distintas que no son letras del
       dataset produce el decoder, y a qué distancia de la letra más cercana está cada una?
   (c) Figura con todas las que están a 2 px o más, ordenadas por distancia, con su z.
 El grupo elige de 1 a 3 candidatas; este script no elige.

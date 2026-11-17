@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
 from experiments.e1a2_escalera import CLAVES_COMPARABLES
 from experiments.e1a3_e1a4_latente import distancias_entre_pares, vecino_en_latente
@@ -19,14 +20,19 @@ class ConfigTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.config = json.loads((RAIZ / 'config' / 'e1a3_e1a4.json').read_text(encoding='utf-8'))
-        cls.e1a2 = json.loads((RAIZ / 'config' / 'e1a2.json').read_text(encoding='utf-8'))
 
-    def test_el_modelo_es_el_escalon_e9(self) -> None:
-        e9 = next(e for e in self.e1a2['escalones'] if e['id'] == 'E9')
+    def test_el_modelo_es_la_arquitectura_elegida(self) -> None:
+        """D57: la elegida en results/e1a2_arquitecturas/eleccion.csv, con BCE y su mejor η."""
+        eleccion = pd.read_csv(RAIZ / 'results' / 'e1a2_arquitecturas' / 'eleccion.csv')
+        elegida = eleccion[eleccion.elegida].iloc[0]
+        ruta = RAIZ / 'config' / f'e1a2_arquitecturas_bce_{elegida.arquitectura}.json'
+        origen = json.loads(ruta.read_text(encoding='utf-8'))
+        escalon = next(e for e in origen['escalones'] if e['optimizador']['eta'] == elegida.eta_bce)
         for clave in CLAVES_COMPARABLES:
-            self.assertEqual(self.config['modelo'][clave], e9[clave], clave)
+            self.assertEqual(self.config['modelo'][clave], escalon[clave], clave)
+        self.assertNotEqual(self.config['modelo']['activacion_latente'], 'identidad')
         for clave in ('epocas', 'codificacion', 'reduccion', 'beta', 'amplitud_inicial'):
-            self.assertEqual(self.config[clave], self.e1a2[clave], clave)
+            self.assertEqual(self.config[clave], origen[clave], clave)
 
     def test_al_menos_cinco_semillas(self) -> None:
         self.assertGreaterEqual(len(set(self.config['semillas'])), 5)
