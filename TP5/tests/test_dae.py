@@ -7,7 +7,7 @@ import unittest
 import numpy as np
 
 from src.data.font import cargar_font
-from src.data.ruido import sal_y_pimienta
+from src.data.ruido import gaussiano, sal_y_pimienta
 from src.modelos.autoencoder import Autoencoder, entrenar
 from src.modelos.dae import corruptor, evaluar_con_ruido
 from src.nn.optimizadores import Adam
@@ -53,6 +53,37 @@ class RuidoTests(unittest.TestCase):
             sal_y_pimienta(self.X, 1.5, np.random.default_rng(0))
 
 
+class GaussianoTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.X, _ = cargar_font()
+
+    def test_media_cero_y_desvio_sigma_sin_tocar_x(self) -> None:
+        grande = np.tile(self.X, (200, 1))
+        original = grande.copy()
+        for sigma in (0.1, 0.3, 0.5):
+            with self.subTest(sigma=sigma):
+                ruido = gaussiano(grande, sigma, np.random.default_rng(1)) - grande
+                self.assertAlmostEqual(ruido.mean(), 0.0, delta=0.005)
+                self.assertAlmostEqual(ruido.std(), sigma, delta=0.005 * sigma / 0.1)
+        np.testing.assert_array_equal(grande, original)
+
+    def test_sin_recortar_y_sigma_cero(self) -> None:
+        ruidosa = gaussiano(self.X, 0.5, np.random.default_rng(0))
+        self.assertTrue((ruidosa < 0).any() and (ruidosa > 1).any())
+        np.testing.assert_array_equal(gaussiano(self.X, 0.0, np.random.default_rng(0)), self.X)
+
+    def test_semilla(self) -> None:
+        a = gaussiano(self.X, 0.2, np.random.default_rng(5))
+        b = gaussiano(self.X, 0.2, np.random.default_rng(5))
+        np.testing.assert_array_equal(a, b)
+        self.assertFalse(np.array_equal(a, gaussiano(self.X, 0.2, np.random.default_rng(6))))
+
+    def test_sigma_invalido(self) -> None:
+        with self.assertRaises(ValueError):
+            gaussiano(self.X, -0.1, np.random.default_rng(0))
+
+
 class DaeTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -95,6 +126,19 @@ class DaeTests(unittest.TestCase):
         self.assertAlmostEqual(tabla.alterados.mean(), 3.5, delta=0.4)           # 35 píxeles × 0,1
         sin_ruido = evaluar_con_ruido(ae, self.X, 0.0, realizaciones=2, rng=np.random.default_rng(3))
         self.assertEqual(int(sin_ruido.alterados.sum()), 0)
+
+    def test_evaluacion_gaussiana(self) -> None:
+        """alterados = píxeles que cruzan el umbral 0,5: con σ = 0,5, P(|ε| > 1) ≈ 0,159 → 35 × 0,159 ≈ 5,6."""
+        ae = self.autoencoder()
+        tabla = evaluar_con_ruido(ae, self.X, 0.5, realizaciones=40, rng=np.random.default_rng(3), tipo='gaussiano')
+        self.assertEqual(len(tabla), 32 * 40)
+        self.assertAlmostEqual(tabla.alterados.mean(), 35 * 0.1587, delta=0.4)
+        chico = evaluar_con_ruido(ae, self.X, 0.1, realizaciones=5, rng=np.random.default_rng(3), tipo='gaussiano')
+        self.assertEqual(int(chico.alterados.sum()), 0)       # σ = 0,1 no cruza el umbral (5 desvíos)
+
+    def test_corruptor_gaussiano_cambia_en_cada_llamada(self) -> None:
+        corromper = corruptor(0.2, np.random.default_rng(1), tipo='gaussiano')
+        self.assertFalse(np.array_equal(corromper(self.X), corromper(self.X)))
 
 
 if __name__ == '__main__':

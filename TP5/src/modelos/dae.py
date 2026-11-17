@@ -10,33 +10,37 @@ from collections.abc import Callable
 import numpy as np
 import pandas as pd
 
-from src.data.ruido import sal_y_pimienta
+from src.data.ruido import RUIDOS
 from src.modelos.autoencoder import Autoencoder
 from src.modelos.generacion import vecino_mas_cercano
 from src.modelos.metricas import binarizar
 
 
-def corruptor(p: float, rng: np.random.Generator) -> Callable[[np.ndarray], np.ndarray]:
-    """Función para `entrenar(corromper=…)`: salt-and-pepper de nivel p, distinto en cada llamada."""
-    return lambda X: sal_y_pimienta(X, p, rng)
+def corruptor(p: float, rng: np.random.Generator,
+              tipo: str = 'sal_y_pimienta') -> Callable[[np.ndarray], np.ndarray]:
+    """Función para `entrenar(corromper=…)`: ruido `tipo` de nivel p (σ si es gaussiano),
+    distinto en cada llamada."""
+    ruido = RUIDOS[tipo]
+    return lambda X: ruido(X, p, rng)
 
 
 def evaluar_con_ruido(ae: Autoencoder, X: np.ndarray, p: float, realizaciones: int,
-                      rng: np.random.Generator) -> pd.DataFrame:
+                      rng: np.random.Generator, tipo: str = 'sal_y_pimienta') -> pd.DataFrame:
     """Reconstruye `realizaciones` versiones ruidosas nuevas de cada patrón.
 
     Una fila por (patrón, realización):
-      alterados   píxeles que el ruido cambió en la entrada
+      alterados   píxeles de la entrada ruidosa, umbralizada en 0,5, distintos del patrón
+                  limpio (con salt-and-pepper, los que el ruido invirtió)
       mal         píxeles de la salida umbralizada que difieren del patrón limpio
       predicho    patrón del dataset más cercano (Hamming) a la salida umbralizada
     """
     filas = []
     for realizacion in range(realizaciones):
-        ruidosa = sal_y_pimienta(X, p, rng)
+        ruidosa = RUIDOS[tipo](X, p, rng)
         salida = binarizar(ae.reconstruir(ruidosa), '01')
         predicho, _ = vecino_mas_cercano(salida, X)
         filas.append(pd.DataFrame({
             'patron': np.arange(len(X)), 'realizacion': realizacion,
-            'alterados': (ruidosa != X).sum(axis=1), 'mal': (salida != (X > 0.5)).sum(axis=1),
+            'alterados': (binarizar(ruidosa, '01') != (X > 0.5)).sum(axis=1), 'mal': (salida != (X > 0.5)).sum(axis=1),
             'predicho': predicho}))
     return pd.concat(filas, ignore_index=True)
