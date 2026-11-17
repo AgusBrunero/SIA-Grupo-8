@@ -1,0 +1,10 @@
+gaussiano σ=0.5 semilla 0: entrada 5.60 px mal, salida 1.61 px mal, sin ruido 12 px  15.4 s
+gaussiano σ=0.5 semilla 1: entrada 5.53 px mal, salida 1.35 px mal, sin ruido 13 px  15.5 s
+gaussiano σ=0.5 semilla 2: entrada 5.43 px mal, salida 1.25 px mal, sin ruido 4 px  15.5 s
+gaussiano σ=0.5 semilla 3: entrada 5.62 px mal, salida 1.24 px mal, sin ruido 12 px  15.3 s
+gaussiano σ=0.5 semilla 4: entrada 5.65 px mal, salida 1.69 px mal, sin ruido 11 px  15.2 s
+gaussiano σ=0.5 semilla 5: entrada 5.50 px mal, salida 1.25 px mal, sin ruido 10 px  15.6 s
+gaussiano σ=0.5 semilla 6: entrada 5.55 px mal, salida 1.41 px mal, sin ruido 16 px  15.6 s
+gaussiano σ=0.5 semilla 7: entrada 5.60 px mal, salida 1.15 px mal, sin ruido 6 px  15.7 s
+gaussiano σ=0.5 semilla 8: entrada 5.57 px mal, salida 1.65 px mal, sin ruido 23 px  15.3 s
+gaussiano σ=0.5 semilla 9: entrada 5.49 px mal, salida 1.16 px mal, sin ruido 4 px  15.3 s
