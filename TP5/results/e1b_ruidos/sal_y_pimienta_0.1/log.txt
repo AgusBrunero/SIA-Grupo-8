@@ -1,0 +1,10 @@
+sal_y_pimienta p=0.1 semilla 0: entrada 3.51 px mal, salida 0.65 px mal, sin ruido 0 px  15.1 s
+sal_y_pimienta p=0.1 semilla 1: entrada 3.53 px mal, salida 0.81 px mal, sin ruido 9 px  15.1 s
+sal_y_pimienta p=0.1 semilla 2: entrada 3.46 px mal, salida 0.71 px mal, sin ruido 2 px  14.9 s
+sal_y_pimienta p=0.1 semilla 3: entrada 3.39 px mal, salida 0.60 px mal, sin ruido 2 px  15.6 s
+sal_y_pimienta p=0.1 semilla 4: entrada 3.48 px mal, salida 1.38 px mal, sin ruido 23 px  15.1 s
+sal_y_pimienta p=0.1 semilla 5: entrada 3.40 px mal, salida 0.78 px mal, sin ruido 8 px  15.4 s
+sal_y_pimienta p=0.1 semilla 6: entrada 3.47 px mal, salida 0.70 px mal, sin ruido 1 px  15.1 s
+sal_y_pimienta p=0.1 semilla 7: entrada 3.31 px mal, salida 0.86 px mal, sin ruido 6 px  14.9 s
+sal_y_pimienta p=0.1 semilla 8: entrada 3.57 px mal, salida 0.88 px mal, sin ruido 4 px  14.8 s
+sal_y_pimienta p=0.1 semilla 9: entrada 3.51 px mal, salida 0.67 px mal, sin ruido 5 px  14.7 s
