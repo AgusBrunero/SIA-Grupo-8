@@ -1,0 +1,104 @@
+{
+ "experimento": "e1a2_arquitecturas/ec_T2",
+ "descripcion": "Consigna 1a.1 rehecha (pedido de la catedra, 2026-11-17): latente no lineal (nunca identidad), arquitectura T2 con error cuadratico, 3 eta de Adam x 10 semillas. Un config por arquitectura y costo para que cada corrida entre en primer plano. Corre con experiments.e1a2_escalera; lo analiza experiments.e1a2_arquitecturas.",
+ "origen_de_los_hiperparametros": {
+  "adam": "beta1, beta2, epsilon de Clase 12.1 diap. 13; eta = 0.001 de E9 (config/e1a2.json) x 1/3, 1 y 3, mismo esquema que config/e1a2_opt_bce.json",
+  "arquitecturas": "T1 referencia sin capa extra, T2 la capa extra pedida por la catedra, T3 mas ancha, T4 mas profunda, L2 la red de T2 con latente logistico"
+ },
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 10000,
+ "curva_cada": 20,
+ "codificacion": "01",
+ "perdida": "error_cuadratico",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "id": "T2 eta=0.0003",
+   "respecto_de": "E9",
+   "cambia": "Arquitectura 35-20-10-2-10-20-35: dos capas ocultas (20 y 10); latente tanh (la capa extra que pidio la catedra); error cuadratico; Adam con eta = 0.0003 (el de E9 x 1/3, 1 o 3)",
+   "sosten": "Autoencoders diap. 3-6; Clase 10.2 diap. 23; Clase 12.1 diap. 11-13",
+   "capas_encoder": [
+    35,
+    20,
+    10,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "tanh",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.0003,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "T2 eta=0.001",
+   "respecto_de": "E9",
+   "cambia": "Arquitectura 35-20-10-2-10-20-35: dos capas ocultas (20 y 10); latente tanh (la capa extra que pidio la catedra); error cuadratico; Adam con eta = 0.001 (el de E9 x 1/3, 1 o 3)",
+   "sosten": "Autoencoders diap. 3-6; Clase 10.2 diap. 23; Clase 12.1 diap. 11-13",
+   "capas_encoder": [
+    35,
+    20,
+    10,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "tanh",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "T2 eta=0.003",
+   "respecto_de": "E9",
+   "cambia": "Arquitectura 35-20-10-2-10-20-35: dos capas ocultas (20 y 10); latente tanh (la capa extra que pidio la catedra); error cuadratico; Adam con eta = 0.003 (el de E9 x 1/3, 1 o 3)",
+   "sosten": "Autoencoders diap. 3-6; Clase 10.2 diap. 23; Clase 12.1 diap. 11-13",
+   "capas_encoder": [
+    35,
+    20,
+    10,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "tanh",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.003,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  }
+ ]
+}
