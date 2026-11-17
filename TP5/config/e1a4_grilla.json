@@ -1,6 +1,6 @@
 {
  "experimento": "e1a4_grilla",
- "descripcion": "Punto 3 de la iteracion final 2: grilla de 50 x 50 sobre el rectangulo de los codigos del modelo elegido (E9, semilla 0, D45); salidas unicas que no son letras del dataset, con su distancia de Hamming a la letra mas cercana. El grupo elige 1 a 3 candidatas.",
+ "descripcion": "Punto 3 de la iteracion final 2: grilla de 50 x 50 sobre el rectangulo de los codigos del modelo elegido (T3 con latente tanh, D57; semilla 0); salidas unicas que no son letras del dataset, con su distancia de Hamming a la letra mas cercana. El grupo elige 1 a 3 candidatas.",
  "config_modelo": "config/e1a3_e1a4.json",
  "semilla": 0,
  "n_grilla": 50,

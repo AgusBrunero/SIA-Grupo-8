@@ -11,6 +11,13 @@
    "resultados": "results/e1a2/"
   },
   {
+   "consigna": "1a.1 rehecha (latente no lineal, D57)",
+   "script": "experiments.e1a2_escalera",
+   "config": "config/e1a2_arquitecturas_<costo>_<arq>.json (10 archivos: costo bce o ec; arq T1, T2, T3, T4 o L2)",
+   "analisis": "experiments.e1a2_arquitecturas",
+   "resultados": "results/e1a2_arquitecturas/"
+  },
+  {
    "consigna": "1a.3 y 1a.4",
    "script": "experiments.e1a3_e1a4_latente",
    "config": "config/e1a3_e1a4.json",
@@ -21,6 +28,13 @@
    "script": "experiments.e1b_dae",
    "config": "config/e1b.json",
    "resultados": "results/e1b/"
+  },
+  {
+   "consigna": "1b rehecha (arquitectura del AE, mismo ruido en prueba, D58)",
+   "script": "experiments.e1b_ruidos",
+   "config": "config/e1b_ruidos.json",
+   "como_correr": "una vez por <tipo> <nivel> del config y despues con el argumento analisis",
+   "resultados": "results/e1b_ruidos/"
   },
   {
    "consigna": "2a y 2b",
