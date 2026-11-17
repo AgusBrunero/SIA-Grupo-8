@@ -1,0 +1,6 @@
+arquitectura,eta_bce,logradas_bce,logradas_ec,total_px_bce,total_px_bce_desvio,total_px_ec,total_px_ec_desvio,eta_ec,epoca_mediana_bce,epoca_media_bce,epoca_desvio_bce,n_pesos,queda_afuera_en,elegida
+L2,0.003,8,0,7.0,14.544949486180954,33.9,10.50343859039611,0.001,2440.5,2636.5,1073.4579637787406,1937,1 · semillas con BCE,False
+T1,0.003,10,0,0.0,0.0,43.6,4.671426144361293,0.001,2070.5,2077.6,318.2752826651098,1557,4 · época en llegar con BCE,False
+T2,0.003,8,0,3.8,6.972963661329537,21.7,4.498147766951785,0.001,2117.0,3200.375,2822.5998622091047,1937,1 · semillas con BCE,False
+T3,0.003,10,0,0.0,0.0,22.7,5.334374898294603,0.0003,817.5,860.8,185.4578718259816,3187,,True
+T4,0.001,1,0,23.4,31.53904106200934,30.8,13.628401716024271,0.001,2274.0,2274.0,,3897,1 · semillas con BCE,False
