@@ -1,11 +1,11 @@
-{'semilla': 0, 'logro': True, 'max_pixeles': 0, 'total_pixeles': 0, 'error_final': 0.7249214744438537, 'segundos': 2.166796208010055}
-{'semilla': 1, 'logro': True, 'max_pixeles': 0, 'total_pixeles': 0, 'error_final': 0.3869744036567807, 'segundos': 2.059070832969155}
-{'semilla': 2, 'logro': True, 'max_pixeles': 0, 'total_pixeles': 0, 'error_final': 0.5047914790870363, 'segundos': 2.0640313749900088}
-{'semilla': 3, 'logro': True, 'max_pixeles': 0, 'total_pixeles': 0, 'error_final': 0.3058145475715976, 'segundos': 2.0664426250150427}
-{'semilla': 4, 'logro': True, 'max_pixeles': 0, 'total_pixeles': 0, 'error_final': 0.3573588342991799, 'segundos': 1.9924640000099316}
+{'semilla': 0, 'logro': True, 'max_pixeles': 0, 'total_pixeles': 0, 'error_final': 0.016795971184398815, 'segundos': 14.919711139002175}
+{'semilla': 1, 'logro': True, 'max_pixeles': 0, 'total_pixeles': 0, 'error_final': 0.017996787743105952, 'segundos': 15.141002234999178}
+{'semilla': 2, 'logro': True, 'max_pixeles': 0, 'total_pixeles': 0, 'error_final': 0.026475303744299156, 'segundos': 14.424026851000235}
+{'semilla': 3, 'logro': True, 'max_pixeles': 0, 'total_pixeles': 0, 'error_final': 0.03759079205535046, 'segundos': 14.975574780000898}
+{'semilla': 4, 'logro': True, 'max_pixeles': 0, 'total_pixeles': 0, 'error_final': 0.033592796903119906, 'segundos': 13.949952816001314}
 ## 1a.3 y 1a.4 · Espacio latente y generación (e1a3_e1a4)
 
-Modelo: escalón E9 de e1a2, 10000 épocas, semillas 0, 1, 2, 3, 4. Datos en `results/e1a3_e1a4/`.
+Modelo: arquitectura elegida en e1a2_arquitecturas (D57: 35–30–15–2–15–30–35, latente tanh, BCE, Adam η = 0,003), 10000 épocas, semillas 0, 1, 2, 3, 4. Datos en `results/e1a3_e1a4/`.
 
 ### Entrenamiento
 
@@ -14,45 +14,45 @@ Modelo: escalón E9 de e1a2, 10000 épocas, semillas 0, 1, 2, 3, 4. Datos en `re
 ### 1a.3 · Latente (`fig_latente_ae.png`, `latente.csv`)
 
 - La posición de cada patrón cambia de una semilla a otra. Para comparar sin depender de rotaciones, reflejos ni traslaciones se usan las 496 distancias entre pares de patrones en el latente (`estabilidad.csv`).
-- Correlación de Pearson de esas distancias entre semillas: semilla 0 y semilla 1: 0,47, semilla 0 y semilla 2: 0,40, semilla 0 y semilla 3: 0,70, semilla 0 y semilla 4: 0,34, semilla 1 y semilla 2: 0,30, semilla 1 y semilla 3: 0,64, semilla 1 y semilla 4: 0,40, semilla 2 y semilla 3: 0,39, semilla 2 y semilla 4: 0,14, semilla 3 y semilla 4: 0,45.
-- Patrones (de 32) cuyo vecino más cercano en el latente es el mismo en las dos semillas: semilla 0 y semilla 1: 5, semilla 0 y semilla 2: 8, semilla 0 y semilla 3: 7, semilla 0 y semilla 4: 7, semilla 1 y semilla 2: 9, semilla 1 y semilla 3: 9, semilla 1 y semilla 4: 3, semilla 2 y semilla 3: 10, semilla 2 y semilla 4: 3, semilla 3 y semilla 4: 2.
-- Correlación entre la distancia en el latente y la distancia de Hamming entre los patrones: semilla 0: 0,45, semilla 1: 0,40, semilla 2: 0,45, semilla 3: 0,54, semilla 4: 0,33.
+- Correlación de Pearson de esas distancias entre semillas: semilla 0 y semilla 1: 0,40, semilla 0 y semilla 2: 0,86, semilla 0 y semilla 3: 0,60, semilla 0 y semilla 4: 0,58, semilla 1 y semilla 2: 0,41, semilla 1 y semilla 3: 0,41, semilla 1 y semilla 4: 0,46, semilla 2 y semilla 3: 0,66, semilla 2 y semilla 4: 0,54, semilla 3 y semilla 4: 0,41.
+- Patrones (de 32) cuyo vecino más cercano en el latente es el mismo en las dos semillas: semilla 0 y semilla 1: 11, semilla 0 y semilla 2: 15, semilla 0 y semilla 3: 11, semilla 0 y semilla 4: 12, semilla 1 y semilla 2: 11, semilla 1 y semilla 3: 9, semilla 1 y semilla 4: 7, semilla 2 y semilla 3: 12, semilla 2 y semilla 4: 10, semilla 3 y semilla 4: 8.
+- Correlación entre la distancia en el latente y la distancia de Hamming entre los patrones: semilla 0: 0,43, semilla 1: 0,53, semilla 2: 0,48, semilla 3: 0,36, semilla 4: 0,46.
 
 ### Línea base: PCA 2D con SVD (`fig_latente_pca.png`, `pca.csv`)
 
 - Las dos primeras componentes explican el 15,2 % y el 11,9 % de la varianza (27,0 % en total).
 - Reconstruyendo con 2 componentes y umbral 0,5: máximo 15 px incorrectos en un patrón, 230 en total, y 32 de 32 patrones con más de 1 px mal. El autoencoder, en la peor de sus semillas: 0 en total.
-- Correlación de las distancias entre pares: PCA con Hamming 0,65; AE con PCA semilla 0: 0,62, semilla 1: 0,52, semilla 2: 0,54, semilla 3: 0,64, semilla 4: 0,40.
+- Correlación de las distancias entre pares: PCA con Hamming 0,65; AE con PCA semilla 0: 0,56, semilla 1: 0,62, semilla 2: 0,65, semilla 3: 0,56, semilla 4: 0,47.
 
 ### 1a.4 · Grilla decodificada (`fig_grilla_semilla*.png`, `grilla.csv`)
 
 Grilla regular de 10 × 10 sobre el rectángulo que cubre los 32 códigos (algoritmo de Autoencoders diap. 34). Cada muestra se umbraliza en 0,5 y se compara con los 32 patrones.
 
-- **Semilla 0** (100 muestras; rango z1 [-31,13; 29,94], z2 [-31,50; 22,60]): 39 son idénticas a una letra del dataset y 61 no. Distancia a la letra más cercana: 39 a 0 px, 10 a 1 px, 5 a 2 px, 9 a 3 px, 4 a 4 px, 4 a 5 px, 7 a 6 px, 8 a 7 px, 6 a 8 px, 5 a 9 px, 1 a 10 px, 2 a 11 px. Letras distintas que aparecen como la más cercana: 23 de 32.
-- **Semilla 1** (100 muestras; rango z1 [-23,01; 26,32], z2 [-14,87; 27,32]): 37 son idénticas a una letra del dataset y 63 no. Distancia a la letra más cercana: 37 a 0 px, 16 a 1 px, 14 a 2 px, 7 a 3 px, 5 a 4 px, 9 a 5 px, 4 a 6 px, 5 a 7 px, 1 a 9 px, 2 a 10 px. Letras distintas que aparecen como la más cercana: 26 de 32.
-- **Semilla 2** (100 muestras; rango z1 [-18,78; 26,00], z2 [-29,50; 32,46]): 40 son idénticas a una letra del dataset y 60 no. Distancia a la letra más cercana: 40 a 0 px, 4 a 1 px, 4 a 2 px, 3 a 3 px, 10 a 4 px, 10 a 5 px, 5 a 6 px, 7 a 7 px, 2 a 8 px, 1 a 9 px, 3 a 10 px, 2 a 11 px, 4 a 12 px, 2 a 13 px, 3 a 14 px. Letras distintas que aparecen como la más cercana: 26 de 32.
-- **Semilla 3** (100 muestras; rango z1 [-23,34; 23,72], z2 [-19,12; 26,97]): 33 son idénticas a una letra del dataset y 67 no. Distancia a la letra más cercana: 33 a 0 px, 9 a 1 px, 9 a 2 px, 5 a 3 px, 14 a 4 px, 7 a 5 px, 7 a 6 px, 10 a 7 px, 2 a 8 px, 3 a 9 px, 1 a 10 px. Letras distintas que aparecen como la más cercana: 24 de 32.
-- **Semilla 4** (100 muestras; rango z1 [-21,87; 36,30], z2 [-18,13; 25,05]): 27 son idénticas a una letra del dataset y 73 no. Distancia a la letra más cercana: 27 a 0 px, 10 a 1 px, 13 a 2 px, 11 a 3 px, 4 a 4 px, 6 a 5 px, 6 a 6 px, 3 a 7 px, 2 a 8 px, 8 a 9 px, 6 a 10 px, 4 a 11 px. Letras distintas que aparecen como la más cercana: 23 de 32.
+- **Semilla 0** (100 muestras; rango z1 [-0,99; 1,00], z2 [-0,99; 0,99]): 53 son idénticas a una letra del dataset y 47 no. Distancia a la letra más cercana: 53 a 0 px, 8 a 1 px, 9 a 2 px, 4 a 3 px, 9 a 4 px, 7 a 5 px, 5 a 6 px, 3 a 7 px, 1 a 8 px, 1 a 9 px. Letras distintas que aparecen como la más cercana: 32 de 32.
+- **Semilla 1** (100 muestras; rango z1 [-0,99; 0,99], z2 [-0,99; 1,00]): 51 son idénticas a una letra del dataset y 49 no. Distancia a la letra más cercana: 51 a 0 px, 7 a 1 px, 10 a 2 px, 9 a 3 px, 3 a 4 px, 8 a 5 px, 7 a 6 px, 3 a 7 px, 2 a 11 px. Letras distintas que aparecen como la más cercana: 31 de 32.
+- **Semilla 2** (100 muestras; rango z1 [-1,00; 0,99], z2 [-1,00; 0,98]): 47 son idénticas a una letra del dataset y 53 no. Distancia a la letra más cercana: 47 a 0 px, 7 a 1 px, 10 a 2 px, 8 a 3 px, 10 a 4 px, 4 a 5 px, 7 a 6 px, 2 a 7 px, 2 a 9 px, 2 a 10 px, 1 a 11 px. Letras distintas que aparecen como la más cercana: 31 de 32.
+- **Semilla 3** (100 muestras; rango z1 [-0,98; 0,98], z2 [-0,99; 0,99]): 41 son idénticas a una letra del dataset y 59 no. Distancia a la letra más cercana: 41 a 0 px, 16 a 1 px, 4 a 2 px, 7 a 3 px, 7 a 4 px, 7 a 5 px, 4 a 6 px, 3 a 7 px, 4 a 8 px, 3 a 9 px, 1 a 10 px, 3 a 11 px. Letras distintas que aparecen como la más cercana: 32 de 32.
+- **Semilla 4** (100 muestras; rango z1 [-0,97; 0,98], z2 [-0,99; 0,99]): 42 son idénticas a una letra del dataset y 58 no. Distancia a la letra más cercana: 42 a 0 px, 11 a 1 px, 8 a 2 px, 7 a 3 px, 10 a 4 px, 6 a 5 px, 7 a 6 px, 3 a 7 px, 2 a 8 px, 2 a 9 px, 1 a 10 px, 1 a 11 px. Letras distintas que aparecen como la más cercana: 30 de 32.
 
 ### 1a.4 · Interpolaciones (`fig_interpolaciones_semilla*.png`, `interpolaciones.csv`)
 
 9 puntos sobre el segmento entre los códigos de dos letras (Autoencoders diap. 33). En cada punto: distancia en píxeles a la letra más cercana · esa letra. Distancia de Hamming entre las letras de cada par: n–r: 3, o–e: 5, k–q: 24.
 
-- Semilla 0, n→r: 0·n → 3·m → 3·m → 3·m → 0·m → 4·m → 0·e → 0·e → 0·r.
+- Semilla 0, n→r: 0·n → 0·n → 0·n → 0·n → 0·n → 1·r → 0·r → 0·r → 0·r.
 - Semilla 0, o→e: 0·o → 0·o → 0·o → 2·o → 0·e → 0·e → 0·e → 0·e → 0·e.
-- Semilla 0, k→q: 0·k → 0·k → 0·k → 0·r → 0·r → 3·r → 5·o → 0·y → 0·q.
-- Semilla 1, n→r: 0·n → 0·n → 0·n → 0·n → 0·n → 0·n → 1·n → 0·r → 0·r.
-- Semilla 1, o→e: 0·o → 0·o → 0·o → 0·o → 2·o → 1·e → 0·e → 0·e → 0·e.
-- Semilla 1, k→q: 0·k → 0·k → 1·k → 0·p → 0·p → 0·p → 5·s → 4·s → 0·q.
-- Semilla 2, n→r: 0·n → 0·n → 0·n → 0·n → 1·n → 0·r → 0·r → 0·r → 0·r.
-- Semilla 2, o→e: 0·o → 0·o → 1·o → 0·e → 0·e → 0·e → 0·e → 0·e → 0·e.
-- Semilla 2, k→q: 0·k → 0·k → 0·b → 3·r → 5·v → 6·c → 5·~ → 6·` → 0·q.
-- Semilla 3, n→r: 0·n → 0·n → 0·n → 1·r → 0·r → 0·r → 0·r → 0·r → 0·r.
-- Semilla 3, o→e: 0·o → 0·o → 2·o → 1·e → 0·e → 0·e → 0·e → 0·e → 0·e.
-- Semilla 3, k→q: 0·k → 0·k → 3·k → 6·b → 1·r → 4·o → 4·o → 6·u → 0·q.
-- Semilla 4, n→r: 0·n → 0·n → 0·n → 0·n → 0·n → 1·n → 0·r → 0·r → 0·r.
-- Semilla 4, o→e: 0·o → 0·o → 0·o → 1·e → 0·e → 0·e → 0·e → 0·e → 0·e.
-- Semilla 4, k→q: 0·k → 0·k → 0·b → 0·b → 4·b → 5·a → 4·a → 3·a → 0·q.
+- Semilla 0, k→q: 0·k → 2·k → 2·k → 5·b → 5·r → 5·u → 1·x → 1·s → 0·q.
+- Semilla 1, n→r: 0·n → 0·n → 0·n → 0·n → 1·r → 0·r → 0·r → 0·r → 0·r.
+- Semilla 1, o→e: 0·o → 0·o → 0·o → 0·o → 0·o → 2·o → 1·e → 0·e → 0·e.
+- Semilla 1, k→q: 0·k → 3·k → 3·c → 6·c → 0·e → 0·v → 5·u → 0·q → 0·q.
+- Semilla 2, n→r: 0·n → 0·n → 0·n → 0·n → 0·n → 0·r → 0·r → 0·r → 0·r.
+- Semilla 2, o→e: 0·o → 0·o → 0·o → 0·o → 0·e → 0·e → 0·e → 0·e → 0·e.
+- Semilla 2, k→q: 0·k → 0·k → 0·k → 0·k → 5·b → 5·b → 0·v → 5·a → 0·q.
+- Semilla 3, n→r: 0·n → 0·m → 0·m → 2·m → 0·e → 0·e → 0·o → 3·r → 0·r.
+- Semilla 3, o→e: 0·o → 0·o → 0·o → 2·o → 0·e → 0·e → 0·e → 0·e → 0·e.
+- Semilla 3, k→q: 0·k → 1·k → 4·b → 3·b → 0·v → 1·v → 7·q → 0·q → 0·q.
+- Semilla 4, n→r: 0·n → 0·n → 0·n → 0·n → 0·r → 0·r → 0·r → 0·r → 0·r.
+- Semilla 4, o→e: 0·o → 0·o → 0·m → 0·m → 1·m → 4·m → 6·m → 3·e → 0·e.
+- Semilla 4, k→q: 0·k → 0·k → 4·k → 1·r → 1·r → 2·r → 6·m → 6·q → 0·q.
 
 No se señala ninguna muestra como "letra nueva": lo decide el grupo mirando las grillas.
 
