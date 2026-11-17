@@ -1,17 +1,16 @@
  distancia_minima pares
                 2 l y |
-526 salidas únicas que no son letras; por distancia:
+677 salidas únicas que no son letras; por distancia:
 distancia
-1     54
-2     64
-3     66
-4     52
-5     55
-6     64
-7     57
-8     38
-9     38
-10    23
-11    13
-12     2
-figuras: ['fig_candidatas_1.png', 'fig_candidatas_2.png', 'fig_candidatas_3.png', 'fig_candidatas_4.png']
+1      91
+2     101
+3     109
+4     115
+5     103
+6      79
+7      42
+8      21
+9      10
+10      3
+11      3
+figuras: ['fig_candidatas_1.png', 'fig_candidatas_2.png', 'fig_candidatas_3.png', 'fig_candidatas_4.png', 'fig_candidatas_5.png']
