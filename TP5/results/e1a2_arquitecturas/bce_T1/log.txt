@@ -1,0 +1,31 @@
+T1 eta=0.0003                semilla   0  logro=False max_px= 3  total_px= 25  error=108.2060  9.0 s
+T1 eta=0.0003                semilla   1  logro=False max_px= 5  total_px= 29  error=108.9881  8.9 s
+T1 eta=0.0003                semilla   2  logro=False max_px= 8  total_px= 43  error=136.7228  8.9 s
+T1 eta=0.0003                semilla   3  logro=False max_px= 6  total_px= 36  error=124.5947  8.9 s
+T1 eta=0.0003                semilla   4  logro=False max_px=10  total_px= 51  error=139.2489  9.0 s
+T1 eta=0.0003                semilla   5  logro=False max_px= 7  total_px= 37  error=128.1018  8.9 s
+T1 eta=0.0003                semilla   6  logro=False max_px= 5  total_px= 37  error=122.6626  8.9 s
+T1 eta=0.0003                semilla   7  logro=False max_px=10  total_px= 52  error=137.7441  8.9 s
+T1 eta=0.0003                semilla   8  logro=False max_px= 8  total_px= 46  error=131.3000  8.9 s
+T1 eta=0.0003                semilla   9  logro=False max_px= 5  total_px= 34  error=126.4346  9.0 s
+T1 eta=0.001                 semilla   0  logro=True  max_px= 0  total_px=  0  error=2.4152  9.0 s
+T1 eta=0.001                 semilla   1  logro=True  max_px= 0  total_px=  0  error=1.4399  9.0 s
+T1 eta=0.001                 semilla   2  logro=True  max_px= 0  total_px=  0  error=1.6937  8.9 s
+T1 eta=0.001                 semilla   3  logro=True  max_px= 0  total_px=  0  error=1.0927  9.3 s
+T1 eta=0.001                 semilla   4  logro=True  max_px= 0  total_px=  0  error=1.9036  9.9 s
+T1 eta=0.001                 semilla   5  logro=True  max_px= 0  total_px=  0  error=2.2497  9.0 s
+T1 eta=0.001                 semilla   6  logro=True  max_px= 0  total_px=  0  error=1.5031  9.1 s
+T1 eta=0.001                 semilla   7  logro=True  max_px= 0  total_px=  0  error=1.7133  9.0 s
+T1 eta=0.001                 semilla   8  logro=True  max_px= 0  total_px=  0  error=1.2700  8.9 s
+T1 eta=0.001                 semilla   9  logro=True  max_px= 0  total_px=  0  error=1.2861  8.9 s
+T1 eta=0.003                 semilla   0  logro=True  max_px= 0  total_px=  0  error=0.1592  9.4 s
+T1 eta=0.003                 semilla   1  logro=True  max_px= 0  total_px=  0  error=0.1189  9.0 s
+T1 eta=0.003                 semilla   2  logro=True  max_px= 0  total_px=  0  error=0.0710  9.0 s
+T1 eta=0.003                 semilla   3  logro=True  max_px= 0  total_px=  0  error=0.5634  9.0 s
+T1 eta=0.003                 semilla   4  logro=True  max_px= 0  total_px=  0  error=0.1019  9.0 s
+T1 eta=0.003                 semilla   5  logro=True  max_px= 0  total_px=  0  error=0.4276  9.0 s
+T1 eta=0.003                 semilla   6  logro=True  max_px= 0  total_px=  0  error=0.3922  9.0 s
+T1 eta=0.003                 semilla   7  logro=True  max_px= 0  total_px=  0  error=0.0968  9.1 s
+T1 eta=0.003                 semilla   8  logro=True  max_px= 0  total_px=  0  error=0.3922  9.0 s
+T1 eta=0.003                 semilla   9  logro=True  max_px= 0  total_px=  0  error=0.0858  9.1 s
+30 corridas en 271 s → /home/gagito/itba/SIA/SIA-Grupo-8/TP5/results/e1a2_arquitecturas/bce_T1
