@@ -1,0 +1,77 @@
+{
+ "experimento": "e1b_ruidos",
+ "descripcion": "Consigna 1b rehecha (2026-11-17): DAE con la arquitectura elegida del AE (D57), ruido gaussiano y salt-and-pepper; se prueba siempre con el mismo tipo y el mismo nivel de ruido con que se entreno. Curva epoca a epoca y resultado final.",
+ "origen_del_modelo": "config/e1a3_e1a4.json (T3 35-30-15-2-15-30-35, latente tanh, BCE, Adam eta = 0.003; results/e1a2_arquitecturas/eleccion.csv, D57)",
+ "origen_de_los_niveles": "gaussiano: sigma de 0.1 a 0.5 (un pixel cruza el umbral 0.5 si el ruido va hacia el otro lado y supera 0.5: probabilidad 0 con sigma 0.1, 0.006 con 0.2, 0.048 con 0.3, 0.106 con 0.4 y 0.159 con 0.5); salt-and-pepper: los mismos p del e1b anterior. La catedra no da niveles (Autoencoders diap. 22); los fija el grupo (D58)",
+ "ruidos": {
+  "gaussiano": [
+   0.1,
+   0.2,
+   0.3,
+   0.4,
+   0.5
+  ],
+  "sal_y_pimienta": [
+   0.05,
+   0.1,
+   0.2,
+   0.3
+  ]
+ },
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 10000,
+ "evaluar_cada": 250,
+ "realizaciones_curva": 10,
+ "realizaciones_final": 20,
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "codificacion": "01",
+ "modelo": {
+  "capas_encoder": [
+   35,
+   30,
+   15,
+   2
+  ],
+  "activacion_oculta": "tanh",
+  "activacion_latente": "tanh",
+  "activacion_salida": "logistica",
+  "perdida": "bce",
+  "optimizador": {
+   "nombre": "adam",
+   "eta": 0.003,
+   "beta1": 0.9,
+   "beta2": 0.999,
+   "epsilon": 1e-08
+  },
+  "eta_adaptativo": null,
+  "tamano_lote": 32
+ },
+ "ejemplos": {
+  "semilla": 0,
+  "letras": [
+   "a",
+   "e",
+   "k",
+   "o",
+   "q",
+   "x"
+  ],
+  "niveles": {
+   "gaussiano": 0.5,
+   "sal_y_pimienta": 0.1
+  }
+ }
+}
