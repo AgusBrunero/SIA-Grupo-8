@@ -1,10 +1,13 @@
 {
  "experimento": "e1a4_interpolacion",
  "descripcion": "Punto 10 de la ultima iteracion de la presentacion: interpolacion fina de la 'o' a la 'e' en el latente del autoencoder de 1a (semilla 0, la de la letra elegida en config/elegidas.json), con la distancia a la letra mas cercana en cada paso.",
- "origen_del_modelo": "config/e1a3_e1a4.json (receta del escalon E9 de e1a2); se reentrena la misma semilla",
+ "origen_del_modelo": "config/e1a3_e1a4.json (arquitectura T3 de e1a2_arquitecturas, D57); se reentrena la misma semilla",
  "config_modelo": "config/e1a3_e1a4.json",
  "semilla": 0,
- "par": ["o", "e"],
+ "par": [
+  "o",
+  "e"
+ ],
  "pasos": 41,
  "distancia_minima_candidata": 3
 }
