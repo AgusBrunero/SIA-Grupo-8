@@ -3,7 +3,7 @@
  "descripcion": "Consigna 1a.1 rehecha (pedido de la catedra, 2026-11-17): latente no lineal (nunca identidad), arquitectura T3 con error cuadratico, 3 eta de Adam x 10 semillas. Un config por arquitectura y costo para que cada corrida entre en primer plano. Corre con experiments.e1a2_escalera; lo analiza experiments.e1a2_arquitecturas.",
  "origen_de_los_hiperparametros": {
   "adam": "beta1, beta2, epsilon de Clase 12.1 diap. 13; eta = 0.001 de E9 (config/e1a2.json) x 1/3, 1 y 3, mismo esquema que config/e1a2_opt_bce.json",
-  "arquitecturas": "T1 referencia sin capa extra, T2 la capa extra pedida por la catedra, T3 mas ancha, T4 mas profunda, L2 la red de T2 con latente logistico"
+  "arquitecturas": "T1 referencia sin capa extra, T2 la capa extra pedida por la catedra, T3 mas ancha, T4 mas profunda, L2 la red de T2 con latente logistico; ampliacion D59 (2026-11-17, feedback de la catedra): T5 y T6 varian el ancho con 1 capa, T8 y T9 con 2 y 3 capas, G1 y G3 con ocultas logisticas"
  },
  "semillas": [
   0,
