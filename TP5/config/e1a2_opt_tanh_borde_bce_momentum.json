@@ -1,0 +1,50 @@
+{
+ "experimento": "e1a2_opt_tanh/borde_bce_momentum",
+ "descripcion": "Consigna 1a.2 rehecha (D60, feedback de la catedra): comparacion justa de optimizadores sobre la red elegida T8 (latente tanh), entropia cruzada. Un config por (costo, optimizador) para que cada corrida entre en primer plano. Corre con experiments.e1a2_escalera; lo analiza experiments.e1a2_optimizadores_tanh. Borde (D49): el mejor eta de los tres quedo en el borde de la grilla; se agrega eta = 0.0001.",
+ "origen_del_modelo": "results/e1a2_arquitecturas/eleccion.csv: T8",
+ "origen_de_los_hiperparametros": "eta: el de config/e1a2.json para ese optimizador x 1/3, 1 y 3 (mismo esquema que D49); resto igual que config/e1a2.json",
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 10000,
+ "curva_cada": 20,
+ "codificacion": "01",
+ "perdida": "bce",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "id": "momentum eta=0.0001",
+   "respecto_de": "E5",
+   "cambia": "Red T8 (D57/D59) en vez de la de E4; entropia cruzada; eta = 0.0003 (el de E5 x 1/3, 1 o 3)",
+   "sosten": "Clase 12.1 diap. 5; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    30,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "tanh",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "momentum",
+    "eta": 0.0001,
+    "alfa": 0.9
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  }
+ ]
+}
