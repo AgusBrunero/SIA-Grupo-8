@@ -25,9 +25,12 @@ class ConfigTests(unittest.TestCase):
         """D57: la elegida en results/e1a2_arquitecturas/eleccion.csv, con BCE y su mejor η."""
         eleccion = pd.read_csv(RAIZ / 'results' / 'e1a2_arquitecturas' / 'eleccion.csv')
         elegida = eleccion[eleccion.elegida].iloc[0]
-        ruta = RAIZ / 'config' / f'e1a2_arquitecturas_bce_{elegida.arquitectura}.json'
-        origen = json.loads(ruta.read_text(encoding='utf-8'))
-        escalon = next(e for e in origen['escalones'] if e['optimizador']['eta'] == elegida.eta_bce)
+        # El η elegido puede estar en la grilla de 3 o en los agregados por D62 (_eta001, _eta003)
+        rutas = sorted((RAIZ / 'config').glob(f'e1a2_arquitecturas_bce_{elegida.arquitectura}*.json'))
+        candidatos = [(json.loads(r.read_text(encoding='utf-8')), e) for r in rutas
+                      for e in json.loads(r.read_text(encoding='utf-8'))['escalones'] if e['optimizador']['eta'] == elegida.eta_bce]
+        self.assertEqual(len(candidatos), 1)
+        origen, escalon = candidatos[0]
         for clave in CLAVES_COMPARABLES:
             self.assertEqual(self.config['modelo'][clave], escalon[clave], clave)
         self.assertNotEqual(self.config['modelo']['activacion_latente'], 'identidad')
