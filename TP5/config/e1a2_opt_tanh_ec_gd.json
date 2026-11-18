@@ -1,0 +1,93 @@
+{
+ "experimento": "e1a2_opt_tanh/ec_gd",
+ "descripcion": "Consigna 1a.2 rehecha (D60, feedback de la catedra): comparacion justa de optimizadores sobre la red elegida T8 (latente tanh), error cuadratico. Un config por (costo, optimizador) para que cada corrida entre en primer plano. Corre con experiments.e1a2_escalera; lo analiza experiments.e1a2_optimizadores_tanh.",
+ "origen_del_modelo": "results/e1a2_arquitecturas/eleccion.csv: T8",
+ "origen_de_los_hiperparametros": "eta: el de config/e1a2.json para ese optimizador x 1/3, 1 y 3 (mismo esquema que D49); resto igual que config/e1a2.json",
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 10000,
+ "curva_cada": 20,
+ "codificacion": "01",
+ "perdida": "error_cuadratico",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "id": "gd eta=0.003",
+   "respecto_de": "E4",
+   "cambia": "Red T8 (D57/D59) en vez de la de E4; error cuadratico; eta = 0.003 (el de E4 x 1/3, 1 o 3)",
+   "sosten": "Clase 11 diap. 52-54",
+   "capas_encoder": [
+    35,
+    30,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "tanh",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.003
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "gd eta=0.01",
+   "respecto_de": "E4",
+   "cambia": "Red T8 (D57/D59) en vez de la de E4; error cuadratico; eta = 0.01 (el de E4 x 1/3, 1 o 3)",
+   "sosten": "Clase 11 diap. 52-54",
+   "capas_encoder": [
+    35,
+    30,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "tanh",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.01
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  },
+  {
+   "id": "gd eta=0.03",
+   "respecto_de": "E4",
+   "cambia": "Red T8 (D57/D59) en vez de la de E4; error cuadratico; eta = 0.03 (el de E4 x 1/3, 1 o 3)",
+   "sosten": "Clase 11 diap. 52-54",
+   "capas_encoder": [
+    35,
+    30,
+    20,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "tanh",
+   "activacion_salida": "logistica",
+   "perdida": "error_cuadratico",
+   "optimizador": {
+    "nombre": "gd",
+    "eta": 0.03
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  }
+ ]
+}
