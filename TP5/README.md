@@ -28,8 +28,10 @@ Todos los comandos se corren desde `TP5/`.
 | Consigna | Comando | Salida |
 |---|---|---|
 | 1a.1 y 1a.2 · arquitecturas y optimización | `.venv/bin/python -m experiments.e1a2_escalera config/e1a2.json` y después `.venv/bin/python -m experiments.e1a2_analisis` | `results/e1a2/` |
+| 1a.1 rehecha · arquitecturas con latente no lineal (D57) | `python3 -m experiments.e1a2_escalera config/e1a2_arquitecturas_<costo>_<arq>.json` para cada uno de los 10 configs y después `python3 -m experiments.e1a2_arquitecturas` | `results/e1a2_arquitecturas/` |
 | 1a.3 y 1a.4 · latente y letra nueva | `.venv/bin/python -m experiments.e1a3_e1a4_latente config/e1a3_e1a4.json` | `results/e1a3_e1a4/` |
 | 1b · Denoising Autoencoder | `.venv/bin/python -m experiments.e1b_dae config/e1b.json` | `results/e1b/` |
+| 1b rehecha · DAE con la red del AE, gaussiano y salt-and-pepper (D58) | `python3 -m experiments.e1b_ruidos config/e1b_ruidos.json <tipo> <nivel>` para cada nivel del config y después `python3 -m experiments.e1b_ruidos config/e1b_ruidos.json analisis` | `results/e1b_ruidos/` |
 | 2a y 2b · dataset y VAE | `.venv/bin/python -m experiments.e2b_vae config/e2b.json` | `results/e2b/` |
 | 2b y 2c · AE contra VAE, λ y generación | `.venv/bin/python -m experiments.e2c_latente_generacion config/e2c.json` | `results/e2c/` |
 | 1a.4 y 2c · muestras elegidas | `.venv/bin/python -m experiments.elegidas config/elegidas.json` | `results/elegidas/` |
