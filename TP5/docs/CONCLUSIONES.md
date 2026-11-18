@@ -6,15 +6,21 @@ Cada conclusión trae su evidencia (números copiados de `docs/RESULTADOS.md`, q
 
 ## 1a.1 · Arquitectura del autoencoder
 
-**Conclusión.** La arquitectura que proponemos es 35–20–2–20–35, con capas ocultas tanh, latente lineal (identidad) y salida logística. De los tres cambios de arquitectura, el que más pesa es dejar el latente lineal.
+Rehecha el 2026-11-17 por pedido de la cátedra: el latente no puede ser lineal, y hay que variar la cantidad de capas, sus dimensiones y sus activaciones (tanh o logística). Ya no usamos el latente identidad de la versión anterior (E9); la escalera E1–E10 queda como historia de cómo llegamos a la entropía cruzada (1a.2).
 
-**Evidencia.**
-- Píxeles incorrectos en total sobre los 32 patrones: base 35–2–35 (E1) 210,0 ± 11,0; con una capa oculta de 20 (E2) 91,4 ± 41,8; con latente identidad (E3) 11,7 ± 3,9; con ocultas tanh (E4) 10,0 ± 2,1.
-- Entre E3 y E4 la cantidad de píxeles empata (la diferencia es menor que el desvío), pero solo E4 tiene semillas que cumplen el objetivo: 4 de 10.
+**Conclusión.** Para el AE elegimos **35–30–20–2–20–30–35 (T8)**: dos capas ocultas tanh por lado, **latente tanh** y salida logística, con entropía cruzada y Adam (η = 0,01). De las once redes con latente no lineal que probamos, cinco aprenden las 32 letras sin errores en las 10 semillas; entre esas cinco, T8 es la que llega antes, y la diferencia supera el desvío. Más capas no ayudan por sí solas: con tres capas ocultas la red llega en la mitad de las semillas o menos. Con una sola capa importa el ancho: 10 neuronas no alcanzan, 30 sí. Las ocultas tanh andan mejor que las logísticas.
 
-**Teoría.** Autoencoders diap. 3–4: dos MLP en espejo y Z = f(X). Con una logística en el latente los códigos quedan encerrados entre 0 y 1 en cada coordenada; con la identidad pueden separarse todo lo que haga falta. Sin capa oculta, el encoder es una sola capa y no puede separar 32 patrones en 2 dimensiones (Clase 10.2 y Clase 11: hace falta una capa oculta no lineal).
+**Evidencia** (`results/e1a2_arquitecturas/`, 10 semillas por celda, mejor η de cada red entre 0,0003, 0,001, 0,003 y 0,01; 0,03 en las que quedaban en el borde).
+- Con entropía cruzada llegan en 10 de 10 semillas, con 0,0 ± 0,0 píxeles mal: 35–30–20–2 (T8), 35–30–2 (T6), 35–30–15–2 (T3), 35–20–2 (T1) y 35–20–2 con ocultas logísticas (G1).
+- Época en que llegan (mediana; media ± desvío): T8 376 (380 ± 56), T6 942,5 (1116 ± 487), T3 817,5 (861 ± 185), T1 2070,5 (2078 ± 318), G1 2664,5 (2734 ± 435). T8 llega antes que todas, y la diferencia supera el desvío. T6 y T3 empatan (la diferencia es menor que el desvío); T6 queda segunda porque tiene menos pesos (2317 contra 3187). Esas dos primeras son las que usamos en el DAE (1b).
+- Las que no llegan en todas: 35–20–10–2 (T2) 8 de 10, la misma con latente logístico (L2) 8 de 10, 35–30–20–10–2 (T4) 5 de 10, 35–30–30–15–2 (T9) 4 de 10, 35–10–2 (T5) 4 de 10, 35–30–15–2 con ocultas logísticas (G3) 3 de 10.
+- Activación de las ocultas, misma red: 35–20–2 llega en la época 2070,5 con tanh y en la 2664,5 con logística; 35–30–15–2 llega en 10 de 10 con tanh y en 3 de 10 con logística.
+- Con error cuadrático llegan 1 de 440 corridas.
+- Con una sola capa oculta, pasar el latente de identidad a tanh no cambia los píxeles (E9: 10 de 10 semillas, 0,0 ± 0,0 px; T1: 10 de 10, 0,0 ± 0,0) pero, con el mismo η = 0,001, llega más tarde: época 2205 (E9) contra 4892,5 (T1).
 
-**Límite.** La arquitectura sola no alcanza el objetivo de 1 píxel; eso se resuelve en 1a.2.
+**Teoría.** Autoencoders diap. 3–6: encoder y decoder son dos MLP en espejo y pueden tener varias capas ocultas. Con tanh en el latente (Clase 10.2 diap. 23) los códigos quedan en el cuadrado (−1, 1)² y no hay ninguna capa lineal. Con entropía cruzada y salida logística el delta de salida es proporcional a (O − ζ), sin el factor θ′ que frena al error cuadrático (1a.2). Que las redes de tres capas tanh por lado aprendan peor, y que la logística en las ocultas frene a la red de dos capas, es consistente con el backprop de la Clase 11 diap. 40–43: el delta de cada capa se multiplica por θ′(h), que vale a lo sumo β con tanh y a lo sumo β/2 con logística (Clase 10.2), así que con más capas o con logística hay más factores chicos.
+
+**Límite.** La cátedra no da una regla para el tamaño de las capas: el orden entre redes es empírico y vale para estas once, no demuestra que 30–20 sea el óptimo. Con η = 0,03 T8 baja a 9 de 10 semillas (25,3 ± 80,0 px), así que 0,01 no está en el borde de lo que funciona. La elección cambió de T3 a T8 cuando agregamos η = 0,01 a la grilla (D62).
 
 ## 1a.2 · Arquitecturas y técnicas de optimización
 
@@ -29,7 +35,9 @@ Cada conclusión trae su evidencia (números copiados de `docs/RESULTADOS.md`, q
 
 **Teoría.** Con error cuadrático el delta de la capa de salida es (ζ − O)·θ′(h) (Clase 11, diap. 40–43). Si una neurona logística queda saturada en el valor equivocado, θ′(h) vale casi 0 y ese píxel deja de corregirse aunque el error sea máximo. Con BCE y salida logística el delta queda proporcional a (O − ζ), sin el factor θ′, así que el píxel más equivocado es el que más se corrige. Los optimizadores de la Clase 12.1 cambian cómo se usa el gradiente, pero no pueden arreglar un gradiente que vale casi 0. Powell no usa el gradiente y con 177 pesos se detiene lejos del mínimo.
 
-**Límite.** La pérdida del AE en las diapositivas es ‖X − X′‖²; la BCE es de la cátedra (Autoencoders diap. 51 y Colab del VAE) pero no es la que la diapositiva del AE usa, y lo declaramos. Los pilotos y el diagnóstico se hicieron con 2 semillas y solo sirvieron para decidir; el resultado es la escalera de 10 semillas.
+**Con la red nueva (latente tanh, D60).** Repetimos la comparación de optimizadores sobre la red elegida, 35–30–20–2–20–30–35 (`results/e1a2_opt_tanh/`, 10 semillas, mejor η de cada uno entre tres y cinco). La conclusión se mantiene: con error cuadrático ningún optimizador pasa de 2 de 10 semillas (RMSProp; η adaptativo 1 de 10, el resto 0 de 10), y con entropía cruzada llegan Adam y RMSProp en 10 de 10 con 0,0 ± 0,0 píxeles mal. Con entropía cruzada, momentum llega en 5 de 10 (η = 0,0001), descenso por gradiente en 0 de 10 (69,9 ± 47,2 píxeles mal) y η adaptativo en 0 de 10 (375,0 ± 20,4).
+
+**Límite.** La pérdida del AE en las diapositivas es ‖X − X′‖²; la BCE es de la cátedra (Autoencoders diap. 51 y Colab del VAE) pero no es la que la diapositiva del AE usa, y lo declaramos. Los pilotos y el diagnóstico se hicieron con 2 semillas y solo sirvieron para decidir; el resultado es la escalera de 10 semillas. Con la red nueva, donde el mejor η quedó en el borde de la grilla se probó uno más (y uno más para GD y momentum con entropía cruzada); descenso por gradiente con entropía cruzada sigue en el borde (η = 0,0003) y ahí cortamos.
 
 ## 1a.3 · Espacio latente en dos dimensiones
 
@@ -37,8 +45,10 @@ Cada conclusión trae su evidencia (números copiados de `docs/RESULTADOS.md`, q
 
 **Evidencia.**
 - PCA con 2 componentes explica el 27,0 % de la varianza y reconstruye con 230 píxeles incorrectos en total; el autoencoder, con 0.
-- Correlación entre semillas de las distancias entre pares de letras en el latente: entre 0,14 y 0,70 según el par de semillas (5 semillas, 10 pares).
-- Correlación entre la distancia en el latente y la distancia de Hamming: entre 0,33 y 0,54 según la semilla.
+- Modelo: el elegido en 1a.1 (35–30–20–2–20–30–35, latente tanh). Las 5 de 5 semillas reconstruyen con 0 px incorrectos.
+- Correlación entre semillas de las distancias entre pares de letras en el latente: entre 0,36 y 0,76 según el par de semillas (5 semillas, 10 pares).
+- Correlación entre la distancia en el latente y la distancia de Hamming: entre 0,45 y 0,59 según la semilla.
+- Con latente tanh los códigos quedan dentro del cuadrado (−1, 1)² y muchas letras se apoyan en sus bordes (`results/e1a3_e1a4/fig_latente_ae.png`).
 
 **Teoría.** El autoencoder con capas no lineales es una reducción de dimensión no lineal; PCA es la lineal (Autoencoders diap. 3–4). Nada en la función de costo del AE le pide al latente una forma en particular, así que cada entrenamiento encuentra una distinta.
 
@@ -46,12 +56,12 @@ Cada conclusión trae su evidencia (números copiados de `docs/RESULTADOS.md`, q
 
 ## 1a.4 · Generar una letra nueva
 
-**Conclusión.** El decoder genera letras que no están en el conjunto de entrenamiento cuando se le da un z que no es el código de ninguna letra. La que mostramos es el punto intermedio entre la "o" y la "e": una "o" con media barra, a 2 píxeles de la "o". El latente del AE tiene zonas que decodifican bien y zonas que no, y eso es lo que motiva el VAE.
+**Conclusión.** El decoder genera letras que no están en el conjunto de entrenamiento cuando se le da un z que no es el código de ninguna letra. La letra que mostrábamos (D45, intermedia entre la "o" y la "e") salía de un modelo anterior; con T8 el camino de la "o" a la "e" pasa directo de una a otra, sin imagen intermedia, así que **la letra nueva hay que volver a elegirla** entre las candidatas de la grilla (`results/e1a4_grilla/fig_candidatas_*.png`). El latente del AE tiene zonas que decodifican bien y zonas que no, y eso es lo que motiva el VAE.
 
 **Evidencia.**
-- En una grilla de 100 puntos del latente, entre 60 y 73 muestras según la semilla (5 semillas) no son idénticas a ninguna letra del dataset.
-- Interpolación o→e, semilla 0: 0·o → 0·o → 0·o → 2·o → 0·e. La elegida es el paso a 2 píxeles (`results/elegidas/fig_letra.png`).
-- Interpolación k→q: el camino pasa por letras que no tienen que ver (r, p, y) y por muestras a 5 y 6 píxeles de cualquier letra.
+- Con el modelo de 1a.1 (latente tanh), en una grilla de 100 puntos del latente entre 53 y 61 muestras según la semilla (5 semillas) no son idénticas a ninguna letra del dataset.
+- Interpolación o→e, semilla 0: 0·o → 0·o → 0·o → 0·o → 0·e → 0·e → 0·e → 0·e → 0·e. No hay paso intermedio.
+- Interpolación k→q, semilla 0: 0·k → 0·k → 4·h → 1·m → 2·w → 2·u → 4·a → 5·a → 0·q; el camino pasa por letras que no tienen que ver y por muestras a 5 píxeles de cualquier letra.
 
 **Teoría.** Autoencoders diap. 33–34: moverse en el latente y generar especificando z directamente. Diap. 36–37: el AE no garantiza que un punto cualquiera del latente decodifique en algo válido.
 
@@ -59,34 +69,33 @@ Cada conclusión trae su evidencia (números copiados de `docs/RESULTADOS.md`, q
 
 ## 1b.1 · Arquitectura del Denoising Autoencoder
 
-**Conclusión.** Elegimos 35–20–10–20–35 (B): un cuello de botella intermedio. El latente de 2 es demasiado angosto para sacar ruido y la red sin cuello de botella (35–50–35) saca menos ruido.
+Rehecha el 2026-11-17: el DAE se prueba con las dos mejores redes del AE (puestos 1 y 2 de 1a.1) y siempre con el mismo tipo y nivel de ruido con que se entrenó (`results/e1b_ruidos/`, 10 semillas). La comparación anterior de tres arquitecturas (A, B, C) usaba latente identidad y queda como historia en `results/e1b/`.
 
-**Evidencia.** Píxeles incorrectos a la salida, con el mejor nivel de entrenamiento de cada arquitectura (A: 35–20–2–20–35, C: 35–50–35):
-- prueba con p = 0,05: B 0,15 ± 0,03; C 0,65 ± 0,04; A 0,82 ± 0,08;
-- prueba con p = 0,1: B 0,68 ± 0,12; C 1,74 ± 0,04; A 2,29 ± 0,19;
-- prueba con p = 0,2: B 3,18 ± 0,27; C 4,40 ± 0,06; A 6,14 ± 0,24;
-- prueba con p = 0,3: B 6,76 ± 0,12; C 7,31 ± 0,04; A 8,44 ± 0,23.
+**Conclusión.** Las dos mejores redes del AE, **35–30–20–2–20–30–35 (T8)** y **35–30–2–30–35 (T6)**, ambas con latente tanh, sacan la mayor parte del ruido en los niveles bajos y medios. T8 deja menos píxeles mal que T6 con ruido gaussiano medio y alto y con salt-and-pepper p = 0,1 y 0,2; en los demás niveles empatan. Usamos T8 para el DAE, la misma red del AE.
 
-En los cuatro niveles la diferencia a favor de B supera el desvío. Además, A entrenada con p = 0,1 ya no reconstruye las letras limpias (47,6 ± 9,8 píxeles incorrectos).
+**Evidencia** (píxeles incorrectos por letra a la salida, T8 contra T6).
+- T8 queda mejor (diferencia mayor que el desvío) con σ = 0,4 (0,66 ± 0,19 contra 1,16 ± 0,22), σ = 0,5 (1,48 ± 0,26 contra 2,22 ± 0,31) y p = 0,2 (4,14 ± 0,27 contra 4,64 ± 0,40).
+- Empatan con σ = 0,1 (0,00 ± 0,00 y 0,21 ± 0,67), σ = 0,2 (0,06 ± 0,07 y 0,06 ± 0,03), σ = 0,3 (0,21 ± 0,09 y 0,50 ± 0,30), p = 0,05 (0,33 ± 0,15 y 0,39 ± 0,17), p = 0,1 (0,90 ± 0,24 y 1,18 ± 0,34) y p = 0,3 (8,15 ± 0,21 y 8,52 ± 0,41).
+- La A vieja (35–20–2–20–35, latente identidad), aun con su mejor nivel de entrenamiento, dejaba 2,29 ± 0,19 con p = 0,1.
 
-**Teoría.** Autoencoders diap. 22: el DAE recibe X̃ y tiene que devolver X, así que necesita capacidad para representar la letra y, a la vez, una restricción que lo obligue a quedarse con lo que la define y descartar el ruido. Con 2 dimensiones no entra la letra más la tolerancia al ruido; con 50 neuronas no hay restricción.
+**Teoría.** Autoencoders diap. 20–22: el DAE es el mismo autoencoder entrenado con X̃ a la entrada y X a la salida; el cuello de botella lo obliga a quedarse con lo que define a la letra. Redes y receta: D57, D59 y D62 (1a.1).
 
-**Límite.** Probamos tres arquitecturas; no afirmamos que 10 sea el mejor tamaño de latente, solo que es el mejor de los tres.
+**Límite.** Probamos las dos mejores redes del AE, no una búsqueda de arquitecturas propia del DAE.
 
-## 1b.2 · Niveles de ruido
+## 1b.2 · Niveles y tipos de ruido
 
-**Conclusión.** Un autoencoder entrenado sin ruido no saca ruido: lo empeora. Entrenado con ruido, saca la mayor parte cuando el ruido es bajo y su capacidad cae a medida que el ruido crece. Conviene entrenar con un nivel moderado; entrenar con demasiado ruido arruina también las letras limpias.
+**Conclusión.** Probado con el mismo ruido con que se entrenó, el DAE (T8) saca casi todo el ruido gaussiano hasta σ = 0,4 y la mayor parte del salt-and-pepper hasta p = 0,1. Con p = 0,2 saca menos de la mitad, y con p = 0,3 la mejora es chica. A igual cantidad de píxeles alterados en la entrada (σ = 0,4 y p = 0,1), los dos tipos de ruido empatan.
 
-**Evidencia** (ruido salt-and-pepper; con p = 0,1 se alteran 3,50 píxeles por letra en promedio).
-- El AE de 1a, probado con p = 0,05: entran 1,75 píxeles alterados y salen 6,97 ± 0,25 incorrectos.
-- B entrenada con p = 0,1 y probada con p = 0,1: entran 3,50 y salen 0,68 ± 0,12; el 85,2 ± 1,9 % de las reconstrucciones queda con 1 píxel incorrecto o menos.
-- B probada con p = 0,3: entran 10,50 y salen 6,76 ± 0,12; solo el 15,4 ± 1,6 % queda con 1 píxel o menos.
-- B entrenada con p = 0,3 y probada sin ruido: 2,23 ± 0,10 píxeles incorrectos por letra.
-- Las confusiones son entre letras parecidas: la más frecuente en B es '|' → 'l' (25 de 100), dos letras que difieren en 2 píxeles.
+**Evidencia** (T8; píxeles incorrectos por letra, entrada → salida; media ± desvío entre 10 semillas).
+- Gaussiano: σ = 0,2: 0,23 ± 0,02 → 0,06 ± 0,07; σ = 0,3: 1,66 ± 0,05 → 0,21 ± 0,09; σ = 0,4: 3,68 ± 0,06 → 0,66 ± 0,19; σ = 0,5: 5,55 ± 0,07 → 1,48 ± 0,26. Con σ = 0,1 el ruido no cruza nunca el umbral (0,00 ± 0,00 píxeles alterados).
+- Salt-and-pepper: p = 0,05: 1,74 ± 0,06 → 0,33 ± 0,15; p = 0,1: 3,46 ± 0,08 → 0,90 ± 0,24; p = 0,2: 6,96 ± 0,11 → 4,14 ± 0,27; p = 0,3: 10,51 ± 0,11 → 8,15 ± 0,21.
+- Letras que salen exactas: con σ = 0,4, 83,3 ± 5,3 %; con p = 0,1, 79,4 ± 9,7 %; con p = 0,3, 3,0 ± 0,7 %.
+- Gaussiano σ = 0,4 contra salt-and-pepper p = 0,1: la entrada tiene casi los mismos píxeles alterados (3,68 y 3,46), pero salen 0,66 ± 0,19 contra 0,90 ± 0,24; empatan (la diferencia no supera el desvío).
+- Época a época (`fig_curvas.png`): con p = 0,3 casi no baja después de la época 1000 (9,03 en la época 1000, 8,08 en la 10000).
 
-**Teoría.** Autoencoders diap. 22: se entrena con la entrada corrompida y la salida esperada limpia. Con mucho ruido la entrada corrompida de una letra queda más cerca de otra letra que de la original, y ahí ningún modelo puede recuperarla.
+**Teoría.** Autoencoders diap. 22: se entrena con la entrada corrompida y la salida esperada limpia. Con salt-and-pepper el píxel cambiado vale exactamente lo opuesto, así que nada lo distingue de un píxel bueno. Con ruido gaussiano el píxel que cruza el umbral suele quedar cerca de 0,5, pero a igual cantidad de píxeles alterados eso no se traduce en una diferencia que supere el desvío. Con mucho ruido la entrada de una letra queda más cerca de otra letra que de la original, y ahí ningún modelo puede recuperarla.
 
-**Límite.** Un solo tipo de ruido (salt-and-pepper); el gaussiano no lo implementamos.
+**Límite.** Los niveles los fijamos nosotros (la cátedra no da niveles, D58); el gaussiano no se recorta a [0, 1]. Se probó solo con el mismo nivel de entrenamiento, como pidió la cátedra; no medimos qué pasa si el ruido de prueba es otro.
 
 ## 2a · Conjunto de datos nuevo
 
