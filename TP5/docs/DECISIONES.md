@@ -104,6 +104,17 @@ Tomadas por el grupo a partir de las recomendaciones de la sesión 0. D3 y D4 se
 
 | D56 | Cuándo falla una muestra generada (lámina 21) | Cada modelo y semilla reconstruye 500 relojes reales nuevos (semilla 2029; en el VAE, con μ). Una muestra generada falla si queda más lejos del banco que el percentil 99 de esas reconstrucciones: peor que lo que ese modelo hace con un reloj real. El umbral no sale de las muestras que se juzgan. Se informan también el percentil 95 y el máximo (`results/e2c_justa/fallas.csv`). Reemplaza "más lejos que la peor muestra del VAE" (D55), que hacía que el VAE no fallara nunca por construcción | D50, D55 |
 
+## Rehacer el ejercicio 1 con latente no lineal (2026-11-17)
+
+| # | Tema | Decisión | Sostén |
+|---|---|---|---|
+| D57 | Arquitectura del AE (`e1a2_arquitecturas.py`) | Pedido de la cátedra: el latente no puede ser lineal. Se comparan 5 arquitecturas, todas con ocultas tanh y salida logística: T1 35–20–2, T2 35–20–10–2, T3 35–30–15–2, T4 35–30–20–10–2 (latente tanh) y L2 35–20–10–2 (latente logístico); Adam con η ∈ {0,0003; 0,001; 0,003}; entropía cruzada y error cuadrático; 10 semillas. Criterio fijado antes de correr: mejor η por arquitectura (más semillas con ≤ 1 px, luego menos píxeles, luego menor mediana de época); entre arquitecturas, (1) semillas con BCE, (2) semillas con error cuadrático, (3) píxeles con BCE, (4) mediana de época en llegar con BCE, (5) menos pesos; en (3) y (4) empatan si la diferencia no supera el desvío. Resultado: **T3 35–30–15–2–15–30–35, latente tanh, BCE, Adam η = 0,003** (`results/e1a2_arquitecturas/eleccion.csv`). Reemplaza a E9 (latente identidad) como modelo del AE en 1a.3 y 1a.4. **Reemplazada por T8 en D62** | Autoencoders diap. 3–6; Clase 10.2 diap. 23; Clase 12.1 diap. 11–13; Autoencoders diap. 51 |
+| D58 | DAE rehecho (`e1b_ruidos.py`) | Pedido del grupo: el DAE usa la arquitectura del AE (D57) y **se prueba siempre con el mismo tipo y nivel de ruido con que se entrenó**. Ruido gaussiano (aprobado ahora; antes era [EXTRA]) X̃ = X + σ·N(0, 1) sin recortar, σ ∈ {0,1; 0,2; 0,3; 0,4; 0,5}; y salt-and-pepper con p ∈ {0,05; 0,1; 0,2; 0,3} (los niveles del e1b anterior). 10 semillas, 10000 épocas, curva de prueba cada 250 épocas con 10 versiones ruidosas por letra y prueba final con 20. Los niveles los fija el grupo | Autoencoders diap. 20–22 |
+| D59 | Grilla ampliada de arquitecturas (feedback de la cátedra) | Se suman T5 35–10–2, T6 35–30–2, T8 35–30–20–2, T9 35–30–30–15–2 (ocultas y latente tanh), G1 35–20–2 y G3 35–30–15–2 (ocultas logísticas, latente tanh), con el mismo protocolo y criterio de D57. Resultado: sigue T3; T8 empata en la época en que llega y queda segunda por tener más pesos. `eleccion.csv` guarda el orden completo (se aplica el criterio, se saca a la ganadora y se repite) | Autoencoders diap. 3–6; Clase 10.2 diap. 23 |
+| D60 | Optimizadores sobre la red elegida | La comparación de D49 se repite sobre la red elegida (T8 desde D62; antes se había corrido sobre T3 y se borró): GD, momentum, η adaptativo, RMSProp y Adam, 3 η cada uno (los de `config/e1a2.json` × ⅓, 1, 3), BCE y error cuadrático, 10 semillas; donde el mejor η quedó en el borde se probó uno más y, si seguía en el borde, otro (GD y momentum con BCE); GD con BCE sigue en el borde y ahí se cortó | Clase 11 diap. 52–54; Clase 12.1 diap. 5–13 |
+| D61 | DAE con las dos mejores redes y solo error por nivel (feedback de la cátedra) | El DAE se corre con los puestos 1 y 2 de `eleccion.csv` (T8 y T6 desde D62). Los gráficos muestran solo el error a la salida (píxeles mal por letra) de cada nivel, con el mismo ruido en entrenamiento y prueba; se sacaron el panel de letras exactas, la barra de la entrada y la figura de letras limpias | Autoencoders diap. 20–22 |
+| D62 | η = 0,01 en la grilla de arquitecturas; la elegida pasa a T8 | La auditoría de la presentación notó que T3 y T8 tenían su mejor η en 0,003, el borde de la grilla. Se agregó η = 0,01 a las 22 combinaciones (11 redes × 2 costos) y η = 0,03 a T8, T6 y T4, que seguían en el borde. Con el mismo criterio de D57, la elegida pasa a **T8 35–30–20–2–20–30–35, latente tanh, BCE, Adam η = 0,01** (época 376, 10 de 10); con η = 0,03 baja a 9 de 10, así que 0,01 queda adentro. Puesto 2: T6 35–30–2 (empata en época con T3 y tiene menos pesos). T8 es el modelo de 1a.2 (optimizadores, D60), 1a.3, 1a.4 y del DAE; T6 es la segunda red del DAE (D61). Lo decidió el usuario ("Pasar a T8") | Autoencoders diap. 3–6; Clase 12.1 diap. 11–13 |
+
 ## Pendientes de decisión
 
 | # | Tema | Qué falta |
@@ -113,7 +124,7 @@ Tomadas por el grupo a partir de las recomendaciones de la sesión 0. D3 y D4 se
 ## [EXTRA] no aprobados (no se implementan)
 
 - L-BFGS-B con `jac=True` (no está en ningún PDF).
-- Ruido gaussiano o Rayleigh en el DAE (nombrados en Autoencoders 22, sin niveles).
+- Ruido Rayleigh en el DAE (nombrado en Autoencoders 22, sin niveles). El gaussiano se aprobó el 2026-11-17 (D58).
 - Early stopping con criterio propio (Clase 13 diap. 14 solo trae el título y un gráfico).
 - ReLU, inicialización Xavier o He, Dropout, preentrenamiento greedy por capas (solo nombrados).
 - `scipy.stats.norm.ppf` para armar la grilla del latente (lo usa el Colab; no está en la lista de librerías permitidas).
