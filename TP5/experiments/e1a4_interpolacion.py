@@ -6,7 +6,7 @@ Pregunta: recorriendo en el latente el segmento que une el código de la "o" con
 paso, y dónde cae ese z respecto de las 32 letras? ¿Hay algún paso a 3 píxeles o más de toda
 letra del dataset? (Si hay, el grupo juzga si se lee como una letra.)
 
-El modelo es el autoencoder de 1a.3/1a.4 (T3 con latente tanh, D57; config/e1a3_e1a4.json) reentrenado con
+El modelo es el autoencoder de 1a.3/1a.4 (la red elegida en 1a.1; config/e1a3_e1a4.json) reentrenado con
 la misma semilla: el latente es el mismo que en results/e1a3_e1a4/latente.csv (se verifica).
 La interpolación de e1a3_e1a4 tenía 9 pasos; acá son los del config.
 Sostén: Autoencoders diap. 33 (moverse en el latente entre dos patrones) y 34 (decodificar
