@@ -1,0 +1,53 @@
+{
+ "experimento": "e1a2_arquitecturas/bce_T6_eta003",
+ "descripcion": "D62: un eta mas alla del borde (0.03) para T6 con bce, porque su mejor eta de la grilla de 4 fue 0.01. Mismo esquema que el borde de D49.",
+ "origen_de_los_hiperparametros": {
+  "adam": "beta1, beta2, epsilon de Clase 12.1 diap. 13; eta = 0.001 de E9 (config/e1a2.json) x 1/3, 1 y 3, mismo esquema que config/e1a2_opt_bce.json",
+  "arquitecturas": "T1 referencia sin capa extra, T2 la capa extra pedida por la catedra, T3 mas ancha, T4 mas profunda, L2 la red de T2 con latente logistico; ampliacion D59 (2026-11-17, feedback de la catedra): T5 y T6 varian el ancho con 1 capa, T8 y T9 con 2 y 3 capas, G1 y G3 con ocultas logisticas"
+ },
+ "semillas": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "epocas": 10000,
+ "curva_cada": 20,
+ "codificacion": "01",
+ "perdida": "bce",
+ "reduccion": "suma",
+ "beta": 1.0,
+ "amplitud_inicial": 0.1,
+ "escalones": [
+  {
+   "id": "T6 eta=0.03",
+   "respecto_de": "E9",
+   "cambia": "Arquitectura 35-30-2-30-35: una capa oculta ancha de 30; latente tanh; entropia cruzada (BCE); Adam con eta = 0.03 (D62: un valor mas alla del borde, el mejor era 0.01)",
+   "sosten": "Autoencoders diap. 3-6; Clase 10.2 diap. 23; Clase 12.1 diap. 11-13; Autoencoders diap. 51",
+   "capas_encoder": [
+    35,
+    30,
+    2
+   ],
+   "activacion_oculta": "tanh",
+   "activacion_latente": "tanh",
+   "activacion_salida": "logistica",
+   "perdida": "bce",
+   "optimizador": {
+    "nombre": "adam",
+    "eta": 0.03,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+   },
+   "eta_adaptativo": null,
+   "tamano_lote": 32
+  }
+ ]
+}
