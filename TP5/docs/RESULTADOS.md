@@ -73,10 +73,195 @@ Mismas 2 semillas del piloto, 10000 épocas. Cada variante cambia lo indicado so
 - Son 2 semillas por variante: sirvió para decidir la escalera, no es un resultado.
 <!-- e1a2:fin -->
 
+<!-- e1a2_arquitecturas:inicio -->
+## 1a.1 rehecha · Arquitecturas con latente no lineal (e1a2_arquitecturas)
+
+Pedido de la cátedra (2026-11-17): el latente no puede ser lineal (D57), y hay que variar capas, dimensiones y activaciones (D59). 11 arquitecturas × 4 η de Adam (0,0003; 0,001; 0,003; 0,01; el último agregado por D62) × 2 costos × 10 semillas (0 a 9), 10000 épocas, batch de 32, ocultas tanh (logísticas en G1 y G3), salida logística, init ±0,1. Datos en `results/e1a2_arquitecturas/`, figura `fig_arquitecturas.png`. Media ± desvío entre semillas; "época en que llega" es entre las corridas que terminan con ≤ 1 px.
+
+### Todas las celdas (`todas.csv`)
+
+| Arquitectura | Ocultas | Latente | Pesos | Costo | η | Semillas con ≤ 1 px | Px mal en total | Máx. px por letra (media) | Época en que llega (mediana; media ± desvío) | Tiempo (s) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| G1 35–20–2–20–35 | logística | tanh | 1557 | Entropía cruzada | 0,0003 | 0 de 10 | 66,0 ± 10,4 | 7,3 | — | 11,5 |
+| G1 35–20–2–20–35 | logística | tanh | 1557 | Entropía cruzada | 0,001 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 5810 (6108 ± 881) | 11,1 |
+| G1 35–20–2–20–35 | logística | tanh | 1557 | Entropía cruzada | 0,003 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 2664,5 (2734 ± 435) | 11,6 |
+| G1 35–20–2–20–35 | logística | tanh | 1557 | Entropía cruzada | 0,01 | 8 de 10 | 4,3 ± 9,2 | 1,6 | 914,5 (1153 ± 543) | 9,2 |
+| G3 35–30–15–2–15–30–35 | logística | tanh | 3187 | Entropía cruzada | 0,0003 | 1 de 10 | 24,2 ± 20,0 | 5,2 | 9600 | 15,0 |
+| G3 35–30–15–2–15–30–35 | logística | tanh | 3187 | Entropía cruzada | 0,001 | 3 de 10 | 14,3 ± 13,2 | 4,5 | 5391 (6283 ± 2071) | 14,9 |
+| G3 35–30–15–2–15–30–35 | logística | tanh | 3187 | Entropía cruzada | 0,003 | 3 de 10 | 14,6 ± 24,9 | 3,8 | 4723 (4439 ± 2952) | 15,5 |
+| G3 35–30–15–2–15–30–35 | logística | tanh | 3187 | Entropía cruzada | 0,01 | 1 de 10 | 30,0 ± 23,3 | 6,6 | 6112 | 13,1 |
+| L2 35–20–10–2–10–20–35 | tanh | logística | 1937 | Entropía cruzada | 0,0003 | 3 de 10 | 27,5 ± 44,0 | 5,5 | 8399 (8542 ± 293) | 11,7 |
+| L2 35–20–10–2–10–20–35 | tanh | logística | 1937 | Entropía cruzada | 0,001 | 5 de 10 | 9,7 ± 18,8 | 2,2 | 4561 (4937 ± 1142) | 11,8 |
+| L2 35–20–10–2–10–20–35 | tanh | logística | 1937 | Entropía cruzada | 0,003 | 8 de 10 | 7,0 ± 14,5 | 1,7 | 2440,5 (2636 ± 1073) | 11,8 |
+| L2 35–20–10–2–10–20–35 | tanh | logística | 1937 | Entropía cruzada | 0,01 | 6 de 10 | 8,5 ± 21,1 | 1,6 | 796,5 (1379 ± 1215) | 11,7 |
+| T1 35–20–2–20–35 | tanh | tanh | 1557 | Entropía cruzada | 0,0003 | 0 de 10 | 39,0 ± 8,9 | 6,7 | — | 8,9 |
+| T1 35–20–2–20–35 | tanh | tanh | 1557 | Entropía cruzada | 0,001 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 4892,5 (4992 ± 563) | 9,1 |
+| T1 35–20–2–20–35 | tanh | tanh | 1557 | Entropía cruzada | 0,003 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 2070,5 (2078 ± 318) | 9,1 |
+| T1 35–20–2–20–35 | tanh | tanh | 1557 | Entropía cruzada | 0,01 | 7 de 10 | 16,4 ± 37,1 | 2,6 | 1098 (1045 ± 274) | 8,9 |
+| T2 35–20–10–2–10–20–35 | tanh | tanh | 1937 | Entropía cruzada | 0,0003 | 2 de 10 | 9,7 ± 8,9 | 3,9 | 9438 (9438 ± 199) | 11,3 |
+| T2 35–20–10–2–10–20–35 | tanh | tanh | 1937 | Entropía cruzada | 0,001 | 6 de 10 | 4,2 ± 6,8 | 2,4 | 4343,5 (5374 ± 2745) | 11,4 |
+| T2 35–20–10–2–10–20–35 | tanh | tanh | 1937 | Entropía cruzada | 0,003 | 8 de 10 | 3,8 ± 7,0 | 1,6 | 2117 (3200 ± 2823) | 11,4 |
+| T2 35–20–10–2–10–20–35 | tanh | tanh | 1937 | Entropía cruzada | 0,01 | 8 de 10 | 11,9 ± 34,2 | 2,0 | 592 (638 ± 142) | 11,1 |
+| T3 35–30–15–2–15–30–35 | tanh | tanh | 3187 | Entropía cruzada | 0,0003 | 8 de 10 | 1,8 ± 3,3 | 1,3 | 6202,5 (6579 ± 1267) | 12,6 |
+| T3 35–30–15–2–15–30–35 | tanh | tanh | 3187 | Entropía cruzada | 0,001 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 2144,5 (3014 ± 2216) | 12,5 |
+| T3 35–30–15–2–15–30–35 | tanh | tanh | 3187 | Entropía cruzada | 0,003 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 817,5 (861 ± 185) | 12,6 |
+| T3 35–30–15–2–15–30–35 | tanh | tanh | 3187 | Entropía cruzada | 0,01 | 10 de 10 | 0,7 ± 2,2 | 0,1 | 427 (700 ± 892) | 12,3 |
+| T4 35–30–20–10–2–10–20–30–35 | tanh | tanh | 3897 | Entropía cruzada | 0,0003 | 0 de 10 | 41,6 ± 11,8 | 7,6 | — | 15,7 |
+| T4 35–30–20–10–2–10–20–30–35 | tanh | tanh | 3897 | Entropía cruzada | 0,001 | 1 de 10 | 23,4 ± 31,5 | 4,7 | 2274 | 15,8 |
+| T4 35–30–20–10–2–10–20–30–35 | tanh | tanh | 3897 | Entropía cruzada | 0,003 | 1 de 10 | 50,7 ± 40,6 | 8,5 | 936 | 15,8 |
+| T4 35–30–20–10–2–10–20–30–35 | tanh | tanh | 3897 | Entropía cruzada | 0,01 | 2 de 10 | 90,3 ± 87,0 | 9,4 | 641,5 (642 ± 310) | 15,2 |
+| T4 35–30–20–10–2–10–20–30–35 | tanh | tanh | 3897 | Entropía cruzada | 0,03 | 5 de 10 | 170,0 ± 179,6 | 14,3 | 326 (321 ± 81) | 15,3 |
+| T5 35–10–2–10–35 | tanh | tanh | 797 | Entropía cruzada | 0,0003 | 0 de 10 | 86,2 ± 8,5 | 8,1 | — | 9,5 |
+| T5 35–10–2–10–35 | tanh | tanh | 797 | Entropía cruzada | 0,001 | 2 de 10 | 12,7 ± 6,9 | 2,7 | 8659,5 (8660 ± 1105) | 9,6 |
+| T5 35–10–2–10–35 | tanh | tanh | 797 | Entropía cruzada | 0,003 | 4 de 10 | 8,6 ± 7,9 | 2,5 | 5667,5 (6247 ± 2172) | 9,7 |
+| T5 35–10–2–10–35 | tanh | tanh | 797 | Entropía cruzada | 0,01 | 3 de 10 | 7,0 ± 5,2 | 2,3 | 5087 (5518 ± 2976) | 7,9 |
+| T6 35–30–2–30–35 | tanh | tanh | 2317 | Entropía cruzada | 0,0003 | 0 de 10 | 19,0 ± 6,4 | 4,6 | — | 11,4 |
+| T6 35–30–2–30–35 | tanh | tanh | 2317 | Entropía cruzada | 0,001 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 4147 (4210 ± 355) | 11,4 |
+| T6 35–30–2–30–35 | tanh | tanh | 2317 | Entropía cruzada | 0,003 | 10 de 10 | 0,1 ± 0,3 | 0,1 | 1902 (1983 ± 297) | 10,9 |
+| T6 35–30–2–30–35 | tanh | tanh | 2317 | Entropía cruzada | 0,01 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 942,5 (1116 ± 487) | 9,6 |
+| T6 35–30–2–30–35 | tanh | tanh | 2317 | Entropía cruzada | 0,03 | 9 de 10 | 29,6 ± 93,6 | 3,0 | 714 (698 ± 170) | 9,8 |
+| T8 35–30–20–2–20–30–35 | tanh | tanh | 3517 | Entropía cruzada | 0,0003 | 9 de 10 | 3,6 ± 10,7 | 0,9 | 5287 (6069 ± 1642) | 14,4 |
+| T8 35–30–20–2–20–30–35 | tanh | tanh | 3517 | Entropía cruzada | 0,001 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 1966 (2738 ± 2177) | 15,4 |
+| T8 35–30–20–2–20–30–35 | tanh | tanh | 3517 | Entropía cruzada | 0,003 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 716,5 (834 ± 426) | 15,3 |
+| T8 35–30–20–2–20–30–35 | tanh | tanh | 3517 | Entropía cruzada | 0,01 | 10 de 10 | 0,0 ± 0,0 | 0,0 | 376 (380 ± 56) | 12,9 |
+| T8 35–30–20–2–20–30–35 | tanh | tanh | 3517 | Entropía cruzada | 0,03 | 9 de 10 | 25,3 ± 80,0 | 3,2 | 283 (295 ± 81) | 12,8 |
+| T9 35–30–30–15–2–15–30–30–35 | tanh | tanh | 5047 | Entropía cruzada | 0,0003 | 1 de 10 | 39,2 ± 22,3 | 7,8 | 7313 | 19,8 |
+| T9 35–30–30–15–2–15–30–30–35 | tanh | tanh | 5047 | Entropía cruzada | 0,001 | 0 de 10 | 26,9 ± 19,5 | 7,4 | — | 20,8 |
+| T9 35–30–30–15–2–15–30–30–35 | tanh | tanh | 5047 | Entropía cruzada | 0,003 | 4 de 10 | 34,0 ± 43,5 | 5,7 | 1729,5 (1694 ± 566) | 20,5 |
+| T9 35–30–30–15–2–15–30–30–35 | tanh | tanh | 5047 | Entropía cruzada | 0,01 | 2 de 10 | 109,2 ± 103,4 | 12,3 | 341,5 (342 ± 32) | 16,4 |
+| G1 35–20–2–20–35 | logística | tanh | 1557 | Error cuadrático | 0,0003 | 0 de 10 | 62,5 ± 8,2 | 7,5 | — | 8,9 |
+| G1 35–20–2–20–35 | logística | tanh | 1557 | Error cuadrático | 0,001 | 0 de 10 | 28,0 ± 5,6 | 3,7 | — | 8,5 |
+| G1 35–20–2–20–35 | logística | tanh | 1557 | Error cuadrático | 0,003 | 0 de 10 | 25,1 ± 4,3 | 2,9 | — | 8,4 |
+| G1 35–20–2–20–35 | logística | tanh | 1557 | Error cuadrático | 0,01 | 0 de 10 | 24,9 ± 11,2 | 5,2 | — | 8,2 |
+| G3 35–30–15–2–15–30–35 | logística | tanh | 3187 | Error cuadrático | 0,0003 | 0 de 10 | 51,8 ± 22,8 | 9,1 | — | 12,2 |
+| G3 35–30–15–2–15–30–35 | logística | tanh | 3187 | Error cuadrático | 0,001 | 1 de 10 | 21,5 ± 6,7 | 4,6 | 9379 | 12,1 |
+| G3 35–30–15–2–15–30–35 | logística | tanh | 3187 | Error cuadrático | 0,003 | 0 de 10 | 32,9 ± 16,1 | 7,1 | — | 12,2 |
+| G3 35–30–15–2–15–30–35 | logística | tanh | 3187 | Error cuadrático | 0,01 | 0 de 10 | 61,9 ± 53,0 | 7,0 | — | 12,0 |
+| L2 35–20–10–2–10–20–35 | tanh | logística | 1937 | Error cuadrático | 0,0003 | 0 de 10 | 38,6 ± 6,5 | 4,4 | — | 11,3 |
+| L2 35–20–10–2–10–20–35 | tanh | logística | 1937 | Error cuadrático | 0,001 | 0 de 10 | 33,9 ± 10,5 | 4,2 | — | 11,5 |
+| L2 35–20–10–2–10–20–35 | tanh | logística | 1937 | Error cuadrático | 0,003 | 0 de 10 | 43,9 ± 15,5 | 5,3 | — | 12,0 |
+| L2 35–20–10–2–10–20–35 | tanh | logística | 1937 | Error cuadrático | 0,01 | 0 de 10 | 51,6 ± 18,1 | 6,6 | — | 10,7 |
+| T1 35–20–2–20–35 | tanh | tanh | 1557 | Error cuadrático | 0,0003 | 0 de 10 | 52,6 ± 5,4 | 5,3 | — | 7,8 |
+| T1 35–20–2–20–35 | tanh | tanh | 1557 | Error cuadrático | 0,001 | 0 de 10 | 43,6 ± 4,7 | 4,0 | — | 7,8 |
+| T1 35–20–2–20–35 | tanh | tanh | 1557 | Error cuadrático | 0,003 | 0 de 10 | 45,0 ± 8,4 | 5,2 | — | 7,9 |
+| T1 35–20–2–20–35 | tanh | tanh | 1557 | Error cuadrático | 0,01 | 0 de 10 | 65,1 ± 41,9 | 6,9 | — | 8,0 |
+| T2 35–20–10–2–10–20–35 | tanh | tanh | 1937 | Error cuadrático | 0,0003 | 0 de 10 | 28,9 ± 11,7 | 4,2 | — | 10,1 |
+| T2 35–20–10–2–10–20–35 | tanh | tanh | 1937 | Error cuadrático | 0,001 | 0 de 10 | 21,7 ± 4,5 | 3,4 | — | 10,1 |
+| T2 35–20–10–2–10–20–35 | tanh | tanh | 1937 | Error cuadrático | 0,003 | 0 de 10 | 28,4 ± 6,4 | 4,1 | — | 10,4 |
+| T2 35–20–10–2–10–20–35 | tanh | tanh | 1937 | Error cuadrático | 0,01 | 0 de 10 | 55,7 ± 25,0 | 6,6 | — | 10,1 |
+| T3 35–30–15–2–15–30–35 | tanh | tanh | 3187 | Error cuadrático | 0,0003 | 0 de 10 | 22,7 ± 5,3 | 3,0 | — | 11,6 |
+| T3 35–30–15–2–15–30–35 | tanh | tanh | 3187 | Error cuadrático | 0,001 | 0 de 10 | 24,8 ± 4,3 | 3,9 | — | 11,7 |
+| T3 35–30–15–2–15–30–35 | tanh | tanh | 3187 | Error cuadrático | 0,003 | 0 de 10 | 31,5 ± 14,8 | 4,9 | — | 11,7 |
+| T3 35–30–15–2–15–30–35 | tanh | tanh | 3187 | Error cuadrático | 0,01 | 0 de 10 | 87,4 ± 42,8 | 9,4 | — | 11,5 |
+| T4 35–30–20–10–2–10–20–30–35 | tanh | tanh | 3897 | Error cuadrático | 0,0003 | 0 de 10 | 38,7 ± 18,5 | 6,6 | — | 14,6 |
+| T4 35–30–20–10–2–10–20–30–35 | tanh | tanh | 3897 | Error cuadrático | 0,001 | 0 de 10 | 30,8 ± 13,6 | 7,2 | — | 15,4 |
+| T4 35–30–20–10–2–10–20–30–35 | tanh | tanh | 3897 | Error cuadrático | 0,003 | 0 de 10 | 43,3 ± 19,1 | 7,6 | — | 14,7 |
+| T4 35–30–20–10–2–10–20–30–35 | tanh | tanh | 3897 | Error cuadrático | 0,01 | 0 de 10 | 78,6 ± 32,6 | 9,6 | — | 14,3 |
+| T5 35–10–2–10–35 | tanh | tanh | 797 | Error cuadrático | 0,0003 | 0 de 10 | 75,8 ± 7,9 | 7,0 | — | 8,2 |
+| T5 35–10–2–10–35 | tanh | tanh | 797 | Error cuadrático | 0,001 | 0 de 10 | 40,3 ± 4,4 | 4,5 | — | 8,4 |
+| T5 35–10–2–10–35 | tanh | tanh | 797 | Error cuadrático | 0,003 | 0 de 10 | 43,3 ± 3,1 | 4,9 | — | 8,2 |
+| T5 35–10–2–10–35 | tanh | tanh | 797 | Error cuadrático | 0,01 | 0 de 10 | 47,4 ± 14,5 | 6,2 | — | 6,9 |
+| T6 35–30–2–30–35 | tanh | tanh | 2317 | Error cuadrático | 0,0003 | 0 de 10 | 52,6 ± 9,2 | 5,3 | — | 10,0 |
+| T6 35–30–2–30–35 | tanh | tanh | 2317 | Error cuadrático | 0,001 | 0 de 10 | 43,6 ± 7,6 | 4,5 | — | 9,8 |
+| T6 35–30–2–30–35 | tanh | tanh | 2317 | Error cuadrático | 0,003 | 0 de 10 | 43,8 ± 7,0 | 4,3 | — | 10,2 |
+| T6 35–30–2–30–35 | tanh | tanh | 2317 | Error cuadrático | 0,01 | 0 de 10 | 89,3 ± 38,5 | 9,2 | — | 8,6 |
+| T8 35–30–20–2–20–30–35 | tanh | tanh | 3517 | Error cuadrático | 0,0003 | 0 de 10 | 18,5 ± 3,8 | 3,3 | — | 13,5 |
+| T8 35–30–20–2–20–30–35 | tanh | tanh | 3517 | Error cuadrático | 0,001 | 0 de 10 | 23,5 ± 6,3 | 3,6 | — | 13,4 |
+| T8 35–30–20–2–20–30–35 | tanh | tanh | 3517 | Error cuadrático | 0,003 | 0 de 10 | 33,5 ± 10,3 | 4,9 | — | 13,4 |
+| T8 35–30–20–2–20–30–35 | tanh | tanh | 3517 | Error cuadrático | 0,01 | 0 de 10 | 77,5 ± 42,0 | 11,0 | — | 11,7 |
+| T9 35–30–30–15–2–15–30–30–35 | tanh | tanh | 5047 | Error cuadrático | 0,0003 | 0 de 10 | 30,7 ± 22,1 | 5,9 | — | 17,4 |
+| T9 35–30–30–15–2–15–30–30–35 | tanh | tanh | 5047 | Error cuadrático | 0,001 | 0 de 10 | 34,7 ± 24,4 | 6,1 | — | 16,7 |
+| T9 35–30–30–15–2–15–30–30–35 | tanh | tanh | 5047 | Error cuadrático | 0,003 | 0 de 10 | 36,4 ± 19,4 | 4,9 | — | 16,2 |
+| T9 35–30–30–15–2–15–30–30–35 | tanh | tanh | 5047 | Error cuadrático | 0,01 | 0 de 10 | 200,5 ± 140,9 | 18,8 | — | 15,5 |
+
+### Elección (`eleccion.csv`, criterio de D57; "queda afuera en" es contra la elegida, "puesto" repite el criterio sin las anteriores; si dos empatan en todos los pasos, como L2 y T2, el orden entre ellas es alfabético)
+
+| Puesto | Arquitectura | η (BCE) | Semillas BCE | Semillas error cuadrático | Px BCE | Px error cuadrático (η) | Época BCE (mediana; media ± desvío) | Pesos | Queda afuera en |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | T8 35–30–20–2–20–30–35 (tanh/tanh) | 0,01 | 10 de 10 | 0 de 10 | 0,0 ± 0,0 | 18,5 ± 3,8 (0,0003) | 376 (380 ± 56) | 3517 | **elegida** |
+| 2 | T6 35–30–2–30–35 (tanh/tanh) | 0,01 | 10 de 10 | 0 de 10 | 0,0 ± 0,0 | 43,6 ± 7,6 (0,001) | 942,5 (1116 ± 487) | 2317 | 4 · época en llegar con BCE |
+| 3 | T3 35–30–15–2–15–30–35 (tanh/tanh) | 0,003 | 10 de 10 | 0 de 10 | 0,0 ± 0,0 | 22,7 ± 5,3 (0,0003) | 817,5 (861 ± 185) | 3187 | 4 · época en llegar con BCE |
+| 4 | T1 35–20–2–20–35 (tanh/tanh) | 0,003 | 10 de 10 | 0 de 10 | 0,0 ± 0,0 | 43,6 ± 4,7 (0,001) | 2070,5 (2078 ± 318) | 1557 | 4 · época en llegar con BCE |
+| 5 | G1 35–20–2–20–35 (logística/tanh) | 0,003 | 10 de 10 | 0 de 10 | 0,0 ± 0,0 | 24,9 ± 11,2 (0,01) | 2664,5 (2734 ± 435) | 1557 | 4 · época en llegar con BCE |
+| 6 | L2 35–20–10–2–10–20–35 (tanh/logística) | 0,003 | 8 de 10 | 0 de 10 | 7,0 ± 14,5 | 33,9 ± 10,5 (0,001) | 2440,5 (2636 ± 1073) | 1937 | 1 · semillas con BCE |
+| 7 | T2 35–20–10–2–10–20–35 (tanh/tanh) | 0,003 | 8 de 10 | 0 de 10 | 3,8 ± 7,0 | 21,7 ± 4,5 (0,001) | 2117 (3200 ± 2823) | 1937 | 1 · semillas con BCE |
+| 8 | T4 35–30–20–10–2–10–20–30–35 (tanh/tanh) | 0,03 | 5 de 10 | 0 de 10 | 170,0 ± 179,6 | 30,8 ± 13,6 (0,001) | 326 (321 ± 81) | 3897 | 1 · semillas con BCE |
+| 9 | T9 35–30–30–15–2–15–30–30–35 (tanh/tanh) | 0,003 | 4 de 10 | 0 de 10 | 34,0 ± 43,5 | 30,7 ± 22,1 (0,0003) | 1729,5 (1694 ± 566) | 5047 | 1 · semillas con BCE |
+| 10 | T5 35–10–2–10–35 (tanh/tanh) | 0,003 | 4 de 10 | 0 de 10 | 8,6 ± 7,9 | 40,3 ± 4,4 (0,001) | 5667,5 (6247 ± 2172) | 797 | 1 · semillas con BCE |
+| 11 | G3 35–30–15–2–15–30–35 (logística/tanh) | 0,001 | 3 de 10 | 1 de 10 | 14,3 ± 13,2 | 21,5 ± 6,7 (0,001) | 5391 (6283 ± 2071) | 3187 | 1 · semillas con BCE |
+
+- Elegida: **T8 35–30–20–2–20–30–35**, latente tanh, entropía cruzada, Adam con η = 0,01: 10 de 10 semillas con ≤ 1 px, 0,0 px mal en total, llega en la época 376 (mediana).
+- Con error cuadrático llegan al objetivo 1 de 440 corridas.
+- Referencia que ya no se usa (latente identidad, E9 de `results/e1a2`, 35–20–2–20–35, BCE, η = 0,001): 10 de 10 semillas, 0,0 ± 0,0 px, época 2205 (mediana).
+<!-- e1a2_arquitecturas:fin -->
+
+<!-- e1a2_opt_tanh:inicio -->
+## 1a.2 rehecha · Optimizadores sobre la red con latente tanh (e1a2_opt_tanh)
+
+Red elegida en 1a.1 (D57, D59, D62): 35–30–20–2–20–30–35, ocultas y latente tanh, salida logística. 5 optimizadores × 3 η (los de `config/e1a2.json` × ⅓, 1 y 3; más uno o dos donde el mejor quedó en el borde) × 2 costos × 10 semillas, 10000 épocas, batch de 32. Datos en `results/e1a2_opt_tanh/`, figura `fig_optimizador_costo.png`.
+
+### Mejor η de cada optimizador (`mejor_eta.csv`)
+
+| Costo | Optimizador | Mejor η | Semillas con ≤ 1 px | Px mal en total | Empata con η | En el borde |
+|---|---|---|---|---|---|---|
+| Error cuadrático | Adam | 0,0003 | 0 de 10 | 18,5 ± 3,8 | 0,001 | no |
+| Error cuadrático | η adaptativo | 0,03 | 1 de 10 | 144,9 ± 113,3 | — | no |
+| Error cuadrático | Descenso por gradiente | 0,003 | 0 de 10 | 34,0 ± 32,3 | — | no |
+| Error cuadrático | Momentum | 0,001 | 0 de 10 | 37,3 ± 29,2 | 0,0003 | no |
+| Error cuadrático | RMSProp | 0,01 | 2 de 10 | 18,0 ± 11,8 | — | no |
+| Entropía cruzada | Adam | 0,001 | 10 de 10 | 0,0 ± 0,0 | 0,003 | no |
+| Entropía cruzada | η adaptativo | 0,01 | 0 de 10 | 375,0 ± 20,4 | 0,003 / 0,03 | no |
+| Entropía cruzada | Descenso por gradiente | 0,0003 | 0 de 10 | 69,9 ± 47,2 | 0,001 | sí |
+| Entropía cruzada | Momentum | 0,0001 | 5 de 10 | 55,7 ± 82,3 | — | no |
+| Entropía cruzada | RMSProp | 0,003 | 10 de 10 | 0,0 ± 0,0 | — | no |
+
+### Todas las celdas (`todas.csv`)
+
+| Costo | Optimizador | η | Semillas con ≤ 1 px | Px mal en total | Máx. px por letra (media) |
+|---|---|---|---|---|---|
+| Entropía cruzada | Adam | 0,0003 | 9 de 10 | 3,6 ± 10,7 | 0,9 |
+| Entropía cruzada | Adam | 0,001 | 10 de 10 | 0,0 ± 0,0 | 0,0 |
+| Entropía cruzada | Adam | 0,003 | 10 de 10 | 0,0 ± 0,0 | 0,0 |
+| Entropía cruzada | η adaptativo | 0,003 | 0 de 10 | 380,7 ± 33,0 | 28,7 |
+| Entropía cruzada | η adaptativo | 0,01 | 0 de 10 | 375,0 ± 20,4 | 29,5 |
+| Entropía cruzada | η adaptativo | 0,03 | 0 de 10 | 398,4 ± 33,0 | 27,9 |
+| Entropía cruzada | Descenso por gradiente | 0,0003 | 0 de 10 | 69,9 ± 47,2 | 6,7 |
+| Entropía cruzada | Descenso por gradiente | 0,001 | 0 de 10 | 107,9 ± 85,3 | 11,5 |
+| Entropía cruzada | Descenso por gradiente | 0,003 | 0 de 10 | 348,1 ± 34,6 | 28,6 |
+| Entropía cruzada | Descenso por gradiente | 0,01 | 0 de 10 | 377,3 ± 78,1 | 24,0 |
+| Entropía cruzada | Descenso por gradiente | 0,03 | 0 de 10 | 450,6 ± 30,2 | 24,2 |
+| Entropía cruzada | Momentum | 3e-05 | 0 de 10 | 76,8 ± 58,8 | 7,1 |
+| Entropía cruzada | Momentum | 0,0001 | 5 de 10 | 55,7 ± 82,3 | 6,0 |
+| Entropía cruzada | Momentum | 0,0003 | 2 de 10 | 245,2 ± 135,9 | 20,0 |
+| Entropía cruzada | Momentum | 0,001 | 0 de 10 | 319,7 ± 34,5 | 28,3 |
+| Entropía cruzada | Momentum | 0,003 | 0 de 10 | 321,0 ± 37,7 | 28,4 |
+| Entropía cruzada | RMSProp | 0,003 | 10 de 10 | 0,0 ± 0,0 | 0,0 |
+| Entropía cruzada | RMSProp | 0,01 | 9 de 10 | 1,1 ± 3,5 | 0,7 |
+| Entropía cruzada | RMSProp | 0,03 | 0 de 10 | 74,1 ± 43,4 | 10,3 |
+| Error cuadrático | Adam | 0,0001 | 0 de 10 | 44,7 ± 5,1 | 5,8 |
+| Error cuadrático | Adam | 0,0003 | 0 de 10 | 18,5 ± 3,8 | 3,3 |
+| Error cuadrático | Adam | 0,001 | 0 de 10 | 23,5 ± 6,3 | 3,6 |
+| Error cuadrático | Adam | 0,003 | 0 de 10 | 33,5 ± 10,3 | 4,9 |
+| Error cuadrático | η adaptativo | 0,003 | 0 de 10 | 109,5 ± 112,7 | 12,2 |
+| Error cuadrático | η adaptativo | 0,01 | 0 de 10 | 122,5 ± 98,2 | 15,4 |
+| Error cuadrático | η adaptativo | 0,03 | 1 de 10 | 144,9 ± 113,3 | 15,5 |
+| Error cuadrático | η adaptativo | 0,1 | 0 de 10 | 290,1 ± 133,5 | 23,4 |
+| Error cuadrático | Descenso por gradiente | 0,001 | 0 de 10 | 142,7 ± 41,4 | 9,5 |
+| Error cuadrático | Descenso por gradiente | 0,003 | 0 de 10 | 34,0 ± 32,3 | 5,3 |
+| Error cuadrático | Descenso por gradiente | 0,01 | 0 de 10 | 121,5 ± 57,5 | 14,4 |
+| Error cuadrático | Descenso por gradiente | 0,03 | 0 de 10 | 297,3 ± 41,5 | 26,5 |
+| Error cuadrático | Momentum | 0,0003 | 0 de 10 | 44,7 ± 32,5 | 5,4 |
+| Error cuadrático | Momentum | 0,001 | 0 de 10 | 37,3 ± 29,2 | 5,1 |
+| Error cuadrático | Momentum | 0,003 | 0 de 10 | 310,5 ± 47,8 | 27,5 |
+| Error cuadrático | RMSProp | 0,003 | 1 de 10 | 16,3 ± 8,4 | 3,1 |
+| Error cuadrático | RMSProp | 0,01 | 2 de 10 | 18,0 ± 11,8 | 5,7 |
+| Error cuadrático | RMSProp | 0,03 | 0 de 10 | 145,4 ± 46,5 | 15,2 |
+<!-- e1a2_opt_tanh:fin -->
+
 <!-- e1a3_e1a4:inicio -->
 ## 1a.3 y 1a.4 · Espacio latente y generación (e1a3_e1a4)
 
-Modelo: escalón E9 de e1a2, 10000 épocas, semillas 0, 1, 2, 3, 4. Datos en `results/e1a3_e1a4/`.
+Modelo: arquitectura elegida en e1a2_arquitecturas (D62: 35–30–20–2–20–30–35, latente tanh, BCE, Adam η = 0,01), 10000 épocas, semillas 0, 1, 2, 3, 4. Datos en `results/e1a3_e1a4/`.
 
 ### Entrenamiento
 
@@ -85,45 +270,45 @@ Modelo: escalón E9 de e1a2, 10000 épocas, semillas 0, 1, 2, 3, 4. Datos en `re
 ### 1a.3 · Latente (`fig_latente_ae.png`, `latente.csv`)
 
 - La posición de cada patrón cambia de una semilla a otra. Para comparar sin depender de rotaciones, reflejos ni traslaciones se usan las 496 distancias entre pares de patrones en el latente (`estabilidad.csv`).
-- Correlación de Pearson de esas distancias entre semillas: semilla 0 y semilla 1: 0,47, semilla 0 y semilla 2: 0,40, semilla 0 y semilla 3: 0,70, semilla 0 y semilla 4: 0,34, semilla 1 y semilla 2: 0,30, semilla 1 y semilla 3: 0,64, semilla 1 y semilla 4: 0,40, semilla 2 y semilla 3: 0,39, semilla 2 y semilla 4: 0,14, semilla 3 y semilla 4: 0,45.
-- Patrones (de 32) cuyo vecino más cercano en el latente es el mismo en las dos semillas: semilla 0 y semilla 1: 5, semilla 0 y semilla 2: 8, semilla 0 y semilla 3: 7, semilla 0 y semilla 4: 7, semilla 1 y semilla 2: 9, semilla 1 y semilla 3: 9, semilla 1 y semilla 4: 3, semilla 2 y semilla 3: 10, semilla 2 y semilla 4: 3, semilla 3 y semilla 4: 2.
-- Correlación entre la distancia en el latente y la distancia de Hamming entre los patrones: semilla 0: 0,45, semilla 1: 0,40, semilla 2: 0,45, semilla 3: 0,54, semilla 4: 0,33.
+- Correlación de Pearson de esas distancias entre semillas: semilla 0 y semilla 1: 0,76, semilla 0 y semilla 2: 0,45, semilla 0 y semilla 3: 0,73, semilla 0 y semilla 4: 0,62, semilla 1 y semilla 2: 0,49, semilla 1 y semilla 3: 0,53, semilla 1 y semilla 4: 0,57, semilla 2 y semilla 3: 0,36, semilla 2 y semilla 4: 0,50, semilla 3 y semilla 4: 0,65.
+- Patrones (de 32) cuyo vecino más cercano en el latente es el mismo en las dos semillas: semilla 0 y semilla 1: 10, semilla 0 y semilla 2: 14, semilla 0 y semilla 3: 10, semilla 0 y semilla 4: 14, semilla 1 y semilla 2: 7, semilla 1 y semilla 3: 9, semilla 1 y semilla 4: 14, semilla 2 y semilla 3: 8, semilla 2 y semilla 4: 11, semilla 3 y semilla 4: 13.
+- Correlación entre la distancia en el latente y la distancia de Hamming entre los patrones: semilla 0: 0,59, semilla 1: 0,45, semilla 2: 0,46, semilla 3: 0,53, semilla 4: 0,50.
 
 ### Línea base: PCA 2D con SVD (`fig_latente_pca.png`, `pca.csv`)
 
 - Las dos primeras componentes explican el 15,2 % y el 11,9 % de la varianza (27,0 % en total).
 - Reconstruyendo con 2 componentes y umbral 0,5: máximo 15 px incorrectos en un patrón, 230 en total, y 32 de 32 patrones con más de 1 px mal. El autoencoder, en la peor de sus semillas: 0 en total.
-- Correlación de las distancias entre pares: PCA con Hamming 0,65; AE con PCA semilla 0: 0,62, semilla 1: 0,52, semilla 2: 0,54, semilla 3: 0,64, semilla 4: 0,40.
+- Correlación de las distancias entre pares: PCA con Hamming 0,65; AE con PCA semilla 0: 0,71, semilla 1: 0,70, semilla 2: 0,52, semilla 3: 0,67, semilla 4: 0,78.
 
 ### 1a.4 · Grilla decodificada (`fig_grilla_semilla*.png`, `grilla.csv`)
 
 Grilla regular de 10 × 10 sobre el rectángulo que cubre los 32 códigos (algoritmo de Autoencoders diap. 34). Cada muestra se umbraliza en 0,5 y se compara con los 32 patrones.
 
-- **Semilla 0** (100 muestras; rango z1 [-31,13; 29,94], z2 [-31,50; 22,60]): 39 son idénticas a una letra del dataset y 61 no. Distancia a la letra más cercana: 39 a 0 px, 10 a 1 px, 5 a 2 px, 9 a 3 px, 4 a 4 px, 4 a 5 px, 7 a 6 px, 8 a 7 px, 6 a 8 px, 5 a 9 px, 1 a 10 px, 2 a 11 px. Letras distintas que aparecen como la más cercana: 23 de 32.
-- **Semilla 1** (100 muestras; rango z1 [-23,01; 26,32], z2 [-14,87; 27,32]): 37 son idénticas a una letra del dataset y 63 no. Distancia a la letra más cercana: 37 a 0 px, 16 a 1 px, 14 a 2 px, 7 a 3 px, 5 a 4 px, 9 a 5 px, 4 a 6 px, 5 a 7 px, 1 a 9 px, 2 a 10 px. Letras distintas que aparecen como la más cercana: 26 de 32.
-- **Semilla 2** (100 muestras; rango z1 [-18,78; 26,00], z2 [-29,50; 32,46]): 40 son idénticas a una letra del dataset y 60 no. Distancia a la letra más cercana: 40 a 0 px, 4 a 1 px, 4 a 2 px, 3 a 3 px, 10 a 4 px, 10 a 5 px, 5 a 6 px, 7 a 7 px, 2 a 8 px, 1 a 9 px, 3 a 10 px, 2 a 11 px, 4 a 12 px, 2 a 13 px, 3 a 14 px. Letras distintas que aparecen como la más cercana: 26 de 32.
-- **Semilla 3** (100 muestras; rango z1 [-23,34; 23,72], z2 [-19,12; 26,97]): 33 son idénticas a una letra del dataset y 67 no. Distancia a la letra más cercana: 33 a 0 px, 9 a 1 px, 9 a 2 px, 5 a 3 px, 14 a 4 px, 7 a 5 px, 7 a 6 px, 10 a 7 px, 2 a 8 px, 3 a 9 px, 1 a 10 px. Letras distintas que aparecen como la más cercana: 24 de 32.
-- **Semilla 4** (100 muestras; rango z1 [-21,87; 36,30], z2 [-18,13; 25,05]): 27 son idénticas a una letra del dataset y 73 no. Distancia a la letra más cercana: 27 a 0 px, 10 a 1 px, 13 a 2 px, 11 a 3 px, 4 a 4 px, 6 a 5 px, 6 a 6 px, 3 a 7 px, 2 a 8 px, 8 a 9 px, 6 a 10 px, 4 a 11 px. Letras distintas que aparecen como la más cercana: 23 de 32.
+- **Semilla 0** (100 muestras; rango z1 [-0,99; 0,97], z2 [-0,97; 0,99]): 42 son idénticas a una letra del dataset y 58 no. Distancia a la letra más cercana: 42 a 0 px, 12 a 1 px, 11 a 2 px, 5 a 3 px, 11 a 4 px, 5 a 5 px, 7 a 6 px, 4 a 7 px, 2 a 8 px, 1 a 10 px. Letras distintas que aparecen como la más cercana: 32 de 32.
+- **Semilla 1** (100 muestras; rango z1 [-0,99; 0,99], z2 [-0,98; 0,99]): 39 son idénticas a una letra del dataset y 61 no. Distancia a la letra más cercana: 39 a 0 px, 8 a 1 px, 8 a 2 px, 8 a 3 px, 12 a 4 px, 5 a 5 px, 5 a 6 px, 7 a 7 px, 4 a 8 px, 1 a 9 px, 2 a 10 px, 1 a 11 px. Letras distintas que aparecen como la más cercana: 32 de 32.
+- **Semilla 2** (100 muestras; rango z1 [-1,00; 1,00], z2 [-0,99; 0,97]): 43 son idénticas a una letra del dataset y 57 no. Distancia a la letra más cercana: 43 a 0 px, 16 a 1 px, 9 a 2 px, 7 a 3 px, 9 a 4 px, 5 a 5 px, 3 a 6 px, 4 a 7 px, 2 a 8 px, 2 a 9 px. Letras distintas que aparecen como la más cercana: 32 de 32.
+- **Semilla 3** (100 muestras; rango z1 [-0,99; 0,97], z2 [-0,97; 0,98]): 43 son idénticas a una letra del dataset y 57 no. Distancia a la letra más cercana: 43 a 0 px, 17 a 1 px, 6 a 2 px, 10 a 3 px, 8 a 4 px, 8 a 5 px, 1 a 6 px, 4 a 7 px, 1 a 8 px, 1 a 10 px, 1 a 11 px. Letras distintas que aparecen como la más cercana: 32 de 32.
+- **Semilla 4** (100 muestras; rango z1 [-0,98; 0,98], z2 [-0,96; 0,98]): 47 son idénticas a una letra del dataset y 53 no. Distancia a la letra más cercana: 47 a 0 px, 16 a 1 px, 9 a 2 px, 6 a 3 px, 6 a 4 px, 8 a 5 px, 1 a 6 px, 1 a 7 px, 3 a 8 px, 2 a 9 px, 1 a 10 px. Letras distintas que aparecen como la más cercana: 32 de 32.
 
 ### 1a.4 · Interpolaciones (`fig_interpolaciones_semilla*.png`, `interpolaciones.csv`)
 
 9 puntos sobre el segmento entre los códigos de dos letras (Autoencoders diap. 33). En cada punto: distancia en píxeles a la letra más cercana · esa letra. Distancia de Hamming entre las letras de cada par: n–r: 3, o–e: 5, k–q: 24.
 
-- Semilla 0, n→r: 0·n → 3·m → 3·m → 3·m → 0·m → 4·m → 0·e → 0·e → 0·r.
-- Semilla 0, o→e: 0·o → 0·o → 0·o → 2·o → 0·e → 0·e → 0·e → 0·e → 0·e.
-- Semilla 0, k→q: 0·k → 0·k → 0·k → 0·r → 0·r → 3·r → 5·o → 0·y → 0·q.
-- Semilla 1, n→r: 0·n → 0·n → 0·n → 0·n → 0·n → 0·n → 1·n → 0·r → 0·r.
-- Semilla 1, o→e: 0·o → 0·o → 0·o → 0·o → 2·o → 1·e → 0·e → 0·e → 0·e.
-- Semilla 1, k→q: 0·k → 0·k → 1·k → 0·p → 0·p → 0·p → 5·s → 4·s → 0·q.
-- Semilla 2, n→r: 0·n → 0·n → 0·n → 0·n → 1·n → 0·r → 0·r → 0·r → 0·r.
-- Semilla 2, o→e: 0·o → 0·o → 1·o → 0·e → 0·e → 0·e → 0·e → 0·e → 0·e.
-- Semilla 2, k→q: 0·k → 0·k → 0·b → 3·r → 5·v → 6·c → 5·~ → 6·` → 0·q.
-- Semilla 3, n→r: 0·n → 0·n → 0·n → 1·r → 0·r → 0·r → 0·r → 0·r → 0·r.
-- Semilla 3, o→e: 0·o → 0·o → 2·o → 1·e → 0·e → 0·e → 0·e → 0·e → 0·e.
-- Semilla 3, k→q: 0·k → 0·k → 3·k → 6·b → 1·r → 4·o → 4·o → 6·u → 0·q.
-- Semilla 4, n→r: 0·n → 0·n → 0·n → 0·n → 0·n → 1·n → 0·r → 0·r → 0·r.
-- Semilla 4, o→e: 0·o → 0·o → 0·o → 1·e → 0·e → 0·e → 0·e → 0·e → 0·e.
-- Semilla 4, k→q: 0·k → 0·k → 0·b → 0·b → 4·b → 5·a → 4·a → 3·a → 0·q.
+- Semilla 0, n→r: 0·n → 0·n → 2·r → 2·r → 2·r → 2·r → 0·r → 0·r → 0·r.
+- Semilla 0, o→e: 0·o → 0·o → 0·o → 0·o → 0·e → 0·e → 0·e → 0·e → 0·e.
+- Semilla 0, k→q: 0·k → 0·k → 4·h → 1·m → 2·w → 2·u → 4·a → 5·a → 0·q.
+- Semilla 1, n→r: 0·n → 0·n → 0·n → 1·r → 0·r → 0·r → 0·r → 0·r → 0·r.
+- Semilla 1, o→e: 0·o → 0·o → 0·o → 2·e → 1·e → 1·e → 0·e → 0·e → 0·e.
+- Semilla 1, k→q: 0·k → 0·k → 0·k → 4·k → 5·b → 1·v → 2·u → 5·x → 0·q.
+- Semilla 2, n→r: 0·n → 0·n → 0·n → 0·r → 0·r → 0·r → 0·r → 0·r → 0·r.
+- Semilla 2, o→e: 0·o → 0·o → 0·o → 0·o → 0·o → 0·e → 0·e → 0·e → 0·e.
+- Semilla 2, k→q: 0·k → 0·k → 5·k → 1·b → 4·c → 0·j → 0·a → 5·a → 0·q.
+- Semilla 3, n→r: 0·n → 0·n → 2·n → 3·n → 3·n → 3·n → 1·r → 0·r → 0·r.
+- Semilla 3, o→e: 0·o → 0·o → 0·o → 1·o → 2·e → 0·e → 0·e → 0·e → 0·e.
+- Semilla 3, k→q: 0·k → 0·k → 1·r → 0·r → 3·r → 0·o → 0·v → 6·q → 0·q.
+- Semilla 4, n→r: 0·n → 0·n → 0·n → 1·r → 1·r → 0·r → 0·r → 0·r → 0·r.
+- Semilla 4, o→e: 0·o → 0·o → 1·o → 0·e → 0·e → 0·e → 0·e → 0·e → 0·e.
+- Semilla 4, k→q: 0·k → 1·k → 1·h → 8·b → 0·e → 0·e → 7·e → 4·v → 0·q.
 
 No se señala ninguna muestra como "letra nueva": lo decide el grupo mirando las grillas.
 <!-- e1a3_e1a4:fin -->
@@ -242,6 +427,81 @@ Se asigna a cada salida umbralizada la letra del dataset más cercana por distan
 - **B:** 228 de 3200 reconstrucciones quedan más cerca de otra letra que de la original. Más frecuentes: '|' → 'l': 25 de 100; 'l' → '|': 13 de 100; '~' → '`': 13 de 100; 'r' → 'n': 11 de 100; 'n' → 'm': 7 de 100. 'l' → '|': 13 de 100; '|' → 'l': 25 de 100.
 - **C:** 138 de 3200 reconstrucciones quedan más cerca de otra letra que de la original. Más frecuentes: '|' → 'l': 18 de 100; '~' → '`': 15 de 100; 'r' → 'n': 7 de 100; 'v' → 'u': 7 de 100; 'w' → 'u': 5 de 100. 'l' → '|': 3 de 100; '|' → 'l': 18 de 100.
 <!-- e1b:fin -->
+
+<!-- e1b_ruidos:inicio -->
+## 1b rehecha · DAE con las dos mejores redes del AE, probado con el mismo ruido (e1b_ruidos)
+
+Redes: las dos primeras del orden de 1a.1 (`results/e1a2_arquitecturas/eleccion.csv`, D59): T8 35–30–20–2–20–30–35 (ocultas tanh, latente tanh, BCE, Adam η = 0,01); T6 35–30–2–30–35 (ocultas tanh, latente tanh, BCE, Adam η = 0,01). 10000 épocas, 10 semillas (0 a 9), ruido nuevo en cada época. **Cada modelo se prueba con el mismo tipo y nivel de ruido con que se entrenó**, sobre 20 versiones ruidosas nuevas de cada letra (640 por corrida). Media ± desvío entre semillas. "Px alterados en la entrada": píxeles de la entrada con ruido, umbralizada en 0,5, distintos de la letra (lo que se obtiene sin hacer nada). Datos en `results/e1b_ruidos/`; figuras `fig_barras.png` y `fig_curvas.png`, que muestran solo el error a la salida (D61).
+
+
+### T8 35–30–20–2–20–30–35 · Gaussiano
+
+| σ | Px alterados en la entrada | Px mal a la salida | Semillas en que la salida mejora la entrada | Entradas exactas | Salidas exactas | Salidas con ≤ 1 px | Reconocida como la letra correcta |
+|---|---|---|---|---|---|---|---|
+| 0,1 | 0,00 ± 0,00 | 0,00 ± 0,00 | — (la entrada no tiene píxeles alterados) | 100,0 ± 0,0 % | 100,0 ± 0,0 % | 100,0 ± 0,0 % | 100,0 ± 0,0 % |
+| 0,2 | 0,23 ± 0,02 | 0,06 ± 0,07 | 10 de 10 | 79,9 ± 1,5 % | 98,3 ± 1,9 % | 98,6 ± 1,6 % | 99,2 ± 1,0 % |
+| 0,3 | 1,66 ± 0,05 | 0,21 ± 0,09 | 10 de 10 | 18,4 ± 1,7 % | 93,2 ± 4,3 % | 95,8 ± 1,8 % | 96,0 ± 1,9 % |
+| 0,4 | 3,68 ± 0,06 | 0,66 ± 0,19 | 10 de 10 | 2,0 ± 0,4 % | 83,3 ± 5,3 % | 88,1 ± 4,6 % | 88,7 ± 3,5 % |
+| 0,5 | 5,55 ± 0,07 | 1,48 ± 0,26 | 10 de 10 | 0,2 ± 0,2 % | 67,9 ± 6,5 % | 75,6 ± 4,5 % | 78,9 ± 3,1 % |
+
+Época a época (curva media entre semillas, px mal por letra con el mismo ruido):
+
+- σ = 0,1: época 250: 3,86, época 1000: 0,02, época 5000: 0,00, época 10000: 0,00; mínimo 0,00 en la época 3500.
+- σ = 0,2: época 250: 4,69, época 1000: 0,10, época 5000: 0,07, época 10000: 0,05; mínimo 0,02 en la época 5750.
+- σ = 0,3: época 250: 5,45, época 1000: 0,71, época 5000: 0,30, época 10000: 0,23; mínimo 0,21 en la época 8000.
+- σ = 0,4: época 250: 6,18, época 1000: 1,71, época 5000: 0,75, época 10000: 0,63; mínimo 0,63 en la época 9000.
+- σ = 0,5: época 250: 6,83, época 1000: 3,22, época 5000: 1,76, época 10000: 1,56; mínimo 1,50 en la época 8750.
+
+### T8 35–30–20–2–20–30–35 · Salt-and-pepper
+
+| p | Px alterados en la entrada | Px mal a la salida | Semillas en que la salida mejora la entrada | Entradas exactas | Salidas exactas | Salidas con ≤ 1 px | Reconocida como la letra correcta |
+|---|---|---|---|---|---|---|---|
+| 0,05 | 1,74 ± 0,06 | 0,33 ± 0,15 | 10 de 10 | 16,6 ± 1,1 % | 90,9 ± 4,2 % | 94,3 ± 2,9 % | 94,2 ± 2,7 % |
+| 0,1 | 3,46 ± 0,08 | 0,90 ± 0,24 | 10 de 10 | 2,8 ± 0,7 % | 79,4 ± 9,7 % | 84,6 ± 5,8 % | 86,1 ± 4,5 % |
+| 0,2 | 6,96 ± 0,11 | 4,14 ± 0,27 | 10 de 10 | 0,0 ± 0,0 % | 26,1 ± 7,0 % | 39,5 ± 5,5 % | 51,6 ± 4,1 % |
+| 0,3 | 10,51 ± 0,11 | 8,15 ± 0,21 | 10 de 10 | 0,0 ± 0,0 % | 3,0 ± 0,7 % | 6,1 ± 1,5 % | 17,5 ± 1,0 % |
+
+Época a época (curva media entre semillas, px mal por letra con el mismo ruido):
+
+- p = 0,05: época 250: 5,88, época 1000: 0,77, época 5000: 0,33, época 10000: 0,33; mínimo 0,23 en la época 9250.
+- p = 0,1: época 250: 7,31, época 1000: 2,71, época 5000: 1,04, época 10000: 0,87; mínimo 0,82 en la época 9750.
+- p = 0,2: época 250: 8,87, época 1000: 6,20, época 5000: 4,49, época 10000: 4,20; mínimo 4,06 en la época 9000.
+- p = 0,3: época 250: 10,07, época 1000: 9,03, época 5000: 8,35, época 10000: 8,08; mínimo 8,04 en la época 9750.
+
+### T6 35–30–2–30–35 · Gaussiano
+
+| σ | Px alterados en la entrada | Px mal a la salida | Semillas en que la salida mejora la entrada | Entradas exactas | Salidas exactas | Salidas con ≤ 1 px | Reconocida como la letra correcta |
+|---|---|---|---|---|---|---|---|
+| 0,1 | 0,00 ± 0,00 | 0,21 ± 0,67 | — (la entrada no tiene píxeles alterados) | 100,0 ± 0,0 % | 94,1 ± 18,4 % | 95,0 ± 15,5 % | 97,8 ± 7,0 % |
+| 0,2 | 0,23 ± 0,02 | 0,06 ± 0,03 | 10 de 10 | 79,9 ± 1,5 % | 98,1 ± 0,8 % | 98,9 ± 0,5 % | 99,2 ± 0,4 % |
+| 0,3 | 1,66 ± 0,05 | 0,50 ± 0,30 | 10 de 10 | 18,4 ± 1,7 % | 85,2 ± 5,3 % | 90,1 ± 4,3 % | 92,8 ± 3,4 % |
+| 0,4 | 3,68 ± 0,06 | 1,16 ± 0,22 | 10 de 10 | 2,0 ± 0,4 % | 67,2 ± 4,5 % | 77,8 ± 4,7 % | 83,1 ± 2,8 % |
+| 0,5 | 5,55 ± 0,07 | 2,22 ± 0,31 | 10 de 10 | 0,2 ± 0,2 % | 46,6 ± 4,3 % | 60,3 ± 5,1 % | 71,0 ± 3,3 % |
+
+Época a época (curva media entre semillas, px mal por letra con el mismo ruido):
+
+- σ = 0,1: época 250: 6,14, época 1000: 0,73, época 5000: 0,00, época 10000: 0,21; mínimo 0,00 en la época 3750.
+- σ = 0,2: época 250: 6,42, época 1000: 1,37, época 5000: 0,08, época 10000: 0,05; mínimo 0,03 en la época 9500.
+- σ = 0,3: época 250: 6,87, época 1000: 2,65, época 5000: 0,48, época 10000: 0,50; mínimo 0,37 en la época 7750.
+- σ = 0,4: época 250: 7,38, época 1000: 3,99, época 5000: 1,48, época 10000: 1,09; mínimo 1,09 en la época 10000.
+- σ = 0,5: época 250: 7,79, época 1000: 5,37, época 5000: 2,95, época 10000: 2,23; mínimo 2,23 en la época 9500.
+
+### T6 35–30–2–30–35 · Salt-and-pepper
+
+| p | Px alterados en la entrada | Px mal a la salida | Semillas en que la salida mejora la entrada | Entradas exactas | Salidas exactas | Salidas con ≤ 1 px | Reconocida como la letra correcta |
+|---|---|---|---|---|---|---|---|
+| 0,05 | 1,74 ± 0,06 | 0,39 ± 0,17 | 10 de 10 | 16,6 ± 1,1 % | 87,3 ± 7,2 % | 92,1 ± 3,9 % | 94,0 ± 2,7 % |
+| 0,1 | 3,46 ± 0,08 | 1,18 ± 0,34 | 10 de 10 | 2,8 ± 0,7 % | 69,2 ± 7,9 % | 78,9 ± 6,8 % | 84,3 ± 3,4 % |
+| 0,2 | 6,96 ± 0,11 | 4,64 ± 0,40 | 10 de 10 | 0,0 ± 0,0 % | 17,3 ± 5,3 % | 27,9 ± 5,3 % | 46,8 ± 2,8 % |
+| 0,3 | 10,51 ± 0,11 | 8,52 ± 0,41 | 10 de 10 | 0,0 ± 0,0 % | 2,0 ± 1,2 % | 4,1 ± 1,8 % | 14,6 ± 2,4 % |
+
+Época a época (curva media entre semillas, px mal por letra con el mismo ruido):
+
+- p = 0,05: época 250: 7,41, época 1000: 3,69, época 5000: 0,52, época 10000: 0,43; mínimo 0,32 en la época 8750.
+- p = 0,1: época 250: 8,46, época 1000: 4,91, época 5000: 1,53, época 10000: 1,17; mínimo 1,09 en la época 9750.
+- p = 0,2: época 250: 9,64, época 1000: 7,91, época 5000: 5,53, época 10000: 4,67; mínimo 4,62 en la época 9750.
+- p = 0,3: época 250: 10,70, época 1000: 10,08, época 5000: 8,64, época 10000: 8,45; mínimo 8,34 en la época 9000.
+<!-- e1b_ruidos:fin -->
 
 <!-- e2b:inicio -->
 ## 2a y 2b · Dataset de relojes y entrenamiento del VAE (e2b)
