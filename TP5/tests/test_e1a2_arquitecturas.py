@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from experiments.e1a2_arquitecturas import elegir, mejor_eta
+from experiments.e1a2_arquitecturas import elegir, mejor_eta, ordenar
 from experiments.e1a2_escalera import construir
 from src.data.font import cargar_font
 from src.nn.perdidas import PERDIDAS
@@ -16,7 +16,7 @@ from tests.gradcheck import TOLERANCIA, error_relativo, gradiente_numerico
 
 RAIZ = Path(__file__).resolve().parents[1]
 COSTOS = {'bce': 'bce', 'ec': 'error_cuadratico'}
-ARQUITECTURAS = ('T1', 'T2', 'T3', 'T4', 'L2')
+ARQUITECTURAS = ('T1', 'T2', 'T3', 'T4', 'L2', 'T5', 'T6', 'T8', 'T9', 'G1', 'G3')
 
 
 def leer_config(costo: str, arquitectura: str) -> dict:
@@ -25,7 +25,7 @@ def leer_config(costo: str, arquitectura: str) -> dict:
 
 
 def escalones(costo: str) -> list[dict]:
-    """Los 15 escalones de un costo (5 arquitecturas × 3 η), en orden."""
+    """Los escalones de un costo (arquitecturas × 3 η), en orden."""
     return [e for a in ARQUITECTURAS for e in leer_config(costo, a)['escalones']]
 
 
@@ -35,7 +35,7 @@ class ConfigTests(unittest.TestCase):
             for escalon in escalones(costo):
                 with self.subTest(costo=costo, escalon=escalon['id']):
                     self.assertIn(escalon['activacion_latente'], ('tanh', 'logistica'))
-                    self.assertEqual(escalon['activacion_oculta'], 'tanh')
+                    self.assertIn(escalon['activacion_oculta'], ('tanh', 'logistica'))
                     self.assertEqual(escalon['activacion_salida'], 'logistica')
 
     def test_solo_cambian_arquitectura_latente_y_eta(self) -> None:
@@ -47,7 +47,7 @@ class ConfigTests(unittest.TestCase):
                 self.assertEqual(config['epocas'], 10000)
                 self.assertEqual([e['optimizador']['eta'] for e in config['escalones']], [0.0003, 0.001, 0.003])
                 self.assertTrue(all(e['id'].startswith(arquitectura + ' ') for e in config['escalones']))
-            self.assertEqual(len(escalones(costo)), 15)
+            self.assertEqual(len(escalones(costo)), 3 * len(ARQUITECTURAS))
             for escalon in escalones(costo):
                 with self.subTest(costo=costo, escalon=escalon['id']):
                     self.assertEqual(escalon['perdida'], perdida)
@@ -58,9 +58,30 @@ class ConfigTests(unittest.TestCase):
                     self.assertEqual(escalon['optimizador']['nombre'], 'adam')
 
     def test_los_dos_costos_corren_las_mismas_redes(self) -> None:
-        claves = ('id', 'capas_encoder', 'activacion_latente', 'optimizador')
+        claves = ('id', 'capas_encoder', 'activacion_oculta', 'activacion_latente', 'optimizador')
         bce, ec = ([{k: e[k] for k in claves} for e in escalones(c)] for c in COSTOS)
         self.assertEqual(bce, ec)
+
+
+class EtasAgregadosTests(unittest.TestCase):
+    """D62: η = 0,01 para todas las redes y costos, y 0,03 donde el mejor quedó en 0,01 con BCE."""
+
+    def test_mismo_modelo_que_la_grilla(self) -> None:
+        for costo in COSTOS:
+            for arquitectura in ARQUITECTURAS:
+                base = leer_config(costo, arquitectura)['escalones'][0]
+                for sufijo, eta in (('_eta001', 0.01), ('_eta003', 0.03)):
+                    ruta = RAIZ / 'config' / f'e1a2_arquitecturas_{costo}_{arquitectura}{sufijo}.json'
+                    if sufijo == '_eta003' and not ruta.exists():
+                        continue
+                    config = json.loads(ruta.read_text(encoding='utf-8'))
+                    self.assertEqual(config['experimento'], f'e1a2_arquitecturas/{costo}_{arquitectura}{sufijo}')
+                    (escalon,) = config['escalones']
+                    with self.subTest(config=ruta.name):
+                        self.assertEqual(escalon['optimizador']['eta'], eta)
+                        self.assertEqual(escalon['id'], f'{arquitectura} eta={eta:g}')
+                        for clave in ('capas_encoder', 'activacion_oculta', 'activacion_latente', 'perdida', 'tamano_lote'):
+                            self.assertEqual(escalon[clave], base[clave], clave)
 
 
 class GradientCheckTests(unittest.TestCase):
@@ -73,7 +94,7 @@ class GradientCheckTests(unittest.TestCase):
         config = leer_config('bce', 'T1')
         vistas = set()
         for escalon in escalones('bce'):
-            clave = (tuple(escalon['capas_encoder']), escalon['activacion_latente'])
+            clave = (tuple(escalon['capas_encoder']), escalon['activacion_oculta'], escalon['activacion_latente'])
             if clave in vistas:
                 continue
             vistas.add(clave)
@@ -120,6 +141,12 @@ class CriterioTests(unittest.TestCase):
     def test_si_la_epoca_empata_gana_la_de_menos_pesos(self) -> None:
         tabla = elegir(mejores({'A': (10, 0.0, 1000, 300, 100, 0), 'B': (10, 0.0, 800, 300, 300, 0)}))
         self.assertEqual(ganadora(tabla), 'A')
+
+    def test_orden_completo(self) -> None:
+        tabla = ordenar(mejores({'A': (10, 0.0, 2000, 300, 100, 0), 'B': (10, 0.0, 800, 200, 300, 0),
+                                 'C': (5, 3.0, 4000, 900, 50, 0)}))
+        self.assertEqual(tabla.arquitectura.tolist(), ['B', 'A', 'C'])
+        self.assertEqual(tabla.orden.tolist(), [1, 2, 3])
 
     def test_mejor_eta_desempata_por_epoca(self) -> None:
         todas = pd.DataFrame([{'costo': 'bce', 'arquitectura': 'A', 'eta': eta, 'logradas': 10, 'total_px_media': 0.0,
